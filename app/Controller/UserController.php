@@ -94,49 +94,7 @@ Class UserController extends AppController {
     
     public function welcome()
     {
-        $userId = $this->Session->read('User.user_id');
-        if( $this->Session->read('User.role_id') == 2) {
-             $getCurrentWeekRecords = $this->People->getCompletedCountThisWeek($userId);
         
-        $enteredCounts = array();
-        $i = 0;
-        foreach( $getCurrentWeekRecords as $value) {
-            $enteredCounts[$i]['count'] = $value[0]['count'];
-            $enteredCounts[$i]['name'] = $value['u']['first_name'] . ' ' . $value['u']['last_name'];
-            $i++;
-        }
-        $getLastCompletedCount = $this->People->getCompletedCountLastWeek($userId);
-        
-        
-        $completedCounts = array();
-        $i = 0;
-        foreach( $getLastCompletedCount as $value) {
-            $completedCounts[$i]['count'] = $value[0]['count'];
-            $completedCounts[$i]['name'] = $value['u']['first_name'] . ' ' . $value['u']['last_name'];
-            $i++;
-        }
-        
-        $this->set('completedCountThisWeek',$completedCounts);
-        
-        $this->set('enteredCount',$enteredCounts);
-        
-        $getIncompleteRecords = $this->People->getInCompleteRecords();
-        
-        $incompletedCounts = array();
-        $i = 0;
-        foreach( $getIncompleteRecords as $value) {
-            $incompletedCounts[$i]['count'] = $value[0]['count'];
-            $incompletedCounts[$i]['name'] = $value['u']['first_name'] . ' ' . $value['u']['last_name'];
-            $i++;
-        }
-        
-        $this->set('incompletedCount',$incompletedCounts);
-        } else {
-            $this->redirect($this->Auth->redirect('/family/familiyGroups'));
-        }
-        
-       
-                
         
     }
     
@@ -199,25 +157,6 @@ Class UserController extends AppController {
         $this->User->recursive = -1;
         if ($msg['status'] == 1) {
             if ($this->User->save($data)) {
-//                $groupData = array();
-//                $groupData['Group']['name'] = 'Family of ' . $this->request->data['User']['first_name'];
-//                $groupData['Group']['user_id'] = $this->User->id;
-//                $groupData['Group']['created'] = date('Y-m-d H:i:s');
-//                $this->Group->save($groupData);                
-//                $peopleData = array();
-//                $peopleData['People']['user_id'] = $this->User->id;
-//                $peopleData['People']['group_id'] = $this->Group->id;
-//                $peopleData['People']['first_name'] = $this->request->data['User']['first_name'];
-//                $peopleData['People']['last_name'] = $this->request->data['User']['last_name'];
-//                $peopleData['People']['email'] = $this->request->data['User']['email'];
-//                $peopleData['People']['phone_number'] = $this->request->data['User']['phone_number'];
-//                $peopleData['People']['gender'] = $this->request->data['User']['gender'];
-//                $peopleData['People']['martial_status'] = $this->request->data['User']['martial_status'];
-//                $peopleData['People']['date_of_birth'] = $this->request->data['User']['date_of_birth'];
-//                $peopleData['People']['status'] = 1;
-//                $peopleData['People']['created'] = date('Y-m-d H:i:s');
-//                
-//                $this->People->save($peopleData);
                 
                 $msg['success'] = 1;
                 $msg['message'] = 'User has been registered';
@@ -256,9 +195,9 @@ Class UserController extends AppController {
                     $this->setCakeSession($userAllData);
                     $this->Cookie->write('Auth.User', $cookie, true, '+2 weeks');
                     if ( $this->Session->read('User.role_id') == 2) {
-                        $this->redirect($this->Auth->redirect('/'));
+                        $this->redirect($this->Auth->redirect('/user/welcome'));
                     } else {
-                        $this->redirect($this->Auth->redirect('/family/familiyGroups'));
+                        $this->redirect($this->Auth->redirect('/user/welcome'));
                     }
                 }
                 
