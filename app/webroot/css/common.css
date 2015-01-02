@@ -1,0 +1,31 @@
+/* Form Notification/Messages Styles group */
+.top_success {display: block; background-color: #feefb3; color: #242424; padding: 10px 20px; font-size: 12px; font-weight: bold; border: #ddd solid 1px; margin-bottom: 10px; position: fixed; top: 15px; z-index: 202;}
+.top_failure {display: block; background-color: #FBE3E4; color: #242424; padding: 10px 20px; font-size: 12px; font-weight: bold; border: #ddd solid 1px; margin-bottom: 10px; position: fixed; top: 15px; z-index: 202;}
+/* FORM ERROR STYLES GROUP */
+.error, .alert, .success, .info {margin-bottom:1em;border:none;}
+.error, .alert {background:none; color:#FE7903; border-color:#fbc2c4;}
+.notice {margin-bottom:1em; margin-top: 15px; border:1px solid #ddd; padding: 5px; background:#fff6bf;color:#514721; font-family: Calibri,'Calibri-Regular',Arial; font-size: 13px;}
+.success {background-color: #DFF0D8; border-color: #D6E9C6; border-radius: 4px; color: #468847; padding: 15px 35px 15px 15px; position: fixed; top: 92px;}
+.info {background:#d5edf8;color:#205791;border-color:#92cae4;}
+.lessPad {padding: 0.5em;}
+.error a, .alert a {color:#8a1f11;}
+.notice a {color:#514721;}
+.success a {color:#264409;}
+.info a {color:#205791;}
+
+.navbar {background-color: #205791 }
+
+h1.heading , h2.heading , h3.heading {
+    border-bottom: 1px dotted #aeaeae;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    position: relative;
+}
+
+ td.details-control {
+    background: url('../img/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('../img/details_close.png') no-repeat center center;
+}
