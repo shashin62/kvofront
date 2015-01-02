@@ -61,7 +61,7 @@
                         <?php 
                         
                         if ($this->Session->read('User.role_id') == 1 ) {?>
-                        <li class="dropdown">
+<!--                        <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Masters <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/user/getUsers">Users</a></li>
@@ -75,13 +75,13 @@
                                 <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/surname/index">Surname</a></li>
 
                             </ul>
-                        </li>
+                        </li>-->
                         <?php } ?>
-                        <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/family/familiyGroups">Family Groups</a></li>
+                        
                       <?php  if ($this->Session->read('User.role_id') == 1) {?>
-                        <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/report/reports">Reports</a></li>
+                       
             <?php } ?>
-                        <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/people/search">People Search</a></li>
+                       
                     </ul>
               <?php } ?>
               <?php if (!$this->Session->read('Auth.User')) {?>
