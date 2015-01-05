@@ -22,7 +22,7 @@
     <head>
 	<?php echo $this->Html->charset(); ?>
         <title>
-            KVO Admin
+            KVO Front
         </title>
     <?php echo $this->Html->css(array('common', 'bootstrap.min','/font-awesome-4.1.0/css/font-awesome.min',
                                     'dataTables.bootstrap',

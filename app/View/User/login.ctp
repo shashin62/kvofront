@@ -3,7 +3,7 @@
         <div class="col-md-4 col-md-offset-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">KVO Admin - Sign In</h3>
+                    <h3 class="panel-title">Sign In</h3>
                 </div>
                 <div class="panel-body">
                     <form action="<?php echo FULL_BASE_URL . $this->base; ?>/user/login" role="form" id="UserLoginForm" method="post" accept-charset="utf-8">
