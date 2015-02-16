@@ -187,7 +187,7 @@ Class UserController extends AppController {
 
             if ($this->People->validates()) {
 	
-                $userAllData = $this->People->getPeopleData($this->request->data['People']['mobile_number'], '','');
+                $userAllData = $this->People->getLoginPeopleData($this->request->data['People']['mobile_number'], '','');
                
                 if ($this->Auth->login($userAllData['People'])) {
                     $cookie['email'] = $userAllData['People']['mobile_number'];

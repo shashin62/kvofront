@@ -1,13 +1,57 @@
 <?php
 
 App::uses('AppModel', 'Model');
-App::uses('AuthComponent', 'Controller/Component');
 
-Class People extends AppModel {
+class People extends AppModel {
 
-    public $name = 'People';
+    var $name = 'People';
+   
+ /**
+     * In case we want simplified per-group only permissions, we need to implement bindNode() in User model. 
+     * @param type $user
+     * @return type 
+     */
+    public function bindNode($user) {
+        return array('model' => 'Role', 'foreign_key' => $user['User']['role_id']);
+    }
 
-    public function getAllPeoples($type = false) {
+    public function getLoginPeopleData($phone, $checkActive = true, $checkPass = '') {
+
+        
+        
+        $this->recursive = -1;
+        $options['conditions']['People.mobile_number'] = $phone;
+
+        $options['conditions']['People.tree_level'] = "";
+//        
+//         $options['joins'] = array(
+//            array('table' => 'people',
+//                'alias' => 'People',
+//                'type' => 'Inner',
+//                'conditions' => array(
+//                    'User.id = People.user_id'
+//                )
+//            ),
+//             );
+          $options['fields'] = array('People.*');
+        try {
+            $userData = $this->find('all', $options);
+
+
+            if (!empty($userData) && isset($userData[0])) {
+                $userData = $userData[0];
+
+                return $userData;
+            }
+
+            return false;
+        } catch (Exception $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
+    }
+
+   public function getAllPeoples($type = false) {
 
         $aColumns = array('p.id', 'p.first_name', 'p.last_name', 'p.village', 'p.mobile_number', 'p.m_id', 'p.f_id',
             'IF( p.f_id = parent.id, parent.first_name, "") as father',
@@ -1648,5 +1692,9 @@ GROUP BY p.created_by");
             return false;
         }
      }
+
+    
+
 }
 
+?>
