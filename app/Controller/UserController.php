@@ -195,7 +195,7 @@ Class UserController extends AppController {
                     $this->setCakeSession($userAllData);
                     $this->Cookie->write('Auth.User', $cookie, true, '+2 weeks');
 
-                        $this->redirect($this->Auth->redirect('/user/welcome'));
+                        $this->redirect($this->Auth->redirect('/family/details/'. $userAllData['People']['group_id']));
                     
                 }
                 
