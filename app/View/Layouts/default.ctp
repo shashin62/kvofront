@@ -85,10 +85,7 @@
                     </ul>
               <?php } ?>
               <?php if (!$this->Session->read('Auth.User')) {?>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/user/register">Register<span class="sr-only">(current)</span></a></li>
-                        <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/user/login">Sign In<span class="sr-only">(current)</span></a></li>
-                    </ul>
+                    
               <?php } else { ?>
                     
                     <ul class="nav navbar-nav navbar-right">
