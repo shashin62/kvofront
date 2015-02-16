@@ -185,20 +185,18 @@ Class UserController extends AppController {
         }
         if ($this->request->is('post')) {
 
-            if ($this->User->validates()) {
-
-                $userAllData = $this->User->getUserData($this->request->data['User']['email'], '', trim(Security::hash(Configure::read('Security.salt') . $this->request->data['User']['password'])));
+            if ($this->People->validates()) {
+	
+                $userAllData = $this->People->getPeopleData($this->request->data['People']['mobile_number'], '','');
                
-                if ($this->Auth->login($userAllData['User'])) {
-                    $cookie['email'] = $userAllData['User']['email'];
-                    $cookie['password'] = $userAllData['User']['password'];
+                if ($this->Auth->login($userAllData['People'])) {
+                    $cookie['email'] = $userAllData['People']['mobile_number'];
+                    //$cookie['password'] = $userAllData['User']['password'];
                     $this->setCakeSession($userAllData);
                     $this->Cookie->write('Auth.User', $cookie, true, '+2 weeks');
-                    if ( $this->Session->read('User.role_id') == 2) {
+
                         $this->redirect($this->Auth->redirect('/user/welcome'));
-                    } else {
-                        $this->redirect($this->Auth->redirect('/user/welcome'));
-                    }
+                    
                 }
                 
                 $this->Session->setFlash(__('Invalid username or password, try again'), 'default', array(), 'authlogin');
@@ -239,13 +237,13 @@ Class UserController extends AppController {
      * @return null
      */
     private function setCakeSession($userAllData = array()) {
-        $this->Session->write('User.user_id', $userAllData['User']['id']);
-         $this->Session->write('User.first_name', $userAllData['User']['first_name']);
-        $this->Session->write('User.last_name', $userAllData['User']['last_name']);
-        $this->Session->write('User.role_id', !empty($userAllData['User']['role_id']) ? $userAllData['User']['role_id'] : '');
-        $this->Session->write('User.email', !empty($userAllData['User']['email']) ? $userAllData['User']['email'] : '');
-        $this->Session->write('User.gender', !empty($userAllData['User']['gender']) ? $userAllData['User']['gender'] : '');
-         $this->Session->write('User.phone_number', !empty($userAllData['User']['phone_number']) ? $userAllData['User']['phone_number'] : '');
+        $this->Session->write('User.user_id', $userAllData['People']['id']);
+         $this->Session->write('User.first_name', $userAllData['People']['first_name']);
+        $this->Session->write('User.last_name', $userAllData['People']['last_name']);
+        
+        $this->Session->write('User.email', !empty($userAllData['People']['email']) ? $userAllData['People']['email'] : '');
+        $this->Session->write('User.gender', !empty($userAllData['People']['gender']) ? $userAllData['People']['gender'] : '');
+         $this->Session->write('User.phone_number', !empty($userAllData['People']['mobile_number']) ? $userAllData['People']['mobile_number'] : '');
          $this->Session->write('User.martial_status', !empty($userAllData['People']['martial_status']) ? $userAllData['People']['martial_status'] : '');
          $this->Session->write('User.surname_now', !empty($userAllData['People']['surname_now']) ? $userAllData['People']['surname_now'] : '');
          $this->Session->write('User.surname_dob', !empty($userAllData['People']['maiden_surname']) ? $userAllData['People']['maiden_surname'] : '');

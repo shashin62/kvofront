@@ -33,17 +33,16 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 
     public $components = array(
-        'Acl',
+       
         'Auth' => array(
-            'userModel' => 'User',
-            'authenticate' => array('Form' => array( 'userModel' => 'User',
+            'userModel' => 'People',
+            'authenticate' => array('Form' => array( 'userModel' => 'People',
                                     'fields' => array(
-                                                        'username' => 'email',
-                                                        'password' => 'password'
+                                                        'username' => 'mobile_number'
                                                         )
                                                 )
                             ),
-            'authorize' => array('Actions' => array('actionPath' => 'controllers')),
+            //'authorize' => array('Actions' => array('actionPath' => 'controllers')),
             'loginAction' => array('controller' => 'user', 'action' => 'login'),
             'logoutRedirect' => array('controller' => 'user', 'action' => 'logout'), //logout
             'loginRedirect' => array('controller' => 'user', 'action' => 'welcome'),
@@ -63,7 +62,7 @@ class AppController extends Controller {
     );
     public $helpers = array('Html', 'Form', 'Session');
 
-    public function beforeFilter() {
-     // $this->Auth->allow('permissions','update_acos');
-    }
+   function beforeFilter() {
+    $this->Auth->userModel = 'People';
+}
 }
