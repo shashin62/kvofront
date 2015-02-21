@@ -240,7 +240,7 @@ Class UserController extends AppController {
         $this->Session->write('User.user_id', $userAllData['People']['id']);
          $this->Session->write('User.first_name', $userAllData['People']['first_name']);
         $this->Session->write('User.last_name', $userAllData['People']['last_name']);
-        
+        $this->Session->write('User.group_id',$userAllData['People']['group_id']);
         $this->Session->write('User.email', !empty($userAllData['People']['email']) ? $userAllData['People']['email'] : '');
         $this->Session->write('User.gender', !empty($userAllData['People']['gender']) ? $userAllData['People']['gender'] : '');
          $this->Session->write('User.phone_number', !empty($userAllData['People']['mobile_number']) ? $userAllData['People']['mobile_number'] : '');

@@ -14,6 +14,25 @@ class People extends AppModel {
     public function bindNode($user) {
         return array('model' => 'Role', 'foreign_key' => $user['User']['role_id']);
     }
+    
+    public function updateExt($array) 
+    {
+         $this->recursive = -1;
+
+        $query = "UPDATE {$this->tablePrefix}people
+                  SET ext = '{$array['ext']}'      
+                  WHERE id = {$array['id']}";
+       
+        try {
+            $this->query($query);
+          
+
+            return true;
+        } catch (ErrorException $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
+    }
 
     public function getLoginPeopleData($phone, $checkActive = true, $checkPass = '') {
 

@@ -725,6 +725,7 @@ Class FamilyController extends AppController {
         $this->set('type',isset($_REQUEST['type']) ? $_REQUEST['type'] : 'english');
         $id = $this->request->params['pass'][0];
         
+        
         if (array_key_exists($id, $ownerData))  {
              $this->set('ownername', $ownerData[$id]['owner']);
         }
