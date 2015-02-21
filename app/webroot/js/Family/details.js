@@ -50,6 +50,7 @@ $('.self').click(function () {
 });
 
 $('.editaddress').click(function () {
+return;
     var $this = $(this);
     var id = $this.data('id');
     var aid = $this.data('aid');
@@ -61,6 +62,7 @@ $('.editaddress').click(function () {
 });
 
 $('.editbusiness').click(function () {
+return;
     var $this = $(this);
     var id = $this.data('id');
     var aid = $this.data('aid');
@@ -73,6 +75,7 @@ $('.editbusiness').click(function () {
 
 
 $('.addspouse').click(function () {
+return;
     var $this = $(this);
     var id = $this.data('id');
     var first_name = $this.data('first_name');
@@ -84,6 +87,7 @@ $('.addspouse').click(function () {
 });
 
 $('.addexspouse').click(function () {
+return;
     var $this = $(this);
     var id = $this.data('id');
     var first_name = $this.data('first_name');
@@ -95,6 +99,7 @@ $('.addexspouse').click(function () {
 });
 
 $('.addfather').click(function () {
+return;
     var $this = $(this);
     var id = $this.data('id');
     var gid = $this.data('gid');
@@ -105,6 +110,7 @@ $('.addfather').click(function () {
 });
 
 $('.addmother').click(function () {
+return;
     var $this = $(this);
     var id = $this.data('id');
     var gid = $this.data('gid');
@@ -114,7 +120,7 @@ $('.addmother').click(function () {
 
 });
 $('.addchild').click(function () {
-
+return;
     var $this = $(this);
     var id = $this.data('id');
     var first_name = $this.data('first_name');
@@ -170,7 +176,7 @@ function transferUser()
 }
 
 $(".transfer-family").on("click", function () {
-    
+    return;
     $("#dialog-form").data('id',$(this).data('id')).dialog("open");
     return false;
 });
