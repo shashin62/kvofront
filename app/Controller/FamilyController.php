@@ -820,7 +820,7 @@ Class FamilyController extends AppController {
                 $tree[$peopleData['id']]['m'] = $peopleData['m_id'];
                 $peopleId = $peopleGroup['people_id'];
                 
-                if (file_exists($_SERVER["DOCUMENT_ROOT"] . '\kvofront\app\webroot\people_images/' . $peopleId . '.' . $peopleData['ext']) === true) {
+                if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleId . '.' . $peopleData['ext']) === true) {
                     $tree[$peopleData['id']]['r'] = $peopleId . '.' . $peopleData['ext'];
                 } else {
                     $tree[$peopleData['id']]['r'] = '';
