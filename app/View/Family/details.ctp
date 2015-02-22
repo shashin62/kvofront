@@ -105,7 +105,7 @@ $firstName = $value['People']['first_name'];
 
         </div>
                                 <?php } else { ?>
-        <div class="col-md-1"><a target="_blank" href="<?php echo $this->base.'/tree?gid='. $groupId;?>">View Tree</a></div>                
+        <div class="col-md-1"><a target="_blank" href="<?php echo $this->base.'/tree?gid='. $groupId.'&token='. md5('dsdsdss434dsds332323d34d');?>">View Tree</a></div>                
                                 <?php } ?>
 
                                 <?php 
