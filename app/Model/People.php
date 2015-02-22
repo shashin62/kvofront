@@ -576,7 +576,7 @@ class People extends AppModel {
         }
     }
 
-    /**
+     /**
      * 
      * @param type $groupId
      * @return boolean

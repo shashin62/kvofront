@@ -741,11 +741,11 @@ Class FamilyController extends AppController {
     public function buildTreeJson() {
         $this->autoRender = false;
         $this->layout = null;
-        $groupId = $_REQUEST['gid'];
+       $groupId = (int)$_REQUEST['gid'];
+      
         $uid = $_REQUEST['uid'];
         $data = $this->People->getFamilyDetails($groupId);
-//echo '<pre>';
-//print_r($data);exit;
+
         //check each id exists in other group then get all gamily detials for this group also
         foreach ($data as $key => $value) {
             $groupData[] = $this->PeopleGroup->checkExistsInOtherGroup($groupId, $value['People']['id']);
@@ -820,7 +820,13 @@ Class FamilyController extends AppController {
             }
 
             $tree[$peopleData['id']]['m'] = $peopleData['m_id'];
-
+            $peopleId = $peopleGroup['people_id'];
+                
+                if (file_exists($_SERVER["DOCUMENT_ROOT"] . '\kvofront\app\webroot\people_images/' . $peopleId . '.' . $peopleData['ext']) === true) {
+                    $tree[$peopleData['id']]['r'] =  $peopleId . '.' . $peopleData['ext'];
+                } else {
+                    $tree[$peopleData['id']]['r'] = '';
+                }
             $tree[$peopleData['id']]['fg'] = true;
             $tree[$peopleData['id']]['g'] = $peopleData['gender'] == 'male' ? 'm' : 'f';
             $tree[$peopleData['id']]['hp'] = true;
@@ -856,7 +862,7 @@ Class FamilyController extends AppController {
                 $tree[$peopleData['id']]['q'] = $peopleData['maiden_surname'];
             }
               }
-        //     echo '<pre>';
+        //echo '<pre>';
         //print_r($tree);exit;
         $jsonData['tree'] = $tree;
         $jsonData['parent_name'] = $parentName;

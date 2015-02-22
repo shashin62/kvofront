@@ -287,11 +287,10 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
 	o.appendChild(v);
 
     }
-
     for(var i in d.e){
 
 	var e=d.e[i];
-
+console.log(e);
 	var rs="";
 
 	var sn=bn?(e.p.q||e.p.l):(e.p.l||e.p.q);
@@ -329,7 +328,15 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
 		    }
 
 		}
-
+               
+               
+                if( e.p.r != '') {
+                     
+                     u = "../../people_images/"+d.e[i].p.r;
+                    
+                } else {
+                     u = "ap/images/image-1.jpg";
+                }
 		rs+="<TR><TD CLASS=\""+cc+"\"><IMG SRC=\""+u+"\" WIDTH=\""+ew+"\" HEIGHT=\""+eh+"\" TITLE=\""+EH(fn)+"\"></TD></TR>";
 
 		sh+=sz.Tph;

@@ -7,6 +7,11 @@
       <div class="col-md-3">
            <?php echo $this->Form->input('photo_id',array('type' => 'file','label'=>'Photo ID')); ?>
       </div>
+        <div class="col-md-1">
+            <?php if (file_exists($_SERVER["DOCUMENT_ROOT"].'\kvofront\app\webroot\people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
+            <?php echo $value['People']['id'] . '.' . $value['People']['ext'];?>
+            <?php } ?>
+        </div>
       <div class="col-md-1">
           <button type="button" class="btn btn-primary saveButton imagesubmit" data-key="<?php echo $key;?>">Upload</button>
       </div>
