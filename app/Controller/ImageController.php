@@ -34,24 +34,25 @@ class ImageController extends Controller {
         $getDetails = $this->People->getFamilyDetails($id, false, true);
         $this->set('data', $getDetails);
         if ($this->request->is('post')) {
-
-            $peopleId = $this->request->data['Image']['people_id'];
+            $peopleId = $_REQUEST['data']['people_id'];
             
             $updateExtensions = array();
-            $updateExtensions['ext'] = pathinfo($this->request->data['Image']['photo_id']['name'], PATHINFO_EXTENSION);
+            $updateExtensions['ext'] = pathinfo($_FILES['data']['name']['photo_id'], PATHINFO_EXTENSION);
             $updateExtensions['id'] = $peopleId;
             $this->People->updateExt($updateExtensions);
             
-            if (!is_uploaded_file($this->request->data['Image']['photo_id']['tmp_name'])) {
+            if (!is_uploaded_file($_FILES['data']['tmp_name']['photo_id'])) {
                 return FALSE;
             }
            
             $photo = WWW_ROOT . $this->uploadDir . DS .
-                    $peopleId . '.' . pathinfo($this->request->data['Image']['photo_id']['name'], PATHINFO_EXTENSION);
+                    $peopleId . '.' . pathinfo($_FILES['data']['name']['photo_id'], PATHINFO_EXTENSION);
             //exit;
-            if (!move_uploaded_file($this->request->data['Image']['photo_id']['tmp_name'], $photo)) {
+            if (!move_uploaded_file($_FILES['data']['tmp_name']['photo_id'], $photo)) {
                 return FALSE;
                 // file successfully uploaded
+            } else {
+                $this->redirect('family/details/'.$id);
             }
         }
     }
