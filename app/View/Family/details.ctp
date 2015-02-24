@@ -96,10 +96,11 @@ $firstName = $value['People']['first_name'];
             <a  style="display:none;" class="deletemember" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);" style="color: red">Delete</a>
                                      <?php } ?>
         </div>
+ <div class="col-md-2">
 <form id="<?php echo 'imagepic'.$key ;?>" enctype="multipart/form-data"
    method="post" action="<?php echo $this->base;?>/image/upload" name="add" class="clearfix imagepic">
       <div class="col-md-3">
-           <?php echo $this->Form->input('photo_id',array('type' => 'file','label'=>'Photo ID')); ?>
+           <?php echo $this->Form->input('photo_id',array('type' => 'file','label'=>'Photo')); ?>
       </div>
         <div class="col-md-1">
             <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
@@ -111,6 +112,7 @@ $firstName = $value['People']['first_name'];
       </div>
          <?php echo $this->Form->input('people_id',array('type' => 'hidden','label'=>false,'value' => $value['People']['id'])); ?>
          <?php echo $this->Form->end(); ?>
+</div>
                                 <?php if($value['Group']['tree_level'] != '') { ?>
         <div class="col-md-1">
             <?php if( $hofId != $value['People']['partner_id']) { ?>
