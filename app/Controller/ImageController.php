@@ -48,7 +48,7 @@ class ImageController extends Controller {
                 return FALSE;
                 // file successfully uploaded
             } else {
-                $this->redirect('family/details/' . $id);
+                $this->redirect('/family/details/' . $id);
             }
         }
     }
