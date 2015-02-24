@@ -5,12 +5,7 @@
 	<div class="row">
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<?php if( $userType == 'addnew' || ($call_again === false || $call_again === true)) { ?>
-			<div class="form-group">
-				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="call_again">Call Again</label>
-				<div class="col-lg-8 col-md-8 col-xs-8">
-					<?php echo $this->Form->input("call_again", array('type' => "checkbox", 'checked' => $call_again == 1 ? 'checked' : '','div' => false, "label" => false)); ?>
-				</div>
-			</div>
+			
 
 			<?php } else  { ?>
             <?php } ?>
