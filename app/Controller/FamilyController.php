@@ -829,7 +829,7 @@ Class FamilyController extends AppController {
                 $tree[$peopleData['id']]['g'] = $peopleData['gender'] == 'male' ? 'm' : 'f';
                 $tree[$peopleData['id']]['hp'] = true;
                 $tree[$peopleData['id']]['i'] = $peopleData['id'];
-                $tree[$peopleData['id']]['l'] = $peopleData['last_name'];
+                $tree[$peopleData['id']]['l'] = $peopleData['last_name'] . ' (' . $peopleId . ')';
                 $tree[$peopleData['id']]['p'] = $peopleData['first_name'];
 
                 if ($peopleData['partner_id'] == $rootId) {
