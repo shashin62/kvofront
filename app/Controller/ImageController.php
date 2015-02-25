@@ -55,7 +55,7 @@ class ImageController extends Controller {
             $msg['scaleWidth'] = $scaleWidth;
             $msg['thumb_width'] = $thumb_width;
             $msg['thumb_height'] = $thumb_height;
-            $msg['userImagePath'] = $this->base . '/'. $this->uploadDir . DS . $peopleId . "." . $file_ext;
+            $msg['userImagePath'] = 'app/webroot' . '/'. $this->uploadDir . DS . $peopleId . "." . $file_ext;
             $msg['success'] = 1;
            $this->set(compact('msg'));
             $this->render("/Elements/json_messages");
@@ -84,7 +84,8 @@ class ImageController extends Controller {
         $pid = $this->request->query('pid');
         $large_image_location = $this->base. '/'.  $_REQUEST['userImagePath'];
         $fileExt = explode('.', basename($large_image_location));
-        $peopleId =  $this->request->data['id'];
+        $peopleId =  $this->request->data['id'];;
+        
         $mobileImage612X612 = WWW_ROOT . $this->uploadDir . DS .$peopleId . '.'. $fileExt[1];
         // collect file extension from image path
         // for main mobile image
@@ -94,8 +95,6 @@ class ImageController extends Controller {
         $resizeimage1->writeImage($mobileImage612X612);
         if($resizeimage1->writeImage($mobileImage612X612) ) {
             $msg['status'] = 1;
-            $peopleId = 1;
-
             $updateExtensions = array();
             $updateExtensions['ext'] = $fileExt[1];
             $updateExtensions['id'] = $peopleId;
