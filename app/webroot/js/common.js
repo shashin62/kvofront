@@ -111,3 +111,13 @@ function format(d) {
             '</table>';
 }
 
+
+$(document).ready(function(){
+      $(".prviewClose, .prviewCloseText").click( function(){
+            $(".postwrapper, #overlay").fadeOut();
+            $("#postview").html("");
+        }); 
+    $("body").append("<div id='overlay'></div>");
+        $("body").append("<div id='postview'></div>"); 
+    
+});
