@@ -30,14 +30,13 @@
                                     'datepicker.min',
                                     'bootstrap-select.min','jquery-ui.min','jquery-ui.theme.min')); ?>
 <?php
-  echo $this->Html->script(array('jquery','common','bootstrap.min','jquery.validate','jquery-ui.min','combobox','autotab'));      
+  echo $this->Html->script(array('jquery','common','bootstrap.min','jquery.validate','jquery-ui.min','combobox','autotab','jquery.imgareaselect.min'));      
 ?>
         <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
         <!-- Bootstrap DataTables JavaScript -->
         <script type="text/javascript" language="javascript" src="//cdn.datatables.net/plug-ins/9dcbecd42ad/integration/bootstrap/3/dataTables.bootstrap.js"></script>
         <!-- Bootstrap validation JavaScript -->
-        <script src="//oss.maxcdn.com/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
-
+       
         <!-- Bootstrap Datepicker JavaScript -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
         <!-- Bootstrap Select JavaScript -->

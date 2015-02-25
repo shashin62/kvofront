@@ -172,6 +172,19 @@
                 </div>
             </div>
         </div>
+            <div>
+                <form id="<?php echo 'imagepic' ;?>" enctype="multipart/form-data"
+   method="post" action="<?php echo $this->base;?>/image/upload" name="add" class="clearfix imagepic">
+      <div class="col-md-2">
+          <input type = "button" value = "Browse"  id="uploadButton" class="uploadAdminLogoBtn editViewDetail" style="z-index:0"/>
+                <input class = "imagefile" id="uploadButton"  style="display: none;z-index:-1" type="file" name="img" /> 
+      </div>
+      <div class="col-md-1">
+          <button type="button" class="btn btn-primary saveButton imagesubmit" data-key="<?php echo $key;?>">Upload</button>
+      </div>
+         <?php echo $this->Form->input('people_id',array('type' => 'hidden','label'=>false,'value' => $pid)); ?>
+         <?php echo $this->Form->end(); ?>
+            </div>
 
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="form-group">
@@ -453,4 +466,13 @@
        
     });
 </script>
+<script type="text/javascript">
+ var image_format = "<?php echo 'jpeg|png|jpg'; ?>";
+$('.imagesubmit').click(function(){
+     $("#imagepic").submit();
+     return false;
+})
+</script>
+<?php echo $this->Html->script(array('ajaxupload')); ?>
+
 <?php echo $this->Html->script(array('Family/family_self_edit')); ?>

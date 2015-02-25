@@ -34,7 +34,8 @@ class ImageController extends Controller {
         $thumb_height = $this->thumb_height;
         $scaleWidth = 720;
         
-         $peopleId = 1;//$_REQUEST['data']['people_id'];
+        $peopleId = $this->request->query('pid');//$_REQUEST['data']['people_id'];
+        
         if (isset($this->request->params['form'])) {
             $imageFile = $this->request->params['form']['image'];
             $image = new Imagick($imageFile['tmp_name']);
@@ -66,6 +67,8 @@ class ImageController extends Controller {
     }
      public function cropImage()
     {
+         $peopleId = $this->request->query('pid');
+         $this->set('pid',$peopleId);
          $this->render('/Elements/add_media');
     }
     
@@ -78,9 +81,10 @@ class ImageController extends Controller {
         $y1 = $this->request->data["y1"];
         $w = $this->request->data["w"];
         $h = $this->request->data["h"];
+        $pid = $this->request->query('pid');
         $large_image_location = $this->base. '/'.  $_REQUEST['userImagePath'];
         $fileExt = explode('.', basename($large_image_location));
-        $peopleId = 1;
+        $peopleId =  $this->request->data['id'];
         $mobileImage612X612 = WWW_ROOT . $this->uploadDir . DS .$peopleId . '.'. $fileExt[1];
         // collect file extension from image path
         // for main mobile image
@@ -90,6 +94,12 @@ class ImageController extends Controller {
         $resizeimage1->writeImage($mobileImage612X612);
         if($resizeimage1->writeImage($mobileImage612X612) ) {
             $msg['status'] = 1;
+            $peopleId = 1;
+
+            $updateExtensions = array();
+            $updateExtensions['ext'] = $fileExt[1];
+            $updateExtensions['id'] = $peopleId;
+            $this->People->updateExt($updateExtensions);
         } else {
             $msg['status'] = 0;
         }

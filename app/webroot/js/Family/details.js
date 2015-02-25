@@ -1,3 +1,9 @@
+var hcurrentwidth;
+var hcurrentheight;
+var huserImagePath;
+var huserThumbImagePath;
+var filePath;
+
 $('.guju').click(function () {
 window.location.href = baseUrl + '/family/details/'+ groupid + '?type=gujurathi';
 });
@@ -132,8 +138,58 @@ doFormPost(baseUrl + "/family/searchPeople?type=addchilld",
 
 
 });
+
+function createThumbPreview() 
+{
+    var t = '1:1';
+    var newW = imageAreaselectDefault;
+    
+    if( hcurrentwidth > newW) {
+        newW = imageAreaselectDefault;
+    } else {
+        newW = hcurrentwidth;
+    }
+    
+    var newH = imageAreaselectDefault;
+    if( hcurrentheight > newH) {
+        newH = imageAreaselectDefault;
+    } else {
+        newH = hcurrentheight;
+    }
+    
+    if( newH > newW) {
+        newH = newW;
+    }
+    if( newW > newH) {
+        newW = newH;
+    }
+    
+   
+    $('#thumbnail').imgAreaSelect({ 
+        fadeSpeed: 400,
+        parent:$('#parent'),
+        x1: 0, 
+        y1: 0, 
+        x2: newW - 10, 
+        y2: newH - 10,
+        minWidth: newW, 
+        minHeight: newH,
+        instance: true,
+        show:true,
+        handles: true,
+        aspectRatio : t,
+        onSelectChange: preview,
+        persistent:true
+    }); 
+    
+    $('.publishFansPopup').css('height',newH+'px');
+}
 var dialog;
 $(document).ready(function () {
+    
+    
+    
+    
     $( ".combobox" ).combobox({width: '180px',select: function( event, ui ) {
       $('.owner').val(ui.item.value);
       }});
