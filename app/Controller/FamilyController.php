@@ -236,6 +236,7 @@ Class FamilyController extends AppController {
             $this->set('tree_level', $getPeopleData['Group']['tree_level']);
             $this->set('call_again', $getPeopleData['People']['call_again']);
             $this->set('village', $getPeopleData['People']['village']);
+            $this->set('ext',$getPeopleData['People']['ext']);
             $this->set('mahajan_membership_number', $getPeopleData['People']['mahajan_membership_number']);
             $this->set('same', $getPeopleData['People']['address_id'] == $getOwnerDetails['address_id'] ? true : false);
             // $getOwnerDetails

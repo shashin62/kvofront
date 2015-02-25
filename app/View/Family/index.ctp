@@ -172,12 +172,17 @@
                 </div>
             </div>
         </div>
-            <div>
+            <div class="col-lg-6 col-md-6 col-xs-12">
+                <div class="form-group">
+                    <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="photo">Photo</label>
                 <form id="<?php echo 'imagepic' ;?>" enctype="multipart/form-data"
    method="post" action="<?php echo $this->base;?>/image/upload" name="add" class="clearfix imagepic">
       <div class="col-md-2">
           <input type = "button" value = "Browse"  id="uploadButton" class="uploadAdminLogoBtn editViewDetail" style="z-index:0"/>
-                <input class = "imagefile" id="uploadButton"  style="display: none;z-index:-1" type="file" name="img" /> 
+                <input class = "imagefile" id="uploadButton"  style="display: none;z-index:-1" type="file" name="img" />
+                 <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $pid . '.' . $ext) === true) {?>
+                    <img style="width: 75px;height: 75px;" src="<?php echo $_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $pid . '.' . $ext;?>"/>
+                 <?php } ?>
       </div>
       <div class="col-md-1">
           <button type="button" class="btn btn-primary saveButton imagesubmit" data-key="<?php echo $key;?>">Upload</button>
@@ -185,6 +190,7 @@
          <?php echo $this->Form->input('people_id',array('type' => 'hidden','label'=>false,'value' => $pid)); ?>
          <?php echo $this->Form->end(); ?>
             </div>
+                </div>
 
 		<div class="col-lg-6 col-md-6 col-xs-12">
 			<div class="form-group">
