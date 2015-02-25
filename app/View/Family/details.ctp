@@ -44,7 +44,12 @@ $firstName = $value['People']['first_name'];
 
 ?>
     <div class="row">
-        <div class="col-md-1" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?> ><?php echo $firstName . ' ' . $lastName;?> (<?php echo $value['People']['id'];?>)</div>
+        <div class="col-md-1" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?> >
+    <?php echo $firstName . ' ' . $lastName;?> (<?php echo $value['People']['id'];?>)
+<?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
+<div><img style="width:50px;height:50px;" src="<?php echo $this->base;?>/people_images/<?php echo $value['People']['id'] .'.' . $value['People']['ext']; ?>"/></div>
+<?php }?>
+</div>
         <div class="col-md-1">
             <a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);">Edit Detail</a><br>
                                     <?php if(strtolower($value['People']['martial_status']) == 'married' && empty($value['People']['partner_id'])) { ?>
@@ -100,9 +105,9 @@ $firstName = $value['People']['first_name'];
 <form id="<?php echo 'imagepic'.$key ;?>" enctype="multipart/form-data"
    method="post" action="<?php echo $this->base;?>/image/upload" name="add" class="clearfix imagepic">
       <div class="col-md-2">
-           <?php echo $this->Form->input('photo_id',array('type' => 'file','label'=>'Photo')); ?>
+           <?php echo $this->Form->input('photo_id',array('type' => 'file','label'=> '')); ?>
       </div>
-<br />< br/>
+<br><br>
         <div class="col-md-2">
             <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
             <?php echo $value['People']['id'] . '.' . $value['People']['ext'];?>
