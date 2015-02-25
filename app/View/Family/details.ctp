@@ -46,9 +46,9 @@ $firstName = $value['People']['first_name'];
     <div class="row">
         <div class="col-md-1" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?> >
     <?php echo $firstName . ' ' . $lastName;?> (<?php echo $value['People']['id'];?>)
-<?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/kvofront/app/webroot/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
+<?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
 <div>
-    <img style="width:50px;height:50px;" src="<?php echo $this->base;?>/app/webroot/people_images/<?php echo $value['People']['id'] .'.' . $value['People']['ext']; ?>"/>
+    <img style="width:50px;height:50px;" src="<?php echo $this->base;?>/people_images/<?php echo $value['People']['id'] .'.' . $value['People']['ext']; ?>"/>
     <a href="javascript:void(0);" class="deletephoto" data-id="<?php echo $value['People']['id'];?>">Delete</a>
 </div>
 <?php }?>
