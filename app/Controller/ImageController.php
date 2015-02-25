@@ -55,7 +55,7 @@ class ImageController extends Controller {
             $msg['scaleWidth'] = $scaleWidth;
             $msg['thumb_width'] = $thumb_width;
             $msg['thumb_height'] = $thumb_height;
-            $msg['userImagePath'] = 'app/webroot' . '/'. $this->uploadDir . DS . $peopleId . "." . $file_ext;
+            $msg['userImagePath'] = $this->base . '/'. $this->uploadDir . DS . $peopleId . "." . $file_ext;
             $msg['success'] = 1;
            $this->set(compact('msg'));
             $this->render("/Elements/json_messages");
