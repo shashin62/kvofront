@@ -96,25 +96,7 @@ $firstName = $value['People']['first_name'];
             <a  style="display:none;" class="deletemember" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);" style="color: red">Delete</a>
                                      <?php } ?>
         </div>
- <div class="col-md-2">
-<form id="<?php echo 'imagepic'.$key ;?>" enctype="multipart/form-data"
-   method="post" action="<?php echo $this->base;?>/image/upload" name="add" class="clearfix imagepic">
-      <div class="col-md-2">
-           <?php echo $this->Form->input('photo_id',array('type' => 'file','label'=>'Photo')); ?>
-      </div>
-<br />< br/>
-        <div class="col-md-2">
-            <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
-            <?php echo $value['People']['id'] . '.' . $value['People']['ext'];?>
-            <?php } ?>
-        </div>
-<br/><br />
-      <div class="col-md-1">
-          <button type="button" class="btn btn-primary saveButton imagesubmit" data-key="<?php echo $key;?>">Upload</button>
-      </div>
-         <?php echo $this->Form->input('people_id',array('type' => 'hidden','label'=>false,'value' => $value['People']['id'])); ?>
-         <?php echo $this->Form->end(); ?>
-</div>
+
                                 <?php if($value['Group']['tree_level'] != '') { ?>
         <div class="col-md-1">
             <?php if( $hofId != $value['People']['partner_id']) { ?>
@@ -296,15 +278,12 @@ echo '</select>';
         </div>
     </div>
 </div>
+<?php echo $this->Html->script(array('ajaxupload')); ?>
 <?php echo $this->Html->script(array('Family/details')); ?>
 <script type="text/javascript">
+ var image_format = "<?php echo 'jpeg|png|jpg'; ?>";
 var groupid = '<?php echo $groupId;?>';
 </script>
-<script type="text/javascript">
-$('.imagesubmit').click(function(){
-    var key = $(this).data('key');
-  
-     $("#imagepic"+key).submit();
-     return false;
-})
-</script>
+
+
+

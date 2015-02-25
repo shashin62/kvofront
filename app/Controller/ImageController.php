@@ -13,38 +13,115 @@
  */
 class ImageController extends Controller {
 
+    public $thumb_width = 346;
+
+    /**
+     * default thumb width ( company logo crop)
+     * @var type 
+     */
+    public $thumb_height = 346;
     public $name = 'Image';
     public $uses = array('User', 'People');
     public $helpers = array('Session');
     public $components = array('Session');
     public $uploadDir = 'people_images';
 
-    public function uploadimage()
-    {
-         $this->autoRender = false;
+    public function uploadimage() {
         $this->layout = 'ajax';
+
+        $this->autoRender = false;
+        $thumb_width = $this->thumb_width;
+        $thumb_height = $this->thumb_height;
+        $scaleWidth = 720;
+        
+         $peopleId = 1;//$_REQUEST['data']['people_id'];
+        if (isset($this->request->params['form'])) {
+            $imageFile = $this->request->params['form']['image'];
+            $image = new Imagick($imageFile['tmp_name']);
+            $d = $image->getImageGeometry();
+            $w = $d['width'];
+            $h = $d['height'];
+            $resolution = $image->getImageResolution();
+
+            $filename = basename($imageFile['name']);
+            $file_ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+            $destination = WWW_ROOT . $this->uploadDir . DS . $peopleId . "." . $file_ext;
+            $image->writeImage($destination);
+            $image2 = new Imagick($destination);
+            $msg = $image2->getImageGeometry();
+            
+            $msg['scaleWidth'] = $scaleWidth;
+            $msg['thumb_width'] = $thumb_width;
+            $msg['thumb_height'] = $thumb_height;
+            $msg['userImagePath'] = 'app/webroot/'.$this->uploadDir . DS . $peopleId . "." . $file_ext;
+            $msg['success'] = 1;
+           $this->set(compact('msg'));
+            $this->render("/Elements/json_messages");
+        } else {
+            $this->set('thumb_width', $thumb_width);
+            $this->set('thumb_height', $thumb_height);
+            $this->render('/Elements/upload');
+        }
+    }
+     public function cropImage()
+    {
+         $this->render('/Elements/add_media');
+    }
+    
+    public function resizeImage()
+    {
+         $this->layout = 'ajax';
+        $this->autoRender = false;
        
+        $x1 = $this->request->data["x1"];
+        $y1 = $this->request->data["y1"];
+        $w = $this->request->data["w"];
+        $h = $this->request->data["h"];
+        $large_image_location = $this->base. '/'.  $_REQUEST['userImagePath'];
+        $fileExt = explode('.', basename($large_image_location));
+        $peopleId = 1;
+        $mobileImage612X612 = WWW_ROOT . $this->uploadDir . DS .$peopleId . '.'. $fileExt[1];
+        // collect file extension from image path
+        // for main mobile image
+        $resizeimage1 = new Imagick(WWW_ROOT . $this->uploadDir . DS .$peopleId . '.'.$fileExt[1]);
+        $resizeimage1->cropImage($w, $h, $x1, $y1);
+        $resizeimage1->scaleImage(120, 120);
+        $resizeimage1->writeImage($mobileImage612X612);
+        if($resizeimage1->writeImage($mobileImage612X612) ) {
+            $msg['status'] = 1;
+        } else {
+            $msg['status'] = 0;
+        }
+        $this->set(compact('msg'));
+        $this->render("/Elements/json_messages");
         
     }
 
 
-    public function upload() {
-        
+
+    public function doUpload() {
         $id = $this->Session->read('User.group_id');
+    }
+
+    public function upload() {
+
+        $id = $this->Session->read('User.group_id');
+        
         $getDetails = $this->People->getFamilyDetails($id, false, true);
         $this->set('data', $getDetails);
         if ($this->request->is('post')) {
             $peopleId = $_REQUEST['data']['people_id'];
-            
+
             $updateExtensions = array();
             $updateExtensions['ext'] = pathinfo($_FILES['data']['name']['photo_id'], PATHINFO_EXTENSION);
             $updateExtensions['id'] = $peopleId;
             $this->People->updateExt($updateExtensions);
-            
+
             if (!is_uploaded_file($_FILES['data']['tmp_name']['photo_id'])) {
                 return FALSE;
             }
-           
+
             $photo = WWW_ROOT . $this->uploadDir . DS .
                     $peopleId . '.' . pathinfo($_FILES['data']['name']['photo_id'], PATHINFO_EXTENSION);
             //exit;
@@ -52,7 +129,7 @@ class ImageController extends Controller {
                 return FALSE;
                 // file successfully uploaded
             } else {
-                $this->redirect('family/details/'.$id);
+                $this->redirect('family/details/' . $id);
             }
         }
     }
