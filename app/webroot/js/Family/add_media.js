@@ -60,11 +60,12 @@ $('#save_thumb').click(function(){
                 setTimeout(function () {
                     $('.jssuccessMessage').hide('slow');
                     
-                    
-                }, 2500);
+                    window.location.href= baseUrl + '/family/details/' +  gid;
+                }, 2000);
                 $('div[class^=imgareaselect-]').hide();
                 $(".postwrapper, #overlay").fadeOut(); 
                 $('.fanPostImageOnly').css('border','none');
+                 
                }
             } ,
             error: function(response) {}

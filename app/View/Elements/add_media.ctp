@@ -48,5 +48,6 @@
 </div>
 <script type="text/javascript">
 var pid = '<?php echo $pid;?>';
+var gid = '<?php echo $this->Session->read('User.group_id');?>';
 </script>
 <?php echo $this->Html->script(array('Family/add_media')); ?>
