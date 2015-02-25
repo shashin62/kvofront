@@ -184,9 +184,6 @@
                     <img style="width: 75px;height: 75px;" src="<?php echo $this->base . '/people_images/' . $pid . '.' . $ext;?>"/>
                  <?php } ?>
       </div>
-      <div class="col-md-1">
-          <button type="button" class="btn btn-primary saveButton imagesubmit" data-key="<?php echo $key;?>">Upload</button>
-      </div>
          <?php echo $this->Form->input('people_id',array('type' => 'hidden','label'=>false,'value' => $pid)); ?>
          <?php echo $this->Form->end(); ?>
             </div>
