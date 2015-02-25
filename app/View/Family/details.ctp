@@ -107,6 +107,7 @@ $firstName = $value['People']['first_name'];
       <div class="col-md-2">
            <?php echo $this->Form->input('photo_id',array('type' => 'file','label'=> '')); ?>
       </div>
+<br><br>
 <br/><br />
       <div class="col-md-1">
           <button type="button" class="btn btn-primary saveButton imagesubmit" data-key="<?php echo $key;?>">Upload</button>
