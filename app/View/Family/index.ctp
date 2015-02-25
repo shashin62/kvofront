@@ -181,7 +181,7 @@
           <input type = "button" value = "Browse"  id="uploadButton" class="uploadAdminLogoBtn editViewDetail" style="z-index:0"/>
                 <input class = "imagefile" id="uploadButton"  style="display: none;z-index:-1" type="file" name="img" />
                  <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $pid . '.' . $ext) === true) {?>
-                    <img style="width: 75px;height: 75px;" src="<?php echo $_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $pid . '.' . $ext;?>"/>
+                    <img style="width: 75px;height: 75px;" src="<?php echo $this->base . '/people_images/' . $pid . '.' . $ext;?>"/>
                  <?php } ?>
       </div>
       <div class="col-md-1">
