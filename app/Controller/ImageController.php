@@ -60,8 +60,8 @@ class ImageController extends Controller {
         if ($this->Session->read('Auth.User')) {
             $id = $this->request->data['id'];
             $getExt = $this->People->getImageExtension($id);
-           
-            if (unlink(WWW_ROOT . $this->uploadDir . DS . $id . '.' . $getExt['People']['ext'])) {
+            
+            if (unlink($_SERVER["DOCUMENT_ROOT"] . '/people_images/'. $id . '.' . $getExt[0]['People']['ext'])) {
 
                 $msg['success'] = 1;
                 $msg['message'] = 'Photo has been deleted';
@@ -76,6 +76,4 @@ class ImageController extends Controller {
         $this->set(compact('msg'));
         $this->render("/Elements/json_messages");
     }
-
-    //put your code here
 }
