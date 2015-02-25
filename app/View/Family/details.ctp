@@ -107,12 +107,6 @@ $firstName = $value['People']['first_name'];
       <div class="col-md-2">
            <?php echo $this->Form->input('photo_id',array('type' => 'file','label'=> '')); ?>
       </div>
-<br><br>
-        <div class="col-md-2">
-            <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
-            <?php echo $value['People']['id'] . '.' . $value['People']['ext'];?>
-            <?php } ?>
-        </div>
 <br/><br />
       <div class="col-md-1">
           <button type="button" class="btn btn-primary saveButton imagesubmit" data-key="<?php echo $key;?>">Upload</button>
