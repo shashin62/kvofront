@@ -703,6 +703,13 @@ Class FamilyController extends AppController {
     }
 
     public function details() {
+        
+        $id = $this->request->params['pass'][0];
+        if( $id !== $this->Session->read('User.group_id')) {
+            $this->redirect('/family/details/'. $this->Session->read('User.group_id'));
+            exit;
+        }
+        
         $userID = $this->Session->read('User.user_id');
         $roleID = $this->Session->read('User.role_id');
         $getOwners = $this->Group->getOwners();
@@ -717,7 +724,7 @@ Class FamilyController extends AppController {
 
         $this->set('owners', $ownerData);
         $this->set('type', isset($_REQUEST['type']) ? $_REQUEST['type'] : 'english');
-        $id = $this->request->params['pass'][0];
+        
 
 
         if (array_key_exists($id, $ownerData)) {

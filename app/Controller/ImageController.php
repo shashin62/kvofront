@@ -27,8 +27,8 @@ class ImageController extends Controller {
     public $uploadDir = 'people_images';
 
     public function uploadimage() {
-        $this->layout = 'ajax';
 
+        $this->layout = 'ajax';
         $this->autoRender = false;
         $thumb_width = $this->thumb_width;
         $thumb_height = $this->thumb_height;
@@ -96,13 +96,9 @@ class ImageController extends Controller {
         $this->set(compact('msg'));
         $this->render("/Elements/json_messages");
         
+
     }
 
-
-
-    public function doUpload() {
-        $id = $this->Session->read('User.group_id');
-    }
 
     public function upload() {
 
@@ -129,10 +125,34 @@ class ImageController extends Controller {
                 return FALSE;
                 // file successfully uploaded
             } else {
-                $this->redirect('family/details/' . $id);
+
+                $this->redirect('/family/details/' . $id);
+
             }
         }
     }
 
-    //put your code here
+    public function deleteImage() {
+
+        $this->autoRender = false;
+        $this->layout = 'ajax';
+        if ($this->Session->read('Auth.User')) {
+            $id = $this->request->data['id'];
+            $getExt = $this->People->getImageExtension($id);
+            
+            if (unlink($_SERVER["DOCUMENT_ROOT"] . '/people_images/'. $id . '.' . $getExt[0]['People']['ext'])) {
+
+                $msg['success'] = 1;
+                $msg['message'] = 'Photo has been deleted';
+            } else {
+                $msg['success'] = 0;
+                $msg['message'] = 'System Error';
+            }
+        } else {
+            $msg['success'] = 0;
+            $msg['message'] = 'Bad Request';
+        }
+        $this->set(compact('msg'));
+        $this->render("/Elements/json_messages");
+    }
 }

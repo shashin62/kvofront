@@ -44,7 +44,15 @@ $firstName = $value['People']['first_name'];
 
 ?>
     <div class="row">
-        <div class="col-md-1" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?> ><?php echo $firstName . ' ' . $lastName;?> (<?php echo $value['People']['id'];?>)</div>
+        <div class="col-md-1" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?> >
+    <?php echo $firstName . ' ' . $lastName;?> (<?php echo $value['People']['id'];?>)
+<?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
+<div>
+    <img style="width:75px;height:75px;" src="<?php echo $this->base;?>/people_images/<?php echo $value['People']['id'] .'.' . $value['People']['ext']; ?>"/>
+    <a href="javascript:void(0);" class="deletephoto" data-id="<?php echo $value['People']['id'];?>">Delete</a>
+</div>
+<?php }?>
+</div>
         <div class="col-md-1">
             <a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);">Edit Detail</a><br>
                                     <?php if(strtolower($value['People']['martial_status']) == 'married' && empty($value['People']['partner_id'])) { ?>
@@ -285,5 +293,32 @@ echo '</select>';
 var groupid = '<?php echo $groupId;?>';
 </script>
 
+<script type="text/javascript">
 
+$('.deletephoto').click(function(){
+   
+    var result = confirm("Want to delete?");
+    if (result === true) {
+     var $this = $(this);
+    var id = $this.data('id');
+     $.ajax({
+        url: baseUrl + '/image/deleteImage',
+        dataType: 'json',
+        data: {id: id},
+        type: "POST",
+        success: function (response) {
+            var displayMsg = response.message;
+            showJsSuccessMessage(displayMsg);
+            setTimeout(function () {
+                $('.jssuccessMessage').hide('slow');
+               window.location.href= baseUrl+ '/family/details/<?php echo $groupId;?>'
+                
+            }, 2500);
+        }
+    });
+} else {
+return;
+}
+});
+</script>
 

@@ -5,8 +5,8 @@ App::uses('AppModel', 'Model');
 class People extends AppModel {
 
     var $name = 'People';
-   
- /**
+
+    /**
      * In case we want simplified per-group only permissions, we need to implement bindNode() in User model. 
      * @param type $user
      * @return type 
@@ -14,18 +14,17 @@ class People extends AppModel {
     public function bindNode($user) {
         return array('model' => 'Role', 'foreign_key' => $user['User']['role_id']);
     }
-    
-    public function updateExt($array) 
-    {
-         $this->recursive = -1;
+
+    public function updateExt($array) {
+        $this->recursive = -1;
 
         $query = "UPDATE {$this->tablePrefix}people
                   SET ext = '{$array['ext']}'      
                   WHERE id = {$array['id']}";
-       
+
         try {
             $this->query($query);
-          
+
 
             return true;
         } catch (ErrorException $e) {
@@ -35,24 +34,11 @@ class People extends AppModel {
     }
 
     public function getLoginPeopleData($phone, $checkActive = true, $checkPass = '') {
-
-        
-        
         $this->recursive = -1;
         $options['conditions']['People.mobile_number'] = $phone;
 
         $options['conditions']['People.tree_level'] = "";
-//        
-//         $options['joins'] = array(
-//            array('table' => 'people',
-//                'alias' => 'People',
-//                'type' => 'Inner',
-//                'conditions' => array(
-//                    'User.id = People.user_id'
-//                )
-//            ),
-//             );
-          $options['fields'] = array('People.*');
+        $options['fields'] = array('People.*');
         try {
             $userData = $this->find('all', $options);
 
@@ -70,7 +56,7 @@ class People extends AppModel {
         }
     }
 
-   public function getAllPeoples($type = false) {
+    public function getAllPeoples($type = false) {
 
         $aColumns = array('p.id', 'p.first_name', 'p.last_name', 'p.village', 'p.mobile_number', 'p.m_id', 'p.f_id',
             'IF( p.f_id = parent.id, parent.first_name, "") as father',
@@ -288,10 +274,10 @@ class People extends AppModel {
         //  exit;
         return $output;
     }
-    
+
     public function getAllData($userID, $roleID, $data) {
-         $aColumns = array('p.id', 'p.first_name', 'p.last_name', 'p.village', 'p.mobile_number','p.date_of_birth','p.sect','p.martial_status');
-        
+        $aColumns = array('p.id', 'p.first_name', 'p.last_name', 'p.village', 'p.mobile_number', 'p.date_of_birth', 'p.sect', 'p.martial_status');
+
 //echo '<pre>';
 //          print_r($data);
 //          exit;
@@ -329,7 +315,7 @@ class People extends AppModel {
             }
         }
 
-        $aSearchCollumns = array('p.id', 'p.first_name', 'p.last_name','p.village','p.mobile_number','p.date_of_birth','p.sect','p.martial_status');
+        $aSearchCollumns = array('p.id', 'p.first_name', 'p.last_name', 'p.village', 'p.mobile_number', 'p.date_of_birth', 'p.sect', 'p.martial_status');
         /*
          * Filtering
          * NOTE this does not match the built-in DataTables filtering which does it
@@ -365,8 +351,8 @@ class People extends AppModel {
                 $sWhere .= " AND p.village in ('$village')";
             }
         }
-        
-         if (isset($data['martial_status']) && is_array($data['martial_status'])) {
+
+        if (isset($data['martial_status']) && is_array($data['martial_status'])) {
             $martial_status = implode("','", $data['martial_status']);
             if ($sWhere == "") {
                 $sWhere = "WHERE p.martial_status in ('$martial_status')";
@@ -374,8 +360,8 @@ class People extends AppModel {
                 $sWhere .= " AND p.martial_status in ('$martial_status')";
             }
         }
-        
-         if (isset($data['occupation']) && is_array($data['occupation'])) {
+
+        if (isset($data['occupation']) && is_array($data['occupation'])) {
             $occupation = implode("','", $data['occupation']);
             if ($sWhere == "") {
                 $sWhere = "WHERE p.occupation in ('$occupation')";
@@ -383,8 +369,8 @@ class People extends AppModel {
                 $sWhere .= " AND p.occupation in ('$occupation')";
             }
         }
-        
-         if (isset($data['gender']) && is_array($data['gender'])) {
+
+        if (isset($data['gender']) && is_array($data['gender'])) {
             $gender = implode("','", $data['gender']);
             if ($sWhere == "") {
                 $sWhere = "WHERE p.gender in ('$gender')";
@@ -392,7 +378,7 @@ class People extends AppModel {
                 $sWhere .= " AND p.gender in ('$gender')";
             }
         }
-        
+
         if (isset($data['nature_of_business']) && is_array($data['nature_of_business'])) {
             $nature_of_business = implode("','", $data['nature_of_business']);
             if ($sWhere == "") {
@@ -401,7 +387,7 @@ class People extends AppModel {
                 $sWhere .= " AND p.nature_of_business in ('$nature_of_business')";
             }
         }
-        
+
         if (isset($data['typebusniess']) && is_array($data['typebusniess'])) {
             $typebusniess = implode("','", $data['typebusniess']);
             if ($sWhere == "") {
@@ -410,7 +396,7 @@ class People extends AppModel {
                 $sWhere .= " AND p.business_name in ('$typebusniess')";
             }
         }
-        
+
         if (isset($data['specialbusniess']) && is_array($data['specialbusniess'])) {
             $specialbusniess = implode("','", $data['specialbusniess']);
             if ($sWhere == "") {
@@ -419,8 +405,8 @@ class People extends AppModel {
                 $sWhere .= " AND p.specialty_business_service in ('$specialbusniess')";
             }
         }
-        
-         if (isset($data['busniessname']) && is_array($data['busniessname'])) {
+
+        if (isset($data['busniessname']) && is_array($data['busniessname'])) {
             $busniessname = implode("','", $data['busniessname']);
             if ($sWhere == "") {
                 $sWhere = "WHERE p.name_of_business in ('$busniessname')";
@@ -428,7 +414,7 @@ class People extends AppModel {
                 $sWhere .= " AND p.name_of_business  in ('$busniessname')";
             }
         }
-        
+
         if (isset($data['sects']) && is_array($data['sects'])) {
             $sects = implode("','", $data['sects']);
             if ($sWhere == "") {
@@ -437,8 +423,8 @@ class People extends AppModel {
                 $sWhere .= " AND p.sect  in ('$sects')";
             }
         }
-        
-          if (isset($data['islate']) && is_array($data['islate'])) {
+
+        if (isset($data['islate']) && is_array($data['islate'])) {
             $islate = implode("','", $data['islate']);
             if ($sWhere == "") {
                 $sWhere = "WHERE p.is_late  in ('$islate')";
@@ -460,7 +446,7 @@ class People extends AppModel {
 //exit;
         //$sGroup = " group by p.mobile_number";
 
-       $sQuery = "
+        $sQuery = "
     SELECT SQL_CALC_FOUND_ROWS p.id, p.first_name, p.last_name,p.village,p.mobile_number,p.date_of_birth,p.sect,p.martial_status
             FROM   $sTable               
             $sWhere               
@@ -472,7 +458,7 @@ class People extends AppModel {
 
         /* Data set length after filtering */
         $sQuery = "SELECT FOUND_ROWS() as total";
-        
+
         $rResultFilterTotal = $this->query($sQuery);
 
         $iFilteredTotal = $rResultFilterTotal[0][0]['total'];
@@ -495,11 +481,11 @@ class People extends AppModel {
             "aaData" => array()
         );
 
-       
+
         foreach ($rResult as $key => $value) {
 
             $row = array();
-            
+
             foreach ($value['p'] as $k => $v) {
                 $row[] = $v;
             }
@@ -507,7 +493,6 @@ class People extends AppModel {
         }
 
         return $output;
-        
     }
 
     public function getChildren($fatherId, $gender = false, $groupId = false) {
@@ -576,7 +561,7 @@ class People extends AppModel {
         }
     }
 
-     /**
+    /**
      * 
      * @param type $groupId
      * @return boolean
@@ -664,13 +649,13 @@ class People extends AppModel {
                         'People.id = Group.people_id'
                     )
                 ),
-	 array('table' => 'spouses',
-		        'alias' => 'exspouse',
-		        'type' => 'LEFT',
-		        'conditions' => array(
-		            'People.id  = exspouse.people_id '
-		        )
-		    )
+                array('table' => 'spouses',
+                    'alias' => 'exspouse',
+                    'type' => 'LEFT',
+                    'conditions' => array(
+                        'People.id  = exspouse.people_id '
+                    )
+                )
             );
         }
         if ($getAllDetails) {
@@ -681,7 +666,7 @@ class People extends AppModel {
                 'parent3.first_name as partner_name', 'parent1.first_name as father', 'parent2.first_name as mother'
             );
         } else {
-             $options['fields'] = array('People.*','Group.tree_level','Group.people_id','group_concat(exspouse.spouse_id) as exspouses');
+            $options['fields'] = array('People.*', 'Group.tree_level', 'Group.people_id', 'group_concat(exspouse.spouse_id) as exspouses');
             //$options['fields'] = array('People.*', 'Group.tree_level', 'Group.people_id');
             if ($flag) {
                 //$options['fields'][] = array('secondary as secondary');
@@ -705,11 +690,11 @@ class People extends AppModel {
             return false;
         }
     }
-	
-	public function getAllSpouses($id) {
-		$this->recursive = -1;
-		$options['conditions'] = array('People.partner_id' => $id,'People.gender'=> 'female' );
-        $options['fields'] = array('People.id','People.first_name');
+
+    public function getAllSpouses($id) {
+        $this->recursive = -1;
+        $options['conditions'] = array('People.partner_id' => $id, 'People.gender' => 'female');
+        $options['fields'] = array('People.id', 'People.first_name');
         try {
             $userData = $this->find('list', $options);
             if ($userData) {
@@ -721,7 +706,7 @@ class People extends AppModel {
             CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
             return false;
         }
-	 }
+    }
 
     public function updateAfterDeletion($id) {
         $this->recursive = -1;
@@ -1126,7 +1111,7 @@ class People extends AppModel {
                 $sOrder = "";
             }
         }
-		  $aSearchCollumns = array('p.id', 'p.first_name', 'p.last_name', 'p.mobile_number');
+        $aSearchCollumns = array('p.id', 'p.first_name', 'p.last_name', 'p.mobile_number');
         /*
          * Filtering
          * NOTE this does not match the built-in DataTables filtering which does it
@@ -1156,24 +1141,23 @@ class People extends AppModel {
         if ($roleID == 1) {
 
             if ($operatorid) {
-			 if ($sWhere == "") {
-                $sWhere = "WHERE p.is_late = 0 and p.created_by = {$operatorid} ";
-                
-			} else {
-				$sWhere .= "and p.is_late = 0 and p.created_by = {$operatorid} ";
-			} 
-			$sWhere .= "and  ((p.f_id IS  NULL) or 
+                if ($sWhere == "") {
+                    $sWhere = "WHERE p.is_late = 0 and p.created_by = {$operatorid} ";
+                } else {
+                    $sWhere .= "and p.is_late = 0 and p.created_by = {$operatorid} ";
+                }
+                $sWhere .= "and  ((p.f_id IS  NULL) or 
 			( p.m_id IS  NULL) or 
 			( p.date_of_birth IS  NULL) or (  p.village IS  NULL or  p.village = '') or (  grandfather.first_name IS  NULL)
 			or (  grandfatherm.first_name IS  NULL))";
             } else {
-			if ($sWhere == "") {
-                $sWhere = "WHERE p.is_late = 0";
-				} else {
-				$sWhere .= " and p.is_late = 0";
-				}
+                if ($sWhere == "") {
+                    $sWhere = "WHERE p.is_late = 0";
+                } else {
+                    $sWhere .= " and p.is_late = 0";
+                }
             }
-			//echo $sWhere;
+            //echo $sWhere;
         } else {
             if ($sWhere == "") {
                 $sWhere = "WHERE p.is_late = 0 and p.created_by = {$userID} and p.created_by = {$userID} and  ((p.f_id IS  NULL) or 
@@ -1199,7 +1183,7 @@ LEFT JOIN people as grandfatherm ON grandfatherm.id = parent2.f_id
          * Get data to display
          */
 
-       $sQuery = "
+        $sQuery = "
     SELECT SQL_CALC_FOUND_ROWS p.id,p.group_id,p.first_name,p.last_name,
 REPLACE(CONCAT(if( p.non_kvo = 0 and (p.m_id = '' OR p.m_id IS NULL),'Mother','-'), ', ',
 if( p.non_kvo = 0 and (p.f_id = '' OR p.f_id IS NULL),'Father','-'),', ',if(p.address_id = '' OR p.address_id IS NULL,'Home Address','-')
@@ -1248,15 +1232,15 @@ $sJoin
 
             //if (trim($value[0]['missingdata']) != '-') {
 
-                $row = array();
-                foreach ($value['p'] as $k => $v) {
-                    $row[] = $v;
-                }
-                $row[] = $value[0]['missingdata'];
+            $row = array();
+            foreach ($value['p'] as $k => $v) {
+                $row[] = $v;
+            }
+            $row[] = $value[0]['missingdata'];
 
-                $row[] = '';
-                $output['aaData'][] = $row;
-           // }
+            $row[] = '';
+            $output['aaData'][] = $row;
+            // }
         }
 
         return $output;
@@ -1338,13 +1322,13 @@ $sJoin
 
             $toDate = date_parse_from_format("d/m/Y", $todate);
             $todate = "$toDate[year]-$toDate[month]-$toDate[day]";
-             if (strtotime($fromdate) == strtotime($todate)) {
-                 $sdate = " and p.modified =  '$fromdate'";
-             } else  {
-            $sdate = " and p.modified 
+            if (strtotime($fromdate) == strtotime($todate)) {
+                $sdate = " and p.modified =  '$fromdate'";
+            } else {
+                $sdate = " and p.modified 
 BETWEEN  '$fromdate'
 AND  '$todate'";
-           } 
+            }
         }
 
 
@@ -1608,9 +1592,8 @@ GROUP BY p.created_by");
 
     public function fetchBusniessTypeName() {
         $this->recursive = -1;
-       //  $options['conditions'] = array('People.nature_of_business like' => '%' . $term . '%');
         $options['fields'] = array('People.business_name', 'People.business_name');
-         $options['group'] = array('People.business_name');
+        $options['group'] = array('People.business_name');
         try {
             $userData = $this->find('list', $options);
             if ($userData) {
@@ -1623,12 +1606,11 @@ GROUP BY p.created_by");
             return false;
         }
     }
-    
+
     public function fetchBusniessName() {
         $this->recursive = -1;
-       //  $options['conditions'] = array('People.nature_of_business like' => '%' . $term . '%');
         $options['fields'] = array('People.name_of_business', 'People.name_of_business');
-         $options['group'] = array('People.name_of_business');
+        $options['group'] = array('People.name_of_business');
         try {
             $userData = $this->find('list', $options);
             if ($userData) {
@@ -1641,12 +1623,11 @@ GROUP BY p.created_by");
             return false;
         }
     }
-    
+
     public function fetchSpecialityBusniessName() {
-         $this->recursive = -1;
-       //  $options['conditions'] = array('People.nature_of_business like' => '%' . $term . '%');
-        $options['fields'] = array('People.specialty_business_service','People.specialty_business_service');
-         $options['group'] = array('People.specialty_business_service');
+        $this->recursive = -1;
+        $options['fields'] = array('People.specialty_business_service', 'People.specialty_business_service');
+        $options['group'] = array('People.specialty_business_service');
         try {
             $userData = $this->find('list', $options);
             if ($userData) {
@@ -1659,11 +1640,11 @@ GROUP BY p.created_by");
             return false;
         }
     }
+
     public function fetchNatureBusniessName() {
-          $this->recursive = -1;
-       //  $options['conditions'] = array('People.nature_of_business like' => '%' . $term . '%');
-        $options['fields'] = array('People.nature_of_business','People.nature_of_business');
-         $options['group'] = array('People.nature_of_business');
+        $this->recursive = -1;
+        $options['fields'] = array('People.nature_of_business', 'People.nature_of_business');
+        $options['group'] = array('People.nature_of_business');
         try {
             $userData = $this->find('list', $options);
             if ($userData) {
@@ -1676,12 +1657,12 @@ GROUP BY p.created_by");
             return false;
         }
     }
-    
-    public function fetchOccupation()  {
-          $this->recursive = -1;
-       //  $options['conditions'] = array('People.nature_of_business like' => '%' . $term . '%');
-        $options['fields'] = array('People.occupation','People.occupation');
-         $options['group'] = array('People.occupation');
+
+    public function fetchOccupation() {
+        $this->recursive = -1;
+        //  $options['conditions'] = array('People.nature_of_business like' => '%' . $term . '%');
+        $options['fields'] = array('People.occupation', 'People.occupation');
+        $options['group'] = array('People.occupation');
         try {
             $userData = $this->find('list', $options);
             if ($userData) {
@@ -1694,9 +1675,10 @@ GROUP BY p.created_by");
             return false;
         }
     }
-     public function fetchDateofBirth()  {
-          $this->recursive = -1;
-         $options['conditions'] = array('People.date_of_birth is not null');
+
+    public function fetchDateofBirth() {
+        $this->recursive = -1;
+        $options['conditions'] = array('People.date_of_birth is not null');
         $options['fields'] = array('distinct(DATE_FORMAT(People.date_of_birth,"%Y")) as date_of_birth');
         //$options['group'] = array('People.date_of_birth');
         try {
@@ -1710,9 +1692,24 @@ GROUP BY p.created_by");
             CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
             return false;
         }
-     }
-
+    }
     
+    public function getImageExtension($id) {
+        $this->recursive = -1;
+        $options['conditions'] = array('People.id' => $id);
+        $options['fields'] = array('People.ext','People.id');
+        try {
+            $userData = $this->find('all', $options);
+            if ($userData) {
+                return $userData;
+            } else {
+                return array();
+            }
+        } catch (Exception $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
+    }
 
 }
 
