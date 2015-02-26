@@ -42,20 +42,30 @@ class ImageController extends Controller {
             $d = $image->getImageGeometry();
             $w = $d['width'];
             $h = $d['height'];
-            $resolution = $image->getImageResolution();
-
+            
             $filename = basename($imageFile['name']);
             $file_ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
             $destination = WWW_ROOT . $this->uploadDir . DS . $peopleId . "." . $file_ext;
+            
+            if( $h > 500 ) {
+             $image->scaleImage(0, 500);   
+            } else if( $w > 500) {
+                $image->scaleImage(500, 0);   
+            } else if( $h > 500 && $w > 500) {
+                $image->scaleImage(500, 500);   
+            }
+           
             $image->writeImage($destination);
             $image2 = new Imagick($destination);
+            
+            
             $msg = $image2->getImageGeometry();
             
             $msg['scaleWidth'] = $scaleWidth;
             $msg['thumb_width'] = $thumb_width;
             $msg['thumb_height'] = $thumb_height;
-            $msg['userImagePath'] = $this->base . '/'. $this->uploadDir . DS . $peopleId . "." . $file_ext;
+            $msg['userImagePath'] = 'app/webroot/' . '/'. $this->uploadDir . DS . $peopleId . "." . $file_ext;
             $msg['success'] = 1;
            $this->set(compact('msg'));
             $this->render("/Elements/json_messages");
@@ -81,19 +91,18 @@ class ImageController extends Controller {
         $y1 = $this->request->data["y1"];
         $w = $this->request->data["w"];
         $h = $this->request->data["h"];
-        $pid = $this->request->query('pid');
         $large_image_location = $this->base. '/'.  $_REQUEST['userImagePath'];
         $fileExt = explode('.', basename($large_image_location));
-        $peopleId =  $this->request->data['id'];;
+        $peopleId =  $this->request->data['id'];
         
-        $mobileImage612X612 = WWW_ROOT . $this->uploadDir . DS .$peopleId . '.'. $fileExt[1];
+        $croppedImage = WWW_ROOT . $this->uploadDir . DS .$peopleId . '.'. $fileExt[1];
         // collect file extension from image path
-        // for main mobile image
+        // for main image
         $resizeimage1 = new Imagick(WWW_ROOT . $this->uploadDir . DS .$peopleId . '.'.$fileExt[1]);
         $resizeimage1->cropImage($w, $h, $x1, $y1);
         $resizeimage1->scaleImage(120, 120);
-        $resizeimage1->writeImage($mobileImage612X612);
-        if($resizeimage1->writeImage($mobileImage612X612) ) {
+        $resizeimage1->writeImage($croppedImage);
+        if($resizeimage1->writeImage($croppedImage) ) {
             $msg['status'] = 1;
             $updateExtensions = array();
             $updateExtensions['ext'] = $fileExt[1];

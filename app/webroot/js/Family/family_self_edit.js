@@ -227,12 +227,12 @@ $(document).ready(function () {
                 if (newW > newH) {
                     newW = newH;
                 }
-                selectionObject.height = newH;
-                selectionObject.width = newW;
-                selectionObject.x1 = '5';
-                selectionObject.x2 = '400';
-                selectionObject.y1 = '5';
-                selectionObject.y2 = newW;
+                selectionObject.height = 100;
+                selectionObject.width = 100;
+                selectionObject.x1 = 0;
+                selectionObject.x2 = 100;
+                selectionObject.y1 = 1;
+                selectionObject.y2 = 101;
 
                 preview('', selectionObject);
 
@@ -355,11 +355,17 @@ function createThumbPreview()
         newW = newH;
     }
 
-
     $('#thumbnail').imgAreaSelect({
+        parent:$('#parent'),
         handles: true,
         aspectRatio: t,
+        x1: 0, 
+        y1: 1, 
+        x2: 100, 
+        y2: 101,
+        show:true,
         onSelectChange: preview
+
     });
 
     $('.publishFansPopup').css('height', newH + 'px');
@@ -367,6 +373,7 @@ function createThumbPreview()
 
 function preview(img, selection)
 {
+    
     var scaleX = 120 / selection.width;
     var scaleY = 120 / selection.height;
     var currentwidth = parseInt(hcurrentwidth);
