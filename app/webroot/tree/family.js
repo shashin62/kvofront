@@ -310,7 +310,7 @@ function FSC(f,ci){
     }
 }
 function FLA(f,i){
-console.log(f);
+
 
     var ac=[];
     var c=f[i].c;

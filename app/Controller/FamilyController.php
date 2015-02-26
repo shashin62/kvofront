@@ -880,5 +880,19 @@ Class FamilyController extends AppController {
             exit;
         }
     }
+    
+    function getPeopleData()
+    {
+        $this->autoRender = false;
+        $this->layout = null;
+        $id = $this->request->query("id");
+        $groupId = $this->Session->read('User.group_id');
+
+        $data = $this->People->getFamilyDetails(false, $id, true);
+//       echo '<pre>';
+//       print_r($data);
+        echo json_encode($data[0]);
+        exit;
+    }
 
 }

@@ -569,7 +569,9 @@ class People extends AppModel {
     public function getFamilyDetails($groupId, $pid = false, $getAllDetails = false, $flag = false) {
 
         $this->recursive = -1;
-        $options['conditions']['Group.group_id'] = $groupId;
+        if ($groupId) {
+            $options['conditions']['Group.group_id'] = $groupId;
+        }
 
         if ($pid) {
             $options['conditions']['People.id'] = $pid;
@@ -1694,10 +1696,15 @@ GROUP BY p.created_by");
         }
     }
     
-    public function getImageExtension($id) {
+    public function getImageExtension($id, $all = false) {
         $this->recursive = -1;
         $options['conditions'] = array('People.id' => $id);
-        $options['fields'] = array('People.ext','People.id');
+        if ($all) {
+            $options['fields'] = array('People.*');
+        } else {
+            $options['fields'] = array('People.ext','People.id');
+        }
+        
         try {
             $userData = $this->find('all', $options);
             if ($userData) {

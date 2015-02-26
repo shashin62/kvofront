@@ -290,7 +290,6 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
     for(var i in d.e){
 
 	var e=d.e[i];
-console.log(e);
 	var rs="";
 
 	var sn=bn?(e.p.q||e.p.l):(e.p.l||e.p.q);
@@ -412,6 +411,7 @@ console.log(e);
 	if(wp){
 
 	    v.onmousedown=TCT;
+            v.onclick = CLCK;
 
 	    v.id=i;
 
@@ -437,6 +437,44 @@ console.log(e);
 
 }
 
+function CLCK()
+{
+    var peopleid = this.id;
+    $("#popup").dialog({
+        title: "Details",
+        width: 600,
+        modal: true,
+        open: function () {
+
+            $.ajax({
+                url: 'http://localhost/kvofront/family/getPeopleData?id=' + peopleid,
+                dataType: 'json',
+                type: "GET",
+                success: function (response) {
+                    $('#popup').empty();
+                    var $html = '<div>First Name:<span>' + response.People.first_name + '</span></div>';
+                    $html += '<div>Last Name:<span>' + response.People.last_name + '</span></div>';
+                    $html += '<div>Village:<span>' + response.People.village + '</span></div>';
+                    $html += '<div>Mobile:<span>' + response.People.mobile_number + '</span></div>';
+                    $html += '<div>DOB:<span>' + response.People.date_of_birth + '</span></div>';
+                    $html += '<div>Spouse:<span>' + response.People.partner_name + '</span></div>';
+                    $html += '<div>Martial Status:<span>' + response.People.martial_status + '</span></div>';
+                    $html += '<div>Father:<span>' + response.parent1.father + '</span></div>';
+                    $html += '<div>Mother:<span>' + response.parent2.mother + '</span></div>';
+
+                    $('#popup').html($html);
+                }
+            });
+
+        },
+        close: function (e) {
+            $(this).empty();
+            $(this).dialog('destroy');
+        }
+    });
+    return false;
+
+}
 function TGL(y,p){
 
     var ey="";
@@ -886,4 +924,3 @@ function TRT(f,i,m,y,bn,mn,sp,ch,ph,co,pi,zf,s){
     setTimeout("TCD(GE('treebg'), '"+i+"', "+(s?250:0)+")",sd);
 
 }
-
