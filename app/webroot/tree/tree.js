@@ -455,13 +455,17 @@ function CLCK()
                     var $html = '<div>First Name:<span>' + response.People.first_name + '</span></div>';
                     $html += '<div>Last Name:<span>' + response.People.last_name + '</span></div>';
                     $html += '<div>Village:<span>' + response.People.village + '</span></div>';
-                    $html += '<div>Mobile:<span>' + response.People.mobile_number + '</span></div>';
-                    $html += '<div>DOB:<span>' + response.People.date_of_birth + '</span></div>';
+                    $html += '<div>Mobile:<span>' + (response.People.mobile_number ? response.People.mobile_number : '-') + '</span></div>';
+                    $html += '<div>DOB:<span>' + (response.People.date_of_birth ? response.People.date_of_birth : '-') + '</span></div>';
                     $html += '<div>Spouse:<span>' + response.People.partner_name + '</span></div>';
                     $html += '<div>Martial Status:<span>' + response.People.martial_status + '</span></div>';
-                    $html += '<div>Father:<span>' + response.parent1.father + '</span></div>';
-                    $html += '<div>Mother:<span>' + response.parent2.mother + '</span></div>';
-
+                    $html += '<div>Father:<span>' + (response.parent1.father? response.parent1.father : '-') + '</span></div>';
+                    $html += '<div>Mother:<span>' + (response.parent2.mother? response.parent2.mother : '-') + '</span></div>';
+                    $html += '<div>Education:<span>' + (response.People.education_1 ? response.People.education_1 : '-') + '</span></div>';
+                    $html += '<div>Busniess Type:<span>' + (response.People.business_name ? response.People.business_name : '-') + '</span></div>';
+                    $html += '<div>Busniess Specialty:<span>' + (response.People.specialty_business_service  ? response.People.specialty_business_service : '-') + '</span></div>';
+                    $html += '<div>Busniess Nature:<span>' + (response.People.nature_of_business  ? response.People.nature_of_business : '-')+ '</span></div>';
+                    $html += '<div>Busniess Name:<span>' + (response.People.name_of_business ? response.People.name_of_business : '-') + '</span></div>';
                     $('#popup').html($html);
                 }
             });
