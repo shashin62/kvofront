@@ -58,6 +58,12 @@ Class FamilyController extends AppController {
      * index function - page landing
      */
     public function index() {
+          if (!$this->Session->read('Auth.User')) {
+            $this->Session->destroy();
+            $this->Cookie->delete('Auth.User');
+
+            $this->redirect('/user/login');
+        }
         $requestData = $this->request->data;
         $this->set('first_name', isset($this->request->data['first_name']) ?
                         $this->request->data['first_name'] : '');
@@ -247,6 +253,12 @@ Class FamilyController extends AppController {
      *  AJAX Callback - function to edit own details for creating tree
      */
     public function editOwnDetails() {
+          if (!$this->Session->read('Auth.User')) {
+            $this->Session->destroy();
+            $this->Cookie->delete('Auth.User');
+
+            $this->redirect('/user/login');
+        }
         $this->layout = 'ajax';
         $this->autoRender = false;
         $userID = $this->Session->read('User.user_id');
@@ -704,7 +716,12 @@ Class FamilyController extends AppController {
     }
 
     public function details() {
-        
+         if (!$this->Session->read('Auth.User')) {
+            $this->Session->destroy();
+            $this->Cookie->delete('Auth.User');
+
+            $this->redirect('/user/login');
+        }
         $id = $this->request->params['pass'][0];
         if( $id !== $this->Session->read('User.group_id')) {
             $this->redirect('/family/details/'. $this->Session->read('User.group_id'));
@@ -889,8 +906,7 @@ Class FamilyController extends AppController {
         $groupId = $this->Session->read('User.group_id');
 
         $data = $this->People->getFamilyDetails(false, $id, true);
-//       echo '<pre>';
-//       print_r($data);
+      
         echo json_encode($data[0]);
         exit;
     }
