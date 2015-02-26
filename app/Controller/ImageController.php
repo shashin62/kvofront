@@ -47,14 +47,15 @@ class ImageController extends Controller {
             $file_ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
             $destination = WWW_ROOT . $this->uploadDir . DS . $peopleId . "." . $file_ext;
-            
-            if( $h > 500 ) {
+           
+            if( $h > 500 && $w > 500) {
+                $image->scaleImage(500, 500);   
+            }
+            else if( $h > 500 ) {
              $image->scaleImage(0, 500);   
             } else if( $w > 500) {
                 $image->scaleImage(500, 0);   
-            } else if( $h > 500 && $w > 500) {
-                $image->scaleImage(500, 500);   
-            }
+            } 
            
             $image->writeImage($destination);
             $image2 = new Imagick($destination);
