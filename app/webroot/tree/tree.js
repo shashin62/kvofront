@@ -442,40 +442,70 @@ function CLCK()
     var peopleid = this.id;
     $("#popup").dialog({
         title: "Details",
-        width: 600,
+        width: 800,
         modal: true,
+        resizable: false,
+    position: [0,58],
+    create: function (event) { $(event.target).parent().css('position', 'fixed');},
         open: function () {
-
+ 
             $.ajax({
                 url: 'http://localhost/kvofront/family/getPeopleData?id=' + peopleid,
                 dataType: 'json',
                 type: "GET",
                 success: function (response) {
                     $('#popup').empty();
-                    var $html = '<div>First Name:<span>' + response.People.first_name + '</span></div>';
-                    $html += '<div>Last Name:<span>' + response.People.last_name + '</span></div>';
-                    $html += '<div>Village:<span>' + response.People.village + '</span></div>';
-                    $html += '<div>Mobile:<span>' + (response.People.mobile_number ? response.People.mobile_number : '-') + '</span></div>';
-                    $html += '<div>DOB:<span>' + (response.People.date_of_birth ? response.People.date_of_birth : '-') + '</span></div>';
-                    $html += '<div>Spouse:<span>' + response.People.partner_name + '</span></div>';
-                    $html += '<div>Martial Status:<span>' + response.People.martial_status + '</span></div>';
-                    $html += '<div>Father:<span>' + (response.parent1.father? response.parent1.father : '-') + '</span></div>';
-                    $html += '<div>Mother:<span>' + (response.parent2.mother? response.parent2.mother : '-') + '</span></div>';
-                    $html += '<div>Education:<span>' + (response.People.education_1 ? response.People.education_1 : '-') + '</span></div>';
-                    $html += '<div>Busniess Type:<span>' + (response.People.business_name ? response.People.business_name : '-') + '</span></div>';
-                    $html += '<div>Busniess Specialty:<span>' + (response.People.specialty_business_service  ? response.People.specialty_business_service : '-') + '</span></div>';
-                    $html += '<div>Busniess Nature:<span>' + (response.People.nature_of_business  ? response.People.nature_of_business : '-')+ '</span></div>';
-                    $html += '<div>Busniess Name:<span>' + (response.People.name_of_business ? response.People.name_of_business : '-') + '</span></div>';
+                    var $html = ' <h4 class="heading">Personal Details</h4>';
+                    $html += '<div class="control-group">';
+                    $html += '<div class="controls form-inline">';
+                    $html += '<label for="inputKey">First Name:</label><span>' + response.People.first_name + '</span>&nbsp;&nbsp;';
+                    $html += ' <label for="inputKey">Last Name:</label><span>' + response.People.last_name + '</span>&nbsp;&nbsp;';
+                    $html += '<label for="inputKey">Village:</label><span>' + response.People.village + '</span>&nbsp;&nbsp;';
+                    $html += '</div>';
+                    $html += '</div>';
+                     $html += '<div class="control-group">';
+                    $html += '<div class="controls form-inline">';
+                    $html += '<label for="inputKey">Mobile:</label><span>' + (response.People.mobile_number ? response.People.mobile_number : '-') + '</span>&nbsp;&nbsp;';
+                    $html += '<label for="inputKey">DOB:</label><span>' + (response.People.date_of_birth ? response.People.date_of_birth : '-') + '</span>&nbsp;&nbsp;';
+                    $html += '<label for="inputKey">Martial Status:</label><span>' + response.People.martial_status + '</span>&nbsp;&nbsp;';
+                    
+                    $html += '</div>';
+                    $html += '</div>';
+                    $html += ' <h4 class="heading">Family Details</h4>';
+                     $html += '<div class="control-group">';
+                    $html += '<div class="controls form-inline">';
+                    $html += '<label for="inputKey">Spouse:</label><span>' + response.People.partner_name + '</span>&nbsp;&nbsp;';
+                    $html += '<label for="inputKey">Father:</label><span>' + (response.parent1.father ? response.parent1.father : '-') + '</span>&nbsp;&nbsp;';
+                    $html += '<label for="inputKey">Mother:</label><span>' + (response.parent2.mother ? response.parent2.mother : '-') + '</span>&nbsp;&nbsp;';
+                     $html += '</div>';
+                    $html += '</div>';
+                     $html += ' <h4 class="heading">Education Details</h4>';
+                     $html += '<div class="control-group">';
+                    $html += '<div class="controls form-inline">';
+                    $html += '<label for="inputKey">Education</label><span>' + (response.People.education_1 ? response.People.education_1 : '-') + '</span></div>';
+                    $html += '</div>';
+                    $html += '</div>';
+                     $html += ' <h4 class="heading">Busniess Details</h4>';
+                     $html += '<div class="control-group">';
+                    $html += '<div class="controls form-inline">';
+                    $html += '<label for="inputKey">Busniess Type:</label><span>' + (response.People.business_name ? response.People.business_name : '-') + '</span>&nbsp;&nbsp;';
+                    $html += '<label for="inputKey">Busniess Specialty:</label><span>' + (response.People.specialty_business_service ? response.People.specialty_business_service : '-') + '</span>&nbsp;&nbsp;';
+                    $html += '<label for="inputKey">Busniess Nature:</label><span>' + (response.People.nature_of_business ? response.People.nature_of_business : '-') + '</span>&nbsp;&nbsp;';
+                    $html += '<label for="inputKey">Busniess Name:</label><span>' + (response.People.name_of_business ? response.People.name_of_business : '-') + '</span>&nbsp;&nbsp;';
+                     $html += '</div>';
+                    $html += '</div>';
                     $('#popup').html($html);
                 }
             });
-
+            
         },
         close: function (e) {
             $(this).empty();
             $(this).dialog('destroy');
         }
+        
     });
+    
     return false;
 
 }

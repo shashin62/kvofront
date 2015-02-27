@@ -69,3 +69,9 @@ a:hover {text-decoration:underline;}
 .marginoff {left:0px; top:0px; height:100%; margin-left:0px; margin-right:0px;}
 .dright {position:absolute; left:0px; width:100%}
 .dleft {position:absolute; left:0px; top:0px; width:320px; border-right:solid #666666 1px; height:100%;}
+h1.heading, h2.heading, h3.heading,h4.heading {
+border-bottom: 1px dotted #aeaeae;
+margin-bottom: 20px;
+padding-bottom: 10px;
+position: relative;
+}
