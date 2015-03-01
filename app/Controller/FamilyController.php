@@ -58,7 +58,7 @@ Class FamilyController extends AppController {
      * index function - page landing
      */
     public function index() {
-          if (!$this->Session->read('Auth.User')) {
+        if (!$this->Session->read('Auth.User')) {
             $this->Session->destroy();
             $this->Cookie->delete('Auth.User');
 
@@ -242,7 +242,7 @@ Class FamilyController extends AppController {
             $this->set('tree_level', $getPeopleData['Group']['tree_level']);
             $this->set('call_again', $getPeopleData['People']['call_again']);
             $this->set('village', $getPeopleData['People']['village']);
-            $this->set('ext',$getPeopleData['People']['ext']);
+            $this->set('ext', $getPeopleData['People']['ext']);
             $this->set('mahajan_membership_number', $getPeopleData['People']['mahajan_membership_number']);
             $this->set('same', $getPeopleData['People']['address_id'] == $getOwnerDetails['address_id'] ? true : false);
             // $getOwnerDetails
@@ -253,7 +253,7 @@ Class FamilyController extends AppController {
      *  AJAX Callback - function to edit own details for creating tree
      */
     public function editOwnDetails() {
-          if (!$this->Session->read('Auth.User')) {
+        if (!$this->Session->read('Auth.User')) {
             $this->Session->destroy();
             $this->Cookie->delete('Auth.User');
 
@@ -716,18 +716,18 @@ Class FamilyController extends AppController {
     }
 
     public function details() {
-         if (!$this->Session->read('Auth.User')) {
+        if (!$this->Session->read('Auth.User')) {
             $this->Session->destroy();
             $this->Cookie->delete('Auth.User');
 
             $this->redirect('/user/login');
         }
         $id = $this->request->params['pass'][0];
-        if( $id !== $this->Session->read('User.group_id')) {
-            $this->redirect('/family/details/'. $this->Session->read('User.group_id'));
+        if ($id !== $this->Session->read('User.group_id')) {
+            $this->redirect('/family/details/' . $this->Session->read('User.group_id'));
             exit;
         }
-        
+
         $userID = $this->Session->read('User.user_id');
         $roleID = $this->Session->read('User.role_id');
         $getOwners = $this->Group->getOwners();
@@ -742,7 +742,7 @@ Class FamilyController extends AppController {
 
         $this->set('owners', $ownerData);
         $this->set('type', isset($_REQUEST['type']) ? $_REQUEST['type'] : 'english');
-        
+
 
 
         if (array_key_exists($id, $ownerData)) {
@@ -762,151 +762,167 @@ Class FamilyController extends AppController {
         $this->layout = null;
         $groupId = $this->request->query['gid'];
         //echo '--token--'.$_REQUEST['token'];
-        
+
         $token = md5('dsdsdss434dsds332323d34d');
         if ($token1 == $queryToken) {
-            
-        
-       $data = $this->People->getFamilyDetails($groupId);
 
-        //check each id exists in other group then get all gamily detials for this group also
-        foreach ($data as $key => $value) {
-            $groupData[] = $this->PeopleGroup->checkExistsInOtherGroup($groupId, $value['People']['id']);
-        }
-       
 
-        foreach ($groupData as $k => $v) {
-            if (count($v)) {
-                foreach ($v as $k1 => $v1) {
-                    $data1 = $this->People->getFamilyDetails($v1['PeopleGroup']['group_id'], false, false, true);
-                    $data = array_merge($data, $data1);
+            $data = $this->People->getFamilyDetails($groupId);
+
+            //check each id exists in other group then get all gamily detials for this group also
+            foreach ($data as $key => $value) {
+                $groupData[] = $this->PeopleGroup->checkExistsInOtherGroup($groupId, $value['People']['id']);
+            }
+
+
+            foreach ($groupData as $k => $v) {
+                if (count($v)) {
+                    foreach ($v as $k1 => $v1) {
+                        $data1 = $this->People->getFamilyDetails($v1['PeopleGroup']['group_id'], false, false, true);
+                        $data = array_merge($data, $data1);
+                    }
                 }
             }
-        }
 
-        $parentName = $data[0]['People']['first_name'] . ' ' . $data[0]['People']['last_name'];
-        $treelevel = 0;
-        $tree = array();
-        $ids = array();
+            $parentName = $data[0]['People']['first_name'] . ' ' . $data[0]['People']['last_name'];
+            $treelevel = 0;
+            $tree = array();
+            $ids = array();
 
-        $data = array_map("unserialize", array_unique(array_map("serialize", $data)));
-        foreach ($data as $key => $value) {
-            $peopleData = $value['People'];
-            $peopleGroup = $value['Group'];
-            $exSpouses = $value[0];
-            if (!in_array($peopleData['id'], $ids)) {
+            $data = array_map("unserialize", array_unique(array_map("serialize", $data)));
 
 
-                $children = $this->People->getChildren($peopleData['id'], $peopleData['gender'], $groupId);
-                $childids = array();
-                foreach ($children as $k => $v) {
-                    $childids[] = $v['People']['id'];
-                }
-                $ids[] = $peopleData['id'];
-                if ($peopleGroup['tree_level'] == "" && $treelevel == 0) {
-                    $rootId = $peopleGroup['people_id'];
-                    $peopleData['id'] = 'START';
-                    $treelevel = 1;
-                }
-                if ($peopleGroup['tree_level'] != '') {
-                    if ($peopleGroup['tree_level'] == $rootId) {
-                        $tree[$peopleData['id']]['^'] = 'START';
+            foreach ($data as $key => $value) {
+                $peopleData = $value['People'];
+                $peopleGroup = $value['Group'];
+                $exSpouses = $value[0];
+                if (!in_array($peopleData['id'], $ids)) {
+
+
+                    $children = $this->People->getChildren($peopleData['id'], $peopleData['gender'], $groupId);
+                    $childids = array();
+                    foreach ($children as $k => $v) {
+                        $childids[] = $v['People']['id'];
+                    }
+                    $ids[] = $peopleData['id'];
+                    if ($peopleGroup['tree_level'] == "" && $treelevel == 0) {
+                        $rootId = $peopleGroup['people_id'];
+                        $peopleData['id'] = 'START';
+                        $treelevel = 1;
+                    }
+                    if ($peopleGroup['tree_level'] != '') {
+                        if ($peopleGroup['tree_level'] == $rootId) {
+                            $tree[$peopleData['id']]['^'] = 'START';
+                        } else {
+                            $tree[$peopleData['id']]['^'] = $peopleGroup['tree_level'];
+                        }
+                    }
+
+                    $tree[$peopleData['id']]['n'] = $peopleData['first_name'] . ' ' . $peopleData['last_name'];
+                    $tree[$peopleData['id']]['ai'] = $peopleData['id'];
+
+                    if (count($children)) {
+                        if ($peopleGroup['tree_level'] == $rootId) {
+                            
+                        }
+                        $tree[$peopleData['id']]['c'] = array_unique($childids);
+                        $tree[$peopleData['id']]['cp'] = true;
                     } else {
-                        $tree[$peopleData['id']]['^'] = $peopleGroup['tree_level'];
+                        $tree[$peopleData['id']]['c'] = array();
+                        $tree[$peopleData['id']]['cp'] = false;
                     }
-                }
 
-                $tree[$peopleData['id']]['n'] = $peopleData['first_name'] . ' ' . $peopleData['last_name'];
-                $tree[$peopleData['id']]['ai'] = $peopleData['id'];
-
-                if (count($children)) {
-                    if ($peopleGroup['tree_level'] == $rootId) {
-                        
-                    }
-                    $tree[$peopleData['id']]['c'] = array_unique($childids);
-                    $tree[$peopleData['id']]['cp'] = true;
-                } else {
-                    $tree[$peopleData['id']]['c'] = array();
-                    $tree[$peopleData['id']]['cp'] = false;
-                }
-
-                $tree[$peopleData['id']]['e'] = $peopleData['email'];
-                $tree[$peopleData['id']]['u'] = $peopleData['mobile_number'];
-                if ($peopleGroup['tree_level'] != '') {
-                    if ($peopleData['f_id'] == $rootId) {
-                        $tree[$peopleData['id']]['f'] = 'START';
+                    $tree[$peopleData['id']]['e'] = $peopleData['email'];
+                    $tree[$peopleData['id']]['u'] = $peopleData['mobile_number'];
+                    if ($peopleGroup['tree_level'] != '') {
+                        if ($peopleData['f_id'] == $rootId) {
+                            $tree[$peopleData['id']]['f'] = 'START';
+                        } else {
+                            $tree[$peopleData['id']]['f'] = $peopleData['f_id'];
+                        }
                     } else {
                         $tree[$peopleData['id']]['f'] = $peopleData['f_id'];
                     }
-                } else {
-                    $tree[$peopleData['id']]['f'] = $peopleData['f_id'];
-                }
 
-                $tree[$peopleData['id']]['m'] = $peopleData['m_id'];
-                $peopleId = $peopleGroup['people_id'];
-                
-                if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleId . '.' . $peopleData['ext']) === true) {
-                    $tree[$peopleData['id']]['r'] = $peopleId . '.' . $peopleData['ext'];
-                } else {
-                    $tree[$peopleData['id']]['r'] = '';
-                }
-                $tree[$peopleData['id']]['fg'] = true;
-                $tree[$peopleData['id']]['g'] = $peopleData['gender'] == 'male' ? 'm' : 'f';
-                $tree[$peopleData['id']]['hp'] = true;
-                $tree[$peopleData['id']]['i'] = $peopleData['id'];
-                $tree[$peopleData['id']]['l'] = $peopleData['last_name'] . ' (' . $peopleId . ')';
-                $tree[$peopleData['id']]['p'] = $peopleData['first_name'];
+                    $tree[$peopleData['id']]['m'] = $peopleData['m_id'];
+                    $peopleId = $peopleGroup['people_id'];
 
-                if ($peopleData['partner_id'] == $rootId) {
+                    if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleId . '.' . $peopleData['ext']) === true) {
+                        $tree[$peopleData['id']]['r'] = $peopleId . '.' . $peopleData['ext'];
+                    } else {
+                        $tree[$peopleData['id']]['r'] = '';
+                    }
+                    $tree[$peopleData['id']]['fg'] = true;
+                    $tree[$peopleData['id']]['g'] = $peopleData['gender'] == 'male' ? 'm' : 'f';
+                    $tree[$peopleData['id']]['hp'] = true;
+                    $tree[$peopleData['id']]['i'] = $peopleData['id'];
+                    $tree[$peopleData['id']]['l'] = $peopleData['last_name'] . ' (' . $peopleId . ')';
+                    $tree[$peopleData['id']]['p'] = $peopleData['first_name'];
+                    $tree[$peopleData['id']]['dob'] = $peopleData['date_of_birth'];
+                    $tree[$peopleData['id']]['education'] = $peopleData['education_1'];
+                    $tree[$peopleData['id']]['village'] = $peopleData['village'];
+                    $tree[$peopleData['id']]['father'] = $peopleData['father'];
+                    $tree[$peopleData['id']]['mother'] = $peopleData['mother'];
+                    $tree[$peopleData['id']]['partner_name'] = $peopleData['partner_name'];
 
-                    if ($peopleData['partner_id'] != '') {
+                    $tree[$peopleData['id']]['specialty_business_service'] = $peopleData['specialty_business_service'];
+                    $tree[$peopleData['id']]['nature_of_business'] = $peopleData['nature_of_business'];
+                    $tree[$peopleData['id']]['business_type'] = $peopleData['business_name'];
+                    $tree[$peopleData['id']]['name_of_business'] = $peopleData['name_of_business'];
+                    $tree[$peopleData['id']]['mobile_number'] = $peopleData['mobile_number'];
+                    $tree[$peopleData['id']]['martial_status'] = $peopleData['martial_status'];
+                    $tree[$peopleData['id']]['date_of_marriage'] = $peopleData['date_of_marriage'];
+                    
+                    if ($peopleData['partner_id'] == $rootId) {
+
+                        if ($peopleData['partner_id'] != '') {
+                            $tree[$peopleData['id']]['pc'] = array(
+                                'START' => true
+                            );
+                            $tree[$peopleData['id']]['es'] = 'START';
+                            $tree[$peopleData['id']]['s'] = 'START';
+                        }
+                    } else if ($peopleData['partner_id'] != '') {
                         $tree[$peopleData['id']]['pc'] = array(
-                            'START' => true
+                            $peopleData['partner_id'] => true
                         );
-                        $tree[$peopleData['id']]['es'] = 'START';
-                        $tree[$peopleData['id']]['s'] = 'START';
+                        $tree[$peopleData['id']]['es'] = $peopleData['partner_id'];
+                        $tree[$peopleData['id']]['s'] = $peopleData['partner_id'];
+                    } else {
+                        $tree[$peopleData['id']]['pc'] = array();
+                        $tree[$peopleData['id']]['es'] = null;
                     }
-                } else if ($peopleData['partner_id'] != '') {
-                    $tree[$peopleData['id']]['pc'] = array(
-                        $peopleData['partner_id'] => true
-                    );
-                    $tree[$peopleData['id']]['es'] = $peopleData['partner_id'];
-                    $tree[$peopleData['id']]['s'] = $peopleData['partner_id'];
-                } else {
-                    $tree[$peopleData['id']]['pc'] = array();
-                    $tree[$peopleData['id']]['es'] = null;
-                }
-                if ($exSpouses['exspouses'] != '') {
-                    foreach (explode(',', $exSpouses['exspouses']) as $eKey => $eValue) {
-                        $tree[$peopleData['id']]['ep'][$eValue] = "1";
-                        $tree[$peopleData['id']]['pc'][$eValue] = true;
+                    if ($exSpouses['exspouses'] != '') {
+                        foreach (explode(',', $exSpouses['exspouses']) as $eKey => $eValue) {
+                            $tree[$peopleData['id']]['ep'][$eValue] = "1";
+                            $tree[$peopleData['id']]['pc'][$eValue] = true;
+                        }
                     }
+                    $tree[$peopleData['id']]['q'] = $peopleData['maiden_surname'];
                 }
-                $tree[$peopleData['id']]['q'] = $peopleData['maiden_surname'];
             }
-        }
-        //echo '<pre>';
-        //print_r($tree);exit;
-        $jsonData['tree'] = $tree;
-        $jsonData['parent_name'] = $parentName;
+//            echo '<pre>';
+//            print_r($tree);
+//            exit;
+            $jsonData['tree'] = $tree;
+            $jsonData['parent_name'] = $parentName;
 
-        echo json_encode($jsonData);
-        exit;
+            echo json_encode($jsonData);
+            exit;
         } else {
             echo json_encode(array('message' => 'Bad Request'));
             exit;
         }
     }
-    
-    function getPeopleData()
-    {
+
+    function getPeopleData() {
         $this->autoRender = false;
         $this->layout = null;
         $id = $this->request->query("id");
         $groupId = $this->Session->read('User.group_id');
 
         $data = $this->People->getFamilyDetails(false, $id, true);
-      
+
         echo json_encode($data[0]);
         exit;
     }
