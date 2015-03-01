@@ -142,26 +142,26 @@ function SSA(_e,_f){
 	GE("switchpanel"+j).className=((_e==j)?"sswitched":"sswitch");
 	GE("switchlink"+j).className=((_e==j)?"sswitchedlink":"");
     }
-    SR("personalview",(Spa==0)&&!Sed);
-    SR("personaledit",(Spa==0)&&Sed);
-    SR("personaleditdeath",(Spa==0)&&(p.z==1)&&Sed);
-    SR("partnersviewedit",(Spa==3));
+    SR("personalview",1);
+    //SR("personaledit",(Spa==0)&&Sed);
+    //SR("personaleditdeath",(Spa==0)&&(p.z==1)&&Sed);
+   // SR("partnersviewedit",(Spa==3));
     SR("contactview",(Spa==1)&&!Sed);
-    SR("contactedit",(Spa==1)&&Sed);
-    SR("bioview",(Spa==2)&&!Sed);
-    SR("bioedit1",(Spa==2)&&Sed);
-    SR("bioeditdeath",(Spa==2)&&(p.z==1)&&Sed);
-    SR("bioedit2",(Spa==2)&&Sed);
-    SR("viewfooter",pw&&(!Sed));
-    SR("editfooter",Sed);
-    SR("readonlyfooter",(!parent.staticMode)&&(!parent.Ewr)&&(!parent.Ewp));
-    SR("writemefooter",(!parent.Ewr)&&pw);
-    SR("writenotfooter",parent.Ewp&&!pw);
-    SV("editbutton",(Spa==3)?"Edit partnership details":("Edit "+(md?"my":(p.p+"'s"))+" details"));
+  //  SR("contactedit",(Spa==1)&&Sed);
+   //// SR("bioview",(Spa==2)&&!Sed);
+  //  SR("bioedit1",(Spa==2)&&Sed);
+  //  SR("bioeditdeath",(Spa==2)&&(p.z==1)&&Sed);
+  //  SR("bioedit2",(Spa==2)&&Sed);
+  //  SR("viewfooter",pw&&(!Sed));
+    //SR("editfooter",Sed);
+  //  SR("readonlyfooter",(!parent.staticMode)&&(!parent.Ewr)&&(!parent.Ewp));
+   // SR("writemefooter",(!parent.Ewr)&&pw);
+  //  SR("writenotfooter",parent.Ewp&&!pw);
+   // SV("editbutton",(Spa==3)?"Edit partnership details":("Edit "+(md?"my":(p.p+"'s"))+" details"));
     SS("nonrelations",true);
-    SS("shareperson",(!parent.staticMode)&&parent.GV("sessionid")&&(p.z!="1")&&!md);
-    SS("nonediting",!Sed);
-    SR("relactions",parent.Ewr&&!Sed);
+  ///  SS("shareperson",(!parent.staticMode)&&parent.GV("sessionid")&&(p.z!="1")&&!md);
+  //  SS("nonediting",!Sed);
+  //  SR("relactions",parent.Ewr&&!Sed);
     if(Sed){
 	var df=(_f===true);
 	for(var j in Sen[Spa]){
@@ -392,11 +392,24 @@ function SP0(){
     }else{
 	SRR("personalview");
 	SSR("personalview","Full name",(p.p||"")+" "+(p.l||p.q||""),false);
+        SSR("personalview","First Name",p.p,false);
+        SSR("personalview","Last Name",p.q,false);
 	if(p.q&&p.l&&(p.q!=p.l)){
 	    SSR("personalview","Surname at birth",p.q,false);
 	}
 	SSR("personalview","Gender",(p.g&&Fgn[p.g])?Fgn[p.g]:Fgn[""],false);
-	SSR("personalview","Birth date",FDT(p.b),false);
+	SSR("personalview","Birth date",p.dob,false);
+        SSR("personalview","Village",p.village,false);
+        SSR("personalview","Mobile Number",p.mobile_number,false); 
+        SSR("personalview","Martial Status",p.martial_status,false);
+        SSR("personalview","Marriage Date",p.date_of_marriage,false);
+        SSR("personalview","Spouse",p.partner_name,false);
+        SSR("personalview","Education",p.education,false);
+        SSR("personalview","Speciality Business",p.specialty_business_service,false);
+        SSR("personalview","Nature of Business",p.nature_of_business,false); 
+        SSR("personalview","Name of Business",p.name_of_business,false); 
+        SSR("personalview","Type of Business",p.business_name,false); 
+        
 	if(p.z==1){
 	    SSR("personalview","Death date",FDT(p.d),false);
 	}
