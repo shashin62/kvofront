@@ -439,6 +439,8 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
 
 function CLCK()
 {
+   
+    return;
     var peopleid = this.id;
     $("#popup").dialog({
         title: "Details",
@@ -454,6 +456,7 @@ function CLCK()
                 dataType: 'json',
                 type: "GET",
                 success: function (response) {
+                    
                     $('#popup').empty();
                     var $html = ' <h4 class="heading">Personal Details</h4>';
                     $html += '<div class="control-group">';
@@ -910,7 +913,7 @@ function direct_scroll_to(x,y){
 }
 
 function TCT(){
-
+    
     parent.ESP(this.pid,true);
 
 }
