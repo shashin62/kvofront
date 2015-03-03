@@ -872,6 +872,7 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['mobile_number'] = $peopleData['mobile_number'];
                     $tree[$peopleData['id']]['martial_status'] = $peopleData['martial_status'];
                     $tree[$peopleData['id']]['date_of_marriage'] = $peopleData['date_of_marriage'];
+                    $tree[$peopleData['id']]['email'] = $peopleData['email'];
                     
                     if ($peopleData['partner_id'] == $rootId) {
 
