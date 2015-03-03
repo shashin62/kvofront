@@ -428,8 +428,12 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
 	}
 
 	var tn=e.p.hp?(mn?fn:(e.p.h+(sn?(" "+sn):""))):e.p.h;
-
-	v.innerHTML="<TABLE WIDTH=\"100%\" HEIGHT=\"100%\" STYLE=\"table-layout:fixed;\">"+"<TR><TD CLASS=\""+cc+"\" STYLE=\"font-size:"+(e.d?sz.Tds:sz.Tfs)+"px;\""+" TITLE=\""+e.p.h+" (ID: "+ e.p.id +")\"><img id=\"personimage\" src=\"ap/images/image-1.jpg\" class=\"simage\" style=\"display: inline; margin-right: 6px; width: 22px; height: 22px;\" onclick=\"SIC(); return false;\" >"+(e.d?"Duplicate: ":"")+EH(fn)+"</TD></TR>"+rs+"</TABLE>";
+ if( e.p.g == "m") {
+                      u = "ap/images/user_male.png";
+                    } else {
+                        u = "ap/images/user_female.png";
+                    }
+	v.innerHTML="<TABLE WIDTH=\"100%\" HEIGHT=\"100%\" STYLE=\"table-layout:fixed;\">"+"<TR><TD CLASS=\""+cc+"\" STYLE=\"font-size:"+(e.d?sz.Tds:sz.Tfs)+"px;\""+" TITLE=\""+e.p.h+" (ID: "+ e.p.id +")\"><img id=\"personimage\" src=\""+ u + "\" class=\"simage\" style=\"display: inline; margin-right: 6px; width: 22px; height: 22px;\" onclick=\"SIC(); return false;\" >"+(e.d?"Duplicate: ":"")+EH(fn)+"</TD></TR>"+rs+"</TABLE>";
 
 	o.appendChild(v);
 
