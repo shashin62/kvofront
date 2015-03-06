@@ -160,11 +160,11 @@ $firstName = $value['People']['first_name'];
     </div><br>
                         <?php } ?>
                         <?php } ?>
-    <u><h4>Secondary Family</h4></u>
+    <u><h4 style="display:none;" >Secondary Family</h4></u>
 <?php foreach( $data as $key => $value ) { 
 $missingData = array();?>
 <?php if( $groupId != $value['People']['group_id']) { ?>
-    <div class="row">
+    <div style="display:none;" class="row">
         <div class="col-md-1" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?>><?php echo $value['People']['first_name'] . ' ' . $value['People']['last_name'];?> (<?php echo $value['People']['id'];?>)</div>
         
  <div class="col-md-1">
