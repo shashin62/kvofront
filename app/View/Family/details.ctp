@@ -44,22 +44,26 @@ $firstName = $value['People']['first_name'];
 
 ?>
     <div class="row">
+		<div class="col-md-2">
+			<?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
+				<img style="width:60px;height:60px;" src="<?php echo $this->base;?>/people_images/<?php echo $value['People']['id'] .'.' . $value['People']['ext']; ?>"/>
+				<a href="javascript:void(0);" class="deletephoto" data-id="<?php echo $value['People']['id'];?>">Delete</a>
+			<?php } else {?>
+				<a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);">Add Photo</a>
+			<?php } ?>
+		</div>
+
         <div class="col-md-1" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?> >
-    <?php echo $firstName . ' ' . $lastName;?>
-<?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
-<div>
-    <img style="width:75px;height:75px;" src="<?php echo $this->base;?>/people_images/<?php echo $value['People']['id'] .'.' . $value['People']['ext']; ?>"/>
-    <a href="javascript:void(0);" class="deletephoto" data-id="<?php echo $value['People']['id'];?>">Delete</a>
-</div>
-<?php }?>
-</div>
+			<?php echo $firstName . ' ' . $lastName;?>
+		</div>
+
         <div class="col-md-1">
             <a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);">Edit Detail</a><br>
                                     <?php if(strtolower($value['People']['martial_status']) == 'married' && empty($value['People']['partner_id'])) { ?>
             <a  style="display:none;" class="addspouse" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Spouse</a><br>
                                     <?php } else  { ?> 
             <div>Spouse: <a title="edit" class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['partner_id'];?>" href="javascript:void(0);"><?php echo $value['parent3']['partner_name'];?></a>
- <?php if( $value['People']['gender'] == 'male') { ?>
+<?php if( $value['People']['gender'] == 'male') { ?>
 <a style="display:none;" class="addexspouse" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Ex-Spouse</a>
 <?php } ?>
 </div>
@@ -68,11 +72,11 @@ $firstName = $value['People']['first_name'];
         </div>
         <div class="col-md-2">
             <?php if ($value['People']['is_late'] != '1') {?>
-            <a  style="display:none;" class="editaddress" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-aid="<?php echo $value['People']['address_id'];?>" href="javascript:void(0);">
+            <a class="editaddress" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-aid="<?php echo $value['People']['address_id'];?>" href="javascript:void(0);">
                                 <?php echo $value['People']['address_id'] ? 'Edit Home Address' : 'Add Home Address';?></a><br>
                     <?php } ?>
                                     <?php if( empty($value['People']['f_id'])) { ?>
-            <a  style="display:none;" class="addfather" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Father</a>
+            <a class="addfather" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Father</a>
                                     <?php }  else { ?>
             <div>Father: <a title="edit"  class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['f_id'];?>" href="javascript:void(0);"><?php echo $value['parent1']['father'];?></a></div>
                                     <?php } ?>
