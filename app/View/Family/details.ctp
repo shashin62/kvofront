@@ -46,7 +46,7 @@ $firstName = $value['People']['first_name'];
     <div class="row">
 		<div class="col-md-2">
 			<?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
-				<img style="width:60px;height:60px;" src="<?php echo $this->base;?>/people_images/<?php echo $value['People']['id'] .'.' . $value['People']['ext']; ?>"/>
+				<img style="width:60px;height:60px;" src="<?php echo $this->base;?>/people_images/<?php echo $value['People']['id'] .'.' . $value['People']['ext']; ?>"/><br />
 				<a href="javascript:void(0);" class="deletephoto" data-id="<?php echo $value['People']['id'];?>">Delete</a>
 			<?php } else {?>
 				<a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);">Add Photo</a>
@@ -63,13 +63,13 @@ $firstName = $value['People']['first_name'];
             <a  style="display:none;" class="addspouse" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Spouse</a><br>
                                     <?php } else  { ?> 
             <div>Spouse: <a title="edit" class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['partner_id'];?>" href="javascript:void(0);"><?php echo $value['parent3']['partner_name'];?></a>
-<?php if( $value['People']['gender'] == 'male') { ?>
-<a style="display:none;" class="addexspouse" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Ex-Spouse</a>
-<?php } ?>
-</div>
+				<?php if( $value['People']['gender'] == 'male') { ?>
+				<a style="display:none;" class="addexspouse" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Ex-Spouse</a>
+				<?php } ?>
+			</div>
                                     <?php } ?>
-
         </div>
+
         <div class="col-md-2">
             <?php if ($value['People']['is_late'] != '1') {?>
             <a class="editaddress" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-aid="<?php echo $value['People']['address_id'];?>" href="javascript:void(0);">
@@ -156,11 +156,7 @@ $firstName = $value['People']['first_name'];
             $missingData[] = 'Grandfather-Mother';
         }
 	  }                           ?>
-        <div class="col-md-3"> 
-        <?php if ( $value['People']['is_late'] == 0 )  { ?>
-                                    <?php // echo "Missing: <span class=\"text-danger bg-danger\">" . implode(', ',$missingData) . "</span>";?>                                    
-<?php } ?>
-        </div>
+
     </div><br>
                         <?php } ?>
                         <?php } ?>
