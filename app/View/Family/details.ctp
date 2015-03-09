@@ -7,7 +7,7 @@ z-index: 0 !important
 }
 </style>
 <div class="container-fluid">
-      <div class="row"> <h4>Primary Family</h4></div>
+      <div class="row"> <h4>Family</h4></div>
     <br>
                         <?php
 
@@ -19,7 +19,7 @@ z-index: 0 !important
 			<?php foreach( $data as $key => $value ) {
                             if( $value['Group']['tree_level'] == '') {
                                 $hofId = $value['People']['id'];
-$hofAddressId = $value['People']['address_id'];
+								$hofAddressId = $value['People']['address_id'];
                             }
                             $missingData = array();?>
                     <?php if( $groupId == $value['People']['group_id']) { 
@@ -45,7 +45,7 @@ $firstName = $value['People']['first_name'];
 ?>
     <div class="row">
         <div class="col-md-1" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?> >
-    <?php echo $firstName . ' ' . $lastName;?> (<?php echo $value['People']['id'];?>)
+    <?php echo $firstName . ' ' . $lastName;?>
 <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
 <div>
     <img style="width:75px;height:75px;" src="<?php echo $this->base;?>/people_images/<?php echo $value['People']['id'] .'.' . $value['People']['ext']; ?>"/>
