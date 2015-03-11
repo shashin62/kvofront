@@ -55,6 +55,24 @@ class People extends AppModel {
             return false;
         }
     }
+    
+    public function checkPhoneExists($phone){
+        $this->recursive = -1;
+        $options['conditions']['People.mobile_number'] = $phone;
+        
+        $options['fields'] = array('People.id');
+        try {
+            $userData = $this->find('all', $options);
+            if ($userData && isset($userData[0]['People']) && $userData[0]['People'] != "") {
+                return $userData[0]['People'];
+            } else {
+                return array();
+            }
+        } catch (Exception $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
+    }
 
     public function getAllPeoples($type = false) {
 
@@ -824,29 +842,6 @@ class People extends AppModel {
         }
     }
 
-    /**
-     * Function to check if phone exists in table
-     * 
-     * @param type $phone
-     * 
-     * @return boolean 
-     */
-    public function checkPhoneExists($phone) {
-        $this->recursive = -1;
-        $options['conditions'] = array('People.mobile_number' => $phone);
-        $options['fields'] = array('People.id');
-        try {
-            $userData = $this->find('all', $options);
-            if ($userData && isset($userData[0]['People']) && $userData[0]['People'] != "") {
-                return $userData[0]['People'];
-            } else {
-                return array();
-            }
-        } catch (Exception $e) {
-            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
-            return false;
-        }
-    }
 
     /**
      * 
