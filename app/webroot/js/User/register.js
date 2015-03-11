@@ -3,67 +3,47 @@ $(document).ready(function () {
     $("#registerUser").validate({
         errorElement: "span",
         rules: {
-            'data[User][first_name]': {
+            'data[first_name]': {
                 required: true,
                 maxlength: 25
             },
-            'data[User][last_name]': {
+            'data[last_name]': {
                 required: true,
                 maxlength: 25
             },
-            'data[User][phone_number]': {
+            'data[phone_number]': {
                 required: true,
                 maxlength: 10
             },
-            'data[User][email]': {
+            'data[email]': {
                 required: true,
                 email: true
-            },
-            'data[User][password]': {
-                required: true,
-                minlength : 6
-            },
-            'data[User][confirm_password]': {
-                required: true,
-                equalTo: "#password"
-            },
-            'data[User][gender]': {
-                required: true
-            },
-            'data[User][date_of_birth]': {
+            },            
+            'data[date_of_birth]': {
                 required: true
             }
-            
         },
         messages: {
-            'data[User][first_name]': {
+            'data[first_name]': {
                 required: 'Please enter first name',
                 maxlength: 'Length exceeds 25 charaters'
             },
-            'data[User][last_name]': {
+            'data[last_name]': {
                 required: 'Please enter last name',
                 maxlength: 'Length exceeds 25 charaters'
             },
-            'data[User][phone_number]': {
+            'data[phone_number]': {
                 required: 'Please enter phone',
                 maxlength: 'Please enter valid phone number'
             },
-            'data[User][email]': {
+            'data[email]': {
                 required: 'Please enter email',
                 email: 'Please enter valid email',
-            },
-            'data[User][password]': {
-                required: 'Please provide a password',
-                minlength:"Please enter at least 6 characters."  
-            },
-            'data[User][confirm_password]': {
-                required: 'Please reenter password',
-                 equalTo: "Please enter the same password as above" 
-            },
-            'data[User][gender]': {
+            },           
+            'data[gender]': {
                 required: 'Please select gender'
             },
-            'data[User][date_of_birth]': {
+            'data[date_of_birth]': {
                 required: 'Please select DOB'
             }
         },
