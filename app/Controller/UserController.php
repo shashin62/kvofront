@@ -162,7 +162,7 @@ Class UserController extends AppController {
                 $random_number = mt_rand(1000, 9999);
                 $smsURI = Configure::read('SMS_URI');
                 $smsURI .= '?username='. Configure::read('USERNAME') . '&password='. Configure::read('PASSWORD');
-                $smsURI .= '&sendername=kvo&mobileno=' . $this->request->data['mobile_number'] .'&message='. $random_number;
+                $smsURI .= '&sendername=NETSMS&mobileno=' . $this->request->data['mobile_number'] .'&message='. $random_number;
                 
                 $curlInt = curl_init($smsURI);
                 curl_setopt($curlInt, CURLOPT_FOLLOWLOCATION, 1);
