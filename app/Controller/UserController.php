@@ -163,8 +163,8 @@ Class UserController extends AppController {
                 $this->PeopleGroup->save($peopleGroup);
                 
                 $smsURI = Configure::read('SMS_URI');
-                $smsURI += '?username='. Configure::read('USERNAME') . '&password='. Configure::read('PASSWORD');
-                $smsURI += '&sendername=kvo&mobileno=' . $this->request->data['mobile_number'] .'&message=12345';
+                $smsURI .= '?username='. Configure::read('USERNAME') . '&password='. Configure::read('PASSWORD');
+                $smsURI .= '&sendername=kvo&mobileno=' . $this->request->data['mobile_number'] .'&message=12345';
                 $curlInt = curl_init($smsURI);
                 curl_setopt($curlInt, CURLOPT_FOLLOWLOCATION, 1);
                 curl_setopt($curlInt, CURLOPT_RETURNTRANSFER, 1);
