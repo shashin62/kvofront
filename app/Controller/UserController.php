@@ -151,20 +151,19 @@ Class UserController extends AppController {
             $data['People']['date_of_birth'] = $this->request->data['date_of_birth'];
             $data['People']['email'] = $this->request->data['email'];
             $data['People']['gender'] = 'male';   
-            $data['People']['sect'] = 'deravasi';   
+            $data['People']['sect'] = 'deravasi'; 
             
-            
-
             if ($this->People->save($data)) {
                 
                 $peopleGroup = array();
                 $peopleGroup['PeopleGroup']['group_id'] = $this->Group->id;
                 $peopleGroup['PeopleGroup']['people_id'] = $this->People->id;
                 $this->PeopleGroup->save($peopleGroup);
-                
+                $random_number = mt_rand(1000, 9999);
                 $smsURI = Configure::read('SMS_URI');
                 $smsURI .= '?username='. Configure::read('USERNAME') . '&password='. Configure::read('PASSWORD');
-                $smsURI .= '&sendername=kvo&mobileno=' . $this->request->data['mobile_number'] .'&message=12345';
+                $smsURI .= '&sendername=kvo&mobileno=' . $this->request->data['mobile_number'] .'&message='. $random_number;
+                
                 $curlInt = curl_init($smsURI);
                 curl_setopt($curlInt, CURLOPT_FOLLOWLOCATION, 1);
                 curl_setopt($curlInt, CURLOPT_RETURNTRANSFER, 1);
