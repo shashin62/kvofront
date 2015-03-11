@@ -5,7 +5,7 @@ App::uses('AppController', 'Controller');
 Class UserController extends AppController {
 
     public $name = 'User';
-    public $uses = array('User','Aro','Role','People','Group');
+    public $uses = array('User','Aro','Role','People','Group','PeopleGroup');
     public $helpers = array('Session');
     public $components = array('Session');
 
@@ -122,49 +122,57 @@ Class UserController extends AppController {
     public function doRegisterUser()
     {
         $this->layout = 'ajax';
-        $this->autoRender = false;
-      
-        if( !isset($this->request->data['User']['confirm_password'])) {
-            unset($this->request->data['User']['confirm_password']);
-        }
-      
-        if ( !isset($this->request->data['User']['status'])) {
-            $this->request->data['User']['status'] = 1;
-        }
-        if (isset($this->request->data['User']['id']) && $this->request->data['User']['id'] != '') {
-            unset($this->request->data['User']['password']);
-        }
-        $data = $this->request->data;
-        $msg['status'] = 1;
-        $result = $this->User->checkEmailExists($this->request->data['User']['email']);
+        $this->autoRender = false;     
        
-        if (!empty($result) && $this->request->data['User']['id'] == '') {
-            $msg['status'] = 0;
-            $msg['error']['name'][] = "email";
-            $msg['error']['errormsg'][] = __('This Email already exists.');
-        }
+        $data = $this->request->data;
+        $msg['status'] = 1;        
         
-        if (isset($this->request->data['User']['phone_number'])) {
-            $phoneData = $this->User->checkPhoneExists($this->request->data['User']['phone_number']);
-
-            if (!empty($phoneData) && $this->request->data['User']['id'] == '') {
-                $msg['status'] = 0;
-                $msg['error']['name'][] = "phone_number";
-                $msg['error']['errormsg'][] = __('This Phone already exists.');
-            }
+        if (isset($this->request->data['mobile_number'])) {
+            $phoneData = $this->People->checkPhoneExists($this->request->data['mobile_number']);
         }
 
-        $this->User->recursive = -1;
-        if ($msg['status'] == 1) {
-            if ($this->User->save($data)) {
+        if (!empty($phoneData)) {
+            $msg['success'] = 1;
+            $msg['message'] = 'Already Registered. Please login to continue editing your family';
+        } else {
+            $groupData = array();
+            $groupData['Group']['name'] = 'Family of ' . $this->request->data['first_name'];
+            $groupData['Group']['created'] = date('Y-m-d H:i:s');
+            $this->Group->save($groupData);
+            
+            $data = array();
+            $data['People']['group_id'] = $this->Group->id;
+            $data['People']['created_by'] = $this->Session->read('User.user_id');
+            $data['People']['created'] = date('Y-m-d H:i:s');
+            $data['People']['mobile_number'] = $this->request->data['mobile_number'];
+            $data['People']['first_name'] = $this->request->data['first_name'];
+            $data['People']['last_name'] = $this->request->data['last_name'];
+            $data['People']['village'] = $this->request->data['village'];
+            $data['People']['date_of_birth'] = $this->request->data['date_of_birth'];
+            $data['People']['email'] = $this->request->data['email'];
+            $data['People']['gender'] = 'male';   
+            $data['People']['sect'] = 'deravasi';   
+            
+            
+
+            if ($this->People->save($data)) {
+                
+                $peopleGroup = array();
+                $peopleGroup['PeopleGroup']['group_id'] = $this->Group->id;
+                $peopleGroup['PeopleGroup']['people_id'] = $this->People->id;
+                $this->PeopleGroup->save($peopleGroup);
+                
+                $smsURI = Configure::read('SMS_URI');
+                $smsURI += '?username='. Configure::read('username') . '&password='. Configure::read('PASSWORD');
+                $smsURI += '&sendername=kvo&mobileno=' . $this->request->data['mobile_number'] .'&message=12345';
+                $curlInt = curl_init($smsURI);
+                curl_setopt($curlInt, CURLOPT_FOLLOWLOCATION, 1);
+                curl_setopt($curlInt, CURLOPT_RETURNTRANSFER, 1);
+                $result = curl_exec($curlInt);
                 
                 $msg['success'] = 1;
-                $msg['message'] = 'User has been registered';
-                  if ($this->request->data['User']['id'] != '') {
-                $msg['message'] = 'user has been updated';
-            }
+                $msg['message'] = 'Registered succussfully';
             } else {
-
                 $msg['success'] = 0;
                 $msg['message'] = 'System Error, Please trye again';
             }
