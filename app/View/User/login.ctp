@@ -102,55 +102,44 @@
 				<div class="panel-title">Sign Up</div>
 			</div>
 			<div class="panel-body">
-				<form id="signupform" class="form-horizontal" role="form">
+<form  class="form-horizontal" role="form" action="<?php echo FULL_BASE_URL . $this->base; ?>/user/register" role="form" id="registerUser" method="post" accept-charset="utf-8" class="form-horizontal" role="form">
+				
 					<div class="form-group">
 						<label for="firstname" class="col-md-4 control-label">First Name</label>
 						<div class="col-md-8">
-							<input type="text" class="form-control" name="firstname" placeholder="First Name">
+							<?php echo $this->Form->input('first_name', array('id' => 'first_name', 'placeholder' => 'Enter First Name' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control')); ?>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="lastname" class="col-md-4 control-label">Last Name</label>
 						<div class="col-md-8">
-							<input type="text" class="form-control" name="lastname" placeholder="Last Name">
+							<?php echo $this->Form->input('last_name', array('id' => 'last_name', 'placeholder' => 'Enter Last Name' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control')); ?>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="password" class="col-md-4 control-label">Mobile</label>
 						<div class="col-md-8">
-							<input type="password" class="form-control" name="passwd" placeholder="Mobile">
+							<?php echo $this->Form->input('mobile_number', array('id' => 'mobile_number', 'placeholder' => 'Enter  Mobile' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control')); ?>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="email" class="col-md-4 control-label">Email</label>
 						<div class="col-md-8">
-							<input type="text" class="form-control" name="email" placeholder="Email Address">
+							<?php echo $this->Form->input('email', array('id' => 'email', 'placeholder' => 'Enter  Email' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control')); ?>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="email" class="col-md-4 control-label">Date of Birth</label>
 						<div class="col-md-8">
-							<input type="text" class="form-control" name="dob" placeholder="Date of Birth">
+							<?php echo $this->Form->input('date_of_birth', array('id' => 'date_of_birth', 'placeholder' => 'Enter  DOB' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control')); ?>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="email" class="col-md-4 control-label">Village</label>
 						<div class="col-md-8">
-							<input type="text" class="form-control" name="village" placeholder="Village">
+							<?php echo $this->Form->input('village', array('id' => 'village', 'placeholder' => 'Enter  Village' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control')); ?>
 						</div>
 					</div>
-					<!--div class="form-group">
-						<label for="password" class="col-md-4 control-label">Password</label>
-						<div class="col-md-8">
-							<input type="password" class="form-control" name="passwd" placeholder="Password">
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="password" class="col-md-4 control-label">Confirm Password</label>
-						<div class="col-md-8">
-							<input type="password" class="form-control" name="passwd" placeholder="Confirm Password">
-						</div>
-					</div-->
 					<div class="form-group">
 						<!-- Button -->                                        
 						<div class="col-md-offset-4 col-md-8">
@@ -179,5 +168,5 @@
 		</div>
 	</div>
 </div>
-
+<?php echo $this->Html->script(array('User/register')); ?>
 
