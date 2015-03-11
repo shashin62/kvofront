@@ -56,25 +56,9 @@
             <?php if ($this->Session->read('Auth.User')) {?>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li><a href="<?php echo $this->base.'/user/welcome';?>">Community App</a></li>
+                        <li><a href="<?php echo $this->base.'/user/welcome';?>">KVO Mahajan</a></li>
                         <?php 
-                        
                         if ($this->Session->read('User.role_id') == 1 ) {?>
-<!--                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Masters <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/user/getUsers">Users</a></li>
-                                <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/BloodGroup/index">Blood Groups</a></li>
-                                <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/education/index">Educations</a></li>
-                                <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/state/index">States</a></li>
-                                <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/country/index">Countries</a></li>
-                                <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/village/index">Villages</a></li>
-                                <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/translation/index">Translations</a></li>
-                                <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/suburb/index">Suburbs</a></li>
-                                <li><a href="<?php echo FULL_BASE_URL . $this->base; ?>/surname/index">Surname</a></li>
-
-                            </ul>
-                        </li>-->
                         <?php } ?>
                         
                       <?php  if ($this->Session->read('User.role_id') == 1) {?>
@@ -103,7 +87,6 @@
 
 			<?php echo $this->fetch('content'); ?>
             </div>
-    <!--        <p><strong>Your are using CakePHP Version <?=Configure::version()?></strong></p>-->
         </div>
         
         <script type="text/javascript">
