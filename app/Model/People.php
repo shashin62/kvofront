@@ -33,11 +33,10 @@ class People extends AppModel {
         }
     }
 
-    public function getLoginPeopleData($phone, $checkActive = true, $checkPass = '') {
+    public function getLoginPeopleData($phone, $pin) {
         $this->recursive = -1;
         $options['conditions']['People.mobile_number'] = $phone;
-
-        $options['conditions']['People.tree_level'] = "";
+        $options['conditions']['People.pin'] = $pin;
         $options['fields'] = array('People.*');
         try {
             $userData = $this->find('all', $options);
