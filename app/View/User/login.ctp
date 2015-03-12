@@ -15,6 +15,9 @@
 			</div>
 			<div class="panel-body">
 				<form  class="form-horizontal" role="form" action="<?php echo FULL_BASE_URL . $this->base; ?>/user/login" role="form" id="UserLoginForm" method="post" accept-charset="utf-8">
+ <?php if ($this->Session->check('Message.authlogin')) { ?>
+                        <div class="alert alert-error"><?php echo  $this->Session->flash('authlogin');?></div>
+                        <?php } ?>
 					<div class="form-group">
 						<label for="email" class="col-md-4 control-label">Mobile Number</label>
 						<div class="col-md-8">
