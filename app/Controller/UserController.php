@@ -152,6 +152,7 @@ Class UserController extends AppController {
             $data['People']['email'] = $this->request->data['email'];
             $data['People']['gender'] = 'male';   
             $data['People']['sect'] = 'deravasi'; 
+            $data['People']['created_by'] = Configure::read('SELF_ID');
             $random_number = mt_rand(10000, 99999);
             $data['People']['pin'] = $random_number;
             if ($this->People->save($data)) {
@@ -160,7 +161,11 @@ Class UserController extends AppController {
                 $peopleGroup['PeopleGroup']['group_id'] = $this->Group->id;
                 $peopleGroup['PeopleGroup']['people_id'] = $this->People->id;
                 $this->PeopleGroup->save($peopleGroup);
+                 $groupData = array();
+                $groupData['Group']['people_id'] = $this->People->id;
+                $groupData['Group']['id'] = $this->Group->id;
                 
+                $this->Group->save($groupData);
                 $smsURI = Configure::read('SMS_URI');
                 $smsURI .= '?username='. Configure::read('USERNAME') . '&password='. Configure::read('PASSWORD');
                 $smsURI .= '&sendername=NETSMS&mobileno=' . $this->request->data['mobile_number'] .'&message='. $random_number;
