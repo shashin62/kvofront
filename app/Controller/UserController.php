@@ -152,23 +152,25 @@ Class UserController extends AppController {
             $data['People']['email'] = $this->request->data['email'];
             $data['People']['gender'] = 'male';   
             $data['People']['sect'] = 'deravasi'; 
-            
+            $random_number = mt_rand(10000, 99999);
+            $data['People']['pin'] = $random_number;
             if ($this->People->save($data)) {
                 
                 $peopleGroup = array();
                 $peopleGroup['PeopleGroup']['group_id'] = $this->Group->id;
                 $peopleGroup['PeopleGroup']['people_id'] = $this->People->id;
                 $this->PeopleGroup->save($peopleGroup);
-                $random_number = mt_rand(1000, 9999);
+                
                 $smsURI = Configure::read('SMS_URI');
                 $smsURI .= '?username='. Configure::read('USERNAME') . '&password='. Configure::read('PASSWORD');
                 $smsURI .= '&sendername=NETSMS&mobileno=' . $this->request->data['mobile_number'] .'&message='. $random_number;
-                
-                $curlInt = curl_init($smsURI);
-                curl_setopt($curlInt, CURLOPT_FOLLOWLOCATION, 1);
-                curl_setopt($curlInt, CURLOPT_RETURNTRANSFER, 1);
-                $result = curl_exec($curlInt);
-                
+                if (Configure::read('SEND_SMS')) {
+                    $curlInt = curl_init($smsURI);
+                    curl_setopt($curlInt, CURLOPT_FOLLOWLOCATION, 1);
+                    curl_setopt($curlInt, CURLOPT_RETURNTRANSFER, 1);
+                    $result = curl_exec($curlInt);
+                }
+
                 $msg['success'] = 1;
                 $msg['message'] = 'Registered succussfully';
             } else {
@@ -194,16 +196,14 @@ Class UserController extends AppController {
 
             if ($this->People->validates()) {
 	
-                $userAllData = $this->People->getLoginPeopleData($this->request->data['People']['mobile_number'], '','');
+                $userAllData = $this->People->getLoginPeopleData($this->request->data['People']['mobile_number'], $this->request->data['People']['password']);
                
                 if ($this->Auth->login($userAllData['People'])) {
                     $cookie['email'] = $userAllData['People']['mobile_number'];
                     //$cookie['password'] = $userAllData['User']['password'];
                     $this->setCakeSession($userAllData);
                     $this->Cookie->write('Auth.User', $cookie, true, '+2 weeks');
-
-                        $this->redirect($this->Auth->redirect('/family/details/'. $userAllData['People']['group_id']));
-                    
+                    $this->redirect($this->Auth->redirect('/family/details/'. $userAllData['People']['group_id']));
                 }
                 
                 $this->Session->setFlash(__('Invalid username or password, try again'), 'default', array(), 'authlogin');
