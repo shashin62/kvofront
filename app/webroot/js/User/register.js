@@ -71,9 +71,57 @@ $(document).ready(function () {
             return false;
         }
     });
+    
+    
+     $("#ForgotForm").validate({
+        errorElement: "span",
+        rules: {
+            'data[mobile_number]': {
+                required: true,
+                maxlength: 25
+            
+        },
+    },
+        messages: {
+            'data[mobile_number]': {
+                required: 'Please enter phone',
+                maxlength: 'Please enter valid phone number'
+            }
+           
+        },
+        
+        submitHandler: function (form) {
+            var queryString = $('#ForgotForm').serialize();
+
+            $.post(baseUrl + '/user/doResendPin', queryString, function (data) {
+                 if (0 == data.status) {
+                if (data.error.name.length > 0) {
+                    for (var i = 0; i < data.error.name.length; i++) {
+                        displayErrors(data.error.name[i], $("#" + data.error.name[i]).attr('type'), data.error.errormsg[i], "server");
+                    }
+                }
+            } else {
+                 var displayMsg = data.message;
+                showJsSuccessMessage(displayMsg);
+                setTimeout(function () {
+                    $('.jssuccessMessage').hide('slow');
+                    window.location.href = baseUrl + "/user/login";
+                }, 2500);
+            }
+               
+            }, "json");
+        
+            return false;
+        }
+    });
 });
 
 $(".registerButton").click(function () {
     $("#registerUser").submit();
+    return false;
+});
+
+$('.forgot').click(function(){
+     $("#ForgotForm").submit();
     return false;
 });
