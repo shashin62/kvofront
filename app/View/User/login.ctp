@@ -61,17 +61,18 @@
 				<div class="panel-title">Forgot password</div>
 			</div>
 			<div class="panel-body" >
-				<form id="loginform" class="form-horizontal" role="form">
+<form  class="form-horizontal" role="form" action="<?php echo FULL_BASE_URL . $this->base; ?>/user/forgotpin" role="form" id="ForgotForm" method="post" accept-charset="utf-8">
+				
 					<div class="form-group">
 						<label for="email" class="col-md-4 control-label">Email</label>
 						<div class="col-md-8">
-							<input type="text" class="form-control" name="email" placeholder="Email Address">
+							<?php echo $this->Form->input('mobile_number', array('id' => 'mobile_number', 'placeholder' => 'Enter  Mobile' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control')); ?>
 						</div>
 					</div>
 					<div class="form-group">
 						<!-- Button -->                                        
 						<div class="col-md-offset-4 col-md-8">
-							<button id="btn-signup" type="submit" class="btn btn-info">Submit</button> 
+							<button id="btn-signup" type="button" class="btn btn-info forgot">Submit</button> 
 						</div>
 					</div>
 					<div class="form-group">
@@ -146,7 +147,7 @@
 					<div class="form-group">
 						<!-- Button -->                                        
 						<div class="col-md-offset-4 col-md-8">
-							<button id="btn-signup" type="submit" class="btn btn-info">Sign Up</button> 
+							<button id="btn-signup" type="button" class="btn btn-info">Sign Up</button> 
 						</div>
 					</div>
 				</form>
