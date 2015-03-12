@@ -5,7 +5,7 @@ App::uses('AppController', 'Controller');
 Class UserController extends AppController {
 
     public $name = 'User';
-    public $uses = array('User','Aro','Role','People','Group','PeopleGroup');
+    public $uses = array('User', 'Aro', 'Role', 'People', 'Group', 'PeopleGroup');
     public $helpers = array('Session');
     public $components = array('Session');
 
@@ -72,13 +72,13 @@ Class UserController extends AppController {
 
         // get proper alfa from confiugre
         $alfa = Configure::read("passwordAlfa");
-        
+
         $token = "";
 
         for ($i = 0; $i < $password_length; $i++) {
             $token .= $alfa[rand(0, strlen($alfa) - 1)];
         }
-        
+
         return $token;
     }
 
@@ -91,42 +91,36 @@ Class UserController extends AppController {
         list($usec, $sec) = explode(' ', microtime());
         return (float) $sec + ((float) $usec * 100000);
     }
-    
-    public function welcome()
-    {
-        
+
+    public function welcome() {
         
     }
-    
-    public function register()
-    {
+
+    public function register() {
         if ($this->request->is('post')) {
-           
+            
         }
     }
-    
-    public function getUsers()
-    {
+
+    public function getUsers() {
         
     }
-    
-    public function getUserAjaxData()
-    {
+
+    public function getUserAjaxData() {
         $this->autoRender = false;
-        
-        
+
+
         $data = $this->User->getAllUsers();
         echo json_encode($data);
     }
-    
-    public function doRegisterUser()
-    {
+
+    public function doRegisterUser() {
         $this->layout = 'ajax';
-        $this->autoRender = false;     
-       
+        $this->autoRender = false;
+
         $data = $this->request->data;
-        $msg['status'] = 1;        
-        
+        $msg['status'] = 1;
+
         if (isset($this->request->data['mobile_number'])) {
             $phoneData = $this->People->checkPhoneExists($this->request->data['mobile_number']);
         }
@@ -139,7 +133,7 @@ Class UserController extends AppController {
             $groupData['Group']['name'] = 'Family of ' . $this->request->data['first_name'];
             $groupData['Group']['created'] = date('Y-m-d H:i:s');
             $this->Group->save($groupData);
-            
+
             $data = array();
             $data['People']['group_id'] = $this->Group->id;
             $data['People']['created_by'] = $this->Session->read('User.user_id');
@@ -150,25 +144,25 @@ Class UserController extends AppController {
             $data['People']['village'] = $this->request->data['village'];
             $data['People']['date_of_birth'] = $this->request->data['date_of_birth'];
             $data['People']['email'] = $this->request->data['email'];
-            $data['People']['gender'] = 'male';   
-            $data['People']['sect'] = 'deravasi'; 
+            $data['People']['gender'] = 'male';
+            $data['People']['sect'] = 'deravasi';
             $data['People']['created_by'] = Configure::read('SELF_ID');
             $random_number = mt_rand(10000, 99999);
             $data['People']['pin'] = $random_number;
             if ($this->People->save($data)) {
-                
+
                 $peopleGroup = array();
                 $peopleGroup['PeopleGroup']['group_id'] = $this->Group->id;
                 $peopleGroup['PeopleGroup']['people_id'] = $this->People->id;
                 $this->PeopleGroup->save($peopleGroup);
-                 $groupData = array();
+                $groupData = array();
                 $groupData['Group']['people_id'] = $this->People->id;
                 $groupData['Group']['id'] = $this->Group->id;
-                
+
                 $this->Group->save($groupData);
                 $smsURI = Configure::read('SMS_URI');
-                $smsURI .= '?username='. Configure::read('USERNAME') . '&password='. Configure::read('PASSWORD');
-                $smsURI .= '&sendername=NETSMS&mobileno=' . $this->request->data['mobile_number'] .'&message='. $random_number;
+                $smsURI .= '?username=' . Configure::read('USERNAME') . '&password=' . Configure::read('PASSWORD');
+                $smsURI .= '&sendername=NETSMS&mobileno=' . $this->request->data['mobile_number'] . '&message=' . $random_number;
                 if (Configure::read('SEND_SMS')) {
                     $curlInt = curl_init($smsURI);
                     curl_setopt($curlInt, CURLOPT_FOLLOWLOCATION, 1);
@@ -186,61 +180,103 @@ Class UserController extends AppController {
 
         $this->set(compact('msg'));
         $this->render("/Elements/json_messages");
-        
+    }
+
+    public function doResendPin() {
+        $this->layout = 'ajax';
+        $this->autoRender = false;
+
+        $data = $this->request->data;
+        $msg['status'] = 1;
+
+        if (isset($this->request->data['mobile_number'])) {
+            $phoneData = $this->People->checkPhoneExists($this->request->data['mobile_number']);
+        }
+        if (empty($phoneData)) {
+            $msg['status'] = 0;
+            $msg['error']['name'][] = "mobile_number";
+            $msg['error']['errormsg'][] = __('This number does not exists in the system');
+            $msg['success'] = 1;
+            $msg['message'] = '';
+        } else {
+
+            if ($msg['status'] == 1) {
+                $random_number = mt_rand(10000, 99999);
+                $data = array();
+                $data['People']['id'] = $phoneData['id'];
+                $data['People']['pin'] = $random_number;
+                if ($this->People->save($data)) {
+                    $smsURI = Configure::read('SMS_URI');
+                    $smsURI .= '?username=' . Configure::read('USERNAME') . '&password=' . Configure::read('PASSWORD');
+                    $smsURI .= '&sendername=NETSMS&mobileno=' . $this->request->data['mobile_number'] . '&message=' . $random_number;
+                    if (Configure::read('SEND_SMS')) {
+                        $curlInt = curl_init($smsURI);
+                        curl_setopt($curlInt, CURLOPT_FOLLOWLOCATION, 1);
+                        curl_setopt($curlInt, CURLOPT_RETURNTRANSFER, 1);
+                        $result = curl_exec($curlInt);
+                    }
+
+                    $msg['success'] = 1;
+                    $msg['message'] = 'Password has been send to your mobile number';
+                }
+            }
+        }
+
+        $this->set(compact('msg'));
+        $this->render("/Elements/json_messages");
     }
 
     public function login() {
         // Disabling the browser cache for this page so that user cannot go back to login page by clicking the back button.
         $this->response->disableCache();
-        
-        if( $this->Session->read('User.user_id')) {
+
+        if ($this->Session->read('User.user_id')) {
             $this->redirect('/');
             exit;
         }
         if ($this->request->is('post')) {
 
             if ($this->People->validates()) {
-	
+
                 $userAllData = $this->People->getLoginPeopleData($this->request->data['People']['mobile_number'], $this->request->data['People']['password']);
-               
+
                 if ($this->Auth->login($userAllData['People'])) {
                     $cookie['email'] = $userAllData['People']['mobile_number'];
                     //$cookie['password'] = $userAllData['User']['password'];
                     $this->setCakeSession($userAllData);
                     $this->Cookie->write('Auth.User', $cookie, true, '+2 weeks');
-                    $this->redirect($this->Auth->redirect('/family/details/'. $userAllData['People']['group_id']));
+                    $this->redirect($this->Auth->redirect('/family/details/' . $userAllData['People']['group_id']));
                 }
-                
+
                 $this->Session->setFlash(__('Invalid username or password, try again'), 'default', array(), 'authlogin');
             }
         }
     }
 
     public function logout() {
-      
+
         $this->Session->destroy();
         $this->Cookie->delete('Auth.User');
 
         $this->redirect('/user/login');
     }
-    
-    public function delete()
-    {
+
+    public function delete() {
         $this->autoRender = false;
         $id = $_REQUEST['id'];
         $this->User->recursive = -1;
-        if ($this->User->delete(array('id' =>$id)) ) {
+        if ($this->User->delete(array('id' => $id))) {
             $msg['success'] = 1;
             $msg['message'] = 'User has been deleted';
         } else {
             $msg['success'] = 0;
             $msg['message'] = 'System Error, Please try again';
         }
-        
+
         $this->set(compact('msg'));
         $this->render("/Elements/json_messages");
     }
-    
+
     /**
      * function to set session data
      * 
@@ -250,20 +286,21 @@ Class UserController extends AppController {
      */
     private function setCakeSession($userAllData = array()) {
         $this->Session->write('User.user_id', $userAllData['People']['id']);
-         $this->Session->write('User.first_name', $userAllData['People']['first_name']);
+        $this->Session->write('User.first_name', $userAllData['People']['first_name']);
         $this->Session->write('User.last_name', $userAllData['People']['last_name']);
-        $this->Session->write('User.group_id',$userAllData['People']['group_id']);
+        $this->Session->write('User.group_id', $userAllData['People']['group_id']);
         $this->Session->write('User.email', !empty($userAllData['People']['email']) ? $userAllData['People']['email'] : '');
         $this->Session->write('User.gender', !empty($userAllData['People']['gender']) ? $userAllData['People']['gender'] : '');
-         $this->Session->write('User.phone_number', !empty($userAllData['People']['mobile_number']) ? $userAllData['People']['mobile_number'] : '');
-         $this->Session->write('User.martial_status', !empty($userAllData['People']['martial_status']) ? $userAllData['People']['martial_status'] : '');
-         $this->Session->write('User.surname_now', !empty($userAllData['People']['surname_now']) ? $userAllData['People']['surname_now'] : '');
-         $this->Session->write('User.surname_dob', !empty($userAllData['People']['maiden_surname']) ? $userAllData['People']['maiden_surname'] : '');
-          $this->Session->write('User.state', !empty($userAllData['People']['state']) ? $userAllData['People']['state'] : '');
-           $this->Session->write('User.village', !empty($userAllData['People']['village']) ? $userAllData['People']['village'] : '');
-           $this->Session->write('User.education', !empty($userAllData['People']['education']) ? $userAllData['People']['education'] : '');
-           $this->Session->write('User.blood_group', !empty($userAllData['People']['blood_group']) ? $userAllData['People']['blood_group'] : '');
+        $this->Session->write('User.phone_number', !empty($userAllData['People']['mobile_number']) ? $userAllData['People']['mobile_number'] : '');
+        $this->Session->write('User.martial_status', !empty($userAllData['People']['martial_status']) ? $userAllData['People']['martial_status'] : '');
+        $this->Session->write('User.surname_now', !empty($userAllData['People']['surname_now']) ? $userAllData['People']['surname_now'] : '');
+        $this->Session->write('User.surname_dob', !empty($userAllData['People']['maiden_surname']) ? $userAllData['People']['maiden_surname'] : '');
+        $this->Session->write('User.state', !empty($userAllData['People']['state']) ? $userAllData['People']['state'] : '');
+        $this->Session->write('User.village', !empty($userAllData['People']['village']) ? $userAllData['People']['village'] : '');
+        $this->Session->write('User.education', !empty($userAllData['People']['education']) ? $userAllData['People']['education'] : '');
+        $this->Session->write('User.blood_group', !empty($userAllData['People']['blood_group']) ? $userAllData['People']['blood_group'] : '');
     }
+
 }
 
 /* 
