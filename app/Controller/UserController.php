@@ -197,7 +197,6 @@ Class UserController extends AppController {
             $msg['error']['name'][] = "mobile_number";
             $msg['error']['errormsg'][] = __('This number does not exists in the system');
             $msg['success'] = 1;
-            $msg['message'] = '';
         } else {
 
             if ($msg['status'] == 1) {
@@ -209,12 +208,12 @@ Class UserController extends AppController {
                     $smsURI = Configure::read('SMS_URI');
                     $smsURI .= '?username=' . Configure::read('USERNAME') . '&password=' . Configure::read('PASSWORD');
                     $smsURI .= '&sendername=NETSMS&mobileno=' . $this->request->data['mobile_number'] . '&message=' . $random_number;
-                    if (Configure::read('SEND_SMS')) {
+                    //if (Configure::read('SEND_SMS')) {
                         $curlInt = curl_init($smsURI);
                         curl_setopt($curlInt, CURLOPT_FOLLOWLOCATION, 1);
                         curl_setopt($curlInt, CURLOPT_RETURNTRANSFER, 1);
                         $result = curl_exec($curlInt);
-                    }
+                   // }
 
                     $msg['success'] = 1;
                     $msg['message'] = 'Password has been send to your mobile number';
