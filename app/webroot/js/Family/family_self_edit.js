@@ -99,7 +99,7 @@ $(document).ready(function () {
             },
         },
         submitHandler: function (form) {
-            //$('.editOwnButton').attr('disabled','disabled');
+            $('.editOwnButton').attr('disabled','disabled');
             var queryString = $('#createFamily').serialize();
             queryString += '&data[People][village]=' + $('.villagediv').find('.ui-autocomplete-input').val();
             queryString += '&data[People][main_surname]=' + $('.main_surnamediv').find('.ui-autocomplete-input').val();
@@ -124,9 +124,9 @@ $(document).ready(function () {
                             displayErrors(data.error.name[i], $("#" + data.error.name[i]).attr('type'), data.error.errormsg[i], "server");
                         }
                     }
-                    //  $('.editOwnButton').attr('disabled',false);
+                      $('.editOwnButton').attr('disabled',false);
                 } else {
-                    //   $('.editOwnButton').attr('disabled','disabled');
+                       $('.editOwnButton').attr('disabled','disabled');
                     var displayMsg = data.message;
                     showJsSuccessMessage(displayMsg);
                     setTimeout(function () {
