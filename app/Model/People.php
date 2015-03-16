@@ -1711,6 +1711,36 @@ GROUP BY p.created_by");
             return false;
         }
     }
+     
+     public function getBusniessIds($group_id, $peopleId)  {
+        $this->recursive = -1;
+        $options['conditions'] = array(
+                            'People.business_address_id is not null',
+                            'People.group_id' => $group_id,
+                            'People.id != ' => $peopleId
+                            );
+        $options['fields'] = array('People.business_address_id,People.first_name,People.last_name', 'address.*');
+        $options['joins'] = array(
+            array('table' => 'address',
+                'alias' => 'address',
+                'type' => 'left',
+                'conditions' => array(
+                    'address.id = People.business_address_id'
+                )
+            ),
+        );
+        try {
+            $userData = $this->find('all', $options);
+            if ($userData) {
+                return $userData;
+            } else {
+                return array();
+            }
+        } catch (Exception $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
+     }
 
 }
 
