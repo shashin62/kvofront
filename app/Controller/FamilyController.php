@@ -276,7 +276,7 @@ Class FamilyController extends AppController {
         $this->request->data['People']['sect'] = $this->request->data['sect'];
         $this->request->data['People']['gender'] = $this->request->data['gender'];
         $this->request->data['People']['martial_status'] = $this->request->data['martial_status'];
-
+        
         //insert in translation tables to track missing transaltions
         $getalltranslations = $this->Translation->find('all', array('fields' => array('Translation.id'),
             'conditions' => array('Translation.name' => $this->request->data['People']['first_name'])));
@@ -294,6 +294,7 @@ Class FamilyController extends AppController {
             $translation[1]['Translation']['name'] = $this->request->data['People']['last_name'];
             $translation[1]['Translation']['created'] = date('Y-m-d H:i:s');
         }
+        
         $this->Translation->saveAll($translation);
 
         $same = $this->request->data['People']['is_same'];
@@ -926,6 +927,29 @@ Class FamilyController extends AppController {
 
         echo json_encode($data[0]);
         exit;
+    }
+    
+     public function deleteMember() {
+         if (!$this->Session->read('Auth.User')) {
+             exit;
+         }
+        $this->autoRender = false;
+        $this->layout = 'ajax';
+        $id = $_REQUEST['id'];
+        $groupId = $_REQUEST['groupid'];
+        if ($this->People->delete(array('id' => $id)) &&
+                $this->PeopleGroup->deleteAll(array('people_id' => $id))) {
+
+            $this->People->updateAfterDeletion($id);
+            $msg['success'] = 1;
+            $msg['message'] = 'Member has been deleted';
+        } else {
+            $msg['success'] = 0;
+            $msg['message'] = 'System Error, Please try again';
+        }
+
+        $this->set(compact('msg'));
+        $this->render("/Elements/json_messages");
     }
 
 }
