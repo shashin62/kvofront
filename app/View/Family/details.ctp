@@ -49,7 +49,7 @@ $firstName = $value['People']['first_name'];
 				<img style="width:60px;height:60px;" src="<?php echo $this->base;?>/people_images/<?php echo $value['People']['id'] .'.' . $value['People']['ext']; ?>"/><br />
 				<a href="javascript:void(0);" class="deletephoto" data-id="<?php echo $value['People']['id'];?>">Delete</a>
 			<?php } else {?>
-<?php if ( $this->Session->read('User.user_id') == $value['People']['id'] ) { ?>
+<?php if ( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
 				<a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);">Add Photo</a>
 <?php } ?>
 			<?php } ?>
@@ -84,7 +84,7 @@ $firstName = $value['People']['first_name'];
 
         <div class="col-md-2">
             <?php if ($value['People']['is_late'] != '1') {?>
-<?php if( $this->Session->read('User.user_id') == $value['People']['id']) { ?>
+<?php if( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
             <a class="editaddress" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-aid="<?php echo $value['People']['address_id'];?>" href="javascript:void(0);">
                                 <?php echo $value['People']['address_id'] ? 'Edit Home Address' : 'Add Home Address';?></a><br>
 <?php } ?>
@@ -104,7 +104,7 @@ $firstName = $value['People']['first_name'];
 
         <div class="col-md-2">
              <?php if ($value['People']['is_late'] != '1') {?>
-<?php if( $this->Session->read('User.user_id') == $value['People']['id']) { ?>
+<?php if( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
             <a class="editbusiness" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-aid="<?php echo $value['People']['business_address_id'];?>" href="#">
                             <?php echo $value['People']['business_address_id'] ? 'Edit Business Details' : 'Add Business Details';?></a><br>
 <?php } ?>
