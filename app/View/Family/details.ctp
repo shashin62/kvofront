@@ -148,9 +148,9 @@ $firstName = $value['People']['first_name'];
             <?php } ?>
         </div>
                                 <?php } else { ?>
-<?php if( $value['Group']['tree_level'] == '' )  { ?>
+<?php //if( $value['Group']['tree_level'] == '' )  { ?>
         <div class="col-md-1"><a target="_blank" href="<?php echo $this->base.'/tree?gid='. $groupId.'&token='. md5('dsdsdss434dsds332323d34d');?>">View Tree</a></div>                
-<?php } ?>
+<?php //} ?>
                                 <?php } ?>
 
                                 <?php 
