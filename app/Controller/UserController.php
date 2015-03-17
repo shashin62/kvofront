@@ -69,16 +69,12 @@ Class UserController extends AppController {
 
     private function generatePassword($password_length = "8") {
         srand($this->make_seed());
-
         // get proper alfa from confiugre
         $alfa = Configure::read("passwordAlfa");
-
         $token = "";
-
         for ($i = 0; $i < $password_length; $i++) {
             $token .= $alfa[rand(0, strlen($alfa) - 1)];
         }
-
         return $token;
     }
 
@@ -92,18 +88,15 @@ Class UserController extends AppController {
         return (float) $sec + ((float) $usec * 100000);
     }
 
-    public function welcome() {
-        
+    public function welcome() {        
     }
 
     public function register() {
         if ($this->request->is('post')) {
-            
         }
     }
-
+    
     public function getUsers() {
-        
     }
 
     public function getUserAjaxData() {
@@ -161,8 +154,9 @@ Class UserController extends AppController {
 
                 $this->Group->save($groupData);
                 $smsURI = Configure::read('SMS_URI');
-                $smsURI .= '?username=' . Configure::read('USERNAME') . '&password=' . Configure::read('PASSWORD');
-                $smsURI .= '&sendername=NETSMS&mobileno=' . $this->request->data['mobile_number'] . '&message=' . $random_number;
+                $smsURI .= '?user=' . Configure::read('USERNAME') . '&apikey=' . Configure::read('PASSWORD');
+                $smsURI .= '&mobile=' . $this->request->data['mobile_number'] . '&message=' . $random_number. '&type=txt' . '&senderid=Default';
+                   
                 if (Configure::read('SEND_SMS')) {
                     $curlInt = curl_init($smsURI);
                     curl_setopt($curlInt, CURLOPT_FOLLOWLOCATION, 1);
@@ -206,8 +200,9 @@ Class UserController extends AppController {
                 $data['People']['pin'] = $random_number;
                 if ($this->People->save($data)) {
                     $smsURI = Configure::read('SMS_URI');
-                    $smsURI .= '?username=' . Configure::read('USERNAME') . '&password=' . Configure::read('PASSWORD');
-                    $smsURI .= '&sendername=NETSMS&mobileno=' . $this->request->data['mobile_number'] . '&message=' . $random_number;
+                    $smsURI .= '?user=' . Configure::read('USERNAME') . '&apikey=' . Configure::read('PASSWORD');
+                    $smsURI .= '&mobile=' . $this->request->data['mobile_number'] . '&message=' . $random_number. '&type=txt' . '&senderid=Default';
+                   
                     //if (Configure::read('SEND_SMS')) {
                         $curlInt = curl_init($smsURI);
                         curl_setopt($curlInt, CURLOPT_FOLLOWLOCATION, 1);
@@ -234,9 +229,7 @@ Class UserController extends AppController {
             exit;
         }
         if ($this->request->is('post')) {
-
             if ($this->People->validates()) {
-
                 $userAllData = $this->People->getLoginPeopleData($this->request->data['People']['mobile_number'], $this->request->data['People']['password']);
 
                 if ($this->Auth->login($userAllData['People'])) {
@@ -246,17 +239,14 @@ Class UserController extends AppController {
                     $this->Cookie->write('Auth.User', $cookie, true, '+2 weeks');
                     $this->redirect($this->Auth->redirect('/family/details/' . $userAllData['People']['group_id']));
                 }
-
                 $this->Session->setFlash(__('Invalid username or password, try again'), 'default', array(), 'authlogin');
             }
         }
     }
 
     public function logout() {
-
         $this->Session->destroy();
         $this->Cookie->delete('Auth.User');
-
         $this->redirect('/user/login');
     }
 
@@ -271,7 +261,6 @@ Class UserController extends AppController {
             $msg['success'] = 0;
             $msg['message'] = 'System Error, Please try again';
         }
-
         $this->set(compact('msg'));
         $this->render("/Elements/json_messages");
     }
@@ -299,12 +288,4 @@ Class UserController extends AppController {
         $this->Session->write('User.education', !empty($userAllData['People']['education']) ? $userAllData['People']['education'] : '');
         $this->Session->write('User.blood_group', !empty($userAllData['People']['blood_group']) ? $userAllData['People']['blood_group'] : '');
     }
-
 }
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
