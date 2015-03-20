@@ -64,7 +64,7 @@ Class FamilyController extends AppController {
 
             $this->redirect('/user/login');
         }
-        $requestData = $_REQUEST;
+        $requestData = $this->request->data =  $_REQUEST;
         $this->set('module',$requestData['module']);
         $this->set('first_name', isset($this->request->data['first_name']) ?
                         $this->request->data['first_name'] : '');
