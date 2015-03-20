@@ -64,7 +64,8 @@ Class FamilyController extends AppController {
 
             $this->redirect('/user/login');
         }
-        $requestData = $this->request->data;
+        $requestData = $_REQUEST;
+        $this->set('module',$requestData['module']);
         $this->set('first_name', isset($this->request->data['first_name']) ?
                         $this->request->data['first_name'] : '');
         $this->set('last_name', isset($this->request->data['last_name']) ?
@@ -805,12 +806,14 @@ Class FamilyController extends AppController {
                     foreach ($children as $k => $v) {
                         $childids[] = $v['People']['id'];
                     }
+                    $originalPId = $peopleData['id'];
                     $ids[] = $peopleData['id'];
                     if ($peopleGroup['tree_level'] == "" && $treelevel == 0) {
                         $rootId = $peopleGroup['people_id'];
                         $peopleData['id'] = 'START';
                         $treelevel = 1;
                     }
+                    
                     if ($peopleGroup['tree_level'] != '') {
                         if ($peopleGroup['tree_level'] == $rootId) {
                             $tree[$peopleData['id']]['^'] = 'START';
@@ -874,6 +877,8 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['martial_status'] = $peopleData['martial_status'];
                     $tree[$peopleData['id']]['date_of_marriage'] = $peopleData['date_of_marriage'];
                     $tree[$peopleData['id']]['email'] = $peopleData['email'];
+                    $tree[$peopleData['id']]['pid'] = $originalPId;
+                    $tree[$peopleData['id']]['gid'] = $peopleData['group_id'];
 
                     if ($peopleData['partner_id'] == $rootId) {
 

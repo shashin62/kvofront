@@ -471,6 +471,7 @@
 </script>
 <script type="text/javascript">
  var image_format = "<?php echo 'jpeg|png|jpg'; ?>";
+ var module = "<?php echo $module; ?>";
 $('.imagesubmit').click(function(){
      $("#imagepic").submit();
      return false;
