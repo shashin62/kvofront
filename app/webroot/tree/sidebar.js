@@ -144,24 +144,24 @@ function SSA(_e,_f){
     }
     SR("personalview",1);
     //SR("personaledit",(Spa==0)&&Sed);
-    //SR("personaleditdeath",(Spa==0)&&(p.z==1)&&Sed);
-   // SR("partnersviewedit",(Spa==3));
+ //   SR("personaleditdeath",(Spa==0)&&(p.z==1)&&Sed);
+ //   SR("partnersviewedit",(Spa==3));
     SR("contactview",(Spa==1)&&!Sed);
-  //  SR("contactedit",(Spa==1)&&Sed);
-   //// SR("bioview",(Spa==2)&&!Sed);
-  //  SR("bioedit1",(Spa==2)&&Sed);
-  //  SR("bioeditdeath",(Spa==2)&&(p.z==1)&&Sed);
-  //  SR("bioedit2",(Spa==2)&&Sed);
+ //   SR("contactedit",(Spa==1)&&Sed);
+ //   SR("bioview",(Spa==2)&&!Sed);
+ //   SR("bioedit1",(Spa==2)&&Sed);
+ //   SR("bioeditdeath",(Spa==2)&&(p.z==1)&&Sed);
+//    SR("bioedit2",(Spa==2)&&Sed);
   //  SR("viewfooter",pw&&(!Sed));
-    //SR("editfooter",Sed);
-  //  SR("readonlyfooter",(!parent.staticMode)&&(!parent.Ewr)&&(!parent.Ewp));
-   // SR("writemefooter",(!parent.Ewr)&&pw);
+//    SR("editfooter",Sed);
+ //   SR("readonlyfooter",(!parent.staticMode)&&(!parent.Ewr)&&(!parent.Ewp));
+  //  SR("writemefooter",(!parent.Ewr)&&pw);
   //  SR("writenotfooter",parent.Ewp&&!pw);
-   // SV("editbutton",(Spa==3)?"Edit partnership details":("Edit "+(md?"my":(p.p+"'s"))+" details"));
+    //SV("editbutton",(Spa==3)?"Edit partnership details":("Edit "+(md?"my":(p.p+"'s"))+" details"));
     SS("nonrelations",true);
-  ///  SS("shareperson",(!parent.staticMode)&&parent.GV("sessionid")&&(p.z!="1")&&!md);
+   // SS("shareperson",(!parent.staticMode)&&parent.GV("sessionid")&&(p.z!="1")&&!md);
   //  SS("nonediting",!Sed);
-  //  SR("relactions",parent.Ewr&&!Sed);
+//    SR("relactions",parent.Ewr&&!Sed);
     if(Sed){
 	var df=(_f===true);
 	for(var j in Sen[Spa]){
@@ -226,20 +226,40 @@ function SJR(e,v,h,s){
     r.appendChild(a);
     GE(e).appendChild(r);
 }
-function SSR(e,t,v,h,a){
+function SSR(e,t,v,h,a ){
+    
     var r=document.createElement("TR");
     r.vAlign=a||"top";
     var a=document.createElement("TD");
     a.className="sleft";
     if(t){
 	a.innerHTML=EH(t+":");
+        
     }
     var b=document.createElement("TD");
+
     b.className="sright";
-    b.innerHTML=h?v:EL(v);
+    var gid = 419;
+    if ( t == 'Add Mother') {
+        
+        // doFormPost(baseUrl + "/family/index?type=addmother",
+            //'{ "type":"addmother","fid":"' + id + '","gid":"' + gid + '","name_parent":"' + first_name + '"}');
+        b.innerHTML = '<a data-id="'+ v +'" target="_blank" href="http://localhost/kvofront/family/index?type=addmother&fid='+ v +'&gid='+ gid + '&module=tree">' + t + '</a>';
+    } else if ( t == 'Add Father') {
+        b.innerHTML = '<a data-id="'+ v +'" target="_blank" href="http://localhost/kvofront/family/index?type=addfather&fid='+ v +'&gid='+ gid + '&module=tree">' + t + '</a>';
+    } else if ( t == 'Add Spouse') {
+        b.innerHTML = '<a data-id="'+ v +'" target="_blank" href="http://localhost/kvofront/family/index?type=addspouse&fid='+ v +'&gid='+ gid + '&module=tree">' + t + '</a>';
+    } else if ( t == 'Add Child') {
+        b.innerHTML = '<a data-id="'+ v +'" target="_blank" href="http://localhost/kvofront/family/index?type=addchilld&fid='+ v +'&gid='+ gid + '&module=tree">' + t + '</a>';
+    } else {
+        b.innerHTML=h?v:EL(v);
+    }
+    
     r.appendChild(a);
     r.appendChild(b);
+    
     GE(e).appendChild(r);
+    
     return r;
 }
 function SUR(e,t,i,v,s){
@@ -400,6 +420,7 @@ function SP0(){
 	SSR("personalview","Gender",(p.g&&Fgn[p.g])?Fgn[p.g]:Fgn[""],false);
 	SSR("personalview","Birth date",p.dob,false);
         SSR("personalview","Village",p.village,false);
+        SSR("personalview","Email Id",p.email,false); 
         SSR("personalview","Mobile Number",p.mobile_number,false); 
         SSR("personalview","Martial Status",p.martial_status,false);
         SSR("personalview","Marriage Date",p.date_of_marriage,false);
@@ -409,7 +430,15 @@ function SP0(){
         SSR("personalview","Nature of Business",p.nature_of_business,false); 
         SSR("personalview","Name of Business",p.name_of_business,false); 
         SSR("personalview","Type of Business",p.business_name,false); 
+        SSR("personalview","ID",p.pid,false);
+        //if(p.m == "") {
+        SSR("personalview","Add Mother", p.pid, false);
+    //}
+        SSR("personalview","Add Spouse", p.pid, false);
+        SSR("personalview","Add Father", p.pid, false);
+        SSR("personalview","Add Child", p.pid, false);
         
+        SSR("personalview","Group Id",p.gid,false);
 	if(p.z==1){
 	    SSR("personalview","Death date",FDT(p.d),false);
 	}
@@ -774,8 +803,9 @@ function SCB(i,v){
 	    f:fi
 	});
 	if(i=="addparents"){
-	    parent.ESE(true,[mi,fi],Spe);
-	}
+            
+        parent.ESE(true,[mi,fi],Spe,i);
+    }
     }else{
 	if(i=="choosemother"){
 	    SPR(true);
@@ -791,6 +821,7 @@ function SCB(i,v){
 		    SPR(true);
 		    if((!p.f)&&(!p.m)){
 			SRB("Add new parents","addparents","");
+                        
 		    }
 		    if(!p.f){
 			SRB("Add new father","addfather","");
