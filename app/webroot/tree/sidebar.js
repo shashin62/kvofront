@@ -226,6 +226,12 @@ function SJR(e,v,h,s){
     r.appendChild(a);
     GE(e).appendChild(r);
 }
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
 function SSR(e,t,v,h,a ){
     
     var r=document.createElement("TR");
@@ -239,7 +245,8 @@ function SSR(e,t,v,h,a ){
     var b=document.createElement("TD");
 
     b.className="sright";
-    var gid = 419;
+    var gid = getParameterByName('gid');
+    
     if ( t == 'Add Mother') {
         
         // doFormPost(baseUrl + "/family/index?type=addmother",
