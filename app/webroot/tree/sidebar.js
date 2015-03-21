@@ -230,9 +230,10 @@ function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
+
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
-function SSR(e,t,v,h,a ){
+function SSR(e,t,v,h,a, gid ){
     
     var r=document.createElement("TR");
     r.vAlign=a||"top";
@@ -245,8 +246,8 @@ function SSR(e,t,v,h,a ){
     var b=document.createElement("TD");
 
     b.className="sright";
-    var gid = getParameterByName('gid');
-    
+   // var gid = getParameterByName('gid');
+    console.log('GID' + gid);
     if ( t == 'Add Mother') {
         
         // doFormPost(baseUrl + "/family/index?type=addmother",
@@ -439,11 +440,11 @@ function SP0(){
         SSR("personalview","Type of Business",p.business_name,false); 
         SSR("personalview","ID",p.pid,false);
         //if(p.m == "") {
-        SSR("personalview","Add Mother", p.pid, false);
+        SSR("personalview","Add Mother", p.pid, false, '',p.gid);
     //}
-        SSR("personalview","Add Spouse", p.pid, false);
-        SSR("personalview","Add Father", p.pid, false);
-        SSR("personalview","Add Child", p.pid, false);
+        SSR("personalview","Add Spouse", p.pid, false, '',p.gid);
+        SSR("personalview","Add Father", p.pid, false, '',p.gid);
+        SSR("personalview","Add Child", p.pid, false, '',p.gid);
         
         SSR("personalview","Group Id",p.gid,false);
 	if(p.z==1){
