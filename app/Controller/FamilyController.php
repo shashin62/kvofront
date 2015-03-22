@@ -888,11 +888,11 @@ Class FamilyController extends AppController {
             $ids = array();
 
             $data = array_map("unserialize", array_unique(array_map("serialize", $data)));
-
-
+            
             foreach ($data as $key => $value) {
                 $peopleData = $value['People'];
                 $peopleGroup = $value['Group'];
+                $addressData = $value['Address'];
                 $exSpouses = $value[0];
                 if (!in_array($peopleData['id'], $ids)) {
 
@@ -957,24 +957,28 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['hp'] = true;
                     $tree[$peopleData['id']]['i'] = $peopleData['id'];
                     $tree[$peopleData['id']]['l'] = $peopleData['last_name'] . ' (' . $peopleId . ')';
-                    $tree[$peopleData['id']]['p'] = $peopleData['first_name'];
-                    $tree[$peopleData['id']]['dob'] = $peopleData['date_of_birth'];
+                    $tree[$peopleData['id']]['p'] =  ucfirst($peopleData['first_name']);
+                    $tree[$peopleData['id']]['dob'] = date("m/d/Y", strtotime($peopleData['date_of_birth']));
                     $tree[$peopleData['id']]['education'] = $peopleData['education_1'];
-                    $tree[$peopleData['id']]['village'] = $peopleData['village'];
-                    $tree[$peopleData['id']]['father'] = $peopleData['father'];
-                    $tree[$peopleData['id']]['mother'] = $peopleData['mother'];
-                    $tree[$peopleData['id']]['partner_name'] = $peopleData['partner_name'];
-
+                    $tree[$peopleData['id']]['village'] =  ucfirst($peopleData['village']);
+                    $tree[$peopleData['id']]['father'] =  ucfirst($peopleData['father']);
+                    $tree[$peopleData['id']]['mother'] =  ucfirst($peopleData['mother']);
+                    $tree[$peopleData['id']]['partner_name'] =  ucfirst($peopleData['partner_name']);
                     $tree[$peopleData['id']]['specialty_business_service'] = $peopleData['specialty_business_service'];
                     $tree[$peopleData['id']]['nature_of_business'] = $peopleData['nature_of_business'];
                     $tree[$peopleData['id']]['business_type'] = $peopleData['business_name'];
                     $tree[$peopleData['id']]['name_of_business'] = $peopleData['name_of_business'];
                     $tree[$peopleData['id']]['mobile_number'] = $peopleData['mobile_number'];
                     $tree[$peopleData['id']]['martial_status'] = $peopleData['martial_status'];
-                    $tree[$peopleData['id']]['date_of_marriage'] = $peopleData['date_of_marriage'];
+                    $tree[$peopleData['id']]['date_of_marriage'] = date("m/d/Y", strtotime($peopleData['date_of_marriage']));
                     $tree[$peopleData['id']]['email'] = $peopleData['email'];
                     $tree[$peopleData['id']]['pid'] = $originalPId;
                     $tree[$peopleData['id']]['gid'] = $peopleData['group_id'];
+                    $tree[$peopleData['id']]['father'] =  ucfirst($peopleData['father']);
+                    $tree[$peopleData['id']]['city'] =  ucfirst($addressData['city']);
+                    
+                    $tree[$peopleData['id']]['suburb'] = $addressData['suburb'];
+                    $tree[$peopleData['id']]['suburb_zone'] = ucfirst($addressData['suburb_zone']);
 
                     if ($peopleData['partner_id'] == $rootId) {
 
