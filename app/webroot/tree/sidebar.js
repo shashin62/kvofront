@@ -248,7 +248,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
     b.className = "sright";
 
     if (t == 'Add Child') {
-        if (typeof mother !== 'undefined') {
+        if (typeof mother !== 'undefined' && spouse == 'm') {
             b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/index?type=addchilld&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
         }
@@ -432,6 +432,7 @@ function SP0() {
         SSD("birthdom", "birthmonth", "birthyear", p.b);
         SSD("deathdom", "deathmonth", "deathyear", p.d);
     } else {
+        
         SRR("personalview");
         SSR("personalview", "Full name", (p.p || "") + " " + (p.l || p.q || ""), false);
         SSR("personalview", "First Name", p.p, false);
@@ -456,7 +457,7 @@ function SP0() {
         SSR("personalview", "Add Mother", p.pid, false, '', p.gid, p.m);
         SSR("personalview", "Add Spouse", p.pid, false, '', p.gid, '', p.s);
         SSR("personalview", "Add Father", p.pid, false, '', p.gid, '', '', p.f);
-        SSR("personalview", "Add Child", p.pid, false, '', p.gid,p.s);
+        SSR("personalview", "Add Child", p.pid, false, '', p.gid,p.s,p.g);
         
         SSR("personalview", "Group Id", p.gid, false);
         if (p.z == 1) {
