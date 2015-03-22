@@ -448,11 +448,17 @@ function SP0() {
         SSR("personalview", "Martial Status", p.martial_status, false);
         SSR("personalview", "Marriage Date", p.date_of_marriage, false);
         SSR("personalview", "Spouse", p.partner_name, false);
+        SSR("personalview", "Father", p.father, false);
         SSR("personalview", "Education", p.education, false);
+         SSR("personalview", "City", p.city, false);
+          SSR("personalview", "Suburb", p.suburb, false);
+           SSR("personalview", "Suburb Zone", p.suburb_zone, false);
+        
+        SSR("personalview", "Type of Business", p.business_type, false);
         SSR("personalview", "Speciality Business", p.specialty_business_service, false);
         SSR("personalview", "Nature of Business", p.nature_of_business, false);
         SSR("personalview", "Name of Business", p.name_of_business, false);
-        SSR("personalview", "Type of Business", p.business_name, false);
+      
         SSR("personalview", "ID", p.pid, false);
         SSR("personalview", "Add Mother", p.pid, false, '', p.gid, p.m);
         SSR("personalview", "Add Spouse", p.pid, false, '', p.gid, '', p.s);
