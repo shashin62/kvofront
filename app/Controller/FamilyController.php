@@ -697,7 +697,103 @@ Class FamilyController extends AppController {
         $this->set(compact('msg'));
         $this->render("/Elements/json_messages");
     }
+    
+    /**
+     * function to make a member as hof of new family
+     * 
+     */
+    public function insertUser() {
+        $this->layout = 'ajax';
+        $this->autoRender = false;
+        
+        $type = $_REQUEST['type'];
+        $idToBeUpdated = $_REQUEST['id'];
+        $gid = $_REQUEST['gid'];
+        $peopleId = $_REQUEST['peopleid'];
+        if ('addchilld' == $type) {
+            $_REQUEST['peopleid'] = $idToBeUpdated;
+        }
+        $getPeopleDetail = $this->People->find('all', array(
+            'conditions' => array('People.id' => $_REQUEST['peopleid']))
+        );
+        $this->request->data = $getPeopleDetail[0];
+        $updatePeople = array();
+       
+        switch ($type) {
+            
+            case 'addnew':
+                $peopleData = $_REQUEST['data'];
+                $data = $this->People->checkExistingOwner($peopleData);
 
+                if (count($data) > 0) {
+                    $message = $peopleData['first_name'] . ' ' . $peopleData['last_name'] . ' is already owner';
+                } else {
+                    $groupData = array();
+                    $groupData['Group']['name'] = 'Family of ' . $getPeopleDetail[0]['People']['first_name'];
+                    $groupData['Group']['created'] = date('Y-m-d H:i:s');
+                    $groupData['Group']['people_id'] = $_REQUEST['peopleid'];
+                    //save group as new group
+                    $this->Group->save($groupData);
+                    $peopleGroup = array();
+                    $peopleGroup['PeopleGroup']['group_id'] = $this->Group->id;
+                    $peopleGroup['PeopleGroup']['people_id'] = $_REQUEST['peopleid'];
+                    // insert people ids and group ids
+                    $this->PeopleGroup->save($peopleGroup);
+                    // update group id for old people
+                    $updatePeople = array();
+                    $updatePeople['People']['group_id'] = $this->Group->id;
+                    $updatePeople['People']['call_again'] = 0;
+                    $updatePeople['People']['id'] = $_REQUEST['peopleid'];
+                   
+                    $getAllRelationships = $this->People->getAllRelationsIds($_REQUEST['peopleid']);
+                    
+                    $getAllChildren = $this->People->getChildren($_REQUEST['peopleid'], 'male', $gid);
+                    //
+                    $ids = array();
+                    foreach ($getAllChildren as $key => $value) {
+                        $ids[] = $value['People']['id'];
+                    }
+
+                    foreach ($getAllRelationships as $k => $v) {
+                        $ids[] = $v;
+                    }
+                    $i = 0;
+
+                    $allData = array();
+                    foreach ($ids as $peopleIds) {
+                        if (!empty($peopleIds)) {
+                            $allData[$i]['PeopleGroup']['group_id'] = $this->Group->id;
+                            $allData[$i]['PeopleGroup']['people_id'] = $peopleIds;
+                            $allData[$i]['PeopleGroup']['tree_level'] = $_REQUEST['peopleid'];
+                            $i++;
+                        }
+                    }
+                    $this->PeopleGroup->saveAll($allData);
+                }
+                    $msg['group_id'] = $this->Group->id;
+                    $message = 'Family has been created';
+                break;
+            default:
+                break;
+        }
+       if ($this->People->save($updatePeople)) {
+            $msg['status'] = 1;
+        } else {
+            $msg['status'] = 0;
+            $message = 'System Error';
+        }
+        
+        if ($msg['status'] == 1) {
+            $msg['success'] = 1;
+            $msg['message'] = $message;
+        } else {
+            $msg['success'] = 0;
+            $msg['message'] = 'System Error, Please try again';
+        }
+        $this->set(compact('msg'));
+        $this->render("/Elements/json_messages");
+    }
+        
     private function _copyAddress($parentId, $peopleid) {
         $conditions = array('Address.people_id' => $parentId);
         $getParentAddress = $this->Address->find('all', array('conditions' => $conditions));

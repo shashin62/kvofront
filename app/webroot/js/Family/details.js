@@ -262,3 +262,37 @@ $('.deletemember').click(function(){
 return;
 }
 });
+
+$('.make_hof').click(function()
+{   
+    var peopleData = {};
+    var $this = $(this);
+    var id = $this.data('id');
+    var gid = $this.data('gid');
+    peopleData['first_name'] = $(this).data('first_name');
+    peopleData['last_name'] = $(this).data('last_name');
+    peopleData['phone_number'] = $(this).data('mobile_number');
+    peopleData['village'] =  $(this).data('village');
+    peopleData['email'] = $(this).data('email');
+    
+    //$('.insert').attr('disabled',true);  
+    
+    $.ajax({
+        url: baseUrl + '/family/insertUser',
+        dataType: 'json',
+        data: {peopleid: id, type: 'addnew', gid: gid,data: peopleData},
+        type: "POST",
+        success: function (response) {
+            var displayMsg = response.message;
+            showJsSuccessMessage(displayMsg);
+            setTimeout(function () {
+                $('.jssuccessMessage').hide('slow');
+                window.location = baseUrl + '/family/details/'+ response.group_id;
+            }, 2500);
+        },
+        error: function()
+        {
+          $('.insert').attr('disabled',false);  
+        }
+    });
+});
