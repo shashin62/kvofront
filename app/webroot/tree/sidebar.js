@@ -233,36 +233,51 @@ function getParameterByName(name) {
 
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
-function SSR(e,t,v,h,a, gid ){
+function SSR(e,t,v,h,a, gid , mother, spouse, father){
     
+   
     var r=document.createElement("TR");
     r.vAlign=a||"top";
     var a=document.createElement("TD");
     a.className="sleft";
     if(t){
-	a.innerHTML=EH(t+":");
-        
+	a.innerHTML=EH(t+":");        
     }
     var b=document.createElement("TD");
 
     b.className="sright";
    // var gid = getParameterByName('gid');
-    console.log('GID' + gid);
-    if ( t == 'Add Mother') {
-        
-        // doFormPost(baseUrl + "/family/index?type=addmother",
-            //'{ "type":"addmother","fid":"' + id + '","gid":"' + gid + '","name_parent":"' + first_name + '"}');
-        b.innerHTML = '<a data-id="'+ v +'" target="_blank" href="http://localhost/kvofront/family/index?type=addmother&fid='+ v +'&gid='+ gid + '&module=tree">' + t + '</a>';
-    } else if ( t == 'Add Father') {
-        b.innerHTML = '<a data-id="'+ v +'" target="_blank" href="http://localhost/kvofront/family/index?type=addfather&fid='+ v +'&gid='+ gid + '&module=tree">' + t + '</a>';
-    } else if ( t == 'Add Spouse') {
-        b.innerHTML = '<a data-id="'+ v +'" target="_blank" href="http://localhost/kvofront/family/index?type=addspouse&fid='+ v +'&gid='+ gid + '&module=tree">' + t + '</a>';
-    } else if ( t == 'Add Child') {
+   console.log(typeof mother);
+    
+       
+    
+ if ( t == 'Add Child') {
         b.innerHTML = '<a data-id="'+ v +'" target="_blank" href="http://localhost/kvofront/family/index?type=addchilld&fid='+ v +'&gid='+ gid + '&module=tree">' + t + '</a>';
     } else {
         b.innerHTML=h?v:EL(v);
     }
+    if ( t == 'Add Mother' ) {
+        if (typeof mother !== 'string') {
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/index?type=addmother&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+        } else {
+            // b.innerHTML = '<a data-id="'+ v +'" target="_blank" href="http://localhost/kvofront/family/index?type=addmother&fid='+ v +'&gid='+ gid + '&module=tree">' + t + '</a>';
+        }
+    } 
     
+    if (t == 'Add Father') {
+        if (typeof father !== 'string') {
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/index?type=addfather&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+        } else {
+
+        }
+    }
+    
+     if (t == 'Add Spouse') {
+        if (typeof spouse !== 'string') {
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/index?type=addspouse&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+        } else {
+        }
+    } 
     r.appendChild(a);
     r.appendChild(b);
     
@@ -417,7 +432,7 @@ function SP0(){
 	GE("alive").checked=(p.z!="1");
 	SSD("birthdom","birthmonth","birthyear",p.b);
 	SSD("deathdom","deathmonth","deathyear",p.d);
-    }else{
+    } else { 
 	SRR("personalview");
 	SSR("personalview","Full name",(p.p||"")+" "+(p.l||p.q||""),false);
         SSR("personalview","First Name",p.p,false);
@@ -439,11 +454,11 @@ function SP0(){
         SSR("personalview","Name of Business",p.name_of_business,false); 
         SSR("personalview","Type of Business",p.business_name,false); 
         SSR("personalview","ID",p.pid,false);
-        //if(p.m == "") {
-        SSR("personalview","Add Mother", p.pid, false, '',p.gid);
-    //}
-        SSR("personalview","Add Spouse", p.pid, false, '',p.gid);
-        SSR("personalview","Add Father", p.pid, false, '',p.gid);
+        
+        SSR("personalview","Add Mother", p.pid, false, '',p.gid, p.m);
+        console.log(p);
+        SSR("personalview","Add Spouse", p.pid, false, '',p.gid, '', p.s);
+        SSR("personalview","Add Father", p.pid, false, '',p.gid,'','', p.f);
         SSR("personalview","Add Child", p.pid, false, '',p.gid);
         
         SSR("personalview","Group Id",p.gid,false);
