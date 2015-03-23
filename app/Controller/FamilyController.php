@@ -278,6 +278,8 @@ Class FamilyController extends AppController {
         $this->request->data['People']['gender'] = $this->request->data['gender'];
         $this->request->data['People']['martial_status'] = $this->request->data['martial_status'];
 
+        $this->request->data['People']['is_late'] = $this->request->data['is_late'];
+        
         //insert in translation tables to track missing transaltions
         $getalltranslations = $this->Translation->find('all', array('fields' => array('Translation.id'),
             'conditions' => array('Translation.name' => $this->request->data['People']['first_name'])));
@@ -864,15 +866,12 @@ Class FamilyController extends AppController {
         $token = md5('dsdsdss434dsds332323d34d');
         if ($token1 == $queryToken) {
 
-
             $data = $this->People->getFamilyDetails($groupId);
-
             //check each id exists in other group then get all gamily detials for this group also
             foreach ($data as $key => $value) {
                 $groupData[] = $this->PeopleGroup->checkExistsInOtherGroup($groupId, $value['People']['id']);
             }
-
-
+            
             foreach ($groupData as $k => $v) {
                 if (count($v)) {
                     foreach ($v as $k1 => $v1) {
@@ -1236,10 +1235,10 @@ Class FamilyController extends AppController {
             exit;
         }
         $userID = $this->Session->read('User.user_id');
-
+        
         $states = $this->State->find('list', array('fields' => array('State.name', 'State.name')));
         $this->set(compact('states'));
-
+        
         $suburbs = $this->Suburb->find('list', array('fields' => array('Suburb.name', 'Suburb.name')));
         $this->set(compact('suburbs'));
 
