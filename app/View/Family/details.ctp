@@ -144,7 +144,7 @@ $firstName = $value['People']['first_name'];
                                 <?php if ( $value['Group']['tree_level'] != '') { ?>
         <div class="col-md-1">
             <?php if( $hofId != $value['People']['partner_id']) { ?>
-            <a style="display:none" data-id="<?php echo $value['People']['id'];?>" class="transfer-family" href="javascript:void(0);">Transfer of Family</a>
+            <a style="display:block" data-gid="<?php echo $value['People']['group_id'];?>"  data-id="<?php echo $value['People']['id'];?>" class="transfer-family" href="javascript:void(0);">Transfer of Family</a>
             <?php } ?>
 <?php if($value['People']['first_name'] != '' && $value['People']['last_name'] != '' && $value['People']['mobile_number'] != '' && $value['People']['village'] != '' && $value['People']['is_late'] == 0 && $value['Group']['tree_level'] != '' && $value['People']['gender'] == 'male') { ?>
             <a data-gid="<?php echo $value['People']['group_id'];?>" 
@@ -156,7 +156,7 @@ data-village="<?php echo $value['People']['village'];?>"
 data-email="<?php echo $value['People']['email'];?>"
 
             data-id="<?php echo $value['People']['id'];?>" 
-            href="javascript:void(0);" class="make_hof">Make HOF of New Family</a>
+            href="javascript:void(0);" class="make_hof" style="display:none;">Make HOF of New Family</a>
 <?php } ?>
         </div>
                                 <?php } else { ?>

@@ -232,9 +232,15 @@ function transferUser()
 }
 
 $(".transfer-family").on("click", function () {
-    return;
-    $("#dialog-form").data('id',$(this).data('id')).dialog("open");
-    return false;
+    var $this = $(this);
+     var id = $this.data('id');
+    
+    var gid = $this.data('gid');
+    doFormPost(baseUrl + "/family/transfer?type=transfer",
+            '{ "type":"transfer","fid":"' + id + '","gid":"' + gid + '"}');
+       
+    //$("#dialog-form").data('id',$(this).data('id')).dialog("open");
+   // return false;
 });
 
 $('.deletemember').click(function(){

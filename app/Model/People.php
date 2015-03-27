@@ -115,7 +115,7 @@ class People extends AppModel {
             }
         }
 
-        $aSearchCollumns = array('p.id', 'p.first_name', 'p.last_name', 'p.mobile_number', 'DATE_FORMAT(p.date_of_birth,   "%m/%d/%Y"  )', 'p.village', 'p.father', 'p.mother');
+        $aSearchCollumns = array('p.id', 'p.first_name', 'p.last_name', 'p.main_surname','p.mobile_number');
         /*
          * Filtering
          * NOTE this does not match the built-in DataTables filtering which does it
@@ -131,9 +131,12 @@ class People extends AppModel {
             $sWhere = substr_replace($sWhere, "", -3);
             $sWhere .= ')';
         }
+        
+        $isToBeSearched = false;
         /* Individual column filtering */
         for ($i = 0; $i < count($aSearchCollumns); $i++) {
             if (isset($_GET['bSearchable_' . $i]) && $_GET['bSearchable_' . $i] == "true" && $_GET['sSearch_' . $i] != '') {
+                $isToBeSearched = true;
                 if ($sWhere == "") {
                     $sWhere = "WHERE ";
                 } else {
@@ -177,6 +180,14 @@ class People extends AppModel {
                     }
                     $sWhere .= ' (p.gender = "female" )  AND p.first_name is not null';
                     break;
+                case 'transfer':
+                    if ($sWhere == "") {
+                        $sWhere = "WHERE ";
+                    } else {
+                        $sWhere .= ' AND ';
+                    }
+                    $sWhere .= ' (p.tree_level = " " )  AND p.first_name is not null';
+                    break;
                 case 'global' :
                     if ($sWhere == "") {
                         $sWhere = "WHERE ";
@@ -211,15 +222,8 @@ class People extends AppModel {
         //$sGroup = " group by p.mobile_number";
 
         $sQuery = "
-    SELECT SQL_CALC_FOUND_ROWS p.id, p.first_name, p.last_name,p.village,p.mobile_number,p.date_of_birth, p.m_id, p.f_id, 
-    IF( p.f_id = parent.id ,parent.first_name, '') as father
-              , IF( p.m_id = parent2.id, parent2.first_name, '') as mother
-              , p.partner_name as spouse
-              , p.maiden_village as maiden_village
-              , p.maiden_surname as maiden_surname
-              , concat_ws(' ',parent3.first_name,parent3.last_name) as grandfather,
-              concat_ws(' ',parent4.first_name,parent4.last_name) as grandfather_mother,
-              p.village,p.email
+    SELECT SQL_CALC_FOUND_ROWS p.id, p.first_name, p.last_name,p.main_surname,p.mobile_number
+              
             FROM   $sTable
                 $sJoin
             $sWhere
@@ -249,12 +253,16 @@ class People extends AppModel {
         /*
          * Output
          */
+        
+       
+        if ($isToBeSearched == true) {
         $output = array(
             "sEcho" => intval($_GET['sEcho']),
             "iTotalRecords" => $iTotal,
             "iTotalDisplayRecords" => $iFilteredTotal,
             "aaData" => array()
         );
+       
 
         //// echo '<pre>';
         //  print_r($rResult);
@@ -265,30 +273,33 @@ class People extends AppModel {
             //for ($i = 0; $i < count($aColumns); $i++) {
             /* General output */
             //if( $type != 'global') {
-            $row[] = '';
+            if( $type != 'transfer') {
+                $row[] = '';
+            }
             //}
             foreach ($value['p'] as $k => $v) {
 
-                if ($k == 'date_of_birth' && $v != '0000-00-00 00:00:00') {
-                    $row[] = date("d/m/Y", strtotime($v));
-                } else if ($k == 'date_of_birth' && $v == '0000-00-00 00:00:00') {
-                    $row[] = '-';
-                } else {
+               
                     $row[] = $v;
-                }
+               
             }
-            $row[] = $value[0]['date_of_birth'];
-            foreach ($value[0] as $kP => $parents) {
-                if ($kP != 'date_of_birth') {
-                    $row[] = $value[0][$kP];
-                }
-            }
+            
+            
             $row[] = '';
+            
             $output['aaData'][] = $row;
         }
-        //echo '<pre>';
-        //  print_r($output);
-        //  exit;
+    } else {
+        $output = array(
+            "sEcho" => intval(0),
+            "iTotalRecords" => 0,
+            "iTotalDisplayRecords" => 0,
+            "aaData" => array()
+        );
+    }
+//        echo '<pre>';
+//          print_r($output);
+//          exit;
         return $output;
     }
 

@@ -54,6 +54,15 @@ Class FamilyController extends AppController {
      */
     public $components = array('Session');
 
+     public function getAjaxSearch() {
+        $this->autoRender = false;
+
+        $type = $_REQUEST['type'];
+        
+        $data = $this->People->getAllPeoples($type);
+        echo json_encode($data);
+    }
+    
     /**
      * index function - page landing
      */
@@ -248,6 +257,55 @@ Class FamilyController extends AppController {
             $this->set('same', $getPeopleData['People']['address_id'] == $getOwnerDetails['address_id'] ? true : false);
             // $getOwnerDetails
         }
+    }
+    
+    
+    public function transferUser() {
+        $this->autoRender = false;
+        $this->layout = 'ajax';
+        $idToTransfer = $_REQUEST['id'];
+        $ownerGroupId = $_REQUEST['ownergroupid'];
+
+        $updatePeple = array();
+        $updatePeple['People']['group_id'] = $ownerGroupId;
+        $updatePeple['People']['id'] = $idToTransfer;
+        $this->People->save($updatePeple);
+
+        $getOwnerId = $this->Group->find('all', array('fields' => array('Group.people_id'), 'conditions'
+            => array('Group.id' => $ownerGroupId)));
+
+        $this->PeopleGroup->deleteAll(array('people_id' => $idToTransfer, 'group_id' => $ownerGroupId));
+
+        $peopleGroup = array();
+        $peopleGroup['PeopleGroup']['group_id'] = $ownerGroupId;
+        $peopleGroup['PeopleGroup']['people_id'] = $idToTransfer;
+        $peopleGroup['PeopleGroup']['tree_level'] = $getOwnerId[0]['Group']['people_id'];
+
+        if ($this->PeopleGroup->save($peopleGroup)) {
+            $msg['success'] = 1;
+            $msg['message'] = 'Transfered successfully';
+        } else {
+            $msg['success'] = 0;
+            $msg['message'] = 'System Error, Please try again';
+        }
+        $this->set(compact('msg'));
+        $this->render("/Elements/json_messages");
+    }
+    
+    public function transfer()
+    {
+         if (!$this->Session->read('Auth.User')) {
+            $this->Session->destroy();
+            $this->Cookie->delete('Auth.User');
+
+            $this->redirect('/user/login');
+        }
+         $userID = $this->Session->read('User.user_id');
+         
+         $data = $this->request->data;
+         
+         $this->set('data', $data);
+        
     }
 
     /**
