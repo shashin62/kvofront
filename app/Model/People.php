@@ -131,12 +131,15 @@ class People extends AppModel {
             $sWhere = substr_replace($sWhere, "", -3);
             $sWhere .= ')';
         }
-        
         $isToBeSearched = false;
+        if ($_GET['sSearch_1'] != '' && $_GET['sSearch_2'] != '' && $_GET['sSearch_3' ] != '') {
+            $isToBeSearched = true;
+        }
+        
         /* Individual column filtering */
         for ($i = 0; $i < count($aSearchCollumns); $i++) {
             if (isset($_GET['bSearchable_' . $i]) && $_GET['bSearchable_' . $i] == "true" && $_GET['sSearch_' . $i] != '') {
-                $isToBeSearched = true;
+                
                 if ($sWhere == "") {
                     $sWhere = "WHERE ";
                 } else {
