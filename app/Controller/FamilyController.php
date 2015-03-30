@@ -54,15 +54,15 @@ Class FamilyController extends AppController {
      */
     public $components = array('Session');
 
-     public function getAjaxSearch() {
+    public function getAjaxSearch() {
         $this->autoRender = false;
 
         $type = $_REQUEST['type'];
-        
+
         $data = $this->People->getAllPeoples($type);
         echo json_encode($data);
     }
-    
+
     /**
      * index function - page landing
      */
@@ -73,8 +73,8 @@ Class FamilyController extends AppController {
 
             $this->redirect('/user/login');
         }
-        $requestData  =  $_REQUEST;
-        $this->set('module',$requestData['module']);
+        $requestData = $_REQUEST;
+        $this->set('module', $requestData['module']);
         $this->set('first_name', isset($this->request->data['first_name']) ?
                         $this->request->data['first_name'] : '');
         $this->set('last_name', isset($this->request->data['last_name']) ?
@@ -258,8 +258,7 @@ Class FamilyController extends AppController {
             // $getOwnerDetails
         }
     }
-    
-    
+
     public function transferUser() {
         $this->autoRender = false;
         $this->layout = 'ajax';
@@ -291,21 +290,19 @@ Class FamilyController extends AppController {
         $this->set(compact('msg'));
         $this->render("/Elements/json_messages");
     }
-    
-    public function transfer()
-    {
-         if (!$this->Session->read('Auth.User')) {
+
+    public function transfer() {
+        if (!$this->Session->read('Auth.User')) {
             $this->Session->destroy();
             $this->Cookie->delete('Auth.User');
 
             $this->redirect('/user/login');
         }
-         $userID = $this->Session->read('User.user_id');
-         
-         $data = $this->request->data;
-         
-         $this->set('data', $data);
-        
+        $userID = $this->Session->read('User.user_id');
+
+        $data = $this->request->data;
+
+        $this->set('data', $data);
     }
 
     /**
@@ -337,7 +334,7 @@ Class FamilyController extends AppController {
         $this->request->data['People']['martial_status'] = $this->request->data['martial_status'];
 
         $this->request->data['People']['is_late'] = $this->request->data['is_late'];
-        
+
         //insert in translation tables to track missing transaltions
         $getalltranslations = $this->Translation->find('all', array('fields' => array('Translation.id'),
             'conditions' => array('Translation.name' => $this->request->data['People']['first_name'])));
@@ -757,7 +754,7 @@ Class FamilyController extends AppController {
         $this->set(compact('msg'));
         $this->render("/Elements/json_messages");
     }
-    
+
     /**
      * function to make a member as hof of new family
      * 
@@ -765,7 +762,7 @@ Class FamilyController extends AppController {
     public function insertUser() {
         $this->layout = 'ajax';
         $this->autoRender = false;
-        
+
         $type = $_REQUEST['type'];
         $idToBeUpdated = $_REQUEST['id'];
         $gid = $_REQUEST['gid'];
@@ -778,9 +775,9 @@ Class FamilyController extends AppController {
         );
         $this->request->data = $getPeopleDetail[0];
         $updatePeople = array();
-       
+
         switch ($type) {
-            
+
             case 'addnew':
                 $peopleData = $_REQUEST['data'];
                 $data = $this->People->checkExistingOwner($peopleData);
@@ -804,9 +801,9 @@ Class FamilyController extends AppController {
                     $updatePeople['People']['group_id'] = $this->Group->id;
                     $updatePeople['People']['call_again'] = 0;
                     $updatePeople['People']['id'] = $_REQUEST['peopleid'];
-                   
+
                     $getAllRelationships = $this->People->getAllRelationsIds($_REQUEST['peopleid']);
-                    
+
                     $getAllChildren = $this->People->getChildren($_REQUEST['peopleid'], 'male', $gid);
                     //
                     $ids = array();
@@ -830,19 +827,19 @@ Class FamilyController extends AppController {
                     }
                     $this->PeopleGroup->saveAll($allData);
                 }
-                    $msg['group_id'] = $this->Group->id;
-                    $message = 'Family has been created';
+                $msg['group_id'] = $this->Group->id;
+                $message = 'Family has been created';
                 break;
             default:
                 break;
         }
-       if ($this->People->save($updatePeople)) {
+        if ($this->People->save($updatePeople)) {
             $msg['status'] = 1;
         } else {
             $msg['status'] = 0;
             $message = 'System Error';
         }
-        
+
         if ($msg['status'] == 1) {
             $msg['success'] = 1;
             $msg['message'] = $message;
@@ -853,7 +850,7 @@ Class FamilyController extends AppController {
         $this->set(compact('msg'));
         $this->render("/Elements/json_messages");
     }
-        
+
     private function _copyAddress($parentId, $peopleid) {
         $conditions = array('Address.people_id' => $parentId);
         $getParentAddress = $this->Address->find('all', array('conditions' => $conditions));
@@ -929,7 +926,7 @@ Class FamilyController extends AppController {
             foreach ($data as $key => $value) {
                 $groupData[] = $this->PeopleGroup->checkExistsInOtherGroup($groupId, $value['People']['id']);
             }
-            
+
             foreach ($groupData as $k => $v) {
                 if (count($v)) {
                     foreach ($v as $k1 => $v1) {
@@ -945,7 +942,7 @@ Class FamilyController extends AppController {
             $ids = array();
 
             $data = array_map("unserialize", array_unique(array_map("serialize", $data)));
-            
+
             foreach ($data as $key => $value) {
                 $peopleData = $value['People'];
                 $peopleGroup = $value['Group'];
@@ -966,7 +963,7 @@ Class FamilyController extends AppController {
                         $peopleData['id'] = 'START';
                         $treelevel = 1;
                     }
-                    
+
                     if ($peopleGroup['tree_level'] != '') {
                         if ($peopleGroup['tree_level'] == $rootId) {
                             $tree[$peopleData['id']]['^'] = 'START';
@@ -1014,13 +1011,13 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['hp'] = true;
                     $tree[$peopleData['id']]['i'] = $peopleData['id'];
                     $tree[$peopleData['id']]['l'] = $peopleData['last_name'] . ' (' . $peopleId . ')';
-                    $tree[$peopleData['id']]['p'] =  ucfirst($peopleData['first_name']);
+                    $tree[$peopleData['id']]['p'] = ucfirst($peopleData['first_name']);
                     $tree[$peopleData['id']]['dob'] = date("m/d/Y", strtotime($peopleData['date_of_birth']));
                     $tree[$peopleData['id']]['education'] = $peopleData['education_1'];
-                    $tree[$peopleData['id']]['village'] =  ucfirst($peopleData['village']);
-                    $tree[$peopleData['id']]['father'] =  ucfirst($peopleData['father']);
-                    $tree[$peopleData['id']]['mother'] =  ucfirst($peopleData['mother']);
-                    $tree[$peopleData['id']]['partner_name'] =  ucfirst($peopleData['partner_name']);
+                    $tree[$peopleData['id']]['village'] = ucfirst($peopleData['village']);
+                    $tree[$peopleData['id']]['father'] = ucfirst($peopleData['father']);
+                    $tree[$peopleData['id']]['mother'] = ucfirst($peopleData['mother']);
+                    $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']);
                     $tree[$peopleData['id']]['specialty_business_service'] = $peopleData['specialty_business_service'];
                     $tree[$peopleData['id']]['nature_of_business'] = $peopleData['nature_of_business'];
                     $tree[$peopleData['id']]['business_type'] = $peopleData['business_name'];
@@ -1031,9 +1028,9 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['email'] = $peopleData['email'];
                     $tree[$peopleData['id']]['pid'] = $originalPId;
                     $tree[$peopleData['id']]['gid'] = $peopleData['group_id'];
-                    $tree[$peopleData['id']]['father'] =  ucfirst($peopleData['father']);
-                    $tree[$peopleData['id']]['city'] =  ucfirst($addressData['city']);
-                    
+                    $tree[$peopleData['id']]['father'] = ucfirst($peopleData['father']);
+                    $tree[$peopleData['id']]['city'] = ucfirst($addressData['city']);
+
                     $tree[$peopleData['id']]['suburb'] = $addressData['suburb'];
                     $tree[$peopleData['id']]['suburb_zone'] = ucfirst($addressData['suburb_zone']);
 
@@ -1245,7 +1242,6 @@ Class FamilyController extends AppController {
                 );
 
                 $getBusniessIds = $this->People->getBusniessIds($_REQUEST['gid'], $peopleId);
-
                 $ids = array();
                 foreach ($getBusniessIds as $key => $value) {
                     $ids[] = $value['People']['business_address_id'];
@@ -1253,11 +1249,6 @@ Class FamilyController extends AppController {
                 if ($this->request->data['Address']['address_grp1'] == 'other' && !in_array($aid, $ids)) {
                     $this->request->data['Address']['id'] = $aid;
                 }
-//                if (isset($getParentAddress[0]) && count($getParentAddress)) {
-//                    if( $getParentAddress[0]['Address']['id'] != $aid) {
-//                        $this->request->data['Address']['id'] = $getParentAddress[0]['Address']['id'];
-//                    }
-//                }
 
                 $this->request->data['Address']['people_id'] = $_REQUEST['peopleid'];
                 $this->request->data['Address']['suburb_zone'] = $this->request->data['suburb_zone'];
@@ -1292,11 +1283,11 @@ Class FamilyController extends AppController {
         if (!$this->Session->read('Auth.User')) {
             exit;
         }
-        $userID = $this->Session->read('User.user_id');
-        
+        $userID = $this->Session->read('User.user_id');// read session user id
+        // get states master list
         $states = $this->State->find('list', array('fields' => array('State.name', 'State.name')));
         $this->set(compact('states'));
-        
+
         $suburbs = $this->Suburb->find('list', array('fields' => array('Suburb.name', 'Suburb.name')));
         $this->set(compact('suburbs'));
 
@@ -1313,11 +1304,10 @@ Class FamilyController extends AppController {
         $array = array();
         $array['gid'] = $gid;
         $array['pid'] = $pid;
+        // get owners details
         $getOwnerDetails = $this->People->getParentPeopleDetails($array, true);
         $data = $this->People->getFamilyDetails($gid, $pid);
-
         $groupData = $data[0]['Group'];
-
         $this->set('show', $groupData['tree_level'] == "" ? false : true);
         if (isset($getParentAddress[0]) && count($getParentAddress)) {
             $data = $getParentAddress[0]['Address'];
@@ -1325,7 +1315,6 @@ Class FamilyController extends AppController {
                 $this->set($key, $value);
             }
         }
-
         $this->set('peopleid', $pid);
         $this->set('name', $getOwnerDetails['first_name']);
         $this->set('parentid', $getOwnerDetails['id']);
@@ -1376,8 +1365,6 @@ Class FamilyController extends AppController {
                     'Address.people_id' => $peopleId)
                     )
             );
-
-
             $this->request->data['Address']['user_id'] = $this->Session->read('User.user_id');
             $this->request->data['Address']['ownership_type'] = $_REQUEST['ownership_type'];
             $this->request->data['Address']['people_id'] = $_REQUEST['peopleid'];
@@ -1448,6 +1435,18 @@ Class FamilyController extends AppController {
         $array['std'] = $data[0]['ZipCode']['std'];
         echo json_encode($array);
         exit;
+    }
+    
+    public function searchPeople() {
+        $userID = $this->Session->read('User.user_id');
+
+        $this->set('type', $_REQUEST['type']);
+        $this->set('fid', $_REQUEST['fid']);
+        $this->set('gid', $_REQUEST['gid']);
+        $villages = $this->Village->find('list', array('fields' => array('Village.name', 'Village.name')));
+        $this->set(compact('villages'));
+
+        $this->set('name_parent', $_REQUEST['name_parent']);
     }
 
 }
