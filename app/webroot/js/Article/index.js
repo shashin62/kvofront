@@ -41,7 +41,7 @@ function goTo(page, perPage){
       $.each(data, function(idx, obj) {
           imgSrc = "http://placehold.it/150x150";
       	  if (obj[5]) {
-      	  	imgSrc = 'http://localhost/kvoadmin/files/article/thumb/'+obj[5];
+      	  	imgSrc = 'http://admin.kvomahajan.com/files/article/thumb/'+obj[5];
       	 
       	  	if (!imageExists(imgSrc)) {
                     imgSrc = "http://placehold.it/150x150";

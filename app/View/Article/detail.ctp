@@ -7,7 +7,7 @@
                 <?php
                 $imgSrc = 'http://placehold.it/600x400';
                 
-                $adminUrl = 'http://localhost/kvoadmin/files/article/main/';
+                $adminUrl = 'http://admin.kvomahajan.com/files/article/main/';
                 if ($data['image']) {
                    $imgSrc =  $adminUrl.$data['image'];
                 }
