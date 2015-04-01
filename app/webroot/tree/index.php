@@ -8,7 +8,7 @@ if (isset($_GET['full'])) {
 	$json_data = file_get_contents('http://kvo.quadzero.in/people/index/export_as_json:1/group_id:' . $_GET['group_id']);
 } else {
 	//$json_data = file_get_contents('http://10.50.249.127/kvoadmin/family/buildTreeJson?gid=' . $_GET['gid'] . ' &uid=1');
-    $json_data = file_get_contents($adminUrl.'/family/buildTreeJson?gid=' . $_GET['gid'] . ' &uid=1');
+        $json_data = file_get_contents('http://website.kvomahajan.com/family/buildTreeJson?gid=' . $_GET["gid"] . '&token='.$_GET["token"]);
 }
 
 ?>
