@@ -1,7 +1,5 @@
 <?php
 
-$adminUrl = 'http://admin.kvomahajan.com';
-
 if (isset($_GET['full'])) {	
 	$json_data = file_get_contents('http://kvo.quadzero.in/people/index/export_as_json:1/full_tree:1/?full_tree=1');
 } else if (isset($_GET['group_id'])){
@@ -382,7 +380,7 @@ if (isset($_GET['full'])) {
             navshowchildren = window.navframe.document.getElementById('showchildren').value;
             navshowcousins = window.navframe.document.getElementById('showcousins').value;
 
-            new Ajax.Request('<?php echo $adminUrl;?>/family/buildFamilyJson?id='+id, {
+            new Ajax.Request('http://website.kvomahajan.com/family/buildFamilyJson?id='+id, {
                 method: 'get',
                 onComplete:function(_2d){
                     data = _2d.responseText;
