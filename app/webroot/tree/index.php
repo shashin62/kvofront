@@ -1,12 +1,14 @@
 <?php
 
+$adminUrl = 'http://admin.kvomahajan.com';
 
 if (isset($_GET['full'])) {	
 	$json_data = file_get_contents('http://kvo.quadzero.in/people/index/export_as_json:1/full_tree:1/?full_tree=1');
 } else if (isset($_GET['group_id'])){
 	$json_data = file_get_contents('http://kvo.quadzero.in/people/index/export_as_json:1/group_id:' . $_GET['group_id']);
 } else {
-	$json_data = file_get_contents('http://10.50.249.127/kvoadmin/family/buildTreeJson?gid=' . $_GET['gid'] . ' &uid=1');
+	//$json_data = file_get_contents('http://10.50.249.127/kvoadmin/family/buildTreeJson?gid=' . $_GET['gid'] . ' &uid=1');
+    $json_data = file_get_contents($adminUrl.'/family/buildTreeJson?gid=' . $_GET['gid'] . ' &uid=1');
 }
 
 ?>
@@ -88,7 +90,6 @@ if (isset($_GET['full'])) {
 	</HEAD>
 
 	
-
 	<BODY STYLE="overflow:hidden;" onLoad="PL();">
 
 		<TABLE WIDTH="100%" HEIGHT="100%" CELLSPACING=0 CELLPADDING=0>
@@ -233,7 +234,7 @@ if (isset($_GET['full'])) {
 
 				
 
-				<DIV ID="navdiv" CLASS="dright" STYLE="bottom:0px; height:64px;"><DIV ID="navmargin" CLASS="marginon"><IFRAME NAME="navframe" SRC="navigation.htm?130317" CLASS="fullsize" FRAMEBORDER="0" SCROLLING="no"></IFRAME></DIV></DIV>
+				<DIV ID="navdiv" CLASS="dright" STYLE="bottom:0px; height:64px;"><DIV ID="navmargin" CLASS="marginon"><IFRAME NAME="navframe" ID="navframe" SRC="navigation.htm?130317" CLASS="fullsize" FRAMEBORDER="0" SCROLLING="no"></IFRAME></DIV></DIV>
 
 				
 
@@ -279,11 +280,11 @@ if (isset($_GET['full'])) {
 
 				
 
-                                <DIV ID="leftdiv" CLASS="dleft"><IFRAME NAME="sideframe" SRC="sidebar.htm?130317" CLASS="fullsize" FRAMEBORDER="0" SCROLLING="auto"></IFRAME></DIV>
+				<DIV ID="leftdiv" CLASS="dleft"><IFRAME NAME="sideframe" ID="sideframe"  SRC="sidebar.htm?130317" CLASS="fullsize" FRAMEBORDER="0" SCROLLING="auto"></IFRAME></DIV>
 
 
 
-				<DIV ID="extradiv" CLASS="dleft lbody"><IFRAME ID="extraframe" CLASS="fullsize" FRAMEBORDER="0" SCROLLING="auto"></IFRAME></DIV>
+				<DIV ID="extradiv" CLASS="dleft lbody"><IFRAME ID="extraframe" NAME="extraframe" CLASS="fullsize" FRAMEBORDER="0" SCROLLING="auto"></IFRAME></DIV>
 
 				
 
@@ -348,13 +349,17 @@ if (isset($_GET['full'])) {
 		</TABLE>
 
 
-
 	</BODY>
 
 <script type="text/javascript">
+    var navshowdetail;
+    var navshowparents;
+    var navshowchildren;
+    var navshowcousins;
+    var navreload = false;
+    var self = this;
+    var cid = '';
 
-
-   
 
     function setJSONValue() {       
          
@@ -366,9 +371,51 @@ if (isset($_GET['full'])) {
     }
 
     //setTimeout("setJSONValue()",2000);    
-setJSONValue();
+     setJSONValue();
     
+    function resetJSONValue(id) {
+        if (id != 'START'){
+            cid = id;
+            navreload = true;    
+            navshowdetail = window.navframe.document.getElementById('showdetail').value;
+            navshowparents = window.navframe.document.getElementById('showparents').value;
+            navshowchildren = window.navframe.document.getElementById('showchildren').value;
+            navshowcousins = window.navframe.document.getElementById('showcousins').value;
 
+            new Ajax.Request('<?php echo $adminUrl;?>/family/buildFamilyJson?id='+id, {
+                method: 'get',
+                onComplete:function(_2d){
+                    data = _2d.responseText;
+                    var parsedData = JSON.parse(data);
+                    window.frames[3].parent.Efa= parsedData['tree'];
+        
+                    var treeframe = document.getElementById("treeframe");
+                    if (treeframe) {
+                        var treeframeContent = (treeframe.contentWindow || treeframe.contentDocument);
+
+                        treeframeContent.CE(this); 
+                        treeframeContent.TIS(treeframeContent.document.getElementById('treebg')); 
+                    }
+
+
+                    var navframe = document.getElementById("navframe");
+                    if (navframe) {
+                        var navframeContent = (navframe.contentWindow || navframe.contentDocument);
+
+                        navframeContent.PL(); 
+                    }
+
+                    var sideframe = document.getElementById("sideframe");
+                    if (sideframe) {
+                        var sideframeContent = (sideframe.contentWindow || sideframe.contentDocument);
+
+                        sideframeContent.PL(); 
+                    }
+                    document.getElementById('lfamilyname').innerHTML = 'Family of '  + parsedData['parent_name'];
+                }
+            });
+        }
+    }
 </script>
 
 </HTML>
