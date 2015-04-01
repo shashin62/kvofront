@@ -5,6 +5,8 @@ App::uses('AppModel', 'Model');
 class People extends AppModel {
 
     var $name = 'People';
+    
+    protected $arrIds = array();
 
     /**
      * In case we want simplified per-group only permissions, we need to implement bindNode() in User model. 
