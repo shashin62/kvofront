@@ -13,7 +13,7 @@ Class PollController extends AppController {
     }
 
     public function index() {       
-        $pollId = $_REQUEST['id'];
+        $pollId = $this->request->params['id'];
         
         $data = $this->Poll->find('all', array(
             'conditions' => array('Poll.id' => $pollId))
