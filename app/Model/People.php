@@ -73,8 +73,8 @@ class People extends AppModel {
         }
     }
 
-    public function getAllPeoples($type = false) {
-
+    public function getAllPeoples($data = false) {
+        $type = $data['type'];
         $aColumns = array('p.id', 'p.first_name', 'p.last_name', 'p.village', 'p.mobile_number', 'p.m_id', 'p.f_id',
             'IF( p.f_id = parent.id, parent.first_name, "") as father',
             'IF( p.m_id = parent2.id, parent2.first_name, "") as mother'
@@ -132,7 +132,8 @@ class People extends AppModel {
             $sWhere .= ')';
         }
         $isToBeSearched = false;
-        if ($_GET['sSearch_1'] != '' && $_GET['sSearch_2'] != '' && $_GET['sSearch_3' ] != '') {
+//      
+        if ($data['on'] == "onsubmit") {
             $isToBeSearched = true;
         }
         
@@ -211,7 +212,7 @@ class People extends AppModel {
         } else {
             
         }
-//cho $sWhere;exit;
+
         /*
          * SQL queries
          * Get data to display
@@ -224,12 +225,19 @@ class People extends AppModel {
 
         //$sGroup = " group by p.mobile_number";
 
-        $sQuery = "
-    SELECT SQL_CALC_FOUND_ROWS p.id, p.first_name, p.last_name,p.main_surname,p.mobile_number
-              
+         $sQuery = "
+    SELECT SQL_CALC_FOUND_ROWS p.id, p.first_name, p.last_name,p.village,p.mobile_number,p.date_of_birth, p.m_id, p.f_id, 
+    IF( p.f_id = parent.id ,parent.first_name, '') as father
+              , IF( p.m_id = parent2.id, parent2.first_name, '') as mother
+              , p.partner_name as spouse
+              , p.maiden_village as maiden_village
+              , p.maiden_surname as maiden_surname
+              , concat_ws(' ',parent3.first_name,parent3.last_name) as grandfather,
+              concat_ws(' ',parent4.first_name,parent4.last_name) as grandfather_mother,
+              p.village,p.email
             FROM   $sTable
                 $sJoin
-            $sWhere
+            $sWhere               
                
             $sOrder
             $sLimit
@@ -815,7 +823,8 @@ class People extends AppModel {
         $query = "UPDATE {$this->tablePrefix}people
                   SET occupation = '{$data['occupation']}' , business_name = '{$data['business_name']}'   
                       , nature_of_business = '{$data['nature_of_business']}', specialty_business_service = '{$data['specialty_business_service']}' ,
-                          name_of_business = '{$data['name_of_business']}'
+                          name_of_business = '{$data['name_of_business']}' ,
+                          other_business_type = '{$data['other_business_type']}' 
                   WHERE id = {$data['id']}";
 
         try {

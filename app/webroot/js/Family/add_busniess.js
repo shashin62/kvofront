@@ -173,6 +173,29 @@ $('.same_ashomeaddress').click(function () {
     }
 });
 
+$(".business_nature").change(function(){
+    
+    $.getJSON(baseUrl + "/family/getBusinessTypes",{id: $(this).val(), ajax: 'true'}, function(i,j){
+      var options = '';
+      
+      $.each(i,function(id, name){
+       
+          options += '<option data-btype="'+ name+ '" value="' + id + '">' + name + '</option>';
+      });
+      for (var i = 0; i < j.length; i++) {
+        
+      }
+      $(".business_name").html(options);
+    })
+  });
 
+$(".business_name").change(function(){
+    
+    if ($(this).find(':selected').data('btype') == 'Other') {
+     $('.other').show();   
+    } else {
+        $('.other').hide();   
+    }
+});
 
 

@@ -39,7 +39,7 @@ Class FamilyController extends AppController {
         'User', 'Aro', 'Role', 'Note',
         'People', 'Village', 'Education', 'State', 'BloodGroup',
         'Group', 'Address', 'PeopleGroup', 'Suburb', 'Surname', 'Translation',
-        'ZipCode', 'Spouse', 'ZipCode'
+        'ZipCode', 'Spouse', 'ZipCode','BusinessNature','BusinessType'
     );
 
     /**
@@ -58,8 +58,8 @@ Class FamilyController extends AppController {
         $this->autoRender = false;
 
         $type = $_REQUEST['type'];
-
-        $data = $this->People->getAllPeoples($type);
+        
+        $data = $this->People->getAllPeoples($_REQUEST);
         echo json_encode($data);
     }
 
@@ -1125,6 +1125,14 @@ Class FamilyController extends AppController {
         //get all suburbs from msaters
         $suburbs = $this->Suburb->find('list', array('fields' => array('Suburb.name', 'Suburb.name')));
         $this->set(compact('suburbs'));
+        
+        $businessNatures = $this->BusinessNature->find('list', array('fields' => array('BusinessNature.id', 'BusinessNature.name')));
+        $this->set(compact('businessNatures'));
+        
+        $businessTypes = $this->BusinessType->find('list', array('fields' => array('BusinessType.id', 'BusinessType.name')));
+        
+        $this->set(compact('businessTypes'));
+        
         $array = array();
         $array['gid'] = $gid;
 
@@ -1202,11 +1210,26 @@ Class FamilyController extends AppController {
         $aid = $_REQUEST['addressid'];
         $same = $this->request->data['Address']['is_same'];
         $updatePeopleBusniessDetails = array();
+         
+        if ($this->request->data['Address']['business_nature'] != '') {
+            $businessNatureName = $this->BusinessNature->find('all',array('fields' => array('BusinessNature.name'),
+                        'conditions' => array('BusinessNature.id' => $this->request->data['Address']['business_nature'])));
+         
+            $updatePeopleBusniessDetails['nature_of_business'] = $businessNatureName[0]['BusinessNature']['name'];
+        }
+        
+        
+        
+        if ($this->request->data['Address']['business_name'] != '') {
+            $businessTypeName = $this->BusinessType->find('all',array('fields' => array('BusinessType.name'),
+                        'conditions' => array('BusinessType.id' => $this->request->data['Address']['business_name'])));
+            $updatePeopleBusniessDetails['business_name'] = $businessTypeName[0]['BusinessType']['name'] ? $businessTypeName[0]['BusinessType']['name'] : 'Other' ;
+        }
         $updatePeopleBusniessDetails['id'] = $peopleId;
         $updatePeopleBusniessDetails['occupation'] = $this->request->data['occupation'];
-        $updatePeopleBusniessDetails['business_name'] = $this->request->data['Address']['business_name'];
+        
         $updatePeopleBusniessDetails['specialty_business_service'] = $this->request->data['Address']['specialty_business_service'];
-        $updatePeopleBusniessDetails['nature_of_business'] = $this->request->data['Address']['nature_of_business'];
+         $updatePeopleBusniessDetails['other_business_type'] = $this->request->data['Address']['other_business_type'];
         $updatePeopleBusniessDetails['name_of_business'] = $this->request->data['Address']['name_of_business'];
         $this->People->updateBusinessDetails($updatePeopleBusniessDetails);
         $occupation = array('House Wife', 'Retired', 'Studying', 'Other');
@@ -1447,6 +1470,20 @@ Class FamilyController extends AppController {
         $this->set(compact('villages'));
 
         $this->set('name_parent', $_REQUEST['name_parent']);
+    }
+    
+    public function getBusinessTypes()
+    {
+        $this->autoRender = false;
+        $this->layout = 'ajax';
+        $data = $this->BusinessType->find('list',array('fields' => 
+                    array('BusinessType.id','BusinessType.name'),
+            'conditions' => array('BusinessType.business_nature_id' => $_REQUEST['id'])));
+        $data['other'] = 'Other';
+        echo json_encode($data);
+        exit;
+        
+        
     }
 
 }
