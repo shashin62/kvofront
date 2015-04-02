@@ -24,19 +24,20 @@ $(document).ready(function () {
             $.post(baseUrl + '/poll/saveVote', queryString, function(data) {
                 if (0 == data.error) {
                     var displayMsg = data.message;
+                    showJsSuccessMessage(displayMsg);
+                    setTimeout(function() {
+                        $('.jssuccessMessage').hide('slow');
+                    }, 2500);                  
+                    id = $('#id').val();
+                    showResult(id);
+                } else {
+                    var displayMsg = data.message;
                     var errHtml = '<span for="poll_answer" generated="true" class="error displayMsg">'+displayMsg+'</span>';
                     errHtml.insertAfter("#frmPoll ul");
                     setTimeout(function() {
                         $('.displayMsg').hide('slow');
-                    }, 2500);
-                } else {
-                    var displayMsg = data.message;
-                    showJsSuccessMessage(displayMsg);
-                    setTimeout(function() {
-                        $('.jssuccessMessage').hide('slow');
-                    }, 2500);
-                    id = $('#id').val();
-                    showResult(id);
+                    }, 2500); 
+                    
                 }
 
             }, "json");
