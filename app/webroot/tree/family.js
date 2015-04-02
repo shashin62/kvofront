@@ -309,30 +309,34 @@ function FSC(f,ci){
 	ci[ci.length]=cp[j].i;
     }
 }
-function FLA(f,i){
-
-
-    var ac=[];
-    var c=f[i].c;
-    for(var j=0;j<c.length;j++){
-	var cp=f[c[j]];
-	if(!(cp.m&&f[cp.m]&&cp.f&&f[cp.f])){
-	    FAA(ac,c[j]);
-	}
+function FLA(f, i) {
+    var ac = [];
+    if (i in f) {
+        var c = f[i].c;
+        for (var j = 0; j < c.length; j++) {
+            if (c[j] in f) {
+                var cp = f[c[j]];
+                if (!(cp.m && f[cp.m] && cp.f && f[cp.f])) {
+                    FAA(ac, c[j]);
+                }
+            }
+        }
+        FSC(f, ac);
     }
-    FSC(f,ac);
     return ac;
 }
-function FLP(f,i,pi){
-    var tc=[];
-    var c=f[i].c;
-    for(var j=0;j<c.length;j++){
-	var cp=f[c[j]];
-	if(((cp.m==i)&&(cp.f==pi))||((cp.f==i)&&(cp.m==pi))){
-	    FAA(tc,c[j]);
-	}
+function FLP(f, i, pi) {
+    var tc = [];
+    var c = f[i].c;
+    for (var j = 0; j < c.length; j++) {
+        if (c[j] in f) {
+            var cp = f[c[j]];
+            if (((cp.m == i) && (cp.f == pi)) || ((cp.f == i) && (cp.m == pi))) {
+                FAA(tc, c[j]);
+            }
+        }
     }
-    FSC(f,tc);
+    FSC(f, tc);
     return tc;
 }
 function FLS(f,i){
@@ -353,7 +357,7 @@ function FLS(f,i){
 	}
     }
     for(var j in cs){
-	if(j!=i){
+	if(j!=i && (j in f)){
 	    if(((f[j].m==mi)&&(f[j].f==fi))||((f[j].m==fi)&&(f[j].f==mi))){
 		FAA(bs,j);
 	    }

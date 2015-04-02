@@ -47,37 +47,42 @@ TAD(d,cd,x-cd.l,cy);
 x+=cd.w;
 }
 }
-function BAE(d,f,i,si,x,y,dp,sr,da){
-TAE(d,i,f[i],x,y);
-if(dp&&(f[i].m||f[i].f)){
-TAL(d,x,y,x,y-0.4,null);
+function BAE(d, f, i, si, x, y, dp, sr, da) {
+    if (i in f) {
+        TAE(d, i, f[i], x, y);
+        if (dp && (f[i].m || f[i].f)) {
+            TAL(d, x, y, x, y - 0.4, null);
 }
-if((sr!==null)&&(f[i].cp>((si&&f[i].pc[si])?1:0))){
-TAL(d,x,y,x+(sr?0.45:-0.45),y,null);
+        if ((sr !== null) && (f[i].cp > ((si && f[i].pc[si]) ? 1 : 0))) {
+            TAL(d, x, y, x + (sr ? 0.45 : -0.45), y, null);
 }
-if(da){
-var ac=FLA(f,i);
-if(ac.length){
-TAL(d,x,y,x,y+0.35,null);
+
+        if (da) {
+            var ac = FLA(f, i);
+            if (ac.length) {
+                TAL(d, x, y, x, y + 0.35, null);
 }
 }
 }
-function BDA(d,f,i,si,h,dr,fx,cy){
-var p=f[i];
-var yt=0;
-for(var pi in p.pc){
-if(pi!=si){
+}
+function BDA(d, f, i, si, h, dr, fx, cy) {
+    if (i in f) {
+        var p = f[i];
+        var yt = 0;
+        for (var pi in p.pc) {
+            if (pi != si) {
 yt++;
 }
 }
-var ot=Math.min(0.1*(yt-1),0.15);
-var ly=cy+ot/2;
-var yo=(yt>1)?(ot/(yt-1)):0;
-var yi=0;
-for(var pi in p.pc){
-if(pi!=si){
-BDH(d,f,i,pi,FLP(f,i,pi),h,dr,fx,cy,ly);
-ly-=yo;
+        var ot = Math.min(0.1 * (yt - 1), 0.15);
+        var ly = cy + ot / 2;
+        var yo = (yt > 1) ? (ot / (yt - 1)) : 0;
+        var yi = 0;
+        for (var pi in p.pc) {
+            if (pi != si) {
+                BDH(d, f, i, pi, FLP(f, i, pi), h, dr, fx, cy, ly);
+                ly -= yo;
+}
 }
 }
 }
@@ -303,7 +308,12 @@ TAL(d,0,0,0,-0.4,null);
 }
 }
 }
-d.e[i].k=true;
+if (i && d.e[i]){
+    d.e[i].k=true;
+}else{
+    i = parent.cid;
+    d.e[i].k=true;
+}
 if(m&&d.e[m]){
 d.e[m].m=true;
 }

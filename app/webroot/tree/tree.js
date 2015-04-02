@@ -198,13 +198,20 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
 
 	}else{
 
-	    if(oi&&o.ps[oi]&&d.e[oi]){
+	    if(oi&&o.ps[oi]&&d.e[oi] && oi != 'START'){
 
 		ox=o.ps[oi].x-d.e[oi].x*(sz.Tew+sz.Ths);
 
 		oy=o.ps[oi].y-d.e[oi].y*(sz.Teh+sz.Tvs);
 
 	    }else{
+                if (d.l <= 0) {
+                    d.l = -5;
+                    if (d.t === -1) {
+                        d.t = -3;
+                    }
+                }
+
 
 		ox=_25-d.l*(sz.Tew+sz.Ths);
 
@@ -290,6 +297,7 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
     for(var i in d.e){
 
 	var e=d.e[i];
+
 	var rs="";
 
 	var sn=bn?(e.p.q||e.p.l):(e.p.l||e.p.q);
@@ -329,7 +337,7 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
 		}
                
                
-                if( e.p.r != '') {
+                if( d.e[i].p.r != '') {
                      
                      u = "../../people_images/"+d.e[i].p.r;
                     
@@ -410,7 +418,11 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
 
 	if(wp){
 
-	    v.onmousedown=TCT;
+	    //v.onmousedown=TCT;
+            v.onmousedown = function(e) {
+                window.parent.resetJSONValue(this.pid);
+                e.preventDefault();
+            };
             v.onclick = CLCK;
 
 	    v.id=i;
@@ -433,7 +445,7 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
                     } else {
                         u = "ap/images/user_female.png";
                     }
-	v.innerHTML="<TABLE WIDTH=\"100%\" HEIGHT=\"100%\" STYLE=\"table-layout:fixed;\">"+"<TR><TD CLASS=\""+cc+"\" STYLE=\"font-size:"+(e.d?sz.Tds:sz.Tfs)+"px;\""+" TITLE=\""+e.p.h+" (ID: "+ e.p.id +")\"><img id=\"personimage\" src=\""+ u + "\" class=\"simage\" style=\"display: inline; margin-right: 6px; width: 22px; height: 22px;\" onclick=\"SIC(); return false;\" >"+(e.d?"Duplicate: ":"")+EH(fn)+"</TD></TR>"+rs+"</TABLE>";
+	v.innerHTML="<TABLE WIDTH=\"100%\" HEIGHT=\"100%\" STYLE=\"table-layout:fixed;\">"+"<TR><TD CLASS=\""+cc+"\" STYLE=\"font-size:"+(e.d?sz.Tds:sz.Tfs)+"px;\""+" TITLE=\""+e.p.h+" (ID: "+ e.p.i +")\"><img id=\"personimage\" src=\""+ u + "\" class=\"simage\" style=\"display: inline; margin-right: 6px; width: 22px; height: 22px;\" onclick=\"SIC(); return false;\" >"+(e.d?"Duplicate: ":"")+EH(fn)+"</TD></TR>"+rs+"</TABLE>";
 
 	o.appendChild(v);
 
@@ -456,7 +468,7 @@ function CLCK()
         open: function () {
  
             $.ajax({
-                url: 'http://localhost/kvofront/family/getPeopleData?id=' + peopleid,
+                url: 'http://website.kvomahajan.com/family/getPeopleData?id=' + peopleid,
                 dataType: 'json',
                 type: "GET",
                 success: function (response) {

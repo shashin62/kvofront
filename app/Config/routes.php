@@ -29,8 +29,10 @@
  * ...and connect the rest of 'Pages' controller's URLs.
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
-
-
+/**
+ * ...poll param with named parameter id for action index
+ */
+        Router::connect('/poll/:id',  array('controller' => 'poll', 'action' => 'index'), array('id' => '[0-9]+'));
 
 /**
  * Load all plugin routes. See the CakePlugin documentation on
