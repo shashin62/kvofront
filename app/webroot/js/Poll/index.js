@@ -36,7 +36,7 @@ $(document).ready(function () {
                         $('.jssuccessMessage').hide('slow');
                     }, 2500);
                     id = $('#id').val();
-                    //showResult(id);
+                    showResult(id);
                 }
 
             }, "json");
