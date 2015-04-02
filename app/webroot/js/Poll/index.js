@@ -33,7 +33,7 @@ $(document).ready(function () {
                 } else {
                     var displayMsg = data.message;
                     var errHtml = '<span for="poll_answer" generated="true" class="error displayMsg">'+displayMsg+'</span>';
-                    errHtml.insertAfter("#frmPoll ul");
+                    $(errHtml).insertAfter("#frmPoll ul");
                     setTimeout(function() {
                         $('.displayMsg').hide('slow');
                     }, 2500); 
