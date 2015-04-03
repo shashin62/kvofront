@@ -96,8 +96,8 @@ class People extends AppModel {
             $sLimit = "LIMIT " . intval($_GET['iDisplayStart']) . ", " .
                     intval($_GET['iDisplayLength']);
         }
-
-
+        
+$sLimit = "LIMIT 0, 10";
         /*
          * Ordering
          */
@@ -134,7 +134,7 @@ class People extends AppModel {
             $sWhere .= ')';
         }
         $isToBeSearched = false;
-//      
+//print_r($data);      
         if ($data['on'] == "onsubmit") {
             $isToBeSearched = true;
         }
@@ -226,8 +226,8 @@ class People extends AppModel {
                     ";
 
         //$sGroup = " group by p.mobile_number";
-
-         $sQuery = "
+//echo $sWhere;
+       $sQuery = "
     SELECT SQL_CALC_FOUND_ROWS p.id, p.first_name, p.last_name,p.village,p.mobile_number,p.date_of_birth, p.m_id, p.f_id, 
     IF( p.f_id = parent.id ,parent.first_name, '') as father
               , IF( p.m_id = parent2.id, parent2.first_name, '') as mother
@@ -242,7 +242,7 @@ class People extends AppModel {
             $sWhere               
                
             $sOrder
-            $sLimit
+             $sLimit
             ";
 
         $rResult = $this->query($sQuery);
