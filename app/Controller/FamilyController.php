@@ -58,7 +58,7 @@ Class FamilyController extends AppController {
         $this->autoRender = false;
 
         $type = $_REQUEST['type'];
-        
+        $_REQUEST['on'] = 'onsubmit';
         $data = $this->People->getAllPeoples($_REQUEST);
         echo json_encode($data);
     }
