@@ -42,19 +42,20 @@ function goTo(page, perPage){
           imgSrc = "http://placehold.it/150x150";
       	  if (obj[5]) {
       	  	imgSrc = 'http://admin.kvomahajan.com/files/article/thumb/'+obj[5];
-      	 
+                /*
       	  	if (!imageExists(imgSrc)) {
                     imgSrc = "http://placehold.it/150x150";
                 }
+                */
       	  }
       	  con = '<div class="row">';
           con += '  <div class="well">';
           con += '      <div class="media">';
-          con += '          <a class="pull-left" href="'+baseUrl+'/article/detail?id='+obj[0]+'"><img class="media-object" src="'+imgSrc+'" alt="'+obj[1]+'"></a>';
+          con += '          <a class="pull-left" href="'+baseUrl+'/article/detail/'+obj['id']+'"><img class="media-object" src="'+imgSrc+'" alt="'+obj['title']+'"></a>';
           con += '          <div class="media-body">';
-	  con += '		<h4 class="media-heading">'+obj[1]+'</h4>';
-	  con += '		<p class="text-right">By '+obj[2]+'</p>';
-	  con += '		<p>'+obj[4]+'</p>';
+	  con += '		<h4 class="media-heading">'+obj['title']+'</h4>';
+	  con += '		<p class="text-right">By '+obj['author']+'</p>';
+	  con += '		<p>'+obj['body']+'</p>';
 	  con += '		<ul class="list-inline list-unstyled">';
 	  con += '                  <li>';
           con += '                      <span><i class="fa fa-2x fa-facebook-square"></i></span>';

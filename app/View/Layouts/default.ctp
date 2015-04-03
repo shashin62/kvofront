@@ -16,6 +16,12 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+
+ $selLanguage = 'english';
+ if ($this->Session->check('Website.language')) {
+     $selLanguage = $this->Session->read('Website.language');
+ } 
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -103,6 +109,19 @@
                         </li>
                         <?php } ?>
                     </ul>
+                    
+                    <div class="btn-group control_types" data-toggle="buttons" style="margin-top: 5px;">
+                        <label class="btn btn-default <?php echo ($selLanguage == 'english') ? 'active' : '';?>">
+                            <input type="radio" name="web_lang" id="web_lang_english" value="english" <?php echo ($selLanguage == 'english') ? 'checked="checked"' : '';?>>English
+                        </label>
+                        <label class="btn btn-default <?php echo ($selLanguage == 'hindi') ? 'active' : '';?>">
+                            <input type="radio" name="web_lang" id="web_lang_hindi" value="hindi" <?php echo ($selLanguage == 'hindi') ? 'checked="checked"' : '';?>>हिन्दी
+                        </label>
+                        <label class="btn btn-default <?php echo ($selLanguage == 'gujurati') ? 'active' : '';?>">
+                            <input type="radio" name="web_lang" id="web_lang_gujurati" value="gujurati" <?php echo ($selLanguage == 'gujurati') ? 'checked="checked"' : '';?>>ગુજરાતી
+                        </label>
+                    </div>
+                    
                     <ul class="nav navbar-nav navbar-right" id="right-top-links">
                         <?php if ($this->Session->read('Auth.User')) { ?>
                         <li class="dropdown">
