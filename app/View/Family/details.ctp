@@ -160,7 +160,7 @@ data-village="<?php echo $value['People']['village'];?>"
 data-email="<?php echo $value['People']['email'];?>"
 
             data-id="<?php echo $value['People']['id'];?>" 
-            href="javascript:void(0);" class="make_hof" style="display:none;">Make HOF of New Family</a>
+            href="javascript:void(0);" class="make_hof" style="display:block;">Make HOF of New Family</a>
 <?php } ?>
         </div>
                                 <?php } else { ?>
