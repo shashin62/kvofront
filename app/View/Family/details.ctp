@@ -145,11 +145,14 @@ $firstName = $value['People']['first_name'];
 
                                 <?php if ( $value['Group']['tree_level'] != '') { ?>
         <div class="col-md-1">
+ <?php if( $this->Session->read('User.user_id') == $hofId) { ?>
 <?php if( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
             <?php if( $hofId != $value['People']['partner_id']) { ?>
             <a style="display:block" data-gid="<?php echo $value['People']['group_id'];?>"  data-id="<?php echo $value['People']['id'];?>" class="transfer-family" href="javascript:void(0);">Transfer of Family</a>
             <?php } ?>
 <?php } ?>
+<?php } ?>
+ <?php if( $this->Session->read('User.user_id') == $hofId) { ?>
 <?php if($value['People']['first_name'] != '' && $value['People']['last_name'] != '' && $value['People']['mobile_number'] != '' && $value['People']['village'] != '' && $value['People']['is_late'] == 0 && $value['Group']['tree_level'] != '' && $value['People']['gender'] == 'male') { ?>
             <a data-gid="<?php echo $value['People']['group_id'];?>" 
             data-hofid="<?php echo $hofId;?>" 
@@ -161,6 +164,7 @@ data-email="<?php echo $value['People']['email'];?>"
 
             data-id="<?php echo $value['People']['id'];?>" 
             href="javascript:void(0);" class="make_hof" style="display:block;">Make HOF of New Family</a>
+<?php } ?>
 <?php } ?>
         </div>
                                 <?php } else { ?>
