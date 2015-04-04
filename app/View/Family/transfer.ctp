@@ -6,13 +6,13 @@
             <div class="form-group">
                 <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="first_name">First Name</label>
                 <div class="col-lg-8 col-md-8 col-xs-8">
-                        <?php echo $this->Form->input('first_name', array('id' => 'first_name', 'placeholder' => 'Enter First Name' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control search_username','custom'=>"1")); ?>
+                        <?php echo $this->Form->input('first_name', array('id' => 'first_name', 'placeholder' => 'Enter First Name' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control search_username first_name','custom'=>"1")); ?>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="main_number">Main Surname</label>
+                <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="main_surname">Main Surname</label>
                 <div class="col-lg-8 col-md-8 col-xs-8">
-                        <?php echo $this->Form->input('main_number', array('id' => 'main_number', 'placeholder' => 'Enter Main Surname' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control search_username','custom'=>"3")); ?>
+                        <?php echo $this->Form->input('main_surname', array('id' => 'main_surname', 'placeholder' => 'Enter Main Surname' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control search_username main_surname','custom'=>"3")); ?>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                 <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="last_name">Last Name</label>   
                 <div class="col-lg-4 col-md-4 col-xs-4">
                          <?php echo $this->Form->input('last_name', 
-                       array('id' => 'last_name', 'type' => 'text','title' => '','div' => false, 'label' => false, 'class' => 'form-control search_username','custom'=>"2")); ?>
+                       array('id' => 'last_name', 'type' => 'text','title' => '','div' => false, 'label' => false, 'class' => 'form-control search_username last_name','custom'=>"2")); ?>
                 </div>
             </div>
             
@@ -46,7 +46,7 @@
             <div class="form-actions">
                 <div class="col-lg-4 col-md-4 col-xs-4">&nbsp;</div>
                 <div class="col-lg-8 col-md-8 col-xs-8">
-<!--                    <button type="button" class="btn btn-primary registerButton">Submit</button>-->
+                    <button type="button" class="btn btn-primary registerButton">Submit</button>
                 </div>
             </div>
         </div>

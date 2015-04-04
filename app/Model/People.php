@@ -138,7 +138,7 @@ $sLimit = "LIMIT 0, 10";
         if ($data['on'] == "onsubmit") {
             $isToBeSearched = true;
         }
-        
+        //echo $sWhere;exit;
         /* Individual column filtering */
         for ($i = 0; $i < count($aSearchCollumns); $i++) {
             if (isset($_GET['bSearchable_' . $i]) && $_GET['bSearchable_' . $i] == "true" && $_GET['sSearch_' . $i] != '') {

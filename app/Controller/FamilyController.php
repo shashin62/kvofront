@@ -58,7 +58,9 @@ Class FamilyController extends AppController {
         $this->autoRender = false;
 
         $type = $_REQUEST['type'];
-        $_REQUEST['on'] = 'onsubmit';
+        if( $_REQUEST['sSearch_1'] != '' && $_REQUEST['sSearch_2'] != '' &&$_REQUEST['sSearch_3'] != '') {
+            $_REQUEST['on'] = 'onsubmit';
+        }
         $data = $this->People->getAllPeoples($_REQUEST);
         echo json_encode($data);
     }
