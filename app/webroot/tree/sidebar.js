@@ -436,7 +436,9 @@ function SP0() {
         SRR("personalview");
         SSR("personalview", "Full name", (p.p || "") + " " + (p.l || p.q || ""), false);
         SSR("personalview", "First Name", p.p, false);
-        SSR("personalview", "Last Name", p.q, false);
+        if ( p.q != '') {
+            SSR("personalview", "Last Name", p.q, false);
+        }
         if (p.q && p.l && (p.q != p.l)) {
             SSR("personalview", "Surname at birth", p.q, false);
         }
