@@ -32,8 +32,15 @@ class Article extends AppModel {
         }
     }
     
-    public function getAllArticles($start, $length) {
+    public function getAllArticles($start, $length, $selLang) {
+        
        $aColumns = array('id', 'title', 'author', 'created', 'body', 'image' );
+       
+       if ($selLang == 'hindi') {
+           $aColumns = array_merge ($aColumns, array('title_hindi', 'author_hindi', 'body_hindi'));
+       } elseif ($selLang == 'gujurati') {
+           $aColumns = array_merge ($aColumns, array('title_gujurati', 'author_gujurati', 'body_gujurati'));
+       }
 
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = "id";
@@ -100,13 +107,30 @@ class Article extends AppModel {
                     
                 /* General output */
                 
-                if ($aColumns[$i] == 'body') {
-                    $row[] = wordwrap($value['articles'][$aColumns[$i]], 200);
-                } else {
-                    $row[] = $value['articles'][$aColumns[$i]];
-                }
+                $row[$aColumns[$i]] = $value['articles'][$aColumns[$i]];
                 
             }
+            
+            if ( $selLang == 'hindi' ) {
+                $row['title'] = ($row['title_hindi'] != '' && $row['title_hindi'] != NULL) ? $row['title_hindi'] : $row['title'];
+                $row['author'] = ($row['author_hindi'] != '' && $row['author_hindi'] != NULL) ? $row['author_hindi'] : $row['author'];
+                $row['body'] = ($row['body_hindi'] != '' && $row['body_hindi'] != NULL) ? $row['body_hindi'] : $row['body'];
+                
+                unset($row['title_hindi']);
+                unset($row['author_hindi']);
+                unset($row['body_hindi']);
+            } elseif ( $selLang == 'gujurati' ) {
+                $row['title'] = ($row['title_gujurati'] != '' && $row['title_gujurati'] != NULL) ? $row['title_gujurati'] : $row['title'];
+                $row['author'] = ($row['author_gujurati'] != '' && $row['author_gujurati'] != NULL) ? $row['author_gujurati'] : $row['author'];
+                $row['body'] = ($row['body_gujurati'] != '' && $row['body_gujurati'] != NULL) ? $row['body_gujurati'] : $row['body'];
+                
+                unset($row['title_gujurati']);
+                unset($row['author_gujurati']);
+                unset($row['body_gujurati']);
+            }
+            
+            $row['body'] = wordwrap($row['body'], 200);
+            
             
             //$row[] = is_file(WWW_ROOT . 'files' . DS . 'article' . DS . 'thumb' . DS . $value['articles']['image']) ? 1 : 0;
             $output['aaData'][] = $row;
