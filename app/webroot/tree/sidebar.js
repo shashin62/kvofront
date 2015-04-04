@@ -442,22 +442,51 @@ function SP0() {
         }
         SSR("personalview", "Gender", (p.g && Fgn[p.g]) ? Fgn[p.g] : Fgn[""], false);
         SSR("personalview", "Birth date", p.dob, false);
-        SSR("personalview", "Village", p.village, false);
-        SSR("personalview", "Email Id", p.email, false);
-        SSR("personalview", "Mobile Number", p.mobile_number, false);
-        SSR("personalview", "Martial Status", p.martial_status, false);
-        SSR("personalview", "Marriage Date", p.date_of_marriage, false);
-        SSR("personalview", "Spouse", p.partner_name, false);
-        SSR("personalview", "Father", p.father, false);
+           if ( p.village != '') {
+            SSR("personalview", "Village", p.village, false);
+        }
+        if ( p.email != '') {
+            SSR("personalview", "Email Id", p.email, false);
+        }
+        if ( p.mobile_number != '') {
+            SSR("personalview", "Mobile Number", p.mobile_number, false);
+        }
+        if ( p.martial_status != '') {
+            SSR("personalview", "Martial Status", p.martial_status, false);
+        }
+        if ( p.date_of_marriage != '') {
+            SSR("personalview", "Marriage Date", p.date_of_marriage, false);
+        }
+        if ( p.partner_name != '') {
+            SSR("personalview", "Spouse", p.partner_name, false);
+        }
+        if ( p.father != '') {
+            SSR("personalview", "Father", p.father, false);
+        }
+        if ( p.education != '') {
         SSR("personalview", "Education", p.education, false);
+    }
+        if ( p.city != '') {
          SSR("personalview", "City", p.city, false);
+     }
+        if ( p.suburb != '') {
           SSR("personalview", "Suburb", p.suburb, false);
+        }
+        if ( p.suburb_zone != '') {
            SSR("personalview", "Suburb Zone", p.suburb_zone, false);
-        
-        SSR("personalview", "Type of Business", p.business_type, false);
-        SSR("personalview", "Speciality Business", p.specialty_business_service, false);
-        SSR("personalview", "Nature of Business", p.nature_of_business, false);
-        SSR("personalview", "Name of Business", p.name_of_business, false);
+        }
+        if ( p.business_type != '') {
+            SSR("personalview", "Type of Business", p.business_type, false);
+        }
+        if ( p.specialty_business_service != '') {
+            SSR("personalview", "Speciality Business", p.specialty_business_service, false);
+        }
+        if ( p.nature_of_business != '') {
+            SSR("personalview", "Nature of Business", p.nature_of_business, false);
+        }
+        if ( p.name_of_business != '') {
+            SSR("personalview", "Name of Business", p.name_of_business, false);
+        }
       
         SSR("personalview", "ID", p.pid, false);
         SSR("personalview", "Add Mother", p.pid, false, '', p.gid, p.m);
