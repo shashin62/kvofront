@@ -490,13 +490,13 @@ function SP0() {
             SSR("personalview", "Name of Business", p.name_of_business, false);
         }
       
-        SSR("personalview", "ID", p.pid, false);
+        
         SSR("personalview", "Add Mother", p.pid, false, '', p.gid, p.m);
         SSR("personalview", "Add Spouse", p.pid, false, '', p.gid, '', p.s);
         SSR("personalview", "Add Father", p.pid, false, '', p.gid, '', '', p.f);
         SSR("personalview", "Add Child", p.pid, false, '', p.gid,p.s,p.g);
         
-        SSR("personalview", "Group Id", p.gid, false);
+        
         if (p.z == 1) {
             SSR("personalview", "Death date", FDT(p.d), false);
         }
