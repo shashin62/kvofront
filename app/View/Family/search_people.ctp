@@ -9,7 +9,7 @@
     if( $name_parent ) {
         $title = 'Search and add ' . ucfirst(str_replace('add', ' ', $type)) . ' of ' . $name_parent;
     } else {
-        $title = 'Search/Add New Family';
+        $title = 'Search and add new Family/Member';
     }
     
     if( $name_parent ) {
@@ -39,7 +39,7 @@
                 <div class="form-group">
                     <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="main_surname">Main Surname</label>
                     <div class="col-lg-8 col-md-8 col-xs-8">
-                        <input id = "main_surname" type="text" class="form-control main_surname search_username" name="main_surname" placeholder="Main Surname" custom="6"/>
+                        <input id = "main_surname" type="text" class="form-control main_surname search_username" name="main_surname" placeholder="Main Surname" custom="3"/>
                     </div>
                 </div>
 <!--                <div class="form-group">
@@ -53,14 +53,14 @@
                     <div class="col-lg-8 col-md-8 col-xs-8">
                         <input type="text" class="form-control mother search_username" name="mother_name" placeholder="Mothers Name" custom="8" />
                     </div>
-                </div>
+                </div> -->
                 <div class="form-group">
                     <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="mobile_number">Mobile Number</label>
                     <div class="col-lg-8 col-md-8 col-xs-8">
-                        <input type="text" class="form-control mobile_number search" name="mobile_number" placeholder="Mobile number" custom="3"/>
+                        <input type="text" class="form-control mobile_number search" name="mobile_number" placeholder="Mobile number" custom="4"/>
                     </div>
                 </div>
-                <div class="form-group">
+             <!--    <div class="form-group">
                     <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="date_of_birth">DOB</label>
                     <div class="col-lg-8 col-md-8 col-xs-8">
                         <input id = "date_of_birth" type="text" class="dob form-control dp search_DOB" name="date_of_birth" placeholder="DOB" custom="4"/>
@@ -91,7 +91,8 @@
 			<div class="form-actions">
 				<div class="col-lg-4 col-md-4 col-xs-4">&nbsp;</div>
 				<div class="col-lg-8 col-md-8 col-xs-8">
-					<button type="button" class="btn btn-primary addnew" data-first_name="<?php echo $name_parent;?>"><?php echo 'Add New';?></button>
+                                    <?php $type = str_replace('add',' ', $type); ?>
+					<button type="button" class="btn btn-primary addnew" data-first_name="<?php echo $name_parent;?>"><?php echo 'Add New '. $type;?></button>
                                         <button type="button" style="color: red" class="btn btn-link cancel">Cancel</button>
 					<button type="button" style="color: red" class="btn btn-link clearfilter">Clear Filters</button>
 				</div>
