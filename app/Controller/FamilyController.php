@@ -1115,7 +1115,11 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['village'] = ucfirst($peopleData['village']);
                     $tree[$peopleData['id']]['father'] = ucfirst($peopleData['father']);
                     $tree[$peopleData['id']]['mother'] = ucfirst($peopleData['mother']);
-                    $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']);
+                    if ($peopleData['gender'] == 'male') {
+                        $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . ucfirst($peopleData['first_name']) . " " . $peopleData['last_name'];
+                    } else {
+                        $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . $peopleData['last_name'];
+                    }
                     $tree[$peopleData['id']]['specialty_business_service'] = $peopleData['specialty_business_service'];
                     $tree[$peopleData['id']]['nature_of_business'] = $peopleData['nature_of_business'];
                     $tree[$peopleData['id']]['business_type'] = $peopleData['business_name'];
@@ -1289,7 +1293,11 @@ Class FamilyController extends AppController {
         $tree['village'] = ucfirst($peopleData['village']);
         $tree['father'] = ucfirst($peopleData['father']);
         $tree['mother'] = ucfirst($peopleData['mother']);
-        $tree['partner_name'] = ucfirst($peopleData['partner_name']);
+        if ( $peopleData['gender'] == 'male') {
+            $tree['partner_name'] = ucfirst($peopleData['partner_name']) . " " . ucfirst($peopleData['first_name']) . " " . $peopleData['last_name'] ;
+        } else {
+            $tree['partner_name'] = ucfirst($peopleData['partner_name']) . " " . $peopleData['last_name'] ;
+        }
         $tree['specialty_business_service'] = $peopleData['specialty_business_service'];
         $tree['nature_of_business'] = $peopleData['nature_of_business'];
         $tree['business_type'] = $peopleData['business_name'];
