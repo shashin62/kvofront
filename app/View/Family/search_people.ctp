@@ -42,7 +42,7 @@
                         <input id = "main_surname" type="text" class="form-control main_surname search_username" name="main_surname" placeholder="Main Surname" custom="6"/>
                     </div>
                 </div>
-                <div class="form-group">
+<!--                <div class="form-group">
                     <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="father">Fathers Name</label>
                     <div class="col-lg-8 col-md-8 col-xs-8">
                         <input type="text" class="form-control father search_username" name="father_name" placeholder="Fathers Name" custom="7" />
@@ -85,13 +85,13 @@
                         
                     </div>
                 </div>
-                
+                -->
             </form>
         <div class="row">
 			<div class="form-actions">
 				<div class="col-lg-4 col-md-4 col-xs-4">&nbsp;</div>
 				<div class="col-lg-8 col-md-8 col-xs-8">
-					<button type="button" class="btn btn-primary addnew" data-first_name="<?php echo $name_parent;?>"><?php echo $buttonLabel;?></button>
+					<button type="button" class="btn btn-primary addnew" data-first_name="<?php echo $name_parent;?>"><?php echo 'Add New';?></button>
                                         <button type="button" style="color: red" class="btn btn-link cancel">Cancel</button>
 					<button type="button" style="color: red" class="btn btn-link clearfilter">Clear Filters</button>
 				</div>
