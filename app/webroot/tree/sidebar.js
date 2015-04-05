@@ -435,6 +435,9 @@ function SP0() {
         
         SRR("personalview");
         SSR("personalview", "Full name", (p.p || "") + " " + (p.l || p.q || ""), false);
+         if ( p.father != '') {
+            SSR("personalview", "Father", p.father, false);
+        }
         SSR("personalview", "First Name", p.p, false);
         if ( p.q != '') {
             SSR("personalview", "Last Name", p.q, false);
@@ -462,9 +465,7 @@ function SP0() {
         if ( p.partner_name != '') {
             SSR("personalview", "Spouse", p.partner_name, false);
         }
-        if ( p.father != '') {
-            SSR("personalview", "Father", p.father, false);
-        }
+       
         if ( p.education != '') {
         SSR("personalview", "Education", p.education, false);
     }
