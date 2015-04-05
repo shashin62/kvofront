@@ -265,7 +265,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     if (t == 'Add Father') {
         if (typeof father !== 'string') {
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/searchPeople?type=addfather&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/searchPeople?type=addfather&fid=' + v + '&gid=' + gid + '&module=tree&name_parent=ss">' + t + '</a>';
         } else {
 
         }
@@ -446,7 +446,10 @@ function SP0() {
             SSR("personalview", "Surname at birth", p.q, false);
         }
         SSR("personalview", "Gender", (p.g && Fgn[p.g]) ? Fgn[p.g] : Fgn[""], false);
-        SSR("personalview", "Birth date", p.dob, false);
+        if (p.dob != '') {
+            SSR("personalview", "Birth date", p.dob, false);
+        }
+        console.log(p);
            if ( p.village != '') {
             SSR("personalview", "Village", p.village, false);
         }
@@ -472,30 +475,37 @@ function SP0() {
         if ( p.city != '') {
          SSR("personalview", "City", p.city, false);
      }
-        if ( p.suburb != '') {
+        if ( p.suburb != null ) {
           SSR("personalview", "Suburb", p.suburb, false);
         }
         if ( p.suburb_zone != '') {
            SSR("personalview", "Suburb Zone", p.suburb_zone, false);
         }
-        if ( p.business_type != '') {
+        if ( p.business_type != '' && p.business_type != null) {
             SSR("personalview", "Type of Business", p.business_type, false);
         }
-        if ( p.specialty_business_service != '') {
+        if ( p.specialty_business_service != '' && p.specialty_business_service != null) {
             SSR("personalview", "Speciality Business", p.specialty_business_service, false);
         }
-        if ( p.nature_of_business != '') {
+        if ( p.nature_of_business != "" && p.nature_of_business != null) {
             SSR("personalview", "Nature of Business", p.nature_of_business, false);
         }
-        if ( p.name_of_business != '') {
+        if ( p.name_of_business != "" && p.name_of_business != null) {
             SSR("personalview", "Name of Business", p.name_of_business, false);
         }
       
-        
-        SSR("personalview", "Add Mother", p.pid, false, '', p.gid, p.m);
-        SSR("personalview", "Add Spouse", p.pid, false, '', p.gid, '', p.s);
-        SSR("personalview", "Add Father", p.pid, false, '', p.gid, '', '', p.f);
-        SSR("personalview", "Add Child", p.pid, false, '', p.gid,p.s,p.g);
+        if( p.mother == '') {
+            SSR("personalview", "Add Mother", p.pid, false, '', p.gid, p.m);
+        }
+        if (p.partner_name == '') {
+            SSR("personalview", "Add Spouse", p.pid, false, '', p.gid, '', p.s);
+        }
+        if (p.father == '') {
+            SSR("personalview", "Add Father", p.pid, false, '', p.gid, '', '', p.f);
+        }
+        if (p.partner_name != '') {
+            SSR("personalview", "Add Child", p.pid, false, '', p.gid,p.s,p.g);
+        }
         
         
         if (p.z == 1) {

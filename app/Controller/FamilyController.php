@@ -1201,6 +1201,7 @@ Class FamilyController extends AppController {
             
             if ($value['people']['id'] == $rootId) {
                 $peopleRootData = $value['people'];
+                $addressData = $value['ad'];
                 $peopleRootGroup = $value['people_groups'];
                 $exSpousesRoot = $value[0];
                 $ids[] = $value['people']['id'];
@@ -1208,17 +1209,18 @@ Class FamilyController extends AppController {
         }
         
       
-        $tree['START'] = $this->formatTree($peopleRootData, $peopleRootGroup, $exSpousesRoot, $rootId, $childrens, $allIds);      
+        $tree['START'] = $this->formatTree($peopleRootData, $peopleRootGroup, $exSpousesRoot, $rootId, $childrens, $allIds, $addressData);      
 
       
         foreach ($data as $key => $value) {
             $peopleData = $value['people'];
             $peopleGroup = $value['people_groups'];
+            $addressData = $value['ad'];
             $exSpouses = $value[0];
 
             if (!in_array($peopleData['id'], $ids) && $peopleData['id'] != $rootId) {
                 $ids[] = $peopleData['id'];
-                $tree[$peopleData['id']] = $this->formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds);
+                $tree[$peopleData['id']] = $this->formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData);
             }
         }
 
@@ -1229,7 +1231,8 @@ Class FamilyController extends AppController {
         exit;
     }
     
-    public function formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds) {
+    public function formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData) {
+        //print_r($peopleData);
         $tree = array();
         $iId = $peopleData['id'];
         if ($peopleGroup['tree_level'] != '' && $peopleGroup['people_id'] != $rootId) {
@@ -1281,7 +1284,7 @@ Class FamilyController extends AppController {
         $tree['i'] = $peopleData['id'];
         $tree['l'] = $peopleData['last_name'];
         $tree['p'] = $peopleData['first_name'];
-        $tree['dob'] = date("m/d/Y", strtotime($peopleData['date_of_birth']));
+        $tree['dob'] = $peopleData['date_of_birth'] != '' ? date("m/d/Y", strtotime($peopleData['date_of_birth'])) : '';
         $tree['education'] = $peopleData['education_1'];
         $tree['village'] = ucfirst($peopleData['village']);
         $tree['father'] = ucfirst($peopleData['father']);
@@ -1293,7 +1296,7 @@ Class FamilyController extends AppController {
         $tree['name_of_business'] = $peopleData['name_of_business'];
         $tree['mobile_number'] = $peopleData['mobile_number'];
         $tree['martial_status'] = $peopleData['martial_status'];
-        $tree['date_of_marriage'] = date("m/d/Y", strtotime($peopleData['date_of_marriage']));
+        $tree['date_of_marriage'] = $peopleData['date_of_marriage'] != ''?  date("m/d/Y", strtotime($peopleData['date_of_marriage'])) : '';
         $tree['email'] = $peopleData['email'];
         $tree['pid'] = $originalPId;
         $tree['gid'] = $peopleData['group_id'];
