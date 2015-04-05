@@ -86,7 +86,7 @@ $('.addspouse').click(function () {
     var id = $this.data('id');
     var first_name = $this.data('first_name');
     var gid = $this.data('gid');
-    doFormPost(baseUrl + "/family/index?type=addspouse",
+    doFormPost(baseUrl + "/family/searchPeople?type=addspouse",
             '{ "type":"addspouse","fid":"' + id + '","gid":"' + gid + '","name_parent":"' + first_name + '"}');
        
     
@@ -98,7 +98,7 @@ $('.addexspouse').click(function () {
     var id = $this.data('id');
     var first_name = $this.data('first_name');
     var gid = $this.data('gid');
-    doFormPost(baseUrl + "/family/index?type=addexspouse",
+    doFormPost(baseUrl + "/family/searchPeople?type=addexspouse",
             '{ "type":"addexspouse","fid":"' + id + '","gid":"' + gid + '","name_parent":"' + first_name + '"}');
        
     
@@ -111,7 +111,7 @@ $('.addfather').click(function () {
     var gid = $this.data('gid');
     var first_name = $this.data('first_name');
 
-    doFormPost(baseUrl + "/family/index?type=addfather",
+    doFormPost(baseUrl + "/family/searchPeople?type=addfather",
             '{ "type":"addfather","fid":"' + id + '","gid":"' + gid + '","name_parent":"' + first_name + '"}');
 });
 
@@ -121,7 +121,7 @@ $('.addmother').click(function () {
     var id = $this.data('id');
     var gid = $this.data('gid');
     var first_name = $this.data('first_name');
-    doFormPost(baseUrl + "/family/index?type=addmother",
+    doFormPost(baseUrl + "/family/searchPeople?type=addmother",
             '{ "type":"addmother","fid":"' + id + '","gid":"' + gid + '","name_parent":"' + first_name + '"}');
 
 });
@@ -131,7 +131,7 @@ $('.addchild').click(function () {
     var id = $this.data('id');
     var first_name = $this.data('first_name');
     var gid = $this.data('gid');
-doFormPost(baseUrl + "/family/index?type=addchilld",
+doFormPost(baseUrl + "/family/searchPeople?type=addchilld",
             '{ "type":"addchilld","fid":"' + id + '","gid":"' + gid + '","name_parent":"' + first_name + '"}');
             
    
