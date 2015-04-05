@@ -434,10 +434,8 @@ function SP0() {
     } else {
         
         SRR("personalview");
-        SSR("personalview", "Full name", (p.p || "") + " " + (p.l || p.q || ""), false);
-         if ( p.father != '') {
-            SSR("personalview", "Father", p.father, false);
-        }
+        SSR("personalview", "Full name", (p.p || "")  + " " + (p.father || "") + " " + (p.l || p.q || ""), false);
+        
         SSR("personalview", "First Name", p.p, false);
         if ( p.q != '') {
             SSR("personalview", "Last Name", p.q, false);
