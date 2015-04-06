@@ -110,69 +110,52 @@
                         <?php } ?>
                     </ul>
                     
-                    <div class="btn-group control_types" data-toggle="buttons" style="margin-top: 5px;">
-                        <label class="btn btn-default <?php echo ($selLanguage == 'english') ? 'active' : '';?>">
-                            <input type="radio" name="web_lang" id="web_lang_english" value="english" <?php echo ($selLanguage == 'english') ? 'checked="checked"' : '';?>>English
-                        </label>
-                        <label class="btn btn-default <?php echo ($selLanguage == 'hindi') ? 'active' : '';?>">
-                            <input type="radio" name="web_lang" id="web_lang_hindi" value="hindi" <?php echo ($selLanguage == 'hindi') ? 'checked="checked"' : '';?>>हिन्दी
-                        </label>
-                        <label class="btn btn-default <?php echo ($selLanguage == 'gujurati') ? 'active' : '';?>">
-                            <input type="radio" name="web_lang" id="web_lang_gujurati" value="gujurati" <?php echo ($selLanguage == 'gujurati') ? 'checked="checked"' : '';?>>ગુજરાતી
-                        </label>
+                    <!-- people search -->
+                    <div class="col-sm-3 col-md-3 text-center">
+                        <form class="navbar-form" role="search">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search People" name="srch-term" id="srch-term">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     
                     <ul class="nav navbar-nav navbar-right" id="right-top-links">
-                        <?php if ($this->Session->read('Auth.User')) { ?>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                                <i class="fa fa-language fa-fw"></i>  <i class="fa fa-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-alerts">
-                                <li>
-                                    <a href="#">
+                                <li <?php echo ($selLanguage == 'english') ? 'class="active"' : '';?>>
+                                    <a href="javascript: void();" class="web_lang" lang="english">
                                         <div>
-                                            <i class="fa fa-comment fa-fw"></i> New Comment
+                                            <i class="fa fa-fw"></i> English
                                         </div>
                                     </a>
                                 </li>
                                 <li class="divider"></li>
-                                <li>
-                                    <a href="#">
+                                <li <?php echo ($selLanguage == 'hindi') ? 'class="active"' : '';?>>
+                                    <a href="javascript: void();" class="web_lang" lang="hindi">
                                         <div>
-                                            <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                            <i class="fa fa-fw"></i> हिन्दी
                                         </div>
                                     </a>
                                 </li>
                                 <li class="divider"></li>
-                                <li>
-                                    <a href="#">
+                                <li <?php echo ($selLanguage == 'gujurati') ? 'class="active"' : '';?>>
+                                    <a href="javascript: void();" class="web_lang" lang="gujurati">
                                         <div>
-                                            <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                            <i class="fa fa-fw"></i> ગુજરાતી
                                         </div>
                                     </a>
                                 </li>
                                 <li class="divider"></li>
-                                <li>
-                                    <a href="#">
-                                        <div>
-                                            <i class="fa fa-tasks fa-fw"></i> New Task
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="#">
-                                        <div>
-                                            <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                            <span class="pull-right text-muted small">4 minutes ago</span>
-                                        </div>
-                                    </a>
-                                </li>
+                               
                             </ul>
                             <!-- /.dropdown-alerts -->
                         </li>
-                        <?php } ?>
                         <!-- /.dropdown -->
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">

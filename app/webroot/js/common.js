@@ -132,12 +132,13 @@ $(document).ready(function(){
         $("body").append("<div id='postview'></div>"); 
         
     //language selection
-    $('input[type=radio][name=web_lang]').change(function() {
-        if (this.value) {
+    $('.web_lang').click(function() {
+        val = $(this).attr('lang');
+        if (val) {
             $.ajax({
                 url: baseUrl + '/language/switchLanguage',
                 dataType: 'json',
-                data: {lang: this.value},
+                data: {lang: val},
                 type: "POST",
                 success: function (response) {
                     window.location.href =  window.location.href;
