@@ -64,9 +64,19 @@
 <form  class="form-horizontal" role="form" action="<?php echo FULL_BASE_URL . $this->base; ?>/user/forgotpin" role="form" id="ForgotForm" method="post" accept-charset="utf-8">
 				
 					<div class="form-group">
-						<label for="email" class="col-md-4 control-label">Email</label>
+						<label for="mobile_number" class="col-md-4 control-label">Mobile</label>
 						<div class="col-md-8">
 							<?php echo $this->Form->input('mobile_number', array('id' => 'mobile_number', 'placeholder' => 'Enter  Mobile' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control')); ?>
+						</div>
+					</div>
+                                        <div class="form-group">
+                                            <label for="mobile_number" class="col-md-4 control-label"></label>
+                                            <div class="col-md-8">OR</div>
+                                        </div>
+                                        <div class="form-group">
+						<label for="email_address" class="col-md-4 control-label">Email</label>
+						<div class="col-md-8">
+							<?php echo $this->Form->input('email_address', array('id' => 'email_address', 'placeholder' => 'Enter  Email' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control')); ?>
 						</div>
 					</div>
 					<div class="form-group">

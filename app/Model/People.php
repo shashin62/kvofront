@@ -864,7 +864,7 @@ $sLimit = "LIMIT 0, 10";
     public function checkEmailExists($email) {
         $this->recursive = -1;
         $options['conditions'] = array('People.email' => $email);
-        $options['fields'] = array('People.id');
+        $options['fields'] = array('People.id','People.first_name');
         try {
             $userData = $this->find('all', $options);
             if ($userData && isset($userData[0]['People']) && $userData[0]['People'] != "") {

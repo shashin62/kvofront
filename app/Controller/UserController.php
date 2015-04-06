@@ -1,6 +1,7 @@
 <?php
 
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
 
 Class UserController extends AppController {
 
@@ -183,35 +184,70 @@ Class UserController extends AppController {
         $data = $this->request->data;
         $msg['status'] = 1;
 
-        if (isset($this->request->data['mobile_number'])) {
+        if (isset($this->request->data['mobile_number']) && $this->request->data['mobile_number'] != '') {
             $phoneData = $this->People->checkPhoneExists($this->request->data['mobile_number']);
-        }
-        if (empty($phoneData)) {
-            $msg['status'] = 0;
-            $msg['error']['name'][] = "mobile_number";
-            $msg['error']['errormsg'][] = __('This number does not exists in the system');
-            $msg['success'] = 1;
-        } else {
 
-            if ($msg['status'] == 1) {
-                $random_number = mt_rand(10000, 99999);
-                $data = array();
-                $data['People']['id'] = $phoneData['id'];
-                $data['People']['pin'] = $random_number;
-                if ($this->People->save($data)) {
-                    $smsURI = Configure::read('SMS_URI');
-                    $smsURI .= '?user=' . Configure::read('USERNAME') . '&apikey=' . Configure::read('PASSWORD');
-                    $smsURI .= '&mobile=' . $this->request->data['mobile_number'] . '&message=' . $random_number. '&type=txt' . '&senderid=Default';
-                   
-                    //if (Configure::read('SEND_SMS')) {
+            if (empty($phoneData)) {
+                $msg['status'] = 0;
+                $msg['error']['name'][] = "mobile_number";
+                $msg['error']['errormsg'][] = __('This number does not exists in the system');
+                $msg['success'] = 1;
+            } else {
+
+                if ($msg['status'] == 1) {
+                    $random_number = mt_rand(10000, 99999);
+                    $data = array();
+                    $data['People']['id'] = $phoneData['id'];
+                    $data['People']['pin'] = $random_number;
+                    if ($this->People->save($data)) {
+                        $smsURI = Configure::read('SMS_URI');
+                        $smsURI .= '?user=' . Configure::read('USERNAME') . '&apikey=' . Configure::read('PASSWORD');
+                        $smsURI .= '&mobile=' . $this->request->data['mobile_number'] . '&message=' . $random_number . '&type=txt' . '&senderid=Default';
+
+                        //if (Configure::read('SEND_SMS')) {
                         $curlInt = curl_init($smsURI);
                         curl_setopt($curlInt, CURLOPT_FOLLOWLOCATION, 1);
                         curl_setopt($curlInt, CURLOPT_RETURNTRANSFER, 1);
                         $result = curl_exec($curlInt);
-                   // }
+                        // }
 
-                    $msg['success'] = 1;
-                    $msg['message'] = 'Password has been send to your mobile number';
+                        $msg['success'] = 1;
+                        $msg['message'] = 'Password has been send to your mobile number';
+                    }
+                }
+            }
+        } elseif (isset($this->request->data['email_address']) && $this->request->data['email_address'] != '') {
+            $emailData = $this->People->checkEmailExists($this->request->data['email_address']);
+
+            if (empty($emailData)) {
+                $msg['status'] = 0;
+                $msg['error']['name'][] = "email_address";
+                $msg['error']['errormsg'][] = __('This email does not exists in the system');
+                $msg['success'] = 1;
+            } else {
+
+                if ($msg['status'] == 1) {
+                    $random_number = mt_rand(10000, 99999);
+                    $data = array();
+                    $data['People']['id'] = $emailData['id'];
+                    $data['People']['pin'] = $random_number;
+                    if ($this->People->save($data)) {
+                        
+                        $messageBody = "Dear ".$emailData['first_name'].",\n
+                        Your new password : ".$random_number."\n
+                        Regards,\n
+                        KVOMahajan Team";
+                        
+                        $Email = new CakeEmail('gmail');
+                        $Email->to($this->request->data['email_address']);
+                        $Email->from('admin@kvomahajan.com');
+                        $Email->subject('Password reset for kvomahajan');
+                        //$Email->message ($messageBody);
+                        $Email->send($messageBody);
+
+                        $msg['success'] = 1;
+                        $msg['message'] = 'Password has been send to your email address';
+                    }
                 }
             }
         }
