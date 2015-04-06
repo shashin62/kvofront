@@ -1207,7 +1207,7 @@ Class FamilyController extends AppController {
                 $peopleRootData = $value['people'];
                 $addressData = $value['ad'];
                 $peopleRootGroup = $value['people_groups'];
-                $exSpousesRoot = $value[0];
+                $exSpousesRoot = array_unique($value[0]);
                 $ids[] = $value['people']['id'];
             }
         }
@@ -1220,7 +1220,7 @@ Class FamilyController extends AppController {
             $peopleData = $value['people'];
             $peopleGroup = $value['people_groups'];
             $addressData = $value['ad'];
-            $exSpouses = $value[0];
+            $exSpouses = array_unique($value[0]);
 
             if (!in_array($peopleData['id'], $ids) && $peopleData['id'] != $rootId) {
                 $ids[] = $peopleData['id'];
