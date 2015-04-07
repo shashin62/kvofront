@@ -576,7 +576,7 @@ $sLimit = "LIMIT 0, 10";
             ),
              array('table' => 'address',
                 'alias' => 'Address',
-                'type' => 'INNER',
+                'type' => 'LEFT',
                 'conditions' => array(
                     'People.id = Address.people_id'
                 )
@@ -1976,11 +1976,10 @@ GROUP BY p.created_by");
     public function searchUser($term)
     {
         $this->recursive = -1;
-        $options['limit'] = 15;
-        $options['offset'] = 0;
+//        $options['limit'] = 15;
+//        $options['offset'] = 0;
         $options['fields'] = array('People.id',"CONCAT(People.first_name, ' ' , People.last_name) as name");
        $options['conditions'] = array('People.first_name like' => '%'.$term.'%');
-       $options['conditions']['OR'] = array('People.last_name like' => '%'.$term.'%');
         try {
             $userData = $this->find('all', $options);
             if ($userData) {
