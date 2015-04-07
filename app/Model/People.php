@@ -563,7 +563,44 @@ $sLimit = "LIMIT 0, 10";
             return false;
         }
     }
+    public function search($id) {
+        $this->recursive = -1;
+         $options['conditions']['People.id'] = $id;
+         $options['joins'] = array(
+            array('table' => 'people_groups',
+                'alias' => 'Group',
+                'type' => 'INNER',
+                'conditions' => array(
+                    'People.id = Group.people_id'
+                )
+            ),
+             array('table' => 'address',
+                'alias' => 'Address',
+                'type' => 'INNER',
+                'conditions' => array(
+                    'People.id = Address.people_id'
+                )
+            )
+        );
 
+        $options['fields'] = array('People.*', 'Group.*','Address.*');
+        try {
+            $userData = $this->find('all', $options);
+
+
+            if (!empty($userData) && isset($userData[0])) {
+                $userData = $userData[0];
+
+                return $userData;
+            }
+
+            return false;
+        } catch (Exception $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
+         
+    }
     public function getPeopleData($userId, $type = false, $groupId = false) {
         $this->recursive = -1;
         if ($type) {

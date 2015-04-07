@@ -13,5 +13,17 @@ Class SearchController extends AppController {
     public function index()
     {
         $userId = $this->Session->read('User.user_id');
+        $peopleId = $this->request->data['id'];
+        
+        $data = $this->People->search($peopleId);
+        
+        
+        $peopleData = $data['People'];
+        $groupData = $data['Group'];
+        $addressData = $data['Address'];
+        
+        $this->set('peopleData', $peopleData);
+        $this->set('groupData', $groupData);
+        $this->set('addressData', $addressData);
     }
 }

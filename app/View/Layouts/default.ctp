@@ -200,8 +200,10 @@
 $("#searchBox").autocomplete({
             source: 'http://localhost/kvofront/family/getPeople',
             select: function (e, ui) {
-                var sname = ui.item.value;
-
+                var id = ui.item.id;
+                doFormPost(baseUrl + "/search/index",
+            '{ "id":"' + id + '"}');
+                //window.location.href= baseUrl + '/search/index?id='+id;
                
                 //TODO: Add AJAX webmethod call here and fill out entire form.
 
