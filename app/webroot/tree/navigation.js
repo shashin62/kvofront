@@ -30,20 +30,30 @@
 
 
 
-function PL(){
+function PL() {
 
-CE(parent);
+    CE(parent);
 
-if(parent.staticMode){
+    if (parent.staticMode) {
 
-SS("printbutton",false);
+        SS("printbutton", false);
 
-}
+    }
+
+    if (parent.navreload) {
+        SO('showdetail', parent.navshowdetail);
+        SO('showparents', parent.navshowparents);
+        SO('showchildren', parent.navshowchildren);
+        SO('showcousins', parent.navshowcousins);
+
+        parent.ECP();
+        parent.ECH();
+        parent.ECO();
+    }
 
 }
 
 function NSS(s){
-console.log(s);
 SH("sidelinktext",s?"":"");
 
 }

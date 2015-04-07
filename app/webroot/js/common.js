@@ -111,6 +111,17 @@ function format(d) {
             '</table>';
 }
 
+function imageExists(image_url){
+
+    var http = new XMLHttpRequest();
+
+    http.open('HEAD', image_url, false);
+    http.send();
+
+    return http.status != 404;
+
+}
+
 
 $(document).ready(function(){
       $(".prviewClose, .prviewCloseText").click( function(){
@@ -119,5 +130,21 @@ $(document).ready(function(){
         }); 
     $("body").append("<div id='overlay'></div>");
         $("body").append("<div id='postview'></div>"); 
+        
+    //language selection
+    $('.web_lang').click(function() {
+        val = $(this).attr('lang');
+        if (val) {
+            $.ajax({
+                url: baseUrl + '/language/switchLanguage',
+                dataType: 'json',
+                data: {lang: val},
+                type: "POST",
+                success: function (response) {
+                    window.location.href =  window.location.href;
+                }
+            });
+        }
+    });
     
 });

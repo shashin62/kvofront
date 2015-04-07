@@ -249,7 +249,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     if (t == 'Add Child') {
         if (typeof mother !== 'undefined' && spouse == 'm') {
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/index?type=addchilld&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/searchPeople?type=addchilld&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
         }
     } else {
@@ -257,7 +257,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
     }
     if (t == 'Add Mother') {
         if (typeof mother !== 'string') {
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/index?type=addmother&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/searchPeople?type=addmother&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
             // b.innerHTML = '<a data-id="'+ v +'" target="_blank" href="http://localhost/kvofront/family/index?type=addmother&fid='+ v +'&gid='+ gid + '&module=tree">' + t + '</a>';
         }
@@ -265,7 +265,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     if (t == 'Add Father') {
         if (typeof father !== 'string') {
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/index?type=addfather&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/searchPeople?type=addfather&fid=' + v + '&gid=' + gid + '&module=tree&name_parent=ss">' + t + '</a>';
         } else {
 
         }
@@ -273,7 +273,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     if (t == 'Add Spouse') {
         if (typeof spouse !== 'string') {
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/index?type=addspouse&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/searchPeople?type=addspouse&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
         }
     }
@@ -434,38 +434,80 @@ function SP0() {
     } else {
         
         SRR("personalview");
-        SSR("personalview", "Full name", (p.p || "") + " " + (p.l || p.q || ""), false);
+        SSR("personalview", "Full name", (p.p || "")  + " " + (p.father || "") + " " + (p.l || p.q || ""), false);
+         if ( p.father != '') {
+            SSR("personalview", "Father", p.father, false);
+        }
         SSR("personalview", "First Name", p.p, false);
-        SSR("personalview", "Last Name", p.q, false);
+        if ( p.q != '') {
+            SSR("personalview", "Last Name", p.q, false);
+        }
         if (p.q && p.l && (p.q != p.l)) {
             SSR("personalview", "Surname at birth", p.q, false);
         }
         SSR("personalview", "Gender", (p.g && Fgn[p.g]) ? Fgn[p.g] : Fgn[""], false);
-        SSR("personalview", "Birth date", p.dob, false);
-        SSR("personalview", "Village", p.village, false);
-        SSR("personalview", "Email Id", p.email, false);
-        SSR("personalview", "Mobile Number", p.mobile_number, false);
-        SSR("personalview", "Martial Status", p.martial_status, false);
-        SSR("personalview", "Marriage Date", p.date_of_marriage, false);
-        SSR("personalview", "Spouse", p.partner_name, false);
-        SSR("personalview", "Father", p.father, false);
+        if (p.dob != '') {
+            SSR("personalview", "Birth date", p.dob, false);
+        }
+        console.log(p);
+           if ( p.village != '') {
+            SSR("personalview", "Village", p.village, false);
+        }
+        if ( p.email != '') {
+            SSR("personalview", "Email Id", p.email, false);
+        }
+        if ( p.mobile_number != '') {
+            SSR("personalview", "Mobile Number", p.mobile_number, false);
+        }
+        if ( p.martial_status != '') {
+            SSR("personalview", "Martial Status", p.martial_status, false);
+        }
+        if ( p.date_of_marriage != '') {
+            SSR("personalview", "Marriage Date", p.date_of_marriage, false);
+        }
+        if ( p.partner_name != '') {
+            SSR("personalview", "Spouse", p.partner_name, false);
+        }
+       
+        if ( p.education != '') {
         SSR("personalview", "Education", p.education, false);
+    }
+        if ( p.city != '') {
          SSR("personalview", "City", p.city, false);
+     }
+        if ( p.suburb != null ) {
           SSR("personalview", "Suburb", p.suburb, false);
+        }
+        if ( p.suburb_zone != '') {
            SSR("personalview", "Suburb Zone", p.suburb_zone, false);
-        
-        SSR("personalview", "Type of Business", p.business_type, false);
-        SSR("personalview", "Speciality Business", p.specialty_business_service, false);
-        SSR("personalview", "Nature of Business", p.nature_of_business, false);
-        SSR("personalview", "Name of Business", p.name_of_business, false);
+        }
+        if ( p.business_type != '' && p.business_type != null) {
+            SSR("personalview", "Type of Business", p.business_type, false);
+        }
+        if ( p.specialty_business_service != '' && p.specialty_business_service != null) {
+            SSR("personalview", "Speciality Business", p.specialty_business_service, false);
+        }
+        if ( p.nature_of_business != "" && p.nature_of_business != null) {
+            SSR("personalview", "Nature of Business", p.nature_of_business, false);
+        }
+        if ( p.name_of_business != "" && p.name_of_business != null) {
+            SSR("personalview", "Name of Business", p.name_of_business, false);
+        }
       
-        SSR("personalview", "ID", p.pid, false);
-        SSR("personalview", "Add Mother", p.pid, false, '', p.gid, p.m);
-        SSR("personalview", "Add Spouse", p.pid, false, '', p.gid, '', p.s);
-        SSR("personalview", "Add Father", p.pid, false, '', p.gid, '', '', p.f);
-        SSR("personalview", "Add Child", p.pid, false, '', p.gid,p.s,p.g);
+        if( p.mother == '') {
+            SSR("personalview", "Add Mother", p.pid, false, '', p.gid, p.m);
+        }
+        if (p.partner_name == '') {
+            SSR("personalview", "Add Spouse", p.pid, false, '', p.gid, '', p.s);
+        }
+        if (p.father == '') {
+            SSR("personalview", "Add Father", p.pid, false, '', p.gid, '', '', p.f);
+        }
+        if (p.partner_name != '') {
+            SSR("personalview", "Add Child", p.pid, false, '', p.gid,p.s,p.g);
+        }
         
-        SSR("personalview", "Group Id", p.gid, false);
+        
         if (p.z == 1) {
             SSR("personalview", "Death date", FDT(p.d), false);
         }

@@ -7,7 +7,7 @@
 			<?php if( $userType == 'addnew' || ($call_again === false || $call_again === true)) { ?>
 			
 
-			<?php } else  { ?>
+			<?php } else { ?>
             <?php } ?>
 			<?php if(  $userType == 'addchilld'  &&  $countm > 1 ) { ?>
 			<div class="form-group required motherdiv">
@@ -190,20 +190,19 @@
                 </div>
 
 		<div class="col-lg-6 col-md-6 col-xs-12">
-			<div class="form-group">
-				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="is_late">Late</label>
-				<div class="col-lg-8 col-md-8 col-xs-8">
-					<?php echo $this->Form->input("is_late", array('type' => "checkbox", 'checked' => $is_late == 1 ? 'checked' : '','div' => false, 'label' => false,)); ?>
-				</div>
-			</div>
-
+			                    
 			<div style="display: none;" class="form-group dd">
 				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="date_of_death">Death Date</label>   
 				<div class="col-lg-8 col-md-8 col-xs-8">
 					<?php echo $this->Form->input('date_of_death', array('id' => 'date_of_death', 'placeholder' => 'enter in dd/mm/yyyy format' ,'type' => 'text','value'=> $date_of_death,'title' => '','div' => false, 'label' => false, 'class' => 'dp form-control date_of_death')); ?>
 				</div>
 			</div>
-
+                    <div class="form-group">
+				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="is_late">Late</label>
+				<div class="col-lg-8 col-md-8 col-xs-8">
+					<?php echo $this->Form->input("is_late", array('type' => "checkbox", 'checked' => $is_late == 1 ? 'checked' : '','div' => false, 'label' => false,)); ?>
+				</div>
+			</div>
 			<div class="form-group maidensurname">
 				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="maiden_surname">Maiden Surname</label>
 				<div class="col-lg-8 col-md-8 col-xs-8">

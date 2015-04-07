@@ -72,19 +72,28 @@ $(document).ready(function () {
         }
     });
     
+    $.validator.addMethod("atleastone", function(value, element) {
+        if ($('#mobile_number').val() == '' && $('#email_address').val() == '') {
+            return false;
+        }
+        return true;
+    }, "Please enter at least one of these fields");
+    
     
      $("#ForgotForm").validate({
         errorElement: "span",
         rules: {
             'data[mobile_number]': {
-                required: true,
                 maxlength: 25
             
+            },
+            'data[email_address]': {
+                atleastone: true
+            
+            }
         },
-    },
         messages: {
             'data[mobile_number]': {
-                required: 'Please enter phone',
                 maxlength: 'Please enter valid phone number'
             }
            
