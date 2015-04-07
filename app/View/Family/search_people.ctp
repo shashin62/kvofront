@@ -91,8 +91,8 @@
 			<div class="form-actions">
 				<div class="col-lg-4 col-md-4 col-xs-4">&nbsp;</div>
 				<div class="col-lg-8 col-md-8 col-xs-8">
-                                    <?php $type = str_replace('add',' ', $type); ?>
-					<button type="button" class="btn btn-primary addnew" data-first_name="<?php echo $name_parent;?>"><?php echo 'Add New '. $type;?></button>
+                                    <?php $typetext = str_replace('add',' ', $type); ?>
+					<button type="button" class="btn btn-primary addnew" data-first_name="<?php echo $name_parent;?>"><?php echo 'Add New '. $typetext;?></button>
                                         <button type="button" style="color: red" class="btn btn-link cancel">Cancel</button>
 					<button type="button" style="color: red" class="btn btn-link clearfilter">Clear Filters</button>
 				</div>
