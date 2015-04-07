@@ -198,7 +198,7 @@
             $(document).ready(function(){
    
 $("#searchBox").autocomplete({
-            source: 'http://localhost/kvofront/family/getPeople',
+            source: baseUrl + '/family/getPeople',
             select: function (e, ui) {
                 var id = ui.item.id;
                 doFormPost(baseUrl + "/search/index",
