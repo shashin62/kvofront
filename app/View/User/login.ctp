@@ -184,4 +184,3 @@
 </div>
 <?php echo $this->Html->script(array('User/register')); ?>
 
->>>>>>> b2de4d0b1fc7df3c1e220014973503528446970e
