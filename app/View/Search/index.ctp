@@ -10,7 +10,7 @@
 				<h1 class="panel-title">Photo</h1>
 			</div>
 			<div class="panel-body">
-                            <?php echo $_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleData['id'] .'.' . $peopleData['ext'];?>
+                            <?php echo //$_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleData['id'] .'.' . $peopleData['ext'];?>
                             <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleData['id'] .'.' . $peopleData['ext']) ===  true) { ?>
                             <img class="media-object img-responsive center-block" src="<?php echo $this->base;?>/people_images/<?php echo $peopleData['id'] .'.' . $peopleData['ext']; ?>">
                             <?php } else { ?>
