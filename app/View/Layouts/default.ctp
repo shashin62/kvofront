@@ -198,6 +198,7 @@
             $(document).ready(function(){
    
 $("#searchBox").autocomplete({
+            minChars: 3,
             source: baseUrl + '/family/getPeople',
             select: function (e, ui) {
                 var id = ui.item.id;
