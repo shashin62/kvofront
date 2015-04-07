@@ -1,5 +1,25 @@
 $(document).ready(function () {
 
+ $("#UserLoginForm").validate({
+        errorElement: "span",
+rules: {
+            'data[People][mobile_number]': {
+                required: true
+            },
+            'data[People][password]': {
+                required: true
+            }
+        },
+          messages: {
+            'data[People][mobile_number]': {
+                required: 'Please enter mobile number'
+            },
+            'data[People][password]': {
+                required: 'Please enter password'
+            }
+        }
+    });
+
     $("#registerUser").validate({
         errorElement: "span",
         rules: {
@@ -127,6 +147,11 @@ $(document).ready(function () {
 
 $(".registerButton").click(function () {
     $("#registerUser").submit();
+    return false;
+});
+
+$(".signin").click(function () {
+    $("#UserLoginForm").submit();
     return false;
 });
 
