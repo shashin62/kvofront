@@ -109,7 +109,7 @@
                         </li>
                         <?php } ?>
                     </ul>
-                     <?php if ($this->Session->read('Auth.User')) { ?>
+                     
                     <!-- people search -->
                     <div class="col-sm-3 col-md-3 text-center">
                         <form class="navbar-form" role="search">
@@ -121,7 +121,7 @@
                             </div>
                         </form>
                     </div>
-                     <?php } ?>
+                   
                     <ul class="nav navbar-nav navbar-right" id="right-top-links">
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
