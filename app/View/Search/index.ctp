@@ -181,6 +181,6 @@
 		</div>
 	</div>
 	<div class="col-md-2">
-		
+		<?php echo $this->element('votes');?>
 	</div>
 </div>
