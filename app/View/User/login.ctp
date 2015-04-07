@@ -157,7 +157,7 @@
 					<div class="form-group">
 						<!-- Button -->                                        
 						<div class="col-md-offset-4 col-md-8">
-							<button id="btn-signup" type="button" class="btn btn-info">Sign Up</button> 
+							<button id="btn-signup" type="button" class="btn btn-info registerButton">Sign Up</button> 
 						</div>
 					</div>
 				</form>
