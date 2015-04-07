@@ -109,19 +109,19 @@
                         </li>
                         <?php } ?>
                     </ul>
-                    
+                     <?php if ($this->Session->read('Auth.User')) { ?>
                     <!-- people search -->
                     <div class="col-sm-3 col-md-3 text-center">
                         <form class="navbar-form" role="search">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search People" name="srch-term" id="srch-term">
+                                <input type="text" id="searchBox" class="form-control search_box" placeholder="Search People" name="srch-term" id="srch-term">
                                 <div class="input-group-btn">
-                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                    <button class="btn btn-default searchnow" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                                 </div>
                             </div>
                         </form>
                     </div>
-                    
+                     <?php } ?>
                     <ul class="nav navbar-nav navbar-right" id="right-top-links">
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -195,6 +195,20 @@
 
         <script type="text/javascript">
             var baseUrl = '<?php echo FULL_BASE_URL . $this->base; ?>';
+            $(document).ready(function(){
+   
+$("#searchBox").autocomplete({
+            source: 'http://localhost/kvofront/family/getPeople',
+            select: function (e, ui) {
+                var sname = ui.item.value;
+
+               
+                //TODO: Add AJAX webmethod call here and fill out entire form.
+
+            }
+        });
+ 
+});
         </script>
 
         <!-- jQuery DataTables JavaScript -->
@@ -207,4 +221,5 @@
 
         </div>
     </body>
+    
 </html>

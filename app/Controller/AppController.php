@@ -49,7 +49,7 @@ class AppController extends Controller {
             'authError' => 'You are not authorized to view this page',
             'allowedActions' => array('logout','register','doRegisterUser','buildTreeJson','buildFamilyJson','insertUser',
                 'rebuildARO','callAgain','addNote','viewNote','details','index','upload','uploadimage','doResendPin'
-                ,'deleteMember', 'saveVote','showResult','gridArticles','detail', 'getBusinessTypes', 'switchLanguage'),
+                ,'deleteMember', 'saveVote','showResult','gridArticles','detail', 'getBusinessTypes', 'switchLanguage','getPeople'),
 
 //            'authenticate' => array(
 //                'all' => array('userModel' => 'User'),

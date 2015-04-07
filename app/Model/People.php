@@ -1935,6 +1935,27 @@ GROUP BY p.created_by");
         return $aResult;
 
     }
+    
+    public function searchUser($term)
+    {
+        $this->recursive = -1;
+        $options['limit'] = 15;
+        $options['offset'] = 0;
+        $options['fields'] = array('People.id',"CONCAT(People.first_name, ' ' , People.last_name) as name");
+       $options['conditions'] = array('People.first_name like' => '%'.$term.'%');
+       $options['conditions']['OR'] = array('People.last_name like' => '%'.$term.'%');
+        try {
+            $userData = $this->find('all', $options);
+            if ($userData) {
+                return $userData;
+            } else {
+                return array();
+            }
+        } catch (Exception $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
+    }
 
 }
 

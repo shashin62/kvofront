@@ -1755,5 +1755,23 @@ Class FamilyController extends AppController {
         
         
     }
+    
+    public function getPeople()
+    {
+        $this->autoRender = false;
+        $this->layout = 'ajax';
+        $term = $_GET["term"];
+        $list = $this->People->searchUser($term);
+       
+        $lists = array();
+        foreach ($list as $key => $value) {
+            $row['value'] = $value[0]['name'];
+            $row['id'] = (int) $value['People']['id'];
+            
+            $row_set[] = $row; //build an array
+        }
+        echo json_encode($row_set);
+        exit;
+    }
 
 }
