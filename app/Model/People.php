@@ -33,11 +33,10 @@ class People extends AppModel {
         }
     }
 
-    public function getLoginPeopleData($phone, $checkActive = true, $checkPass = '') {
+    public function getLoginPeopleData($phone, $pin) {
         $this->recursive = -1;
         $options['conditions']['People.mobile_number'] = $phone;
-
-        $options['conditions']['People.tree_level'] = "";
+        $options['conditions']['People.pin'] = $pin;
         $options['fields'] = array('People.*');
         try {
             $userData = $this->find('all', $options);
@@ -50,6 +49,24 @@ class People extends AppModel {
             }
 
             return false;
+        } catch (Exception $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
+    }
+    
+    public function checkPhoneExists($phone){
+        $this->recursive = -1;
+        $options['conditions']['People.mobile_number'] = $phone;
+        
+        $options['fields'] = array('People.id');
+        try {
+            $userData = $this->find('all', $options);
+            if ($userData && isset($userData[0]['People']) && $userData[0]['People'] != "") {
+                return $userData[0]['People'];
+            } else {
+                return array();
+            }
         } catch (Exception $e) {
             CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
             return false;
@@ -657,6 +674,13 @@ class People extends AppModel {
                     'conditions' => array(
                         'People.id  = exspouse.people_id '
                     )
+                ),
+                array('table' => 'address',
+                    'alias' => 'Address',
+                    'type' => 'LEFT',
+                    'conditions' => array(
+                        'Address.people_id = People.id'
+                    )
                 )
             );
         }
@@ -668,14 +692,19 @@ class People extends AppModel {
                 'parent3.first_name as partner_name', 'parent1.first_name as father', 'parent2.first_name as mother'
             );
         } else {
-            $options['fields'] = array('People.*', 'Group.tree_level', 'Group.people_id', 'group_concat(exspouse.spouse_id) as exspouses');
+            $options['fields'] = array('People.*','Address.*', 'Group.tree_level', 'Group.people_id', 'group_concat(exspouse.spouse_id) as exspouses');
             //$options['fields'] = array('People.*', 'Group.tree_level', 'Group.people_id');
             if ($flag) {
                 //$options['fields'][] = array('secondary as secondary');
             }
         }
 
-        $options['order'] = array('Group.tree_level' => 'asc');
+               $options['order'] = array(
+                                'CASE WHEN People.tree_level = "" THEN 0 ELSE 1 END',
+                                'CASE WHEN People.date_of_birth IS NULL OR People.date_of_birth = "0000-00-00" THEN 1 ELSE 0 END',
+                                'CASE WHEN People.is_late = 1 THEN 1 ELSE 0 END',
+                                );
+
         $options['group'] = array('People.id');
         try {
             $familyData = $this->find('all', $options);
@@ -824,29 +853,6 @@ class People extends AppModel {
         }
     }
 
-    /**
-     * Function to check if phone exists in table
-     * 
-     * @param type $phone
-     * 
-     * @return boolean 
-     */
-    public function checkPhoneExists($phone) {
-        $this->recursive = -1;
-        $options['conditions'] = array('People.mobile_number' => $phone);
-        $options['fields'] = array('People.id');
-        try {
-            $userData = $this->find('all', $options);
-            if ($userData && isset($userData[0]['People']) && $userData[0]['People'] != "") {
-                return $userData[0]['People'];
-            } else {
-                return array();
-            }
-        } catch (Exception $e) {
-            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
-            return false;
-        }
-    }
 
     /**
      * 
@@ -1717,6 +1723,36 @@ GROUP BY p.created_by");
             return false;
         }
     }
+     
+     public function getBusniessIds($group_id, $peopleId)  {
+        $this->recursive = -1;
+        $options['conditions'] = array(
+                            'People.business_address_id is not null',
+                            'People.group_id' => $group_id,
+                            'People.id != ' => $peopleId
+                            );
+        $options['fields'] = array('People.business_address_id,People.first_name,People.last_name', 'address.*');
+        $options['joins'] = array(
+            array('table' => 'address',
+                'alias' => 'address',
+                'type' => 'left',
+                'conditions' => array(
+                    'address.id = People.business_address_id'
+                )
+            ),
+        );
+        try {
+            $userData = $this->find('all', $options);
+            if ($userData) {
+                return $userData;
+            } else {
+                return array();
+            }
+        } catch (Exception $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
+     }
 
 }
 

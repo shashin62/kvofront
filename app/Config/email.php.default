@@ -92,3 +92,11 @@ class EmailConfig {
 	);
 
 }
+
+/*
+ * Configure::write('SMS_URI','http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp');
+
+Configure::write('USERNAME','proschool');
+
+Configure::write('PASSWORD','1007445250');
+ */

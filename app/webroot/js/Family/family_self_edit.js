@@ -99,7 +99,7 @@ $(document).ready(function () {
             },
         },
         submitHandler: function (form) {
-            //$('.editOwnButton').attr('disabled','disabled');
+            $('.editOwnButton').attr('disabled','disabled');
             var queryString = $('#createFamily').serialize();
             queryString += '&data[People][village]=' + $('.villagediv').find('.ui-autocomplete-input').val();
             queryString += '&data[People][main_surname]=' + $('.main_surnamediv').find('.ui-autocomplete-input').val();
@@ -124,9 +124,9 @@ $(document).ready(function () {
                             displayErrors(data.error.name[i], $("#" + data.error.name[i]).attr('type'), data.error.errormsg[i], "server");
                         }
                     }
-                    //  $('.editOwnButton').attr('disabled',false);
+                      $('.editOwnButton').attr('disabled',false);
                 } else {
-                    //   $('.editOwnButton').attr('disabled','disabled');
+                       $('.editOwnButton').attr('disabled','disabled');
                     var displayMsg = data.message;
                     showJsSuccessMessage(displayMsg);
                     setTimeout(function () {
@@ -135,7 +135,13 @@ $(document).ready(function () {
                         if (grpid == '') {
                             grpid = data.grpid;
                         }
-                        window.location.href = baseUrl + "/family/details/" + grpid;
+                        
+                        if( module == 'tree') {
+                            window.location.href = baseUrl + "/app/webroot/tree/?gid=" + grpid+'&token=9daa9b2f09c22636b56d33786a270af';
+                        } else {
+                            window.location.href = baseUrl + "/family/details/" + grpid;
+                        }
+                        
                     }, 2500);
                 }
 
