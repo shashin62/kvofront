@@ -125,6 +125,25 @@ $('.addmother').click(function () {
             '{ "type":"addmother","fid":"' + id + '","gid":"' + gid + '","name_parent":"' + first_name + '"}');
 
 });
+$('.addsister').click(function () {
+    var $this = $(this);
+    var id = $this.data('id');
+    var gid = $this.data('gid');
+    var first_name = $this.data('first_name');
+
+    doFormPost(baseUrl + "/family/searchPeople?type=addsister",
+            '{ "type":"addsister","fid":"' + id + '","gid":"' + gid + '","name_parent":"' + first_name + '"}');
+});
+
+$('.addbrother').click(function () {
+    var $this = $(this);
+    var id = $this.data('id');
+    var gid = $this.data('gid');
+    var first_name = $this.data('first_name');
+
+    doFormPost(baseUrl + "/family/searchPeople?type=addbrother",
+            '{ "type":"addbrother","fid":"' + id + '","gid":"' + gid + '","name_parent":"' + first_name + '"}');
+});
 $('.addchild').click(function () {
 
     var $this = $(this);

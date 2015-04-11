@@ -102,6 +102,12 @@ $firstName = $value['People']['first_name'];
             <div>Father: <?php echo $value['parent1']['father'];?></div>
         <?php } ?>
                                     <?php } ?>
+<?php if ($value['People']['m_id'] != '' && $value['People']['f_id'] != '') {?>
+            <a class="addbrother" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Brother</a>
+<?php } ?>
+<?php if ($value['People']['m_id'] != '' && $value['People']['f_id'] != '') {?>
+<a class="addsister" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Sister</a>
+<?php } ?>
         </div>
 
         <div class="col-md-2">

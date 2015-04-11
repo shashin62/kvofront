@@ -39,7 +39,7 @@ Class FamilyController extends AppController {
         'User', 'Aro', 'Role', 'Note',
         'People', 'Village', 'Education', 'State', 'BloodGroup',
         'Group', 'Address', 'PeopleGroup', 'Suburb', 'Surname', 'Translation',
-        'ZipCode', 'Spouse', 'ZipCode','BusinessNature','BusinessType'
+        'ZipCode', 'Spouse', 'ZipCode','BusinessNature','BusinessType','Brother','Sister'
     );
 
     /**
@@ -180,6 +180,32 @@ Class FamilyController extends AppController {
 //                $this->set('sect','sthanakvasi');
 //                $this->set('martial_status', 'Married');
 
+                break;
+            case 'addbrother':
+                $pageTitle = 'Add Brother of ' . $_REQUEST['name_parent'];
+                $this->set('gender', 'male');
+                $this->set('sect', 'sthanakvasi');
+                $this->set('martial_status', 'Single');
+                if ($getPeopleData['People']['tree_level'] == '') {
+                    $this->set('readonly', true);
+                } else {
+                    $this->set('readonly', false);
+                }
+                $this->set('village', $getPeopleData['People']['village']);
+                $this->set('last_name', $getPeopleData['People']['last_name']);
+                break;
+            case 'addsister':
+                $pageTitle = 'Add Sister of ' . $_REQUEST['name_parent'];
+                $this->set('gender', 'female');
+                $this->set('sect', 'deravasi');
+                $this->set('martial_status', 'Single');
+                if ($getPeopleData['People']['tree_level'] == '') {
+                    $this->set('readonly', true);
+                } else {
+                    $this->set('readonly', false);
+                }
+                $this->set('village', $getPeopleData['People']['village']);
+                $this->set('last_name', $getPeopleData['People']['last_name']);
                 break;
             default:
                 $requestData['type'] = 'self';
@@ -377,7 +403,131 @@ Class FamilyController extends AppController {
         }
 
         switch ($_REQUEST['type']) {
+            case 'addbrother':
+                $this->request->data['People']['tree_level'] = $userID == $_REQUEST['peopleid'] ? 'START' : $_REQUEST['peopleid'];
+                $this->request->data['People']['group_id'] = $getPeopleDetail[0]['People']['group_id'];
+                $msg['status'] = 1;
+                $result = $this->People->checkEmailExists($this->request->data['People']['email']);
+                
+                if (!empty($result) && !empty($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
+                    $msg['status'] = 0;
+                    $msg['error']['name'][] = "email";
+                    $msg['error']['errormsg'][] = __('This Email already exists.');
+                }
 
+                if (isset($this->request->data['People']['mobile_number']) && !empty($this->request->data['People']['mobile_number'])) {
+                    $phoneData = $this->People->checkPhoneExists($this->request->data['People']['mobile_number']);
+
+                    if (!empty($phoneData) && $this->request->data['People']['id'] == '') {
+                        $msg['status'] = 0;
+                        $msg['error']['name'][] = "mobile_number";
+                        $msg['error']['errormsg'][] = __('This Phone already exists.');
+                    }
+                }
+                if ($msg['status'] == 1) {
+                    $this->request->data['People']['created_by'] = $this->Session->read('User.user_id');
+                    $this->request->data['People']['created'] = date('Y-m-d H:i:s');
+                    $this->request->data['People']['b_id'] = $_REQUEST['peopleid'];                    
+                    $this->request->data['People']['brother'] = $getPeopleDetail[0]['People']['first_name'];
+                    $this->request->data['People']['m_id'] = $getPeopleDetail[0]['People']['m_id'];
+                    $this->request->data['People']['mother'] = $getPeopleDetail[0]['People']['mother'];
+                    $this->request->data['People']['f_id'] = $getPeopleDetail[0]['People']['f_id'];
+                    $this->request->data['People']['father'] = $getPeopleDetail[0]['People']['father'];
+                    
+                    if ($this->People->save($this->request->data)) {
+                        $msg['status'] = 1;
+                        $brotherId = $this->People->id;
+                        $updateParentUser = array();
+                        $updateParentUser['b_id'] = $brotherId;
+                        $updateParentUser['brother'] = $this->request->data['People']['first_name'];
+                        $updateParentUser['id'] = $_REQUEST['peopleid'];
+                        $this->People->updateBrotherDetails($updateParentUser);
+
+                        $getBrotherDetails = $this->People->find('all', array('fields' => array('People.m_id', 'People.mother', 'People.f_id', 'People.father'),
+                            'conditions' => array('People.id' => $_REQUEST['peopleid']))
+                        );
+
+                        $message = 'Brother has been added';
+                        $peopleGroup = array();
+                        $peopleGroup['PeopleGroup']['group_id'] = $getPeopleDetail[0]['People']['group_id'];
+                        $peopleGroup['PeopleGroup']['people_id'] = $this->People->id;
+                        $peopleGroup['PeopleGroup']['tree_level'] = $_REQUEST['peopleid'];
+                        $this->PeopleGroup->save($peopleGroup);
+                    
+                        //add to brother table
+                        $brotherData = array();
+                    $brotherData['Brother']['people_id'] = $_REQUEST['peopleid'];
+                    $brotherData['Brother']['brother_id'] = $this->People->id;
+                    $brotherData['Brother']['created'] = date('Y-m-d H:i:s');
+                    $this->Brother->save($brotherData);
+                        if ($same == 1) {
+                            $this->_copyAddress($parentId, $this->People->id, true);
+                        }
+                    }
+                }
+                break;
+            case 'addsister':
+                    $this->request->data['People']['tree_level'] = $userID == $_REQUEST['peopleid'] ? 'START' : $_REQUEST['peopleid'];
+                $this->request->data['People']['group_id'] = $getPeopleDetail[0]['People']['group_id'];
+                $msg['status'] = 1;
+                $result = $this->People->checkEmailExists($this->request->data['People']['email']);
+                
+                if (!empty($result) && !empty($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
+                    $msg['status'] = 0;
+                    $msg['error']['name'][] = "email";
+                    $msg['error']['errormsg'][] = __('This Email already exists.');
+                }
+
+                if (isset($this->request->data['People']['mobile_number']) && !empty($this->request->data['People']['mobile_number'])) {
+                    $phoneData = $this->People->checkPhoneExists($this->request->data['People']['mobile_number']);
+
+                    if (!empty($phoneData) && $this->request->data['People']['id'] == '') {
+                        $msg['status'] = 0;
+                        $msg['error']['name'][] = "mobile_number";
+                        $msg['error']['errormsg'][] = __('This Phone already exists.');
+                    }
+                }
+                if ($msg['status'] == 1) {
+                    $this->request->data['People']['created_by'] = $this->Session->read('User.user_id');
+                    $this->request->data['People']['created'] = date('Y-m-d H:i:s');
+                    $this->request->data['People']['s_id'] = $_REQUEST['peopleid'];                    
+                    $this->request->data['People']['sister'] = $getPeopleDetail[0]['People']['first_name'];
+                    $this->request->data['People']['m_id'] = $getPeopleDetail[0]['People']['m_id'];
+                    $this->request->data['People']['mother'] = $getPeopleDetail[0]['People']['mother'];
+                    $this->request->data['People']['f_id'] = $getPeopleDetail[0]['People']['f_id'];
+                    $this->request->data['People']['father'] = $getPeopleDetail[0]['People']['father'];
+                    
+                    if ($this->People->save($this->request->data)) {
+                        $msg['status'] = 1;
+                        $brotherId = $this->People->id;
+                        $updateParentUser = array();
+                        $updateParentUser['s_id'] = $brotherId;
+                        $updateParentUser['sister'] = $this->request->data['People']['first_name'];
+                        $updateParentUser['id'] = $_REQUEST['peopleid'];
+                        $this->People->updateBrotherDetails($updateParentUser);
+
+                        $getBrotherDetails = $this->People->find('all', array('fields' => array('People.m_id', 'People.mother', 'People.f_id', 'People.father'),
+                            'conditions' => array('People.id' => $_REQUEST['peopleid']))
+                        );
+
+                        $message = 'Sister has been added';
+                        $peopleGroup = array();
+                        $peopleGroup['PeopleGroup']['group_id'] = $getPeopleDetail[0]['People']['group_id'];
+                        $peopleGroup['PeopleGroup']['people_id'] = $this->People->id;
+                        $peopleGroup['PeopleGroup']['tree_level'] = $_REQUEST['peopleid'];
+                        $this->PeopleGroup->save($peopleGroup);
+                          $brotherData = array();
+                $brotherData['Sister']['people_id'] = $_REQUEST['peopleid'];
+                $brotherData['Sister']['sister_id'] = $this->People->id;
+                $brotherData['Sister']['created'] = date('Y-m-d H:i:s');
+                $this->Sister->save($brotherData);
+                
+                        if ($same == 1) {
+                            $this->_copyAddress($parentId, $this->People->id, true);
+                        }
+                    }
+                }
+                break;
             case 'addnew':
                 $msg['status'] = 1;
                 $result = $this->People->checkEmailExists($this->request->data['People']['email']);
@@ -779,6 +929,75 @@ Class FamilyController extends AppController {
         $updatePeople = array();
 
         switch ($type) {
+            case 'addbrother':
+                $peopleGroup = array();
+                $peopleGroup['PeopleGroup']['group_id'] = $gid;
+                $peopleGroup['PeopleGroup']['people_id'] = $peopleId;
+                $peopleGroup['PeopleGroup']['tree_level'] = $idToBeUpdated;
+                $this->PeopleGroup->save($peopleGroup);
+                                
+                // add brother
+                $brotherData = array();
+                $brotherData['Brother']['people_id'] = $idToBeUpdated;
+                $brotherData['Brother']['brother_id'] = $peopleId;
+                $brotherData['Brother']['created'] = date('Y-m-d H:i:s');
+                $this->Brother->save($brotherData);
+                $updateBrotherDetails = array();
+                $updateBrotherDetails['People']['b_id'] = $peopleId;
+                $updateBrotherDetails['People']['brother'] = $getPeopleDetail[0]['People']['first_name'];
+                $updateBrotherDetails['People']['id'] = $idToBeUpdated;
+                $updateBrotherDetails['People']['modified'] = date('Y-m-d H:i:s');
+                $this->request->data['People']['created_by'] = $this->Session->read('User.user_id');
+                $this->People->save($updateBrotherDetails);
+                
+                $updateSecondBrotherDetails = array();
+                $updateSecondBrotherDetails['People']['b_id'] = $idToBeUpdated;
+                $updateSecondBrotherDetails['People']['brother'] = $getParentPeopleDetail[0]['People']['first_name'];
+                $updateSecondBrotherDetails['People']['id'] = $peopleId;
+                $updateSecondBrotherDetails['People']['modified'] = date('Y-m-d H:i:s');
+                $updateSecondBrotherDetails['People']['m_id'] = $getParentPeopleDetail[0]['People']['m_id'];
+                $updateSecondBrotherDetails['People']['mother'] = $getParentPeopleDetail[0]['People']['mother'];
+                $updateSecondBrotherDetails['People']['f_id'] = $getParentPeopleDetail[0]['People']['f_id'];
+                $updateSecondBrotherDetails['People']['father'] = $getParentPeopleDetail[0]['People']['father'];
+
+                $this->People->save($updateSecondBrotherDetails);
+                $msg['group_id'] = $gid;
+                $message = 'Brother has been added';
+                break;
+             case 'addsister':
+                $peopleGroup = array();
+                $peopleGroup['PeopleGroup']['group_id'] = $gid;
+                $peopleGroup['PeopleGroup']['people_id'] = $peopleId;
+                $peopleGroup['PeopleGroup']['tree_level'] = $idToBeUpdated;
+                $this->PeopleGroup->save($peopleGroup);      
+                $brotherData = array();
+                $brotherData['Sister']['people_id'] = $idToBeUpdated;
+                $brotherData['Sister']['sister_id'] = $peopleId;
+                $brotherData['Sister']['created'] = date('Y-m-d H:i:s');
+                $this->Sister->save($brotherData);
+                
+                $updateBrotherDetails = array();
+                $updateBrotherDetails['People']['s_id'] = $peopleId;
+                $updateBrotherDetails['People']['sister'] = $getPeopleDetail[0]['People']['first_name'];
+                $updateBrotherDetails['People']['id'] = $idToBeUpdated;
+                $updateBrotherDetails['People']['modified'] = date('Y-m-d H:i:s');
+                $this->request->data['People']['created_by'] = $this->Session->read('User.user_id');
+                $this->People->save($updateBrotherDetails);
+                
+                $updateSecondBrotherDetails = array();
+                $updateSecondBrotherDetails['People']['s_id'] = $idToBeUpdated;
+                $updateSecondBrotherDetails['People']['sister'] = $getParentPeopleDetail[0]['People']['first_name'];
+                $updateSecondBrotherDetails['People']['id'] = $peopleId;
+                $updateSecondBrotherDetails['People']['modified'] = date('Y-m-d H:i:s');
+                $updateSecondBrotherDetails['People']['m_id'] = $getParentPeopleDetail[0]['People']['m_id'];
+                $updateSecondBrotherDetails['People']['mother'] = $getParentPeopleDetail[0]['People']['mother'];
+                $updateSecondBrotherDetails['People']['f_id'] = $getParentPeopleDetail[0]['People']['f_id'];
+                $updateSecondBrotherDetails['People']['father'] = $getParentPeopleDetail[0]['People']['father'];
+
+                $this->People->save($updateSecondBrotherDetails);
+                $msg['group_id'] = $gid;
+                $message = 'Brother has been added';
+                break;                
             case 'addfather':
 
                 $data = $this->Group->find('all', array('fields' => array('Group.id'),
@@ -1009,11 +1228,11 @@ Class FamilyController extends AppController {
         $this->set('data', $getDetails);
     }
 
-    public function buildTreeJson() {
+    public function buildTreeJson($group_id = false) {
 
         $this->autoRender = false;
         $this->layout = null;
-        $groupId = $this->request->query['gid'];
+        $groupId = $this->request->query['gid'] ? $this->request->query['gid'] : $group_id;
         //echo '--token--'.$_REQUEST['token'];
 
         $token = md5('dsdsdss434dsds332323d34d');
@@ -1169,9 +1388,12 @@ Class FamilyController extends AppController {
 //            exit;
             $jsonData['tree'] = $tree;
             $jsonData['parent_name'] = $parentName;
-
-            echo json_encode($jsonData);
-            exit;
+            if ($group_id) {
+                return $jsonData;
+            } else {
+                echo json_encode($jsonData);
+                exit;
+            }
         } else {
             echo json_encode(array('message' => 'Bad Request'));
             exit;

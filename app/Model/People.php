@@ -154,6 +154,14 @@ $sLimit = "LIMIT 0, 10";
 
         if ($type) {
             switch ($type) {
+                case 'addbrother':
+                    if ($sWhere == "") {
+                        $sWhere = "WHERE ";
+                    } else {
+                        $sWhere .= ' AND ';
+                    }
+                    $sWhere .= ' p.gender = "male" AND p.first_name is not null and p.m_id IS NULL AND p.f_id IS NULL ';
+                    break;
                 case 'addfather':
                     if ($sWhere == "") {
                         $sWhere = "WHERE ";
@@ -161,6 +169,14 @@ $sLimit = "LIMIT 0, 10";
                         $sWhere .= ' AND ';
                     }
                     $sWhere .= ' p.gender = "male" AND p.first_name is not null';
+                    break;
+                case 'addsister':
+                    if ($sWhere == "") {
+                        $sWhere = "WHERE ";
+                    } else {
+                        $sWhere .= ' AND ';
+                    }
+                    $sWhere .= ' p.gender = "female"  AND p.first_name is not null and p.m_id IS NULL AND p.f_id IS NULL ';
                     break;
                 case 'addmother':
                     if ($sWhere == "") {
@@ -534,6 +550,37 @@ $sLimit = "LIMIT 0, 10";
         }
 
         return $output;
+    }
+ public function updateBrotherDetails($data) {
+        $this->recursive = -1;
+
+        $query = "UPDATE {$this->tablePrefix}people
+                  SET b_id = '{$data['b_id']}' , brother = '{$data['brother']}'           
+                  WHERE id = {$data['id']}";
+
+        try {
+            $this->query($query);
+            return true;
+        } catch (ErrorException $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
+    }
+    
+    public function updateSisterDetails($data) {
+        $this->recursive = -1;
+
+        $query = "UPDATE {$this->tablePrefix}people
+                  SET s_id = '{$data['s_id']}' , sister = '{$data['sister']}'           
+                  WHERE id = {$data['id']}";
+
+        try {
+            $this->query($query);
+            return true;
+        } catch (ErrorException $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
     }
 
     public function getChildren($fatherId, $gender = false, $groupId = false) {
