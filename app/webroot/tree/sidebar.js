@@ -235,7 +235,6 @@ function getParameterByName(name) {
 }
 function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
-
     var r = document.createElement("TR");
     r.vAlign = a || "top";
     var a = document.createElement("TD");
@@ -249,7 +248,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     if (t == 'Add Child') {
         if (typeof mother !== 'undefined' && spouse == 'm') {
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/searchPeople?type=addchilld&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvoadmin/family/searchPeople?type=addchilld&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
         }
     } else {
@@ -257,7 +256,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
     }
     if (t == 'Add Mother') {
         if (typeof mother !== 'string') {
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/searchPeople?type=addmother&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvoadmin/family/searchPeople?type=addmother&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
             // b.innerHTML = '<a data-id="'+ v +'" target="_blank" href="http://localhost/kvofront/family/index?type=addmother&fid='+ v +'&gid='+ gid + '&module=tree">' + t + '</a>';
         }
@@ -265,7 +264,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     if (t == 'Add Father') {
         if (typeof father !== 'string') {
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/searchPeople?type=addfather&fid=' + v + '&gid=' + gid + '&module=tree&name_parent=ss">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvoadmin/family/searchPeople?type=addfather&fid=' + v + '&gid=' + gid + '&module=tree&name_parent=ss">' + t + '</a>';
         } else {
 
         }
@@ -273,9 +272,19 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     if (t == 'Add Spouse') {
         if (typeof spouse !== 'string') {
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvofront/family/searchPeople?type=addspouse&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvoadmin/family/searchPeople?type=addspouse&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
         }
+    }
+    if (t == 'Add Brother') {
+        
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvoadmin/family/searchPeople?type=addbrother&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+        
+    }
+     if (t == 'Add Sister') {
+        
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://localhost/kvoadmin/family/searchPeople?type=addsister&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+        
     }
     r.appendChild(a);
     r.appendChild(b);
@@ -435,6 +444,7 @@ function SP0() {
         
         SRR("personalview");
         SSR("personalview", "Full name", (p.p || "")  + " " + (p.father || "") + " " + (p.l || p.q || ""), false);
+        
          if ( p.father != '') {
             SSR("personalview", "Father", p.father, false);
         }
@@ -449,7 +459,7 @@ function SP0() {
         if (p.dob != '') {
             SSR("personalview", "Birth date", p.dob, false);
         }
-        console.log(p);
+        
            if ( p.village != '') {
             SSR("personalview", "Village", p.village, false);
         }
@@ -506,7 +516,10 @@ function SP0() {
         if (p.partner_name != '') {
             SSR("personalview", "Add Child", p.pid, false, '', p.gid,p.s,p.g);
         }
-        
+        if (p.father != '' && p.mother != '') {
+            SSR("personalview", "Add Brother", p.pid, false, '', p.gid, '', '', p.f);
+            SSR("personalview", "Add Sister", p.pid, false, '', p.gid, '', '', p.f);
+        }
         
         if (p.z == 1) {
             SSR("personalview", "Death date", FDT(p.d), false);
