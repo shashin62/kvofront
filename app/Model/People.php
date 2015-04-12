@@ -5,7 +5,6 @@ App::uses('AppModel', 'Model');
 class People extends AppModel {
 
     var $name = 'People';
-    
     protected $arrIds = array();
 
     /**
@@ -56,11 +55,11 @@ class People extends AppModel {
             return false;
         }
     }
-    
-    public function checkPhoneExists($phone){
+
+    public function checkPhoneExists($phone) {
         $this->recursive = -1;
         $options['conditions']['People.mobile_number'] = $phone;
-        
+
         $options['fields'] = array('People.id');
         try {
             $userData = $this->find('all', $options);
@@ -96,8 +95,8 @@ class People extends AppModel {
             $sLimit = "LIMIT " . intval($_GET['iDisplayStart']) . ", " .
                     intval($_GET['iDisplayLength']);
         }
-        
-$sLimit = "LIMIT 0, 10";
+
+        $sLimit = "LIMIT 0, 10";
         /*
          * Ordering
          */
@@ -117,7 +116,7 @@ $sLimit = "LIMIT 0, 10";
             }
         }
 
-        $aSearchCollumns = array('p.id', 'p.first_name', 'p.last_name', 'p.main_surname','p.mobile_number');
+        $aSearchCollumns = array('p.id', 'p.first_name', 'p.last_name', 'p.main_surname', 'p.mobile_number');
         /*
          * Filtering
          * NOTE this does not match the built-in DataTables filtering which does it
@@ -142,7 +141,7 @@ $sLimit = "LIMIT 0, 10";
         /* Individual column filtering */
         for ($i = 0; $i < count($aSearchCollumns); $i++) {
             if (isset($_GET['bSearchable_' . $i]) && $_GET['bSearchable_' . $i] == "true" && $_GET['sSearch_' . $i] != '') {
-                
+
                 if ($sWhere == "") {
                     $sWhere = "WHERE ";
                 } else {
@@ -243,7 +242,7 @@ $sLimit = "LIMIT 0, 10";
 
         //$sGroup = " group by p.mobile_number";
 //echo $sWhere;
-       $sQuery = "
+        $sQuery = "
     SELECT SQL_CALC_FOUND_ROWS p.id, p.first_name, p.last_name,p.village,p.mobile_number,p.date_of_birth, p.m_id, p.f_id, 
     IF( p.f_id = parent.id ,parent.first_name, '') as father
               , IF( p.m_id = parent2.id, parent2.first_name, '') as mother
@@ -282,50 +281,49 @@ $sLimit = "LIMIT 0, 10";
         /*
          * Output
          */
-        
-       
+
+
         if ($isToBeSearched == true) {
-        $output = array(
-            "sEcho" => intval($_GET['sEcho']),
-            "iTotalRecords" => $iTotal,
-            "iTotalDisplayRecords" => $iFilteredTotal,
-            "aaData" => array()
-        );
-       
+            $output = array(
+                "sEcho" => intval($_GET['sEcho']),
+                "iTotalRecords" => $iTotal,
+                "iTotalDisplayRecords" => $iFilteredTotal,
+                "aaData" => array()
+            );
 
-        //// echo '<pre>';
-        //  print_r($rResult);
-        //  exit;
-        foreach ($rResult as $key => $value) {
 
-            $row = array();
-            //for ($i = 0; $i < count($aColumns); $i++) {
-            /* General output */
-            //if( $type != 'global') {
-            if( $type != 'transfer') {
-                $row[] = '';
-            }
-            //}
-            foreach ($value['p'] as $k => $v) {
+            //// echo '<pre>';
+            //  print_r($rResult);
+            //  exit;
+            foreach ($rResult as $key => $value) {
 
-               
+                $row = array();
+                //for ($i = 0; $i < count($aColumns); $i++) {
+                /* General output */
+                //if( $type != 'global') {
+                if ($type != 'transfer') {
+                    $row[] = '';
+                }
+                //}
+                foreach ($value['p'] as $k => $v) {
+
+
                     $row[] = $v;
-               
+                }
+
+
+                $row[] = '';
+
+                $output['aaData'][] = $row;
             }
-            
-            
-            $row[] = '';
-            
-            $output['aaData'][] = $row;
+        } else {
+            $output = array(
+                "sEcho" => intval(0),
+                "iTotalRecords" => 0,
+                "iTotalDisplayRecords" => 0,
+                "aaData" => array()
+            );
         }
-    } else {
-        $output = array(
-            "sEcho" => intval(0),
-            "iTotalRecords" => 0,
-            "iTotalDisplayRecords" => 0,
-            "aaData" => array()
-        );
-    }
 //        echo '<pre>';
 //          print_r($output);
 //          exit;
@@ -551,7 +549,60 @@ $sLimit = "LIMIT 0, 10";
 
         return $output;
     }
- public function updateBrotherDetails($data) {
+
+    public function getBrothers($peopleId) {
+
+        $this->recursive = -1;
+        $options['conditions'] = array('b.people_id' => $peopleId);
+        $options['joins'] = array(
+            array('table' => 'brothers',
+                'alias' => 'b',
+                'type' => 'INNER',
+                'conditions' => array(
+                    'b.brother_id = People.id'
+                )
+            ),);
+        $options['fields'] = array('People.id', 'People.first_name', 'b.brother_id');
+        try {
+            $userData = $this->find('all', $options);
+            if ($userData) {
+                return $userData;
+            } else {
+                return array();
+            }
+        } catch (Exception $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function getSisters($peopleId) {
+
+        $this->recursive = -1;
+        $options['conditions'] = array('b.people_id' => $peopleId);
+        $options['joins'] = array(
+            array('table' => 'sisters',
+                'alias' => 'b',
+                'type' => 'INNER',
+                'conditions' => array(
+                    'b.sister_id = People.id'
+                )
+            ),);
+        $options['fields'] = array('People.id', 'People.first_name', 'b.sister_id');
+        try {
+            $userData = $this->find('all', $options);
+            if ($userData) {
+                return $userData;
+            } else {
+                return array();
+            }
+        } catch (Exception $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function updateBrotherDetails($data) {
         $this->recursive = -1;
 
         $query = "UPDATE {$this->tablePrefix}people
@@ -566,7 +617,7 @@ $sLimit = "LIMIT 0, 10";
             return false;
         }
     }
-    
+
     public function updateSisterDetails($data) {
         $this->recursive = -1;
 
@@ -610,10 +661,11 @@ $sLimit = "LIMIT 0, 10";
             return false;
         }
     }
+
     public function search($id) {
         $this->recursive = -1;
-         $options['conditions']['People.id'] = $id;
-         $options['joins'] = array(
+        $options['conditions']['People.id'] = $id;
+        $options['joins'] = array(
             array('table' => 'people_groups',
                 'alias' => 'Group',
                 'type' => 'INNER',
@@ -621,7 +673,7 @@ $sLimit = "LIMIT 0, 10";
                     'People.id = Group.people_id'
                 )
             ),
-             array('table' => 'address',
+            array('table' => 'address',
                 'alias' => 'Address',
                 'type' => 'LEFT',
                 'conditions' => array(
@@ -630,7 +682,7 @@ $sLimit = "LIMIT 0, 10";
             )
         );
 
-        $options['fields'] = array('People.*', 'Group.*','Address.*');
+        $options['fields'] = array('People.*', 'Group.*', 'Address.*');
         try {
             $userData = $this->find('all', $options);
 
@@ -646,8 +698,8 @@ $sLimit = "LIMIT 0, 10";
             CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
             return false;
         }
-         
     }
+
     public function getPeopleData($userId, $type = false, $groupId = false) {
         $this->recursive = -1;
         if ($type) {
@@ -800,18 +852,18 @@ $sLimit = "LIMIT 0, 10";
                 'parent3.first_name as partner_name', 'parent1.first_name as father', 'parent2.first_name as mother'
             );
         } else {
-            $options['fields'] = array('People.*','Address.*', 'Group.tree_level', 'Group.people_id', 'group_concat(exspouse.spouse_id) as exspouses');
+            $options['fields'] = array('People.*', 'Address.*', 'Group.tree_level', 'Group.people_id', 'group_concat(exspouse.spouse_id) as exspouses');
             //$options['fields'] = array('People.*', 'Group.tree_level', 'Group.people_id');
             if ($flag) {
                 //$options['fields'][] = array('secondary as secondary');
             }
         }
 
-               $options['order'] = array(
-                                'CASE WHEN People.tree_level = "" THEN 0 ELSE 1 END',
-                                'CASE WHEN People.date_of_birth IS NULL OR People.date_of_birth = "0000-00-00" THEN 1 ELSE 0 END',
-                                'CASE WHEN People.is_late = 1 THEN 1 ELSE 0 END',
-                                );
+        $options['order'] = array(
+            'CASE WHEN People.tree_level = "" THEN 0 ELSE 1 END',
+            'CASE WHEN People.date_of_birth IS NULL OR People.date_of_birth = "0000-00-00" THEN 1 ELSE 0 END',
+            'CASE WHEN People.is_late = 1 THEN 1 ELSE 0 END',
+        );
 
         $options['group'] = array('People.id');
         try {
@@ -948,7 +1000,7 @@ $sLimit = "LIMIT 0, 10";
     public function checkEmailExists($email) {
         $this->recursive = -1;
         $options['conditions'] = array('People.email' => $email);
-        $options['fields'] = array('People.id','People.first_name');
+        $options['fields'] = array('People.id', 'People.first_name');
         try {
             $userData = $this->find('all', $options);
             if ($userData && isset($userData[0]['People']) && $userData[0]['People'] != "") {
@@ -961,7 +1013,6 @@ $sLimit = "LIMIT 0, 10";
             return false;
         }
     }
-
 
     /**
      * 
@@ -1810,16 +1861,16 @@ GROUP BY p.created_by");
             return false;
         }
     }
-    
+
     public function getImageExtension($id, $all = false) {
         $this->recursive = -1;
         $options['conditions'] = array('People.id' => $id);
         if ($all) {
             $options['fields'] = array('People.*');
         } else {
-            $options['fields'] = array('People.ext','People.id');
+            $options['fields'] = array('People.ext', 'People.id');
         }
-        
+
         try {
             $userData = $this->find('all', $options);
             if ($userData) {
@@ -1832,14 +1883,14 @@ GROUP BY p.created_by");
             return false;
         }
     }
-     
-     public function getBusniessIds($group_id, $peopleId)  {
+
+    public function getBusniessIds($group_id, $peopleId) {
         $this->recursive = -1;
         $options['conditions'] = array(
-                            'People.business_address_id is not null',
-                            'People.group_id' => $group_id,
-                            'People.id != ' => $peopleId
-                            );
+            'People.business_address_id is not null',
+            'People.group_id' => $group_id,
+            'People.id != ' => $peopleId
+        );
         $options['fields'] = array('People.business_address_id,People.first_name,People.last_name', 'address.*');
         $options['joins'] = array(
             array('table' => 'address',
@@ -1861,27 +1912,27 @@ GROUP BY p.created_by");
             CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
             return false;
         }
-     }
-     
-     public function getParentHierarchy ($ids, $hierarchy = true) {
+    }
+
+    public function getParentHierarchy($ids, $hierarchy = true) {
         //fetch parents and siblings
         $select = "SELECT a.f_id, a.m_id, GROUP_CONCAT(b.id) as siblings, GROUP_CONCAT(b.partner_id) as sibling_partners, GROUP_CONCAT(s.spouse_id) as exspouses  "
                 . "FROM `people` a "
                 . "LEFT JOIN `people` b ON (a.f_id = b.f_id || a.m_id = b.m_id) "
                 . "LEFT JOIN `spouses` s ON (a.id = s.people_id || a.id = s.people_id) "
-                . "WHERE a.id IN (".implode(',', $ids).") GROUP BY a.f_id, a.m_id";
+                . "WHERE a.id IN (" . implode(',', $ids) . ") GROUP BY a.f_id, a.m_id";
         $rResult = $this->query($select);
-  
+
         $parents = array();
-        
+
         foreach ($rResult as $k => $v) {
             if ($v['a']['f_id']) {
                 $this->arrIds[] = $parents[] = $v['a']['f_id'];
             }
             if ($v['a']['m_id']) {
                 $this->arrIds[] = $parents[] = $v['a']['m_id'];
-            }            
-            
+            }
+
             if (count($v[0]['siblings'])) {
                 $siblings = explode(',', $v[0]['siblings']);
                 foreach ($siblings as $sid) {
@@ -1907,12 +1958,12 @@ GROUP BY p.created_by");
                 }
             }
         }
-        
+
         if ($hierarchy && count($parents)) {
-            $this->getParentHierarchy ($parents, true);
+            $this->getParentHierarchy($parents, true);
         }
     }
-    
+
     public function getChildHierarchy($id, $hierarchy = true) {
         //fetch child and child partner
         $select = "SELECT b.id, b.partner_id, s.spouse_id "
@@ -1920,8 +1971,8 @@ GROUP BY p.created_by");
                 . "LEFT JOIN `people` b ON (a.id = b.f_id || a.id = b.m_id) "
                 . "LEFT JOIN `spouses` s ON (a.id = s.people_id) "
                 . "WHERE a.id='" . $id . "'";
-        $rResult = $this->query($select);    
-        
+        $rResult = $this->query($select);
+
         foreach ($rResult as $k => $v) {
             if ($v['b']['id']) {
                 $this->arrIds[] = $v['b']['id'];
@@ -1939,23 +1990,23 @@ GROUP BY p.created_by");
         }
     }
 
-    public function getPeopleDetail ($id) {
+    public function getPeopleDetail($id) {
         //fetch parents, siblings, partner
         $select = "SELECT a.f_id, a.m_id, a.partner_id, b.id, b.partner_id, c.f_id, c.m_id, s.spouse_id "
                 . "FROM `people` a "
                 . "LEFT JOIN `people` b ON (a.f_id = b.f_id || a.m_id = b.m_id) "
                 . "LEFT JOIN `people` c ON (a.partner_id = c.id) "
                 . "LEFT JOIN `spouses` s ON (a.id = s.spouse_id) "
-                . "WHERE a.id='".$id."'";
+                . "WHERE a.id='" . $id . "'";
         $rResult = $this->query($select);
-        
-        $sibling =  $siblingPartner = array();  
-        
+
+        $sibling = $siblingPartner = array();
+
         $this->arrIds[] = $id;
-        
+
         $father = $rResult[0]['a']['f_id'];
         $mother = $rResult[0]['a']['m_id'];
-        
+
         if ($rResult[0]['a']['partner_id']) {
             $this->arrIds[] = $partner = $rResult[0]['a']['partner_id'];
         }
@@ -1974,59 +2025,57 @@ GROUP BY p.created_by");
             $this->arrIds[] = $sibling[] = $v['b']['id'];
             $this->arrIds[] = $siblingPartner[] = $v['b']['partner_id'];
         }
-        
+
         //get siblings children
         foreach ($sibling as $sid) {
             if ($sid) {
                 $this->getChildHierarchy($sid, false);
             }
         }
-        
+
         //get self children hierarchy
         $this->getChildHierarchy($id, true);
-        
+
         //get father's, mother's ancestors and siblings
         if ($father || $mother) {
             $arrParent = array();
-            
+
             if ($father) {
                 $this->arrIds[] = $arrParent[] = $father;
             }
             if ($mother) {
                 $this->arrIds[] = $arrParent[] = $mother;
             }
-            $this->getParentHierarchy ($arrParent, true);
+            $this->getParentHierarchy($arrParent, true);
         }
-    
+
 
         //fetch detail of all ids
         $family = $this->getIdsDetail();
-        
+
         return $family;
     }
-    
-    public function getIdsDetail () {
+
+    public function getIdsDetail() {
         $fData = array_unique(array_filter($this->arrIds));
-      
+
         $sQry = "SELECT people.*, ad.suburb, ad.suburb_zone, people_groups.tree_level, people_groups.people_id, group_concat(spouses.spouse_id) as exspouses FROM"
                 . " people LEFT JOIN people_groups ON people.id=people_groups.people_id "
                 . " LEFT JOIN spouses ON people.id  = spouses.people_id "
-                 . "LEFT JOIN address ad ON (ad.people_id = people.id) "
-                . " WHERE people.id IN (".implode(',', $fData).") "
+                . "LEFT JOIN address ad ON (ad.people_id = people.id) "
+                . " WHERE people.id IN (" . implode(',', $fData) . ") "
                 . " GROUP BY people.id ORDER BY people_groups.tree_level ASC";
         $aResult = $this->query($sQry);
-        
-        return $aResult;
 
+        return $aResult;
     }
-    
-    public function searchUser($term)
-    {
+
+    public function searchUser($term) {
         $this->recursive = -1;
         $options['limit'] = 15;
         $options['offset'] = 0;
-        $options['fields'] = array('People.id',"CONCAT(People.first_name, ' ' , People.last_name) as name");
-       $options['conditions'] = array('People.first_name like' => '%'.$term.'%');
+        $options['fields'] = array('People.id', "CONCAT(People.first_name, ' ' , People.last_name) as name");
+        $options['conditions'] = array('People.first_name like' => '%' . $term . '%');
         try {
             $userData = $this->find('all', $options);
             if ($userData) {
