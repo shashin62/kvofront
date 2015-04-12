@@ -104,9 +104,28 @@ $firstName = $value['People']['first_name'];
                                     <?php } ?>
 <?php if ($value['People']['m_id'] != '' && $value['People']['f_id'] != '') {?>
             <a class="addbrother" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Brother</a>
+<?php $brothers = $People->getBrothers($value['People']['id']);
+$brother = array(); 
+foreach ( $brothers as $bKey => $vValue) {
+$brother[] = $vValue['People']['first_name'];
+
+ } ?>
+<?php if(count($brother)) { ?>
+<div><strong>Brothers</strong>: <?php echo implode(', ',$brother); ?></div>
+<?php } ?>
+
 <?php } ?>
 <?php if ($value['People']['m_id'] != '' && $value['People']['f_id'] != '') {?>
 <a class="addsister" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Sister</a>
+<?php $sisters = $People->getSisters($value['People']['id']);
+$sister = array(); 
+foreach ( $sisters as $bKey => $vValue) {
+$sister[] = $vValue['People']['first_name'];
+
+ } ?>
+<?php if(count($sister)) { ?>
+<div><strong>Sisters</strong>: <?php echo implode(', ',$sister); ?></div>
+<?php } ?>
 <?php } ?>
         </div>
 
