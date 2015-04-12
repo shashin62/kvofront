@@ -107,7 +107,7 @@ $firstName = $value['People']['first_name'];
 <?php $brothers = $People->getBrothers($value['People']['id']);
 $brother = array(); 
 foreach ( $brothers as $bKey => $vValue) {
-$brother[] = $vValue['People']['first_name'];
+$brother[] = $vValue['People']['first_name']. ' (' . $vValue['b']['brother_id'] . ')';;
 
  } ?>
 <?php if(count($brother)) { ?>
@@ -120,7 +120,7 @@ $brother[] = $vValue['People']['first_name'];
 <?php $sisters = $People->getSisters($value['People']['id']);
 $sister = array(); 
 foreach ( $sisters as $bKey => $vValue) {
-$sister[] = $vValue['People']['first_name'];
+$sister[] = $vValue['People']['first_name']. ' (' . $vValue['b']['sister_id'] . ')';;
 
  } ?>
 <?php if(count($sister)) { ?>
