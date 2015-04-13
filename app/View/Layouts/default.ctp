@@ -120,9 +120,7 @@
                                 </div>
                             </div>
                         </form>
-						<p class="navbar-text navbar-right">Welcome <a href="profile.php" class="navbar-link">Mark Otto</a></p>
                     </div>
-                   
 				   
                     <ul class="nav navbar-nav navbar-right" id="right-top-links">
                         <li class="dropdown">
