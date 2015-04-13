@@ -123,6 +123,7 @@
                     </div>
 				   
                     <ul class="nav navbar-nav navbar-right" id="right-top-links">
+                        <li></li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 <i class="fa fa-language fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -175,6 +176,9 @@
                         </li>
                         <!-- /.dropdown -->
                     </ul>
+                    <?php if ($this->Session->read('Auth.User')) { ?>
+                    <div class="col-sm-5 col-md-5 "><p class="navbar-text navbar-right">Welcome <?php echo $this->Session->read('User.first_name');?></p></div>
+                    <?php } ?>
                 </div>
                 <!-- /.navbar-collapse -->
             </div>
