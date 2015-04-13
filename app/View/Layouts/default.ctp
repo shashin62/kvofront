@@ -154,6 +154,9 @@
                             <!-- /.dropdown-alerts -->
                         </li>
                         <!-- /.dropdown -->
+						<?php if ($this->Session->read('Auth.User')) { ?>
+						<li>Welcome <?php echo $this->Session->read('User.first_name').' '.$this->Session->read('User.last_name');?></li>
+						<?php } ?>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -176,9 +179,6 @@
                         </li>
                         <!-- /.dropdown -->
                     </ul>
-                    <?php if ($this->Session->read('Auth.User')) { ?>
-                    <div class="col-sm-5 col-md-5 "><p class="navbar-text navbar-right">Welcome <?php echo $this->Session->read('User.first_name').' '.$this->Session->read('User.last_name');?></p></div>
-                    <?php } ?>
                 </div>
                 <!-- /.navbar-collapse -->
             </div>
