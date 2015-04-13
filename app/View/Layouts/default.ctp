@@ -120,9 +120,10 @@
                                 </div>
                             </div>
                         </form>
+						<p class="navbar-text navbar-right">Welcome <a href="profile.php" class="navbar-link">Mark Otto</a></p>
                     </div>
                    
-				   <p class="navbar-text navbar-right">Welcome <a href="profile.php" class="navbar-link">Mark Otto</a></p>
+				   
                     <ul class="nav navbar-nav navbar-right" id="right-top-links">
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
