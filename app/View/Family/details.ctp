@@ -58,7 +58,7 @@ $firstName = $value['People']['first_name'];
 		</div>
 
         <div class="col-md-1" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?> >
-			<?php echo $firstName . ' ' . $lastName;?>
+			<a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);"><?php echo $firstName . ' ' . $lastName;?></a>
 		</div>
 
         <div class="col-md-1">
@@ -97,7 +97,7 @@ $firstName = $value['People']['first_name'];
 <?php } ?>
                                     <?php }  else { ?>
         <?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
-            <div>Father: <a title="edit"  class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['f_id'];?>" href="javascript:void(0);"><?php echo $value['parent1']['father'];?></a></div>
+            <div><strong>Father:</strong> <a title="edit"  class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['f_id'];?>" href="javascript:void(0);"><?php echo $value['parent1']['father'];?></a></div>
         <?php } else { ?>
             <div>Father: <?php echo $value['parent1']['father'];?></div>
         <?php } ?>
@@ -134,11 +134,11 @@ $firstName = $value['People']['first_name'];
 <?php $brothers = $People->getBrothers($value['People']['id']);
 $brother = array(); 
 foreach ( $brothers as $bKey => $vValue) {
-$brother[] = $vValue['People']['first_name']. ' (' . $vValue['b']['brother_id'] . ')';;
+$brother[] = $vValue['People']['first_name'];
 
  } ?>
 <?php if(count($brother)) { ?>
-<div><strong>Brothers</strong>: <?php echo implode(', ',$brother); ?></div>
+<div><strong>Brother(s)</strong>: <?php echo implode(', ',$brother); ?></div>
 <?php } ?>
 
 <?php } ?>
@@ -147,11 +147,11 @@ $brother[] = $vValue['People']['first_name']. ' (' . $vValue['b']['brother_id'] 
 <?php $sisters = $People->getSisters($value['People']['id']);
 $sister = array(); 
 foreach ( $sisters as $bKey => $vValue) {
-$sister[] = $vValue['People']['first_name']. ' (' . $vValue['b']['sister_id'] . ')';;
+$sister[] = $vValue['People']['first_name'];
 
  } ?>
 <?php if(count($sister)) { ?>
-<div><strong>Sisters</strong>: <?php echo implode(', ',$sister); ?></div>
+<div><strong>Sister(s)</strong>: <?php echo implode(', ',$sister); ?></div>
 <?php } ?>
 <?php } ?>
 
