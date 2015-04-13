@@ -99,7 +99,7 @@ $firstName = $value['People']['first_name'];
         <?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
             <div><strong>Father:</strong> <a title="edit"  class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['f_id'];?>" href="javascript:void(0);"><?php echo $value['parent1']['father'];?></a></div>
         <?php } else { ?>
-            <div>Father: <?php echo $value['parent1']['father'];?></div>
+            <div><strong>Father:</strong> <?php echo $value['parent1']['father'];?></div>
         <?php } ?>
                                     <?php } ?>
 
