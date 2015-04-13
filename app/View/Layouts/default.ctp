@@ -111,17 +111,15 @@
                     </ul>
                      
                     <!-- people search -->
-                    <div class="text-center">
-                        <form class="navbar-form" role="search">
-                            <div class="input-group">
-                                <input type="text" id="searchBox" class="form-control search_box" placeholder="Search People" name="srch-term" id="srch-term">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-default searchnow" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                   
+					<form class="navbar-form" role="search">
+						<div class="input-group">
+							<input type="text" id="searchBox" class="form-control search_box" placeholder="Search People" name="srch-term" id="srch-term">
+							<div class="input-group-btn">
+								<button class="btn btn-default searchnow" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+							</div>
+						</div>
+					</form>
+
                     <ul class="nav navbar-nav navbar-right" id="right-top-links">
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
