@@ -109,28 +109,67 @@
                         </li>
                         <?php } ?>
                     </ul>
-
-					<form class="navbar-form" role="search">
+					<form class="navbar-form navbar-left" role="search">
 						<div class="form-group">
-							<input type="text" id="searchBox" class="form-control search_box" placeholder="Search People" name="srch-term" id="srch-term">
-							<div class="input-group-btn">
-								<button class="btn btn-default searchnow" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-							</div>
+							<input type="text" class="form-control" placeholder="Search">
 						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
 					</form>
-
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#">Link</a></li>
+						<?php if ($this->Session->read('Auth.User')) { ?>
+						<li>Welcome <?php echo $this->Session->read('User.first_name').' '.$this->Session->read('User.last_name');?></li>
+						<?php } ?>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">Action</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Something else here</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-							</ul>
-						</li>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-language fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-alerts">
+                                <li <?php echo ($selLanguage == 'english') ? 'class="active"' : '';?>>
+                                    <a href="javascript: void();" class="web_lang" lang="english">
+                                        <div>
+                                            <i class="fa fa-fw"></i> English
+                                        </div>
+                                    </a>
+                                </li>
+                                <li <?php echo ($selLanguage == 'hindi') ? 'class="active"' : '';?>>
+                                    <a href="javascript: void();" class="web_lang" lang="hindi">
+                                        <div>
+                                            <i class="fa fa-fw"></i> हिन्दी
+                                        </div>
+                                    </a>
+                                </li>
+                                <li <?php echo ($selLanguage == 'gujurati') ? 'class="active"' : '';?>>
+                                    <a href="javascript: void();" class="web_lang" lang="gujurati">
+                                        <div>
+                                            <i class="fa fa-fw"></i> ગુજરાતી
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- /.dropdown-alerts -->
+                        </li>
+                        <!-- /.dropdown -->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <?php if ($this->Session->read('Auth.User')) { ?>
+                                <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
+                                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
+                                <li class="divider"></li>
+                                <?php } ?>
+                                <?php if (!$this->Session->read('Auth.User')) { ?>
+                                <li><a href="<?php echo FULL_BASE_URL . $this->base . '/user/login'; ?>"><i class="fa fa-sign-in fa-fw"></i> Sign Up</a></li>
+                                <li><a href="<?php echo FULL_BASE_URL . $this->base . '/user/login'; ?>"><i class="fa fa-sign-in fa-fw"></i> Login</a></li>
+                                <?php } ?>
+                                <?php if ($this->Session->read('Auth.User')) { ?>
+                                <li><a href="<?php echo FULL_BASE_URL . $this->base . '/user/logout'; ?>"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                                <?php } ?>
+                            </ul>
+                            <!-- /.dropdown-user -->
+                        </li>
+                        <!-- /.dropdown -->
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
