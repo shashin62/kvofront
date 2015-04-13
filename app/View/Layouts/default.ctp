@@ -109,11 +109,13 @@
                         </li>
                         <?php } ?>
                     </ul>
-					<form class="navbar-form navbar-left" role="search">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Search">
+					<form class="navbar-form" role="search">
+						<div class="input-group">
+							<input type="text" id="searchBox" class="form-control search_box" placeholder="Search People" name="srch-term" id="srch-term">
+							<div class="input-group-btn">
+								<button class="btn btn-default searchnow" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+							</div>
 						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
 					</form>
 					<ul class="nav navbar-nav navbar-right">
 						<?php if ($this->Session->read('Auth.User')) { ?>
