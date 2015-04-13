@@ -177,7 +177,7 @@
                         <!-- /.dropdown -->
                     </ul>
                     <?php if ($this->Session->read('Auth.User')) { ?>
-                    <div class="col-sm-5 col-md-5 "><p class="navbar-text navbar-right">Welcome <?php echo $this->Session->read('User.first_name');?></p></div>
+                    <div class="col-sm-5 col-md-5 "><p class="navbar-text navbar-right">Welcome <?php echo $this->Session->read('User.first_name').' '.$this->Session->read('User.last_name');?></p></div>
                     <?php } ?>
                 </div>
                 <!-- /.navbar-collapse -->
