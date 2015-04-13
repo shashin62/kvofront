@@ -111,7 +111,7 @@
                     </ul>
                      
                     <!-- people search -->
-                    <div class="col-sm-3 col-md-3 text-center">
+                    <!-- <div class="col-sm-3 col-md-3 text-center">
                         <form class="navbar-form" role="search">
                             <div class="input-group">
                                 <input type="text" id="searchBox" class="form-control search_box" placeholder="Search People" name="srch-term" id="srch-term">
@@ -120,7 +120,7 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    </div> -->
 				   
                     <ul class="nav navbar-nav navbar-right" id="right-top-links">
   						<?php if ($this->Session->read('Auth.User')) { ?>
