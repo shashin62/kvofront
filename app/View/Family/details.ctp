@@ -58,7 +58,7 @@ $firstName = $value['People']['first_name'];
 		</div>
 
         <div class="col-md-1" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?> >
-			<a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);"><?php echo $firstName . ' ' . $lastName;?></a>
+			<?php echo $firstName . ' ' . $lastName;?>
 		</div>
 
         <div class="col-md-1">
