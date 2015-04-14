@@ -165,7 +165,7 @@
                                 <li class="divider"></li>
                                 <?php } ?>
                                 <?php if (!$this->Session->read('Auth.User')) { ?>
-                                <li><a href="<?php echo FULL_BASE_URL . $this->base . '/user/login'; ?>"><i class="fa fa-sign-in fa-fw"></i> Sign Up</a></li>
+                                <li><a href="<?php echo FULL_BASE_URL . $this->base . '/user/signup'; ?>"><i class="fa fa-sign-in fa-fw"></i> Sign Up</a></li>
                                 <li><a href="<?php echo FULL_BASE_URL . $this->base . '/user/login'; ?>"><i class="fa fa-sign-in fa-fw"></i> Login</a></li>
                                 <?php } ?>
                                 <?php if ($this->Session->read('Auth.User')) { ?>
