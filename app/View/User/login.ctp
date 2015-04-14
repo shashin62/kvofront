@@ -112,7 +112,7 @@
 	<div id="signupbox" style="display:none" class="col-md-6">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<div><a id="signinlink" href="<?php echo FULL_BASE_URL . $this->base . '/user/signup'; ?>"  class="pull-right">Sign In</a></div>
+				<div><a id="signinlink" href="<?php echo FULL_BASE_URL . $this->base . '/user/login'; ?>"  class="pull-right">Sign In</a></div>
 				<div class="panel-title">Sign Up</div>
 			</div>
 			<div class="panel-body">
