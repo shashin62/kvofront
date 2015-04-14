@@ -109,14 +109,17 @@
                         </li>
                         <?php } ?>
                     </ul>
-					<form class="navbar-form" role="search">
-						<div class="input-group">
-							<input type="text" id="searchBox" class="form-control search_box" placeholder="Search People" name="srch-term" id="srch-term">
-							<div class="input-group-btn">
-								<button class="btn btn-default searchnow" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-							</div>
-						</div>
-					</form>
+					<!-- people search -->
+                    <div class="col-sm-3 col-md-3 text-center">
+                        <form class="navbar-form" role="search">
+                            <div class="input-group">
+                                <input type="text" id="searchBox" class="form-control search_box" placeholder="Search People" name="srch-term" id="srch-term">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default searchnow" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
 					<ul class="nav navbar-nav navbar-right">
 						<?php if ($this->Session->read('Auth.User')) { ?>
 						<li>Welcome <?php echo $this->Session->read('User.first_name').' '.$this->Session->read('User.last_name');?></li>
