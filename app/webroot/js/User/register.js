@@ -31,7 +31,7 @@ rules: {
                 required: true,
                 maxlength: 25
             },
-            'data[phone_number]': {
+            'data[mobile_number]': {
                 required: true,
                 maxlength: 10
             },
@@ -52,9 +52,9 @@ rules: {
                 required: 'Please enter last name',
                 maxlength: 'Length exceeds 25 charaters'
             },
-            'data[phone_number]': {
-                required: 'Please enter phone',
-                maxlength: 'Please enter valid phone number'
+            'data[mobile_number]': {
+                required: 'Please enter mobile',
+                maxlength: 'Please enter valid mobile number'
             },
             'data[email]': {
                 required: 'Please enter email',

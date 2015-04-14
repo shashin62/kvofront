@@ -164,6 +164,18 @@ Class UserController extends AppController {
                     curl_setopt($curlInt, CURLOPT_RETURNTRANSFER, 1);
                     $result = curl_exec($curlInt);
                 }
+                
+                $messageBody = "Dear ".$this->request->data['first_name'].",\n
+                        Your password : ".$random_number."\n
+                        Regards,\n
+                        KVOMahajan Team";
+                        
+                $Email = new CakeEmail('gmail');
+                $Email->to($this->request->data['email']);
+                $Email->from('admin@kvomahajan.com');
+                $Email->subject('Account Creation for kvomahajan');
+                
+                $Email->send($messageBody);
 
                 $msg['success'] = 1;
                 $msg['message'] = 'Registered succussfully';
