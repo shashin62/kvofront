@@ -182,5 +182,6 @@
 		</div>
 	</div>
 </div>
+<div id='chkSignUp' data='<?php echo (isset($signup) && $signup == 1) ? 1 : 0; ?>' ></div>
 <?php echo $this->Html->script(array('User/register')); ?>
 

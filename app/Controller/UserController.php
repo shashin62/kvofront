@@ -107,6 +107,11 @@ Class UserController extends AppController {
         $data = $this->User->getAllUsers();
         echo json_encode($data);
     }
+    
+    public function signup() {
+        $this->set('signup', 1);
+        $this->render('login');
+    }
 
     public function doRegisterUser() {
         $this->layout = 'ajax';

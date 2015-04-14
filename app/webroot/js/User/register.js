@@ -1,4 +1,10 @@
 $(document).ready(function () {
+    
+ if ($('#chkSignUp').attr('data') == '1') {
+     $('#loginbox').hide(); 
+     $('#forgotbox').hide(); 
+     $('#signupbox').show();
+ }
 
  $("#UserLoginForm").validate({
         errorElement: "span",
