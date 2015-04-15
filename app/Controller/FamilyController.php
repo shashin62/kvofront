@@ -1995,5 +1995,61 @@ Class FamilyController extends AppController {
         echo json_encode($row_set);
         exit;
     }
+    
+    public function insertBrotherData()
+    {
+        $this->autoRender = false;
+        $ids = $this->People->find('list',array('fields' => array('People.id'),'order' => array('People.id asc')));
+        foreach( $ids as $v) {
+        $options['fields'] = array('People.id', 'p.id', 'p.first_name');
+        $options['conditions'] = array('People.id' => $v,'p.gender' => 'male');
+        $options['joins'] = array(
+            array('table' => 'people',
+                'alias' => 'p',
+                'type' => 'left',
+                'conditions' => array(
+                    'People.f_id = p.f_id'
+                )
+            ),
+        );
+         $getData = $this->People->find('all', $options)
+                                    ;
+         $brotherData = array();
+         foreach( $getData as $key => $value) {
+             $brotherData[$key]['Brother']['people_id'] = $v;
+             $brotherData[$key]['Brother']['brother_id'] = $value['p']['id'];
+         }
+         
+         $this->Brother->saveAll($brotherData);
+        }
+    }
+
+    public function insertSisterData()
+    {
+        $this->autoRender = false;
+        $ids = $this->People->find('list',array('fields' => array('People.id'),'order' => array('People.id asc')));
+        foreach( $ids as $v) {
+        $options['fields'] = array('People.id', 'p.id', 'p.first_name');
+        $options['conditions'] = array('People.id' => $v,'p.gender' => 'female');
+        $options['joins'] = array(
+            array('table' => 'people',
+                'alias' => 'p',
+                'type' => 'left',
+                'conditions' => array(
+                    'People.f_id = p.f_id'
+                )
+            ),
+        );
+         $getData = $this->People->find('all', $options)
+                                    ;
+         $brotherData = array();
+         foreach( $getData as $key => $value) {
+             $brotherData[$key]['Sister']['people_id'] = $v;
+             $brotherData[$key]['Sister']['sister_id'] = $value['p']['id'];
+         }
+         
+         $this->Sister->saveAll($brotherData);
+        }
+    }
 
 }
