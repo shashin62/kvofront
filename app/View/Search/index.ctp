@@ -1,8 +1,23 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-12 col-offset-2">
+		<div class="col-md-2 col-offset-2">
 			<h3><?php echo $peopleData['first_name'] . ' ' . $peopleData['last_name'];?></h3>
+                        
 		</div>
+            <div class="col-md-6 col-offset-2">
+                <?php foreach( $treeLinkageData as $key => $value) { ?>
+                <?php 
+                $i = 1;
+                foreach($value as $k => $v) { ?>
+                <span><?php echo $v;?></span>
+                <?php if (count($value) != $i ) { ?>
+                <span>------></span>
+                <?php } ?>
+
+                <?php $i++; } ?>
+
+                <?php } ?>
+            </div>
 	</div>
 	<div class="col-md-2">
 		<div class="panel panel-default">
