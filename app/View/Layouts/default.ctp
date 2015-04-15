@@ -51,12 +51,14 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
     </head>
     <body>
+
         <!-- Navigation -->
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -64,11 +66,9 @@
                     </button>
                     <a class="navbar-brand" href="<?php  ($this->Session->read('Auth.User')) ? FULL_BASE_URL . $this->base.'/user/welcome' : FULL_BASE_URL . $this->base; ?>"><img src="<?php echo FULL_BASE_URL . $this->base; ?>/img/logo.png" height="30px"></a>
                 </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav" id="right-top-links">
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav" id="right-top-links">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle animate" data-toggle="dropdown" role="button" aria-expanded="false">Activities <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
@@ -109,8 +109,7 @@
                         </li>
                         <?php } ?>
                     </ul>
-                     
-                    <!-- people search -->
+					<!-- people search -->
                     <div class="col-sm-3 col-md-3 text-center">
                         <form class="navbar-form" role="search">
                             <div class="input-group">
@@ -121,9 +120,11 @@
                             </div>
                         </form>
                     </div>
-                   
-                    <ul class="nav navbar-nav navbar-right" id="right-top-links">
-                        <li class="dropdown">
+					<ul class="nav navbar-nav navbar-right">
+						<?php if ($this->Session->read('Auth.User')) { ?>
+						<li>Welcome <?php echo $this->Session->read('User.first_name').' '.$this->Session->read('User.last_name');?></li>
+						<?php } ?>
+						<li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 <i class="fa fa-language fa-fw"></i>  <i class="fa fa-caret-down"></i>
                             </a>
@@ -135,7 +136,6 @@
                                         </div>
                                     </a>
                                 </li>
-                                <li class="divider"></li>
                                 <li <?php echo ($selLanguage == 'hindi') ? 'class="active"' : '';?>>
                                     <a href="javascript: void();" class="web_lang" lang="hindi">
                                         <div>
@@ -143,7 +143,6 @@
                                         </div>
                                     </a>
                                 </li>
-                                <li class="divider"></li>
                                 <li <?php echo ($selLanguage == 'gujurati') ? 'class="active"' : '';?>>
                                     <a href="javascript: void();" class="web_lang" lang="gujurati">
                                         <div>
@@ -151,8 +150,6 @@
                                         </div>
                                     </a>
                                 </li>
-                                <li class="divider"></li>
-                               
                             </ul>
                             <!-- /.dropdown-alerts -->
                         </li>
@@ -168,7 +165,7 @@
                                 <li class="divider"></li>
                                 <?php } ?>
                                 <?php if (!$this->Session->read('Auth.User')) { ?>
-                                <li><a href="<?php echo FULL_BASE_URL . $this->base . '/user/login'; ?>"><i class="fa fa-sign-in fa-fw"></i> Sign Up</a></li>
+                                <li><a href="<?php echo FULL_BASE_URL . $this->base . '/user/signup'; ?>"><i class="fa fa-sign-in fa-fw"></i> Sign Up</a></li>
                                 <li><a href="<?php echo FULL_BASE_URL . $this->base . '/user/login'; ?>"><i class="fa fa-sign-in fa-fw"></i> Login</a></li>
                                 <?php } ?>
                                 <?php if ($this->Session->read('Auth.User')) { ?>
@@ -178,19 +175,19 @@
                             <!-- /.dropdown-user -->
                         </li>
                         <!-- /.dropdown -->
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
-            </div>
-            <!-- /.container-fluid -->
-        </nav>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
         <!-- Navigation End -->
-        <div class="container-fluid">
-            <div id="customFlash" class="jssuccessMessage top_success" style="display: none"></div>
-                <?php echo $this->Session->flash(); ?>
 
-                <?php echo $this->fetch('content'); ?>
-            
+		
+		<div class="container-fluid">
+            <div id="customFlash" class="jssuccessMessage top_success" style="display: none"></div>
+			<?php echo $this->Session->flash(); ?>
+			<?php echo $this->fetch('content'); ?>
         </div>
 
         <script type="text/javascript">
@@ -221,7 +218,6 @@ $("#searchBox").autocomplete({
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3>README</h3>
             </div>
-
         </div>
     </body>
     
