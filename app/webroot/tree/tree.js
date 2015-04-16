@@ -169,6 +169,7 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
     var tw=(sz.Tew+sz.Ths)*d.w-sz.Ths;
 
     var th=(sz.Teh+sz.Tvs)*d.h-sz.Tvs;
+    
 
     if(!wp){
 
@@ -307,6 +308,8 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
 	var cc=((e.p.z=="1")&&!pr)?"dcelld":"dcella";
 
 	var sh=sz.Tmh;
+        
+        var pPhoto = false;
 
 	if(sp&&e.p.r){
 
@@ -340,6 +343,8 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
                 if( d.e[i].p.r != '') {
                      
                      u = "../../people_images/"+d.e[i].p.r;
+                     
+                     pPhoto = true;
                     
                 } else {
                      u = "ap/images/image-1.jpg";
@@ -445,7 +450,12 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
                     } else {
                         u = "ap/images/user_female.png";
                     }
-	v.innerHTML="<TABLE WIDTH=\"100%\" HEIGHT=\"100%\" STYLE=\"table-layout:fixed;\">"+"<TR><TD CLASS=\""+cc+"\" STYLE=\"font-size:"+(e.d?sz.Tds:sz.Tfs)+"px;\""+" TITLE=\""+e.p.h+" (ID: "+ e.p.i +")\"><img id=\"personimage\" src=\""+ u + "\" class=\"simage\" style=\"display: inline; margin-right: 6px; width: 22px; height: 22px;\" onclick=\"SIC(); return false;\" >"+(e.d?"Duplicate: ":"")+EH(fn)+"</TD></TR>"+rs+"</TABLE>";
+        if (!pPhoto) {
+            gPic = 'inline';
+        } else {
+            gPic = 'none';
+        }
+	v.innerHTML="<TABLE WIDTH=\"100%\" HEIGHT=\"100%\" STYLE=\"table-layout:fixed;\">"+"<TR><TD CLASS=\""+cc+"\" STYLE=\"font-size:"+(e.d?sz.Tds:sz.Tfs)+"px;\""+" TITLE=\""+e.p.p+" "+e.p.l+"\"><img id=\"personimage\" src=\""+ u + "\" class=\"simage\" style=\"display: "+gPic+"; margin-right: 6px; width: 22px; height: 22px;\" onclick=\"SIC(); return false;\" >"+(e.d?"Duplicate: ":"")+EH(fn)+"</TD></TR>"+rs+"</TABLE>";
 
 	o.appendChild(v);
 
