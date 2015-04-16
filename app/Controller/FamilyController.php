@@ -1327,7 +1327,7 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['g'] = $peopleData['gender'] == 'male' ? 'm' : 'f';
                     $tree[$peopleData['id']]['hp'] = true;
                     $tree[$peopleData['id']]['i'] = $peopleData['id'];
-                    $tree[$peopleData['id']]['l'] = $peopleData['last_name'] . ' (' . $peopleId . ')';
+                    $tree[$peopleData['id']]['l'] = $peopleData['last_name'];
                     $tree[$peopleData['id']]['p'] = ucfirst($peopleData['first_name']);
                     $tree[$peopleData['id']]['dob'] = date("m/d/Y", strtotime($peopleData['date_of_birth']));
                     $tree[$peopleData['id']]['education'] = $peopleData['education_1'];
