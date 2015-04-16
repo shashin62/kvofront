@@ -860,7 +860,7 @@ class People extends AppModel {
         }
 
         $options['order'] = array(
-            'CASE WHEN People.tree_level = "" THEN 0 ELSE 1 END',
+            'CASE WHEN (People.tree_level = "" AND People.group_id = "'.$groupId.'") THEN 0 ELSE 1 END',
             'CASE WHEN People.date_of_birth IS NULL OR People.date_of_birth = "0000-00-00" THEN 1 ELSE 0 END',
             'CASE WHEN People.is_late = 1 THEN 1 ELSE 0 END',
         );
