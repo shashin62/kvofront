@@ -84,6 +84,7 @@ if (isset($_GET['full'])) {
 		<script src="prototype-ajax.js" type="text/javascript"></script>
 
 		<script src="compress_all.js" type="text/javascript"></script>
+                
 
 	</HEAD>
 
@@ -278,7 +279,7 @@ if (isset($_GET['full'])) {
 
 				
 
-				<DIV ID="leftdiv" CLASS="dleft"><IFRAME NAME="sideframe" ID="sideframe"  SRC="sidebar.htm?130317" CLASS="fullsize" FRAMEBORDER="0" SCROLLING="auto"></IFRAME></DIV>
+				<DIV ID="leftdiv" CLASS="dleft"><IFRAME NAME="sideframe" ID="sideframe"  SRC="sidebar.htm?130317" CLASS="fullsize" FRAMEBORDER="0" SCROLLING="no"></IFRAME></DIV>
 
 
 
