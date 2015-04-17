@@ -103,7 +103,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Account <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#">Media</a></li>
-                                <li><a href="#">Profile</a></li>
+                                <li><a href="<?php echo FULL_BASE_URL . $this->base . '/profile';?>">Profile</a></li>
                                 <li><a href="#">My Family</a></li>
                             </ul>
                         </li>
@@ -160,7 +160,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-user">
                                 <?php if ($this->Session->read('Auth.User')) { ?>
-                                <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
+                                <li><a href="<?php echo FULL_BASE_URL . $this->base . '/profile';?>"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
                                 <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
                                 <li class="divider"></li>
                                 <?php } ?>

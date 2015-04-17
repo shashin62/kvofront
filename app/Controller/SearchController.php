@@ -40,9 +40,9 @@ Class SearchController extends AppController {
         $this->set('addressData', $addressData);
         
         $familyDetails = $this->Tree->buildTreeJson($peopleData['group_id']);
-        echo '<pre>';
-        print_r($familyDetails);
-        echo '</pre>';
+        //echo '<pre>';
+        //print_r($familyDetails);
+        //echo '</pre>';
         
            
         $tmpArray = array();
