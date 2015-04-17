@@ -90,6 +90,7 @@ Class UserController extends AppController {
     }
 
     public function welcome() {        
+        $this->redirect($this->Auth->redirect('/family/details/' . $this->Session->read('User.group_id')));
     }
 
     public function register() {
