@@ -23,6 +23,12 @@ Class SearchController extends AppController {
     public function index()
     {
         $peopleId = $this->request->data['id'];
+        
+        //for profile
+        if (!$peopleId) {
+            $peopleId = $this->Session->read('User.user_id');
+        }
+        
         $data = $this->People->search($peopleId);
         
         $peopleData = $data['People'];
