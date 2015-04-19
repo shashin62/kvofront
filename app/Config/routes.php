@@ -33,6 +33,11 @@
  * ...poll param with named parameter id for action index
  */
         Router::connect('/poll/:id',  array('controller' => 'poll', 'action' => 'index'), array('id' => '[0-9]+'));
+        
+/**
+ * ....profile page redirecting to search with looged in user
+ */
+        Router::connect('/profile', array('controller' => 'search', 'action' => 'index'));
 
 /**
  * Load all plugin routes. See the CakePlugin documentation on

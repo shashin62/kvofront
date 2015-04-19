@@ -22,6 +22,12 @@ Class SearchController extends AppController {
 
     public function index() {
         $peopleId = $this->request->data['id'];
+        
+        //for profile
+        if (!$peopleId) {
+            $peopleId = $this->Session->read('User.user_id');
+        }
+        
         $data = $this->People->search($peopleId);
 
         $peopleData = $data['People'];
@@ -35,9 +41,10 @@ Class SearchController extends AppController {
         $familyDetails = $this->Tree->buildFamilyJson($peopleId);
         $d[] = $peopleData['first_name'] . ' ' . $peopleData['last_name'];
         
+
         $treeData = $this->__getDetails($familyDetails['tree'], $peopleId, false);
         $tree = array_merge($d, $treeData);
-        
+
 
         $this->set('treeLinkageData', $tree);
     }

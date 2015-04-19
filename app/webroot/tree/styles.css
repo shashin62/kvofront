@@ -75,3 +75,9 @@ margin-bottom: 20px;
 padding-bottom: 10px;
 position: relative;
 }
+h3.head {
+    border-bottom: 1px dotted #aeaeae;
+    margin-bottom: 5px;
+    padding-bottom: 2px;
+    position: relative;
+}

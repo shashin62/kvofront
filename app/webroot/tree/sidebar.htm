@@ -18,7 +18,8 @@
 -->
 
 		<LINK REL="stylesheet" TYPE="text/css" HREF="styles.css?130317">
-		
+                <link href="../css/bootstrap.min.css" rel="stylesheet" />
+                		
 		<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
 		
 		<script src="common.js?130317" type="text/javascript"></script>
@@ -32,12 +33,12 @@
 
 		<TR VALIGN="top"><TD ALIGN="center">
 			
-			<SPAN ID="nametitle" CLASS="sdefname">Loading...</SPAN><BR>
-			<INPUT TYPE="image" SRC="blankpixel.gif" WIDTH="1" HEIGHT="6"><BR>
+                        <h3 class="head"><SPAN ID="nametitle">Loading...</SPAN><br /><h5>(Personal Detail)</h5></h3>
+			<!--<INPUT TYPE="image" SRC="blankpixel.gif" WIDTH="1" HEIGHT="6">-->
 			
 			<IMG ID="personimage" SRC="blankpixel.gif" CLASS="simage" STYLE="display:none; margin-bottom:6px;" onClick="SIC(); return false;">
 
-			<DIV ID="nonrelations" STYLE="display:none; margin-top:6px;">
+			<DIV ID="nonrelations" STYLE="display:none;">
 			
 			<DIV ID="nonediting">
 				<IFRAME ID="uploadiframe" SRC="imageupload.php" CLASS="simage" STYLE="display:none; margin-top:6px;" SCROLLING="no" WIDTH="200" HEIGHT="120" FRAMEBORDER="0"></IFRAME>
@@ -48,12 +49,11 @@
 				<INPUT ID="shareperson" TYPE="submit" VALUE="Share family" CLASS="sbutton" STYLE="display:none; margin-top:6px;" onClick="parent.ESM('share'); return false;">
 			</DIV>
 		
-			<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=0 STYLE="margin-top:12px;">
-				<TR>
-					<TD ALIGN="center" ID="switchpanel0" CLASS="sswitched">
-						<A HREF="#" onMouseDown="SWA(0); return false;" ID="switchlink0" CLASS="sswitchedlink">Personal</A>
+			<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=0 >
+					<TD ALIGN="center" ID="switchpanel0" >
+						<span ID="switchlink0" ></span>
 					</TD>
-					<TD ALIGN="center" ID="switchpanel3" CLASS="sswitch">
+					<!--<TD ALIGN="center" ID="switchpanel3" CLASS="sswitch">
 						<A HREF="#" onMouseDown="SWA(3); return false;" ID="switchlink3"></A>
 					</TD>
 					<TD ALIGN="center" ID="switchpanel1" CLASS="sswitch">
@@ -61,14 +61,22 @@
 					</TD>
 					<TD ALIGN="center" ID="switchpanel2" CLASS="sswitch">
 						<A HREF="#" onMouseDown="SWA(2); return false;" ID="switchlink2"></A>
-					</TD>
+					</TD>-->
 				</TR>
 			</TABLE>
 			
-			<TABLE WIDTH="100%" CELLSPACING=0 CELLPADDING=0 CLASS="spanel">
+			<TABLE WIDTH="100%"  CELLPADDING=0 >
 				<TR><TD><IMG SRC="blankpixel.gif" WIDTH="1" HEIGHT="6"></TD></TR>
 				
-				<TBODY ID="personalview" CLASS="hiderows">
+				<TBODY>
+                                    <tr>
+                                        <td >
+                                            <div class="row">
+                                                <div class="hiderows"  ID="personalview" >                                                 
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
 				</TBODY>
 				
 				<TBODY ID="personaledit" CLASS="hiderows">
