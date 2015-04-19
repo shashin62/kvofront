@@ -4,12 +4,12 @@ App::uses('AppController', 'Controller');
 App::uses('CakeEmail', 'Network/Email');
 
 Class SearchController extends AppController {
-    
+
     public $name = 'Search';
     public $uses = array('User', 'People', 'Group', 'PeopleGroup');
     public $helpers = array('Session');
-    public $components = array('Session','Tree');
-    
+    public $components = array('Session', 'Tree');
+
     private function __in_array_r($needle, $haystack, $strict = false) {
         foreach ($haystack as $item) {
             if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->__in_array_r($needle, $item, $strict))) {
@@ -20,11 +20,10 @@ Class SearchController extends AppController {
         return false;
     }
 
-    public function index()
-    {
+    public function index() {
         $peopleId = $this->request->data['id'];
         $data = $this->People->search($peopleId);
-        
+
         $peopleData = $data['People'];
         $groupData = $data['Group'];
         $addressData = $data['Address'];
@@ -32,66 +31,45 @@ Class SearchController extends AppController {
         $this->set('peopleData', $peopleData);
         $this->set('groupData', $groupData);
         $this->set('addressData', $addressData);
+
+        $familyDetails = $this->Tree->buildFamilyJson($peopleId);
+        $d[] = $peopleData['first_name'] . ' ' . $peopleData['last_name'];
         
-        $familyDetails = $this->Tree->buildTreeJson($peopleData['group_id']);
-        echo '<pre>';
-        print_r($familyDetails);
-        echo '</pre>';
+        $treeData = $this->__getDetails($familyDetails['tree'], $peopleId, false);
+        $tree = array_merge($d, $treeData);
         
-           
-        $tmpArray = array();
-        
-        if (array_key_exists($peopleId, $familyDetails['tree'])) {
-            
-            $tmpArray[$peopleId][] = $familyDetails['tree'][$peopleId]['n'];
-        }
-        
-        if (isset($familyDetails['tree'][$peopleId]['es']) && $familyDetails['tree'][$peopleId]['es'] != '') {
-            $partnerId = $familyDetails['tree'][$peopleId]['es'];
-            $tmpArray[$peopleId]['Husband Of'] = $familyDetails['tree'][$familyDetails['tree'][$peopleId]['es']]['n'];
-       
-        
-        if (array_key_exists($partnerId, $familyDetails['tree']) && $familyDetails['tree'][$partnerId]['father'] != '') {
-            $fatherId = $familyDetails['tree'][$partnerId]['f'];
-            $tmpArray[$peopleId]['Daughter Of'] = $familyDetails['tree'][$familyDetails['tree'][$partnerId]['f']]['n'];
-        }
-        
-        if (array_key_exists($fatherId, $familyDetails['tree']) && $familyDetails['tree'][$fatherId]['father'] != '') {
-            $parentFatherId = $familyDetails['tree'][$fatherId]['f'];
-            $tmpArray[$peopleId]['Son Of'] = $familyDetails['tree'][$familyDetails['tree'][$fatherId]['f']]['n'];
-        }
-        
-         if (array_key_exists($parentFatherId, $familyDetails['tree']) && $familyDetails['tree'][$parentFatherId]['father'] != '') {
-            $parent2FatherId = $familyDetails['tree'][$parentFatherId]['f'];
-            $tmpArray[$peopleId]['Son Of'] = $familyDetails['tree'][$parent2FatherId]['n'];
-        }
-        
-        if (array_key_exists($parent2FatherId, $familyDetails['tree']) && $familyDetails['tree'][$parent2FatherId]['father'] != '') {
-            $parent3FatherId = $familyDetails['tree'][$parent2FatherId]['f'];
-            $tmpArray[$peopleId]['Son Of 1'] = $familyDetails['tree'][$parent3FatherId]['n'];
-        }
-        
-        } else if (array_key_exists($familyDetails['tree'][$peopleId]['f'], $familyDetails['tree']) && $familyDetails['tree'][$peopleId]['father'] != '') {
-            if ( $familyDetails['tree'][$peopleId]['g'] == 'f') {
-                $duaghterText = 'Daughter Of';
-            } else {
-                $duaghterText = 'Son Of';
-            }
-            $partnerId = $familyDetails['tree'][$peopleId]['f'];
-            $tmpArray[$peopleId][$duaghterText] = $familyDetails['tree'][$familyDetails['tree'][$peopleId]['f']]['n'];
-            
-             if (array_key_exists($partnerId, $familyDetails['tree']) && $familyDetails['tree'][$partnerId]['father'] != '') {
-            $fatherId = $familyDetails['tree'][$partnerId]['f'];
-            $tmpArray[$peopleId]['Son Of'] = $familyDetails['tree'][$familyDetails['tree'][$partnerId]['f']]['n'];
-        }
-        
-        if (array_key_exists($fatherId, $familyDetails['tree']) && $familyDetails['tree'][$fatherId]['father'] != '') {
-            $parentFatherId = $familyDetails['tree'][$fatherId]['f'];
-            $tmpArray[$peopleId]['Son Of level1'] = $familyDetails['tree'][$familyDetails['tree'][$fatherId]['f']]['n'];
-        }
-        }
-        
-        $this->set('treeLinkageData', $tmpArray);
-       
+
+        $this->set('treeLinkageData', $tree);
     }
+
+    private function __getDetails($data, $id, $type = false) {
+        $array = array();
+        if ($data[$id]['es'] != '' && $type == false) {
+            $array[] = '<span style="font-size:12px;">--<b>Husband Of</b>--></span>';
+            $array[] = $data[$id]['partner_name'];
+
+            $familyDetails = $this->Tree->buildFamilyJson($data[$id]['es']);
+
+            $array1 = $this->__getDetails($familyDetails['tree'], $data[$id]['es'], true);
+            $array = array_merge($array, $array1);
+        } else if ($data[$id]['f'] != '') {
+            if ($data[$id]['g'] == 'f') {
+                $text = '<span style="font-size:12px;">--<b>Daughter of</b>--></span>';
+            } else {
+                $text = '<span style="font-size:12px;">--<b>Son of</b>--></span>';
+            }
+            $array[] = $text;
+            $array[] = $data[$id]['father'];
+            $familyDetails = $this->Tree->buildFamilyJson($data[$id]['f']);
+            if ($familyDetails['tree'][$data[$id]['f']]['f'] != '') {
+                $flag = true;
+            } else {
+                $flag = false;
+            }
+            $array2 = $this->__getDetails($familyDetails['tree'], $data[$id]['f'], $flag);
+            $array = array_merge($array, $array2);
+        }
+        return $array;
+    }
+
 }

@@ -169,5 +169,165 @@ class TreeComponent extends Component{
             }
        
         }
+        
+        public function buildFamilyJson ($peopleId = false) {
+             $peopleModel = ClassRegistry::init('People');
+        if ( isset($_REQUEST['id'])) {
+            $id = $_REQUEST['id'];        
+            $id = (int) str_replace('?', '',$id);
+        } else if( $peopleId ) {
+            $id = $peopleId;
+        }
+        
+        $tree = array();
+        $ids = array();
+        
+        $data = $peopleModel->getPeopleDetail ($id);
+        
+        $allIds = array();
+        $childrens = array();
+        $rootId = $id;
+        
+        foreach ($data as $key => $value) {
+            if (!in_array($value['people']['id'], $allIds)) {
+                $allIds[] = $value['people']['id'];
+                
+                if ($value['people']['f_id']) {
+                    $childrens[$value['people']['f_id']][] = $value['people']['id'];
+                }
+                if ($value['people']['m_id']) {
+                    $childrens[$value['people']['m_id']][] = $value['people']['id'];
+                }
+            }
+            
+            if ($value['people']['id'] == $rootId) {
+                $peopleRootData = $value['people'];
+                $addressData = $value['ad'];
+                $peopleRootGroup = $value['people_groups'];
+                $exSpousesRoot = array_unique($value[0]);
+                $ids[] = $value['people']['id'];
+            }
+        }
+        
+      
+        $tree[$peopleId] = $this->formatTree($peopleRootData, $peopleRootGroup, $exSpousesRoot, $rootId, $childrens, $allIds, $addressData);      
+
+      
+        foreach ($data as $key => $value) {
+            $peopleData = $value['people'];
+            $peopleGroup = $value['people_groups'];
+            $addressData = $value['ad'];
+            $exSpouses = array_unique($value[0]);
+
+            if (!in_array($peopleData['id'], $ids) ) {
+                $ids[] = $peopleData['id'];
+                $tree[$peopleData['id']] = $this->formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData);
+            }
+        }
+
+        $jsonData['tree'] = $tree;
+        $jsonData['parent_name'] = $peopleRootData['first_name'] . ' ' . $peopleRootData['last_name'];
+        
+        return $jsonData;
+    }
+    
+    public function formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData) {
+        //print_r($peopleData);
+        $tree = array();
+        $iId = $peopleData['id'];
+        if ($peopleGroup['tree_level'] != '' && $peopleGroup['people_id'] != $rootId) {
+            if ($peopleGroup['tree_level'] == $rootId) {
+                $tree['^'] = 'START';
+            } else {
+                $tree['^'] = $peopleGroup['tree_level'];
+            }
+        }
+
+        $tree['n'] = $peopleData['first_name'] . ' ' . $peopleData['last_name'];
+        $tree['ai'] = $peopleData['id'];
+
+        if (count($childrens[$iId])) {
+            $tree['c'] = array_unique($childrens[$iId]);
+            $tree['cp'] = true;
+        } else {
+            $tree['c'] = array();
+            $tree['cp'] = false;
+        }
+
+        $tree['e'] = $peopleData['email'];
+        $tree['u'] = $peopleData['mobile_number'];
+
+       
+            $fid = $peopleData['f_id'];
+            $tree['f'] = (!in_array($fid, $allIds)) ? null : $fid;
+       
+        
+      
+            $mid = ($peopleData['m_id']) ? $peopleData['m_id'] : null;
+            $tree['m'] = (!in_array($mid, $allIds)) ? null : $mid;
+      
+
+        $peopleId = $peopleData['id'];
+        
+        if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleId . '.' . $peopleData['ext']) === true) {
+            $tree['r'] = $peopleData['id'];
+        } else {
+            $tree['r'] = '';
+        }
+        $tree['fg'] = true;
+        $tree['g'] = $peopleData['gender'] == 'male' ? 'm' : 'f';
+        $tree['hp'] = true;
+        $tree['i'] = $peopleData['id'];
+        $tree['l'] = $peopleData['last_name'];
+        $tree['p'] = $peopleData['first_name'];
+        $tree['dob'] = $peopleData['date_of_birth'] != '' ? date("m/d/Y", strtotime($peopleData['date_of_birth'])) : '';
+        $tree['education'] = $peopleData['education_1'];
+        $tree['village'] = ucfirst($peopleData['village']);
+        $tree['father'] = ucfirst($peopleData['father']);
+        $tree['mother'] = ucfirst($peopleData['mother']);
+        if ( $peopleData['gender'] == 'male') {
+            $tree['partner_name'] = ucfirst($peopleData['partner_name']) . " " . ucfirst($peopleData['first_name']) . " " . $peopleData['last_name'] ;
+        } else {
+            $tree['partner_name'] = ucfirst($peopleData['partner_name']) . " " . $peopleData['last_name'] ;
+        }
+        $tree['specialty_business_service'] = $peopleData['specialty_business_service'];
+        $tree['nature_of_business'] = $peopleData['nature_of_business'];
+        $tree['business_type'] = $peopleData['business_name'];
+        $tree['name_of_business'] = $peopleData['name_of_business'];
+        $tree['mobile_number'] = $peopleData['mobile_number'];
+        $tree['martial_status'] = $peopleData['martial_status'];
+        $tree['date_of_marriage'] = $peopleData['date_of_marriage'] != ''?  date("m/d/Y", strtotime($peopleData['date_of_marriage'])) : '';
+        $tree['email'] = $peopleData['email'];
+        $tree['pid'] = $originalPId;
+        $tree['gid'] = $peopleData['group_id'];
+        $tree['father'] = ucfirst($peopleData['father']);
+        $tree['city'] = ucfirst($addressData['city']);
+
+        $tree['suburb'] = $addressData['suburb'];
+        $tree['suburb_zone'] = ucfirst($addressData['suburb_zone']);
+
+        $tree['k'] = null;
+
+        if ($peopleData['partner_id'] != '') {
+            $tree['pc'] = array(
+                $peopleData['partner_id'] => true
+            );
+            $tree['es'] = $peopleData['partner_id'];
+            $tree['s'] = $peopleData['partner_id'];
+        } else {
+            $tree['pc'] = array();
+            $tree['es'] = null;
+        }
+        if ($exSpouses['exspouses'] != '') {
+            foreach (explode(',', $exSpouses['exspouses']) as $eKey => $eValue) {
+                $tree['ep'][$eValue] = "1";
+                $tree['pc'][$eValue] = true;
+            }
+        }
+        $tree['q'] = $peopleData['maiden_surname'];
+        
+        return $tree;
+    }
+
     
 }

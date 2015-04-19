@@ -7,16 +7,16 @@
             <div class="col-md-6 col-offset-2">
                 <?php foreach( $treeLinkageData as $key => $value) { ?>
                 <?php 
-                $i = 1;
-                foreach($value as $k => $v) { ?>
-                <span><?php echo $v;?></span>
-                <?php if (count($value) != $i ) { ?>
-                <span>------></span>
-                <?php } ?>
+                $i = 1; ?>
+               
+                
+                <span><?php echo $value;?></span>
+              
+                
 
                 <?php $i++; } ?>
 
-                <?php } ?>
+               
             </div>
 	</div>
 	<div class="col-md-2">
