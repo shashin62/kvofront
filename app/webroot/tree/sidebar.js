@@ -237,7 +237,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     var r = document.createElement("div");
     //r.vAlign = a || "top";
-    r.className = "col-lg-12 col-md-12 col-xs-12 form-group";
+    r.className = "col-lg-12 col-md-12 col-xs-12";
     var a = document.createElement("label");
     a.className = "col-lg-5 col-md-5 col-xs-5 text-right";
     if (t) {
@@ -249,7 +249,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     if (t == 'Add Child') {
         if (typeof mother !== 'undefined' && spouse == 'm') {
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://website.kvomahajan.com/family/searchPeople?type=addchilld&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_parent" href="http://website.kvomahajan.com/family/searchPeople?type=addchilld&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
         }
     } else {
@@ -257,7 +257,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
     }
     if (t == 'Add Mother') {
         if (typeof mother !== 'string') {
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://website.kvomahajan.com/family/searchPeople?type=addmother&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_parent" href="http://website.kvomahajan.com/family/searchPeople?type=addmother&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
             // b.innerHTML = '<a data-id="'+ v +'" target="_blank" href="http://localhost/kvofront/family/index?type=addmother&fid='+ v +'&gid='+ gid + '&module=tree">' + t + '</a>';
         }
@@ -265,7 +265,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     if (t == 'Add Father') {
         if (typeof father !== 'string') {
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://website.kvomahajan.com/family/searchPeople?type=addfather&fid=' + v + '&gid=' + gid + '&module=tree&name_parent=ss">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_parent" href="http://website.kvomahajan.com/family/searchPeople?type=addfather&fid=' + v + '&gid=' + gid + '&module=tree&name_parent=ss">' + t + '</a>';
         } else {
 
         }
@@ -273,18 +273,18 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     if (t == 'Add Spouse') {
         if (typeof spouse !== 'string') {
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://website.kvomahajan.com/family/searchPeople?type=addspouse&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_parent" href="http://website.kvomahajan.com/family/searchPeople?type=addspouse&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
         }
     }
     if (t == 'Add Brother') {
         
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://website.kvomahajan.com/family/searchPeople?type=addbrother&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_parent" href="http://website.kvomahajan.com/family/searchPeople?type=addbrother&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         
     }
      if (t == 'Add Sister') {
         
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://website.kvomahajan.com/family/searchPeople?type=addsister&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_parent" href="http://website.kvomahajan.com/family/searchPeople?type=addsister&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         
     }
     r.appendChild(a);
@@ -449,7 +449,7 @@ function SP0() {
          if ( p.father != '') {
             SSR("personalview", "Father", p.father, false);
         }
-        SSR("personalview", "First Name", p.p, false);
+        //SSR("personalview", "First Name", p.p, false);
         if ( p.q != '') {
             SSR("personalview", "Last Name", p.q, false);
         }
@@ -481,7 +481,7 @@ function SP0() {
         }
        
         if ( p.education != '') {
-        SSR("personalview", "Education", p.education, false);
+        //SSR("personalview", "Education", p.education, false);
     }
         if ( p.city != '') {
          SSR("personalview", "City", p.city, false);

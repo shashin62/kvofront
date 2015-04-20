@@ -93,7 +93,7 @@ if (isset($_GET['full'])) {
 
 		<TABLE WIDTH="100%" HEIGHT="100%" CELLSPACING=0 CELLPADDING=0>
 
-			<TR HEIGHT="8">
+			<TR HEIGHT="8" style="display:none;">
 
 				<FORM NAME="topform" ACTION="./" METHOD="POST">
 
@@ -101,7 +101,7 @@ if (isset($_GET['full'])) {
 
 						<TABLE WIDTH="100%" HEIGHT="100%" CELLSPACING=0 CELLPADDING=0><TR VALIGN="middle">
 
-							<TD NOWRAP><FONT STYLE="font-size:28px;">		<SPAN ID="lfamilyname"><FONT COLOR="#7F2020">Family</FONT></SPAN>&nbsp;<SPAN ID="lfamilyinfo" STYLE="font-size:12px;"></SPAN>
+							<TD NOWRAP><FONT STYLE="font-size:28px;">		<SPAN ID="lfamilyname" style="display:none;"><FONT COLOR="#7F2020">Family</FONT></SPAN>&nbsp;<SPAN ID="lfamilyinfo" STYLE="font-size:12px;"></SPAN>
 
 		
 
