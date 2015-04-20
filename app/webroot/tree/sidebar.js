@@ -249,7 +249,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     if (t == 'Add Child') {
         if (typeof mother !== 'undefined' && spouse == 'm') {
-            b.innerHTML = '<a data-id="' + v + '" href="http://website.kvomahajan.com/family/searchPeople?type=addchilld&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://website.kvomahajan.com/family/searchPeople?type=addchilld&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
         }
     } else {
@@ -257,7 +257,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
     }
     if (t == 'Add Mother') {
         if (typeof mother !== 'string') {
-            b.innerHTML = '<a data-id="' + v + '"  href="http://website.kvomahajan.com/family/searchPeople?type=addmother&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://website.kvomahajan.com/family/searchPeople?type=addmother&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
             // b.innerHTML = '<a data-id="'+ v +'" target="_blank" href="http://localhost/kvofront/family/index?type=addmother&fid='+ v +'&gid='+ gid + '&module=tree">' + t + '</a>';
         }
@@ -265,7 +265,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     if (t == 'Add Father') {
         if (typeof father !== 'string') {
-            b.innerHTML = '<a data-id="' + v + '" href="http://website.kvomahajan.com/family/searchPeople?type=addfather&fid=' + v + '&gid=' + gid + '&module=tree&name_parent=ss">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://website.kvomahajan.com/family/searchPeople?type=addfather&fid=' + v + '&gid=' + gid + '&module=tree&name_parent=ss">' + t + '</a>';
         } else {
 
         }
@@ -273,18 +273,18 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     if (t == 'Add Spouse') {
         if (typeof spouse !== 'string') {
-            b.innerHTML = '<a data-id="' + v + '" href="http://website.kvomahajan.com/family/searchPeople?type=addspouse&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://website.kvomahajan.com/family/searchPeople?type=addspouse&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
         }
     }
     if (t == 'Add Brother') {
         
-            b.innerHTML = '<a data-id="' + v + '"  href="http://website.kvomahajan.com/family/searchPeople?type=addbrother&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://website.kvomahajan.com/family/searchPeople?type=addbrother&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         
     }
      if (t == 'Add Sister') {
         
-            b.innerHTML = '<a data-id="' + v + '"  href="http://website.kvomahajan.com/family/searchPeople?type=addsister&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://website.kvomahajan.com/family/searchPeople?type=addsister&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         
     }
     r.appendChild(a);
