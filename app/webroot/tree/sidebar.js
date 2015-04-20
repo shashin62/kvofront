@@ -237,7 +237,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     var r = document.createElement("div");
     //r.vAlign = a || "top";
-    r.className = "col-lg-12 col-md-12 col-xs-12 form-group";
+    r.className = "col-lg-12 col-md-12 col-xs-12";
     var a = document.createElement("label");
     a.className = "col-lg-5 col-md-5 col-xs-5 text-right";
     if (t) {
