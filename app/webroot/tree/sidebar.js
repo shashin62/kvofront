@@ -249,7 +249,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
     if (t == 'Add Child') {
         if (typeof mother !== 'undefined' && spouse == 'm') {
-            b.innerHTML = '<a data-id="' + v + '" target="_blank" href="http://website.kvomahajan.com/family/searchPeople?type=addchilld&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
+            b.innerHTML = '<a data-id="' + v + '" href="http://website.kvomahajan.com/family/searchPeople?type=addchilld&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
         }
     } else {
