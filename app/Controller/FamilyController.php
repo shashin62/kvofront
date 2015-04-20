@@ -1528,7 +1528,7 @@ Class FamilyController extends AppController {
         $tree['martial_status'] = $peopleData['martial_status'];
         $tree['date_of_marriage'] = $peopleData['date_of_marriage'] != ''?  date("d/m/Y", strtotime($peopleData['date_of_marriage'])) : '';
         $tree['email'] = $peopleData['email'];
-        $tree['pid'] = $originalPId;
+        $tree['pid'] = $iId;
         $tree['gid'] = $peopleData['group_id'];
         $tree['father'] = ucfirst($peopleData['father']);
         $tree['city'] = ucfirst($addressData['city']);
