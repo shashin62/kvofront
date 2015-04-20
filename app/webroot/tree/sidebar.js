@@ -449,7 +449,7 @@ function SP0() {
          if ( p.father != '') {
             SSR("personalview", "Father", p.father, false);
         }
-        SSR("personalview", "First Name", p.p, false);
+        //SSR("personalview", "First Name", p.p, false);
         if ( p.q != '') {
             SSR("personalview", "Last Name", p.q, false);
         }
@@ -481,7 +481,7 @@ function SP0() {
         }
        
         if ( p.education != '') {
-        SSR("personalview", "Education", p.education, false);
+        //SSR("personalview", "Education", p.education, false);
     }
         if ( p.city != '') {
          SSR("personalview", "City", p.city, false);
