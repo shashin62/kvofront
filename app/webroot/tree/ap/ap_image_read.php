@@ -1,6 +1,6 @@
 <?php
 $img_id = htmlentities($_GET['r']);
-$file = 'images/image-' . $img_id . '.jpg'; 
+$file = '../../people_images/' . $img_id . '.jpg'; 
 $filename = basename($file);
 $file_extension = strtolower(substr(strrchr($filename,"."),1));
 
