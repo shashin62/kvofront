@@ -58,7 +58,7 @@ Class FamilyController extends AppController {
         $this->autoRender = false;
 
         $type = $_REQUEST['type'];
-        if( $_REQUEST['sSearch_1'] != '' && $_REQUEST['sSearch_2'] != '' && ($_REQUEST['sSearch_3'] != '' || $_REQUEST['sSearch_6'] != '')) {
+        if( $_REQUEST['sSearch_1'] != '' && $_REQUEST['sSearch_2'] != '' ) {
             $_REQUEST['on'] = 'onsubmit';
         }
         $data = $this->People->getAllPeoples($_REQUEST);
@@ -1962,6 +1962,9 @@ Class FamilyController extends AppController {
         $villages = $this->Village->find('list', array('fields' => array('Village.name', 'Village.name')));
         $this->set(compact('villages'));
 
+        
+         $main_surnames = $this->Surname->find('list', array('fields' => array('Surname.name', 'Surname.name')));
+        $this->set(compact('main_surnames'));
         $this->set('name_parent', $_REQUEST['name_parent']);
     }
     
