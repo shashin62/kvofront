@@ -152,10 +152,18 @@ var v=GE("personjump");
 
 v.options.length=0;
 
+var optArr = [], keyArr = [];
 for(j=0;j<jn.length;j++){
-
-v.options[v.options.length]=new Option(jn[j].n,jn[j].i);
-
+    key = jn[j].i;
+    if(jn[j].i == 'START') {
+        key = 0;
+    }
+    optArr[key] = jn[j].n;
+    keyArr[jn[j].n] = jn[j].i;
+}
+optArr.sort();
+for(j in optArr){
+    v.options[v.options.length]=new Option(optArr[j],keyArr[optArr[j]]);
 }
 
 SO("personjump",parent.GV("viewpersonid"));

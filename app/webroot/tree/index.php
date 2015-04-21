@@ -411,6 +411,7 @@ if (isset($_GET['full'])) {
                         sideframeContent.PL(); 
                     }
                     document.getElementById('lfamilyname').innerHTML = 'Family of '  + parsedData['parent_name'];
+                    window.navframe.NCP(parseInt(parsedData['count']));
                 }
             });
         }
