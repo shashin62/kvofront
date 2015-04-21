@@ -104,7 +104,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#">Media</a></li>
                                 <li><a href="<?php echo FULL_BASE_URL . $this->base . '/profile';?>">Profile</a></li>
-                                <li><a href="#">My Family</a></li>
+                                <li><a href="<?php echo FULL_BASE_URL . $this->base . '/family/details/' . $this->Session->read('User.group_id');?>">My Family</a></li>
                             </ul>
                         </li>
                         <?php } ?>
