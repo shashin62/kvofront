@@ -168,7 +168,7 @@ $sister[] = $vValue['People']['first_name']. ' (' . $vValue['b']['sister_id'] . 
                                     ?>
             <div>Children: <?php echo implode(', ',$childs); ?></div>
                                 <?php } ?>
-                                    <?php if( $this->Session->read('User.user_id') == $hofId) { ?>
+                                    <?php if( $this->Session->read('User.user_id') == $hofId && $value['People']['id'] != $hofId) { ?>
             <a  class="deletemember" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);" style="color: red">Delete</a>
                                      <?php } ?>
         </div>
