@@ -73,7 +73,7 @@ class People extends AppModel {
             return false;
         }
     }
-
+    
     public function getAllPeoples($data = false) {
         $type = $data['type'];
         $aColumns = array('p.id', 'p.first_name', 'p.last_name', 'p.village', 'p.mobile_number', 'p.m_id', 'p.f_id',
@@ -229,7 +229,6 @@ class People extends AppModel {
         } else {
             
         }
-
         /*
          * SQL queries
          * Get data to display
@@ -278,11 +277,7 @@ class People extends AppModel {
         $rResultTotal = $this->query($sQuery);
 
         $iTotal = $rResultTotal[0][0]['countid'];
-        /*
-         * Output
-         */
-
-
+        
         if ($isToBeSearched == true) {
             $output = array(
                 "sEcho" => intval($_GET['sEcho']),
@@ -306,12 +301,8 @@ class People extends AppModel {
                 }
                 //}
                 foreach ($value['p'] as $k => $v) {
-
-
                     $row[] = $v;
                 }
-
-
                 $row[] = '';
 
                 $output['aaData'][] = $row;
@@ -1999,7 +1990,7 @@ GROUP BY p.created_by");
                 . "LEFT JOIN `spouses` s ON (a.id = s.spouse_id) "
                 . "WHERE a.id='" . $id . "'";
         $rResult = $this->query($select);
-
+        
         $sibling = $siblingPartner = array();
 
         $this->arrIds[] = $id;
