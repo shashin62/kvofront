@@ -39,7 +39,21 @@
                 <div class="form-group">
                     <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="main_surname">Main Surname</label>
                     <div class="col-lg-8 col-md-8 col-xs-8">
-                        <input id = "main_surname" type="text" class="form-control main_surname search_username" name="main_surname" placeholder="Main Surname" custom="3"/>
+                          <?php
+
+				echo $this->Form->input('main_surname', array('id' => 'main_surname',
+				'label' => false,
+				'div' => false,
+				'legend' => false,
+				'empty' => __d('label', '--Select--'),
+				'class' => 'main_surname combobox',
+				'style' => '',
+				//'disabled' => $readonly,
+				'options' => $main_surnames,
+                                    'custom'=> 3
+
+				));
+				?>
                     </div>
                 </div>
 <!--                <div class="form-group">
