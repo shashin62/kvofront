@@ -1452,6 +1452,7 @@ Class FamilyController extends AppController {
 
         $jsonData['tree'] = $tree;
         $jsonData['parent_name'] = $peopleRootData['first_name'] . ' ' . $peopleRootData['last_name'];
+        $jsonData['count'] = count($tree);
         
         echo json_encode($jsonData);
         exit;
