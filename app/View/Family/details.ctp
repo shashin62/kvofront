@@ -158,7 +158,7 @@ $sister[] = $vValue['People']['first_name']. ' (' . $vValue['b']['sister_id'] . 
 <?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
             <a class="addchild" href="javascript:void(0);" data-gid="<?php echo $value['People']['group_id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" data-id="<?php echo $value['People']['id'];?>" >Add Children</a><br>
                                  <?php } } ?>  
-                                 <?php if( !empty($value['People']['partner_id'])) { 
+                                 <?php 
                                     $children = $People->getChildren($value['People']['id'],$value['People']['gender']);
                                     $childs = array();
                                     foreach ( $children as $k => $v ) {
@@ -167,7 +167,7 @@ $sister[] = $vValue['People']['first_name']. ' (' . $vValue['b']['sister_id'] . 
                                     
                                     ?>
             <div>Children: <?php echo implode(', ',$childs); ?></div>
-                                <?php } ?>
+                          
                                     <?php if( $this->Session->read('User.user_id') == $hofId && $value['People']['id'] != $hofId) { ?>
             <a  class="deletemember" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);" style="color: red">Delete</a>
                                      <?php } ?>
