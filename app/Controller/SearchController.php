@@ -56,7 +56,7 @@ Class SearchController extends AppController {
         $peopleData = $data['People'];
         $groupData = $data['Group'];
         $addressData = $data['Address'];
-        
+        $userID = $this->Session->read('User.user_id');
         $this->set('peopleData', $peopleData);
         $this->set('groupData', $groupData);
         $this->set('addressData', $addressData);
@@ -64,7 +64,7 @@ Class SearchController extends AppController {
         $familyDetails = $this->Tree->buildFamilyJson($peopleId);
         $searchedName[] = $peopleData['first_name'] . ' ' . $peopleData['last_name'];        
 
-        $treeData = $this->__getDetails($familyDetails['tree'], $peopleId, false);
+        $treeData = $this->__getDetails($familyDetails['tree'], $peopleId, false, $userID, $this->request->data['id']);
         $tree = array_merge($searchedName, $treeData);
         
         $this->set('treeLinkageData', $tree);
@@ -78,30 +78,57 @@ Class SearchController extends AppController {
      * @param type $type
      * @return type
      */
-    private function __getDetails($data, $id, $type = false) {
+    private function __getDetails($data, $id, $type = false, $userId = false, $searchedId = false) {
+            $ids[] = $id;
+       
         $array = array();
-        if ($data[$id]['es'] != '' && $type == false) {
-            $array[] = '<span style="font-size:12px;">--<b>Husband Of</b>--></span>';
-            $array[] = $data[$id]['partner_name'];
-            $familyDetails = $this->Tree->buildFamilyJson($data[$id]['es']);
-            $array1 = $this->__getDetails($familyDetails['tree'], $data[$id]['es'], true);
-            $array = array_merge($array, $array1);
-        } else if ($data[$id]['f'] != '') {
-            if ($data[$id]['g'] == 'f') {
+        //$tmpArray = array();
+        if ( $userId && $searchedId) {
+        foreach ( $data as $k => $v ) {
+            if ( in_array($searchedId,$v, true) ) {
+                if ( $v['f'] == $userId || $v['m'] == $userId || $v['es'] == $userId ) {
+                    $tmpArray[$k] = $v;//$data[$searchedId];
+                } 
+            }
+        }
+        } else {
+            $searchedId = $id;
+            $tmpArray = $data;
+        }
+        
+        $tmpArray[$searchedId] = $data[$searchedId];
+       
+       if ($tmpArray[$searchedId]['f'] != '' ) {
+            if ($tmpArray[$searchedId]['g'] == 'f') {
                 $text = '<span style="font-size:12px;">--<b>Daughter of</b>--></span>';
             } else {
                 $text = '<span style="font-size:12px;">--<b>Son of</b>--></span>';
             }
             $array[] = $text;
-            $array[] = $data[$data[$id]['f']]['n'];
-            $familyDetails = $this->Tree->buildFamilyJson($data[$id]['f']);
+            $array[] = $data[$tmpArray[$searchedId]['f']]['n'];
+            $familyDetails = $this->Tree->buildFamilyJson($tmpArray[$searchedId]['f']);
             $flag = false;
-            if ($familyDetails['tree'][$data[$id]['f']]['f'] != '') {
+            if ($familyDetails['tree'][$tmpArray[$searchedId]['f']]['f'] != '') {
                 $flag = true;
             }
-            $array2 = $this->__getDetails($familyDetails['tree'], $data[$id]['f'], $flag);
+            $array2 = $this->__getDetails($familyDetails['tree'], $tmpArray[$searchedId]['f'], $flag);
             $array = array_merge($array, $array2);
+        } else  if ($data[$searchedId]['es'] != '' && $type == false) {
+            $array[] = '<span style="font-size:12px;">--<b>Husband Of</b>--></span>';
+            $array[] = $tmpArray[$searchedId]['partner_name'];
+       
+            $familyDetails = $this->Tree->buildFamilyJson($tmpArray[$searchedId]['es']);
+            $flag = true;
+            
+            $array1 = $this->__getDetails($familyDetails['tree'], $tmpArray[$searchedId]['es'], $flag);
+            $array = array_merge($array, $array1);
+        } else {
+            
+          
+            //$array3 = $this->__getDetails($data, $searchedId, false);
+            //$array = array_merge($array, $array3);
         }
+       
         return $array;
     }
 
