@@ -64,7 +64,7 @@ Class SearchController extends AppController {
         $familyDetails = $this->Tree->buildFamilyJson($peopleId);
         $searchedName[] = $peopleData['first_name'] . ' ' . $peopleData['last_name'];        
 
-        $treeData = $this->__getDetails($familyDetails['tree'], $peopleId, false, $userID, $this->request->data['id']);
+        $treeData = $this->__getDetails($familyDetails['tree'], $peopleId, true, $userID, $this->request->data['id']);
         $tree = array_merge($searchedName, $treeData);
         
         $this->set('treeLinkageData', $tree);
@@ -86,7 +86,7 @@ Class SearchController extends AppController {
         if ( $userId && $searchedId) {
         foreach ( $data as $k => $v ) {
             if ( in_array($searchedId,$v, true) ) {
-                if ( $v['f'] == $userId || $v['m'] == $userId || $v['es'] == $userId ) {
+                if ( $v['f'] == $userId || $v['m'] == $userId || $v['es'] == $userId || in_array($userId, $v['c'], true)) {
                     $tmpArray[$k] = $v;//$data[$searchedId];
                 } 
             }
@@ -97,8 +97,23 @@ Class SearchController extends AppController {
         }
         
         $tmpArray[$searchedId] = $data[$searchedId];
-       
-       if ($tmpArray[$searchedId]['f'] != '' ) {
+      
+       if ( in_array($userId, $tmpArray[$searchedId]['c'], true)) {
+      
+           if ($tmpArray[$searchedId]['g'] == 'm') {
+                $text = '<span style="font-size:12px;">--<b>Father of</b>--></span>';
+            } else {
+                $text = '<span style="font-size:12px;">--<b>Son of</b>--></span>';
+            }
+            $array[] = $text;
+            //if ( in_array())
+              $key = array_search($userId, $tmpArray[$searchedId]['c']);  
+            $array[] = $data[$tmpArray[$searchedId]['c'][$key]]['n'];
+            $familyDetails = $this->Tree->buildFamilyJson($userId);
+              $array3 = $this->__getDetails($familyDetails['tree'], $tmpArray[$searchedId]['c'][$key], false);
+            $array = array_merge($array, $array3);
+       }
+       else if ($tmpArray[$searchedId]['f'] != '' && $type == true) {
             if ($tmpArray[$searchedId]['g'] == 'f') {
                 $text = '<span style="font-size:12px;">--<b>Daughter of</b>--></span>';
             } else {
