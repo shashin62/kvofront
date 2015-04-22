@@ -1,6 +1,3 @@
-<?php
-$occupation = ($occupation) ? $occupation : 'Social Service';
-?>
 <div class="container-fluid">
     <h3 class="heading">Add/Edit Business for <?php echo $memberName;?></h3>
     <?php echo $this->Form->create('Address', array('class' => 'form-horizontal addressForm', 'id' => 'addressForm', 'name' => 'address')); ?>
