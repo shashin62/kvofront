@@ -122,8 +122,8 @@ ST("backtotext",(i==parent.GV("personid"))?"me":(parent.Efa[i]?parent.Efa[i].h:"
 
 function NCP(i){
 
-ST("jumplink",i>1?("Find ("+(i)+" people)"):"Find person");
-
+//ST("jumplink",i>1?("Find ("+(i)+" people)"):"Find person");
+ST("jumplink","Find person");
 }
 
 function NJM(){
