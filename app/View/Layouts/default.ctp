@@ -105,6 +105,7 @@
                                 <li><a href="#">Media</a></li>
                                 <li><a href="<?php echo FULL_BASE_URL . $this->base . '/profile';?>">Profile</a></li>
                                 <li><a href="<?php echo FULL_BASE_URL . $this->base . '/family/details/' . $this->Session->read('User.group_id');?>">My Family</a></li>
+                                <li><a target="_blank" href="<?php echo FULL_BASE_URL . $this->base . '/tree?gid='. $this->Session->read('User.group_id').'&token='. md5('dsdsdss434dsds332323d34d');?>">My Tree</a></li>
                             </ul>
                         </li>
                         <?php } ?>
