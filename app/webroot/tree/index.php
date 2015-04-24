@@ -70,11 +70,11 @@ $auth = (isset($u) && $u != '') ? true : false;
                 <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/jquery-ui.min.css" />
 	        <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/jquery-ui.theme.min.css" />
                 
-                <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/common.js"></script>
+                
                 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery-1.11.1.js"></script>
                 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/bootstrap.min.js"></script>
                 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery-ui.min.js"></script>
-
+                <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/common.js"></script>
 
                 <!-- Bootstrap Datepicker JavaScript -->
                 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
