@@ -169,7 +169,7 @@ $auth = (isset($u) && $u != '') ? true : false;
                                             <li><a href="#">Media</a></li>
                                             <li><a href="<?php echo $baseUrl . '/profile'; ?>">Profile</a></li>
                                             <li><a href="<?php echo $baseUrl . '/family/details/'.$_GET['gid']; ?>">My Family</a></li>
-                                            <li><a href="<?php echo $baseUrl . '/tree?gid=' . $_GET['gid'] . '&token=' . $_GET['token']; ?>">My Tree</a></li>
+                                            <li><a href="<?php echo $baseUrl . '/tree?gid=' . $_GET['gid'] . '&token=' . urlencode($_GET['token']); ?>">My Tree</a></li>
                                         </ul>
                                     </li>
                                 <?php } ?>

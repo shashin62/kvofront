@@ -198,8 +198,13 @@ data-email="<?php echo $value['People']['email'];?>"
 <?php } ?>
         </div>
                                 <?php } else { ?>
-<?php if( $value['Group']['tree_level'] == '' )  { ?>
-        <div class="col-md-1"><a target="_blank" href="<?php echo $this->base.'/tree?gid='. $groupId.'&token='. md5('dsdsdss434dsds332323d34d');?>">View Tree</a></div>                
+<?php if( $value['Group']['tree_level'] == '' )  { 
+    $selLanguage = 'english';
+    if ($this->Session->check('Website.language')) {
+        $selLanguage = $this->Session->read('Website.language');
+    }
+    ?>
+        <div class="col-md-1"><a target="_blank" href="<?php echo $this->base.'/tree?gid='. $groupId.'&token='. urlencode('t='.md5('dsdsdss434dsds332323d34d').'&u='.md5($this->Session->read('User.user_id')).'&l='.md5($selLanguage));?>">View Tree</a></div>                
 <?php } ?>
                                 <?php } ?>
 
