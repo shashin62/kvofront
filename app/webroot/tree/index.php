@@ -516,7 +516,7 @@ $auth = (isset($u) && $u != '') ? true : false;
     var navreload = false;
     var self = this;
     var cid = '';
-
+    var baseUrl = '<?php echo $baseUrl; ?>';
 
     function setJSONValue() {       
          
