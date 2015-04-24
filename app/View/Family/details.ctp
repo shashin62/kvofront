@@ -155,7 +155,7 @@ $sister[] = $vValue['People']['first_name']. ' (' . $vValue['b']['sister_id'] . 
 
         <div class="col-md-3">
                                  <?php if(  strtolower($value['People']['gender']) == 'male') { ?>
-<?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
+<?php if ( $this->Session->read('User.user_id') == $hofId && strtolower($value['People']['martial_status']) != 'single') { ?>
             <a class="addchild" href="javascript:void(0);" data-gid="<?php echo $value['People']['group_id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" data-id="<?php echo $value['People']['id'];?>" >Add Children</a><br>
                                  <?php } } ?>  
                                  <?php 
