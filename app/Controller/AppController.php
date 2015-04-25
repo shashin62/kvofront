@@ -48,7 +48,7 @@ class AppController extends Controller {
             'loginRedirect' => array('controller' => 'user', 'action' => 'welcome'),
             'authError' => 'You are not authorized to view this page',
 
-            'allowedActions' => array('logout','signup','register','doRegisterUser','buildTreeJson','buildFamilyJson','insertUser',
+            'allowedActions' => array('logout','signup','register','doRegisterUser','buildTreeJson','buildFamilyJson','getPeopleName','insertUser',
                 'rebuildARO','callAgain','addNote','viewNote','details','index','upload','uploadimage','doResendPin'
 
                 ,'deleteMember', 'saveVote','showResult','gridArticles','detail', 'getBusinessTypes', 'switchLanguage','getPeople'),

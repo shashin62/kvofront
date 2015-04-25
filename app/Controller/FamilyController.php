@@ -2000,6 +2000,18 @@ Class FamilyController extends AppController {
         exit;
     }
     
+    public function getPeopleName()
+    {
+        $this->autoRender = false;
+        $this->layout = null;
+        $userId = $this->request->query['user_id'] ? $this->request->query['user_id'] : md5(1);
+        
+        $data = $this->People->getPeopleName($userId);
+   
+        echo $data['people']['first_name'].' '.$data['people']['last_name'];
+        exit;
+    }
+    
     public function insertBrotherData()
     {
         $this->autoRender = false;

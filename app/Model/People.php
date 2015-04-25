@@ -2083,6 +2083,31 @@ GROUP BY p.created_by");
             return false;
         }
     }
+    
+    public function checkPin($pin, $id) {
+        $this->recursive = -1;
+        $options['conditions'] = array('People.id' => $id, 'People.pin' => $pin);
+        $options['fields'] = array('People.id');
+        try {
+            $userData = $this->find('all', $options);
+            if ($userData) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
+    }
+    
+    public function getPeopleName($userId) {
+        $sQry = "SELECT first_name, last_name FROM"
+                . " people  WHERE md5(people.id) = '{$userId}'";
+        $aResult = $this->query($sQry);
+
+        return $aResult[0];
+    }
 
 }
 

@@ -1,14 +1,24 @@
 <?php
 
+$baseUrl = 'http://website.kvomahajan.com';
+
+parse_str(urldecode($_GET["token"]), $output);
+
+$t = $output['t'];
+$l = $output['l'];
+$u = $output['u'];
+
 if (isset($_GET['full'])) {	
 	$json_data = file_get_contents('http://kvo.quadzero.in/people/index/export_as_json:1/full_tree:1/?full_tree=1');
 } else if (isset($_GET['group_id'])){
 	$json_data = file_get_contents('http://kvo.quadzero.in/people/index/export_as_json:1/group_id:' . $_GET['group_id']);
 } else {
 	//$json_data = file_get_contents('http://10.50.249.127/kvoadmin/family/buildTreeJson?gid=' . $_GET['gid'] . ' &uid=1');
-        $json_data = file_get_contents('http://website.kvomahajan.com/family/buildTreeJson?gid=' . $_GET["gid"] . '&token='.$_GET["token"]);
+        $json_data = file_get_contents($baseUrl.'/family/buildTreeJson?gid=' . $_GET["gid"] . '&token='.$t);
 }
+$welcomeUser = file_get_contents($baseUrl.'/family/getPeopleName?user_id='.$u);
 
+$auth = (isset($u) && $u != '') ? true : false;
 ?>
 
 <HTML>
@@ -53,11 +63,27 @@ if (isset($_GET['full'])) {
 
 		<META NAME="Description" CONTENT="Draw your printable family tree online. Free and easy to use, no login required. Add photos and share with your family. Import/export GEDCOM files.">
 
+                <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/common.css" />
+                <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/bootstrap.min.css" />
+                <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/font-awesome-4.1.0/css/font-awesome.min.css" />
+                <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/bootstrap-select.min.css" />
+                <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/jquery-ui.min.css" />
+	        <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/jquery-ui.theme.min.css" />
+                
+                
+                <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery-1.11.1.js"></script>
+                <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/bootstrap.min.js"></script>
+                <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery-ui.min.js"></script>
+                <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/common.js"></script>
 
+                <!-- Bootstrap Datepicker JavaScript -->
+                <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+                <!-- Bootstrap Select JavaScript -->
+                <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
 
-		
-
-		<SCRIPT language="JavaScript"><!--
+              
+                
+                <SCRIPT language="JavaScript"><!--
 
 		var staticMode=false;
 
@@ -84,22 +110,154 @@ if (isset($_GET['full'])) {
 		<script src="prototype-ajax.js" type="text/javascript"></script>
 
 		<script src="compress_all.js" type="text/javascript"></script>
-                
+
 
 	</HEAD>
 
 	
 	<BODY STYLE="overflow:hidden;" onLoad="PL();">
+            <!--- layout menu starts -->
+                                                
+                <nav class="navbar navbar-default navbar-tree">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="<?php echo ($auth) ? $baseUrl . '/user/welcome' : $baseUrl  . $this->base; ?>"><img src="<?php echo $baseUrl; ?>/img/logo.png" height="30px"></a>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav" id="right-top-links">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle animate" data-toggle="dropdown" role="button" aria-expanded="false">Activities <span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#"><i class="fa fa-globe fa-fw"></i>About Us</a></li>
+                                        <li><a href="#">KVOS Jain Mahajan's Constitution</a></li>
+                                        <li><a href="#">Mission and Vission</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Interact <span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Events</a></li>
+                                        <li><a href="#">Just Married</a></li>
+                                        <li><a href="#">Babies</a></li>
+                                        <li><a href="#">Obituaries</a></li>
+                                        <li><a href="#">New Members</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Community <span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Matrimonial</a></li>
+                                        <li><a href="#">Classifieds</a></li>
+                                        <li><a href="#">Jobs</a></li>
+                                        <li><a href="<?php echo $baseUrl . '/article'; ?>">Articles</a></li>
+                                        <li><a href="#">Community Pages</a></li>
+                                        <li><a href="#">Community Publications</a></li>
+                                    </ul>
+                                </li>
+                                <?php if ($auth) { ?>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Account <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Media</a></li>
+                                            <li><a href="<?php echo $baseUrl . '/profile'; ?>">Profile</a></li>
+                                            <li><a href="<?php echo $baseUrl . '/family/details/'.$_GET['gid']; ?>">My Family</a></li>
+                                            <li><a href="<?php echo $baseUrl . '/tree?gid=' . $_GET['gid'] . '&token=' . urlencode($_GET['token']); ?>">My Tree</a></li>
+                                        </ul>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                            <!-- people search -->
+                            <div class="col-sm-3 col-md-3 text-center">
+                                <form class="navbar-form" role="search">
+                                    <div class="input-group">
+                                        <input type="text" id="searchBox" class="form-control search_box" placeholder="Search People" name="srch-term" id="srch-term">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default searchnow btn-tree" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <ul class="nav navbar-nav navbar-right">
+                                <?php if ($auth) { ?>
+                                    <li>Welcome <?php echo $welcomeUser; ?></li>
+                                <?php } ?>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="fa fa-language fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-alerts">
+                                        <li <?php echo ($l == md5('english')) ? 'class="active"' : ''; ?>>
+                                            <a href="javascript: void();" class="web_lang" lang="english">
+                                                <div>
+                                                    <i class="fa fa-fw"></i> English
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li <?php echo ($l == md5('hindi')) ? 'class="active"' : ''; ?>>
+                                            <a href="javascript: void();" class="web_lang" lang="hindi">
+                                                <div>
+                                                    <i class="fa fa-fw"></i> हिन्दी
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li <?php echo ($l == md5('gujurati')) ? 'class="active"' : ''; ?>>
+                                            <a href="javascript: void();" class="web_lang" lang="gujurati">
+                                                <div>
+                                                    <i class="fa fa-fw"></i> ગુજરાતી
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <!-- /.dropdown-alerts -->
+                                </li>
+                                <!-- /.dropdown -->
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-user">
+                                        <?php if ($auth) { ?>
+                                            <li><a href="<?php echo $baseUrl . '/profile'; ?>"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
+                                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
+                                            <li class="divider"></li>
+                                        <?php } ?>
+                                        <?php if (!$auth) { ?>
+                                            <li><a href="<?php echo $baseUrl . '/user/signup'; ?>"><i class="fa fa-sign-in fa-fw"></i> Sign Up</a></li>
+                                            <li><a href="<?php echo $baseUrl . '/user/login'; ?>"><i class="fa fa-sign-in fa-fw"></i> Login</a></li>
+                                        <?php } ?>
+                                        <?php if ($auth) { ?>
+                                            <li><a href="<?php echo $baseUrl . '/user/logout'; ?>"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                                        <?php } ?>
+                                    </ul>
+                                    <!-- /.dropdown-user -->
+                                </li>
+                                <!-- /.dropdown -->
+                            </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </nav>
 
-		<TABLE WIDTH="100%" HEIGHT="100%" CELLSPACING=0 CELLPADDING=0>
 
-			<TR HEIGHT="8" style="display:none;">
+                <!--- layout menu ends -->
+		<TABLE WIDTH="100%" HEIGHT="100%" CELLSPACING=0 CELLPADDING=0 stype="display:none;">
+
+			<TR style="display:none;" >
 
 				<FORM NAME="topform" ACTION="./" METHOD="POST">
 
-					<TD STYLE="border-bottom:solid #666666 1px; padding:8px;" VALIGN="middle">
-
-						<TABLE WIDTH="100%" HEIGHT="100%" CELLSPACING=0 CELLPADDING=0><TR VALIGN="middle">
+					<TD  VALIGN="middle">
+                                                
+                                            <TABLE WIDTH="100%" HEIGHT="100%" CELLSPACING=0 CELLPADDING=0><TR VALIGN="middle">
 
 							<TD NOWRAP><FONT STYLE="font-size:28px;">		<SPAN ID="lfamilyname" style="display:none;"><FONT COLOR="#7F2020">Family</FONT></SPAN>&nbsp;<SPAN ID="lfamilyinfo" STYLE="font-size:12px;"></SPAN>
 
@@ -233,7 +391,7 @@ if (isset($_GET['full'])) {
 
 				
 
-				<DIV ID="navdiv" CLASS="dright" STYLE="bottom:0px; height:64px;"><DIV ID="navmargin" CLASS="marginon"><IFRAME NAME="navframe" ID="navframe" SRC="navigation.htm?130317" CLASS="fullsize" FRAMEBORDER="0" SCROLLING="no"></IFRAME></DIV></DIV>
+				<DIV ID="navdiv" CLASS="dright" STYLE="bottom:0px; height:135px;"><DIV ID="navmargin" CLASS="marginon"><IFRAME NAME="navframe" ID="navframe" SRC="navigation.htm?1303171" CLASS="fullsize" FRAMEBORDER="0" SCROLLING="no"></IFRAME></DIV></DIV>
 
 				
 
@@ -358,7 +516,7 @@ if (isset($_GET['full'])) {
     var navreload = false;
     var self = this;
     var cid = '';
-
+    var baseUrl = '<?php echo $baseUrl; ?>';
 
     function setJSONValue() {       
          
@@ -381,7 +539,7 @@ if (isset($_GET['full'])) {
             navshowchildren = window.navframe.document.getElementById('showchildren').value;
             navshowcousins = window.navframe.document.getElementById('showcousins').value;
 
-            new Ajax.Request('http://website.kvomahajan.com/family/buildFamilyJson?id='+id, {
+            new Ajax.Request('<?php echo $baseUrl; ?>/family/buildFamilyJson?id='+id, {
                 method: 'get',
                 onComplete:function(_2d){
                     data = _2d.responseText;
