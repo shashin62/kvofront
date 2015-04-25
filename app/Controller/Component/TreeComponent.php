@@ -8,8 +8,12 @@
 App::load('model','People');
 class TreeComponent extends Component{
     
-    
-     public function buildTreeJson($group_id = false) {
+    /**
+     * 
+     * @param type $group_id
+     * @return string    
+     */
+    public function buildTreeJson($group_id = false) {
 
         $this->autoRender = false;
         $this->layout = null;
@@ -178,16 +182,18 @@ class TreeComponent extends Component{
         } else if( $peopleId ) {
             $id = $peopleId;
         }
-        
+       
         $tree = array();
         $ids = array();
         
         $data = $peopleModel->getPeopleDetail ($id);
-        
+       
         $allIds = array();
         $childrens = array();
         $rootId = $id;
-        
+//        echo '<pre>';
+//        print_r($data);
+//        echo '</pre>';
         foreach ($data as $key => $value) {
             if (!in_array($value['people']['id'], $allIds)) {
                 $allIds[] = $value['people']['id'];
@@ -205,12 +211,13 @@ class TreeComponent extends Component{
                 $addressData = $value['ad'];
                 $peopleRootGroup = $value['people_groups'];
                 $exSpousesRoot = array_unique($value[0]);
+                $brothers =  array_unique($value['brothers']);
                 $ids[] = $value['people']['id'];
             }
         }
         
       
-        $tree[$peopleId] = $this->formatTree($peopleRootData, $peopleRootGroup, $exSpousesRoot, $rootId, $childrens, $allIds, $addressData);      
+        $tree[$peopleId] = $this->formatTree($peopleRootData, $peopleRootGroup, $exSpousesRoot, $rootId, $childrens, $allIds, $addressData, $brothers);      
 
       
         foreach ($data as $key => $value) {
@@ -218,10 +225,11 @@ class TreeComponent extends Component{
             $peopleGroup = $value['people_groups'];
             $addressData = $value['ad'];
             $exSpouses = array_unique($value[0]);
+            $brothers =  array_unique($value['brothers']);
 
             if (!in_array($peopleData['id'], $ids) ) {
                 $ids[] = $peopleData['id'];
-                $tree[$peopleData['id']] = $this->formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData);
+                $tree[$peopleData['id']] = $this->formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData, $brothers);
             }
         }
 
@@ -231,8 +239,8 @@ class TreeComponent extends Component{
         return $jsonData;
     }
     
-    public function formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData) {
-        //print_r($peopleData);
+    public function formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData, $brothers) {
+       
         $tree = array();
         $iId = $peopleData['id'];
         if ($peopleGroup['tree_level'] != '' && $peopleGroup['people_id'] != $rootId) {
@@ -280,6 +288,7 @@ class TreeComponent extends Component{
         $tree['i'] = $peopleData['id'];
         $tree['l'] = $peopleData['last_name'];
         $tree['p'] = $peopleData['first_name'];
+        $tree['bid'] = $brothers['brothers'];
         $tree['dob'] = $peopleData['date_of_birth'] != '' ? date("m/d/Y", strtotime($peopleData['date_of_birth'])) : '';
         $tree['education'] = $peopleData['education_1'];
         $tree['village'] = ucfirst($peopleData['village']);

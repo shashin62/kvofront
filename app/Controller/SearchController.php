@@ -62,9 +62,12 @@ Class SearchController extends AppController {
         $this->set('addressData', $addressData);
 
         $familyDetails = $this->Tree->buildFamilyJson($peopleId);
+//         echo '<pre>';
+//        print_r($familyDetails);
+//        echo '</pre>';
         $searchedName[] = $peopleData['first_name'] . ' ' . $peopleData['last_name'];        
-
-        $treeData = $this->__getDetails($familyDetails['tree'], $peopleId, true, $userID, $this->request->data['id']);
+        
+        $treeData = $this->__getDetails($familyDetails['tree'], $peopleId, false, $userID, $this->request->data['id']);
         $tree = array_merge($searchedName, $treeData);
         
         $this->set('treeLinkageData', $tree);
@@ -80,15 +83,21 @@ Class SearchController extends AppController {
      */
     private function __getDetails($data, $id, $type = false, $userId = false, $searchedId = false) {
             $ids[] = $id;
-       
+//       echo '<pre>';
+//       print_r($data);
+//       echo '</pre>';
         $array = array();
         //$tmpArray = array();
         if ( $userId && $searchedId) {
         foreach ( $data as $k => $v ) {
             if ( in_array($searchedId,$v, true) ) {
-                if ( $v['f'] == $userId || $v['m'] == $userId || $v['es'] == $userId || in_array($userId, $v['c'], true)) {
+                
+                if ( $v['f'] == $userId || $v['m'] == $userId || $v['es'] == $userId  || in_array($userId, $v['c'], true)) {
                     $tmpArray[$k] = $v;//$data[$searchedId];
-                } 
+                }  else if ( $userId == $v['bid']) {
+                    
+                    $tmpArray[$k] = $v[$v['bid']];//$data[$searchedId];
+                }
             }
         }
         } else {
@@ -97,23 +106,40 @@ Class SearchController extends AppController {
         }
         
         $tmpArray[$searchedId] = $data[$searchedId];
-      
-       if ( in_array($userId, $tmpArray[$searchedId]['c'], true)) {
-      
-           if ($tmpArray[$searchedId]['g'] == 'm') {
-                $text = '<span style="font-size:12px;">--<b>Father of</b>--></span>';
-            } else {
-                $text = '<span style="font-size:12px;">--<b>Son of</b>--></span>';
-            }
+     // echo '<pre>';
+    //  print_r($tmpArray);
+      //echo $searchedId
+      //echo '</pre>';
+        
+        if ($tmpArray[$searchedId]['bid'] != '' && $type == false) {
+            $text = '<span style="font-size:12px;">--<b>Brother of</b>--></span>';
             $array[] = $text;
-            //if ( in_array())
-              $key = array_search($userId, $tmpArray[$searchedId]['c']);  
-            $array[] = $data[$tmpArray[$searchedId]['c'][$key]]['n'];
-            $familyDetails = $this->Tree->buildFamilyJson($userId);
-              $array3 = $this->__getDetails($familyDetails['tree'], $tmpArray[$searchedId]['c'][$key], false);
-            $array = array_merge($array, $array3);
-       }
-       else if ($tmpArray[$searchedId]['f'] != '' && $type == true) {
+            $array[] = $data[$tmpArray[$searchedId]['bid']]['n'];
+            $familyDetails = $this->Tree->buildFamilyJson($tmpArray[$searchedId]['bid']);
+            $flag = true;
+           
+            $array4 = $this->__getDetails($familyDetails['tree'], $tmpArray[$searchedId]['bid'], $flag);
+            $array = array_merge($array, $array4);
+        } else {
+            $type = true;
+        }
+
+//       else if ( in_array($userId, $tmpArray[$searchedId]['c'], true)) {
+//      
+//           if ($tmpArray[$searchedId]['g'] == 'm') {
+//                $text = '<span style="font-size:12px;">--<b>Father of</b>--></span>';
+//            } else {
+//                $text = '<span style="font-size:12px;">--<b>Son of</b>--></span>';
+//            }
+//            $array[] = $text;
+//            //if ( in_array())
+//            $key = array_search($userId, $tmpArray[$searchedId]['c']);  
+//            $array[] = $data[$tmpArray[$searchedId]['c'][$key]]['n'];
+//            $familyDetails = $this->Tree->buildFamilyJson($userId);
+//            $array3 = $this->__getDetails($familyDetails['tree'], $tmpArray[$searchedId]['c'][$key], false);
+//            $array = array_merge($array, $array3);
+//       }
+       if ($tmpArray[$searchedId]['f'] != '' && $type == true) {
             if ($tmpArray[$searchedId]['g'] == 'f') {
                 $text = '<span style="font-size:12px;">--<b>Daughter of</b>--></span>';
             } else {
@@ -122,9 +148,9 @@ Class SearchController extends AppController {
             $array[] = $text;
             $array[] = $data[$tmpArray[$searchedId]['f']]['n'];
             $familyDetails = $this->Tree->buildFamilyJson($tmpArray[$searchedId]['f']);
-            $flag = false;
-            if ($familyDetails['tree'][$tmpArray[$searchedId]['f']]['f'] != '') {
-                $flag = true;
+            $flag = true;
+            if ($familyDetails['tree'][$tmpArray[$searchedId]['f']]['bid'] != '') {
+                $flag = false;
             }
             $array2 = $this->__getDetails($familyDetails['tree'], $tmpArray[$searchedId]['f'], $flag);
             $array = array_merge($array, $array2);

@@ -1983,14 +1983,15 @@ GROUP BY p.created_by");
 
     public function getPeopleDetail($id) {
         //fetch parents, siblings, partner
-        $select = "SELECT a.f_id, a.m_id, a.partner_id, b.id, b.partner_id, c.f_id, c.m_id, s.spouse_id "
+        $select = "SELECT a.f_id, a.m_id, a.partner_id, b.id, b.partner_id, c.f_id, c.m_id, s.spouse_id , br.brother_id "
                 . "FROM `people` a "
                 . "LEFT JOIN `people` b ON (a.f_id = b.f_id || a.m_id = b.m_id) "
                 . "LEFT JOIN `people` c ON (a.partner_id = c.id) "
                 . "LEFT JOIN `spouses` s ON (a.id = s.spouse_id) "
+                . "LEFT JOIN `brothers` br ON (a.id = br.people_id) "
                 . "WHERE a.id='" . $id . "'";
         $rResult = $this->query($select);
-        
+       
         $sibling = $siblingPartner = array();
 
         $this->arrIds[] = $id;
@@ -2050,14 +2051,17 @@ GROUP BY p.created_by");
     public function getIdsDetail() {
         $fData = array_unique(array_filter($this->arrIds));
 
-        $sQry = "SELECT people.*, ad.suburb, ad.suburb_zone, people_groups.tree_level, people_groups.people_id, group_concat(spouses.spouse_id) as exspouses FROM"
+        $sQry = "SELECT people.*, ad.suburb, ad.suburb_zone, people_groups.tree_level, people_groups.people_id, group_concat(spouses.spouse_id) as exspouses , brothers.brother_id as brothers FROM"
                 . " people LEFT JOIN people_groups ON people.id=people_groups.people_id "
                 . " LEFT JOIN spouses ON people.id  = spouses.people_id "
                 . "LEFT JOIN address ad ON (ad.people_id = people.id) "
+                 . " LEFT JOIN brothers ON people.id  = brothers.people_id "
                 . " WHERE people.id IN (" . implode(',', $fData) . ") "
                 . " GROUP BY people.id ORDER BY people_groups.tree_level ASC";
         $aResult = $this->query($sQry);
-
+//        echo '<pre>';
+//        print_r($aResult);
+//        echo '</pre>';
         return $aResult;
     }
 
