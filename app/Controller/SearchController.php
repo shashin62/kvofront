@@ -194,7 +194,19 @@ Class SearchController extends AppController {
 
             $array[] = $text;
             $array[] = $data[$common[0]]['n'];
-            if ($data[$common[0]]['ai'] == $this->Session->read('User.user_id')) {
+            
+             if ( in_array($this->Session->read('User.user_id'), $data[$common[0]]['c'])) {
+                    
+                  $key = (array_search($this->Session->read('User.user_id'), $data[$common[0]]['c']));
+                   $array[] = '<span style="font-size:12px;">--<b> Father of </b>--></span>';
+                   
+                   $d = $data[$common[0]]['c'];
+                   
+                   
+                   $array[] = $data[$d[$key]]['n'];
+                }
+            
+            if ( $data[$common[0]]['ai'] == $this->Session->read('User.user_id')) {
                  $isRecursive = true;
              }
             if (in_array($this->Session->read('User.user_id'), $data[$common[0]['c']])) {
@@ -204,7 +216,7 @@ Class SearchController extends AppController {
 
             if ($tmpArray[$searchedId]['f'] != $this->Session->read('User.user_id')) {
 
-
+                
                 $common = array_values(array_intersect($tmpArray[$searchedId]['f'], $this->peopleIds));
                 $textLabel = 'Son Of';
                 if ($tmpArray[$searchedId]['g'] == 'f') {
