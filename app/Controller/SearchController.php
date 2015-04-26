@@ -141,7 +141,7 @@ Class SearchController extends AppController {
                     count(array_intersect($data[$common[0]]['c'], $this->peopleIds))
                     ) {
                 
-                $child = aarray_values(rray_intersect($data[$common[0]]['c'], $this->peopleIds));
+                $child = array_values(rray_intersect($data[$common[0]]['c'], $this->peopleIds));
                 //echo '<pre>';
                 
                 $array[] = '<span style="font-size:12px;">--<b>Mother of</b>--></span>';
