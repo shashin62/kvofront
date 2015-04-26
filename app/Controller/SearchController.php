@@ -199,7 +199,11 @@ Class SearchController extends AppController {
         if( $tmpArray[$searchedId]['f'] != '' && in_array($tmpArray[$searchedId]['f'], $this->peopleIds)) {
             
             $common = array_values(array_intersect($tmpArray[$searchedId]['f'], $this->peopleIds));
-            $text = '<span style="font-size:12px;">--<b>Son of</b>--></span>';
+            $textLabel = 'Son Of';
+            if ( $tmpArray[$searchedId]['g'] == 'f') {
+                $textLabel = 'Daughter Of';
+            }
+            $text = '<span style="font-size:12px;">--<b>'. $textLabel .'</b>--></span>';
             $array[] = $text;
             $array[] = $data[$tmpArray[$searchedId]['f']]['n'];
            // echo '<pre>';
