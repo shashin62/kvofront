@@ -222,7 +222,27 @@ Class SearchController extends AppController {
                     $array[] = $data[$brother[0]]['n'];
                 }
             }
-        }
+        } else if ( $tmpArray[$searchedId]['f'] != '' && $isRecursive == false) {
+                $textLabel = 'Son Of';
+                if ($data[$common[0]]['g'] == 'f') {
+                    $textLabel = 'Daughter Of';
+                }
+               $text = '<span style="font-size:12px;">--<b>' . $textLabel . '</b>--></span>';
+                $array[] = $text;
+                $array[] = $data[$tmpArray[$searchedId]['f']]['n'];
+                if ( in_array($this->Session->read('User.user_id'), $data[$tmpArray[$searchedId]['f']]['bid'])) {
+                    
+                  $key = (array_search($this->Session->read('User.user_id'), $data[$tmpArray[$searchedId]['f']]['bid']));
+                   $array[] = '<span style="font-size:12px;">--<b> Brother of </b>--></span>';
+                   
+                   $d = $data[$tmpArray[$searchedId]['f']]['bid'];
+                   
+                   
+                   $array[] = $data[$d[$key]]['n'];
+                }
+                $isRecursive = true;
+                
+            }
 //        
 //        if ($tmpArray[$searchedId]['es'] != '' && $tmpArray[$searchedId]['es'] == $this->Session->read('User.user_id')) {
 //           
