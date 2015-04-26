@@ -832,6 +832,13 @@ class People extends AppModel {
                     'conditions' => array(
                         'Address.people_id = People.id'
                     )
+                ),
+                 array('table' => 'brothers',
+                    'alias' => 'Brother',
+                    'type' => 'LEFT',
+                    'conditions' => array(
+                        'Brother.people_id = People.id'
+                    )
                 )
             );
         }
@@ -843,7 +850,7 @@ class People extends AppModel {
                 'parent3.first_name as partner_name', 'parent1.first_name as father', 'parent2.first_name as mother'
             );
         } else {
-            $options['fields'] = array('People.*', 'Address.*', 'Group.tree_level', 'Group.people_id', 'group_concat(exspouse.spouse_id) as exspouses');
+            $options['fields'] = array('People.*', 'Address.*', 'Brother.brother_id','Group.tree_level', 'Group.people_id', 'group_concat(exspouse.spouse_id) as exspouses');
             //$options['fields'] = array('People.*', 'Group.tree_level', 'Group.people_id');
             if ($flag) {
                 //$options['fields'][] = array('secondary as secondary');
@@ -1983,15 +1990,16 @@ GROUP BY p.created_by");
 
     public function getPeopleDetail($id) {
         //fetch parents, siblings, partner
-        $select = "SELECT a.f_id, a.m_id, a.partner_id, b.id, b.partner_id, c.f_id, c.m_id, s.spouse_id , br.brother_id "
+        $select = "SELECT a.f_id, a.m_id, a.partner_id, b.id, b.partner_id, c.f_id, c.m_id, s.spouse_id , br.brother_id, sis.sister_id "
                 . "FROM `people` a "
                 . "LEFT JOIN `people` b ON (a.f_id = b.f_id || a.m_id = b.m_id) "
                 . "LEFT JOIN `people` c ON (a.partner_id = c.id) "
                 . "LEFT JOIN `spouses` s ON (a.id = s.spouse_id) "
                 . "LEFT JOIN `brothers` br ON (a.id = br.people_id) "
+                . "LEFT JOIN `sisters` sis ON (a.id = sis.people_id) "
                 . "WHERE a.id='" . $id . "'";
         $rResult = $this->query($select);
-       
+      
         $sibling = $siblingPartner = array();
 
         $this->arrIds[] = $id;
@@ -2011,7 +2019,11 @@ GROUP BY p.created_by");
         if ($rResult[0]['s']['spouse_id']) {
             $this->arrIds[] = $exspouse = $rResult[0]['s']['spouse_id'];
         }
-
+//if ($rResult[0]['sis']['sister_id']) {
+//            $this->arrIds[] = $sisters = $rResult[0]['sis']['sister_id'];
+//            echo '<pre>';
+//            print_r($sisters);
+//        }
 
         foreach ($rResult as $k => $v) {
             $this->arrIds[] = $sibling[] = $v['b']['id'];
@@ -2051,17 +2063,26 @@ GROUP BY p.created_by");
     public function getIdsDetail() {
         $fData = array_unique(array_filter($this->arrIds));
 
-        $sQry = "SELECT people.*, ad.suburb, ad.suburb_zone, people_groups.tree_level, people_groups.people_id, group_concat(spouses.spouse_id) as exspouses , brothers.brother_id as brothers FROM"
+        $sQry = "SELECT people.*, ad.suburb, ad.suburb_zone, people_groups.tree_level, people_groups.people_id, group_concat(spouses.spouse_id) as exspouses , brothers.brother_id as brothers , sisters.sister_id as sisters FROM"
                 . " people LEFT JOIN people_groups ON people.id=people_groups.people_id "
                 . " LEFT JOIN spouses ON people.id  = spouses.people_id "
                 . "LEFT JOIN address ad ON (ad.people_id = people.id) "
                  . " LEFT JOIN brothers ON people.id  = brothers.people_id "
+                . " LEFT JOIN sisters ON people.id  = sisters.people_id "
                 . " WHERE people.id IN (" . implode(',', $fData) . ") "
                 . " GROUP BY people.id ORDER BY people_groups.tree_level ASC";
         $aResult = $this->query($sQry);
-//        echo '<pre>';
-//        print_r($aResult);
-//        echo '</pre>';
+        $sisterModel = ClassRegistry::init('Sister');
+        $brotherModel = ClassRegistry::init('Brother');
+        foreach ( $aResult as $key => $value ) {
+           
+            $aResult[$key]['sisters'] = $sisterModel->getSisters($value['people']['id']);
+        }
+        
+        foreach ( $aResult as $key => $value ) {
+           
+            $aResult[$key]['brothers'] = $brotherModel->getBrothers($value['people']['id']);
+        }
         return $aResult;
     }
 
