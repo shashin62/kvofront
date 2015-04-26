@@ -195,7 +195,9 @@ Class SearchController extends AppController {
         }
         
         if( $tmpArray[$searchedId]['f'] != '' && in_array($tmpArray[$searchedId]['f'], $this->peopleIds)) {
-            
+            if ($tmpArray[$searchedId]['f'] != $this->Session->read('User.user_id')) {
+                
+           
             $common = array_values(array_intersect($tmpArray[$searchedId]['f'], $this->peopleIds));
             $textLabel = 'Son Of';
             if ( $tmpArray[$searchedId]['g'] == 'f') {
@@ -216,6 +218,7 @@ Class SearchController extends AppController {
              $text = '<span style="font-size:12px;">--<b>Brother of</b>--></span>';
             $array[] = $text;
             $array[] = $data[$brother[0]]['n'];
+        }
         }
         } 
         
