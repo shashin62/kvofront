@@ -198,7 +198,11 @@ Class SearchController extends AppController {
              if ( in_array($this->Session->read('User.user_id'), $data[$common[0]]['c'])) {
                     
                   $key = (array_search($this->Session->read('User.user_id'), $data[$common[0]]['c']));
-                   $array[] = '<span style="font-size:12px;">--<b> Father of </b>--></span>';
+                  $label = 'Mother of';
+                  if (  $data[$common[0]]['g'] == 'm') {
+                      $label = 'Father of';
+                  }
+                   $array[] = '<span style="font-size:12px;">--<b>' . $label . ' </b>--></span>';
                    
                    $d = $data[$common[0]]['c'];
                    
