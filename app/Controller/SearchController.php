@@ -151,9 +151,12 @@ Class SearchController extends AppController {
                     $array[] = '<span style="font-size:12px;">--<b>Mother of</b>--></span>';
                     $array[] = $data[$child[0]]['n'];
                 }
+                 if ($data[$child[0]]['ai'] == $this->Session->read('User.user_id')) {
+                 $isRecursive = true;
+             }
             }
         }
-        if (is_array($tmpArray[$searchedId]['sid']) && $tmpArray[$searchedId]['g'] == 'm') {
+        if (is_array($tmpArray[$searchedId]['sid']) && $tmpArray[$searchedId]['g'] == 'm' && $isRecursive == false) {
             $common = array_values(array_intersect($tmpArray[$searchedId]['sid'], $this->peopleIds));
             
             if (count($common)) {
