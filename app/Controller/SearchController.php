@@ -124,7 +124,7 @@ Class SearchController extends AppController {
             $array[] = $data[$common[0]]['n'];
         } 
        
-         else if ( is_array($tmpArray[$searchedId]['sid']) && $tmpArray[$searchedId]['g'] == 'f') {
+         if ( is_array($tmpArray[$searchedId]['sid']) && $tmpArray[$searchedId]['g'] == 'f') {
             $common = array_values(array_intersect($tmpArray[$searchedId]['sid'], $this->peopleIds));
             
             if ( count($common)) {
@@ -148,7 +148,7 @@ Class SearchController extends AppController {
             }
          }
         }
-        else if ( is_array($tmpArray[$searchedId]['sid']) && $tmpArray[$searchedId]['g'] == 'm') {
+         if ( is_array($tmpArray[$searchedId]['sid']) && $tmpArray[$searchedId]['g'] == 'm') {
             $common = array_values(array_intersect($tmpArray[$searchedId]['sid'], $this->peopleIds));
             
             if ( count($common)) {
@@ -170,7 +170,7 @@ Class SearchController extends AppController {
          }
         }
         
-       else  if ($tmpArray[$searchedId]['es'] != '' && $tmpArray[$searchedId]['es'] == $this->Session->read('User.user_id')) {
+        if ($tmpArray[$searchedId]['es'] != '' && $tmpArray[$searchedId]['es'] == $this->Session->read('User.user_id')) {
            
            $text = '<span style="font-size:12px;">--<b>Wife of</b>--></span>';
             $array[] = $text;
@@ -194,7 +194,7 @@ Class SearchController extends AppController {
                     
         }
         
-       else if( $tmpArray[$searchedId]['f'] != '' && in_array($tmpArray[$searchedId]['f'], $this->peopleIds)) {
+        if( $tmpArray[$searchedId]['f'] != '' && in_array($tmpArray[$searchedId]['f'], $this->peopleIds)) {
             
             $common = array_values(array_intersect($tmpArray[$searchedId]['f'], $this->peopleIds));
             $textLabel = 'Son Of';
