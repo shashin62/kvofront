@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    
+    var hcurrentwidth;
+    var hcurrentheight;
+    var huserImagePath; 
 
     $('.selectpicker').selectpicker();
 
@@ -137,7 +141,7 @@ $(document).ready(function () {
                         }
                         
                         if( module == 'tree') {
-                            window.location.href = baseUrl + "/app/webroot/tree/?gid=" + grpid+'&token=9daa9b2f09c22636b56d33786a270af';
+                            window.location.href = baseUrl + "/tree/?gid=" + grpid+'&token=9daa9b2f09c22636b56d33786a270af';
                         } else {
                             window.location.href = baseUrl + "/family/details/" + grpid;
                         }
