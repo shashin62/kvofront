@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="col-md-10">
+    
         <div class="col-md-2 col-offset-2">
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -23,6 +23,9 @@
                 </div>
             </div>
 
+        </div>
+        <div class="col-md-2">
+            <?php echo $this->element('votes');?>
         </div>
 	<div class="col-md-2">
 		<div class="panel panel-default">
@@ -200,8 +203,6 @@
 			</div>
 		</div>
 	</div>
-    </div>
-    <div class="col-md-2">
-            <?php echo $this->element('votes');?>
-    </div>
+    
+    
 </div>
