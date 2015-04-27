@@ -196,7 +196,8 @@ $(document).ready(function () {
             hcurrentwidth = response.width;
             hcurrentheight = response.height;
             huserImagePath = response.userImagePath;
-            console.log('hcurrentheight='+hcurrentheight);
+
+
 
             var docHeight = $(document).height();
 
@@ -210,7 +211,7 @@ $(document).ready(function () {
                 var n = Math.random();
                 $('#thumbnail').attr('src', baseUrl + '/' + response.userImagePath + '?q=' + n);
                 $('#thumbPreview').attr('src', baseUrl + "/" + response.userImagePath + '?q=' + n);
-                createThumbPreview(response);
+                createThumbPreview();
                 var selectionObject = {};
                 var newW = 346;
                 if (hcurrentwidth > newW) {
@@ -239,7 +240,7 @@ $(document).ready(function () {
                 selectionObject.y1 = 1;
                 selectionObject.y2 = 101;
 
-                preview('', selectionObject, response);
+                preview('', selectionObject);
 
 
             });
@@ -334,11 +335,8 @@ function late(is_late) {
     }
 }
 
-function createThumbPreview(response)
+function createThumbPreview()
 {
-    hcurrentwidth = response.width;
-    hcurrentheight = response.height;
-    huserImagePath = response.userImagePath;
     imageAreaselectDefault = 10;
     var t = '1:1';
     var newW = imageAreaselectDefault;
@@ -379,11 +377,9 @@ function createThumbPreview(response)
     $('.publishFansPopup').css('height', newH + 'px');
 }
 
-function preview(img, selection, response)
+function preview(img, selection)
 {
-    hcurrentwidth = response.width;
-    hcurrentheight = response.height;
-    huserImagePath = response.userImagePath;
+    
     var scaleX = 120 / selection.width;
     var scaleY = 120 / selection.height;
     var currentwidth = parseInt(hcurrentwidth);
