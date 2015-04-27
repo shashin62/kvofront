@@ -1,8 +1,4 @@
 $(document).ready(function () {
-    
-    var hcurrentwidth;
-    var hcurrentheight;
-    var huserImagePath; 
 
     $('.selectpicker').selectpicker();
 
@@ -200,8 +196,7 @@ $(document).ready(function () {
             hcurrentwidth = response.width;
             hcurrentheight = response.height;
             huserImagePath = response.userImagePath;
-
-
+            console.log('hcurrentheight='+hcurrentheight);
 
             var docHeight = $(document).height();
 
@@ -215,7 +210,7 @@ $(document).ready(function () {
                 var n = Math.random();
                 $('#thumbnail').attr('src', baseUrl + '/' + response.userImagePath + '?q=' + n);
                 $('#thumbPreview').attr('src', baseUrl + "/" + response.userImagePath + '?q=' + n);
-                createThumbPreview();
+                createThumbPreview(response);
                 var selectionObject = {};
                 var newW = 346;
                 if (hcurrentwidth > newW) {
@@ -244,7 +239,7 @@ $(document).ready(function () {
                 selectionObject.y1 = 1;
                 selectionObject.y2 = 101;
 
-                preview('', selectionObject);
+                preview('', selectionObject, response);
 
 
             });
@@ -339,8 +334,11 @@ function late(is_late) {
     }
 }
 
-function createThumbPreview()
+function createThumbPreview(response)
 {
+    hcurrentwidth = response.width;
+    hcurrentheight = response.height;
+    huserImagePath = response.userImagePath;
     imageAreaselectDefault = 10;
     var t = '1:1';
     var newW = imageAreaselectDefault;
@@ -381,9 +379,11 @@ function createThumbPreview()
     $('.publishFansPopup').css('height', newH + 'px');
 }
 
-function preview(img, selection)
+function preview(img, selection, response)
 {
-    
+    hcurrentwidth = response.width;
+    hcurrentheight = response.height;
+    huserImagePath = response.userImagePath;
     var scaleX = 120 / selection.width;
     var scaleY = 120 / selection.height;
     var currentwidth = parseInt(hcurrentwidth);
