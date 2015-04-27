@@ -2018,7 +2018,7 @@ Class FamilyController extends AppController {
         $ids = $this->People->find('list',array('fields' => array('People.id'),'order' => array('People.id asc')));
         foreach( $ids as $v) {
         $options['fields'] = array('People.id', 'p.id', 'p.first_name');
-        $options['conditions'] = array('People.id' => $v,'p.gender' => 'male');
+        $options['conditions'] = array('People.id' => $v,'p.gender' => 'male','People.merged' => 0);
         $options['joins'] = array(
             array('table' => 'people',
                 'alias' => 'p',
@@ -2046,7 +2046,7 @@ Class FamilyController extends AppController {
         $ids = $this->People->find('list',array('fields' => array('People.id'),'order' => array('People.id asc')));
         foreach( $ids as $v) {
         $options['fields'] = array('People.id', 'p.id', 'p.first_name');
-        $options['conditions'] = array('People.id' => $v,'p.gender' => 'female');
+        $options['conditions'] = array('People.id' => $v,'p.gender' => 'female','People.merged' => 0);
         $options['joins'] = array(
             array('table' => 'people',
                 'alias' => 'p',
