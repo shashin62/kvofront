@@ -1,24 +1,29 @@
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-2 col-offset-2">
-			<h3><?php echo $peopleData['first_name'] . ' ' . $peopleData['last_name'];?></h3>
-                        
-		</div>
-            <div class="col-md-6 col-offset-2">
-                <?php foreach( $treeLinkageData as $key => $value) { ?>
-                <?php 
-                $i = 1; ?>
-               
-                
-                <span><?php echo $value;?></span>
-              
-                
-
-                <?php $i++; } ?>
-
-               
+    <div class="col-md-10">
+        <div class="col-md-2 col-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                <?php echo $peopleData['first_name'] . ' ' . $peopleData['last_name'];?>
+                </div>
             </div>
-	</div>
+        </div>
+        <div class="col-md-8 col-offset-2">
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <?php foreach ($treeLinkageData as $key => $value) { ?>
+                        <?php $i = 1; ?>
+
+
+                        <span><?php echo $value; ?></span>
+
+
+
+                        <?php $i++;
+                    } ?>
+                </div>
+            </div>
+
+        </div>
 	<div class="col-md-2">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -195,7 +200,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-2">
-		<?php echo $this->element('votes');?>
-	</div>
+    </div>
+    <div class="col-md-2">
+            <?php echo $this->element('votes');?>
+    </div>
 </div>
