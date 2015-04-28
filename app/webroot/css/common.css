@@ -41,3 +41,6 @@ tr.shown td.details-control {
     padding: 9px 12px !important;
 }
 
+.text-default {
+    color: #333;
+}
