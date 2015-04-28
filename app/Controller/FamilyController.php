@@ -1119,6 +1119,16 @@ Class FamilyController extends AppController {
                 $data = $this->Group->find('all', array('fields' => array('Group.id'),
                     'conditions' => array('Group.people_id' => $peopleId)));
 
+              $childs = $this->People->find('all', array(
+                    'conditions' => array('People.f_id' => $_REQUEST['peopleid']),
+                    'fields' => array('People.id', 'People.gender')
+                ));
+                
+                $getGender = $this->People->find('all', array(
+                    'conditions' => array('People.id' => $peopleId),
+                    'fields' => array('People.gender')
+                ));
+                
                 $peopleGroup = array();
                 $peopleGroup['PeopleGroup']['group_id'] = $gid;
                 $peopleGroup['PeopleGroup']['people_id'] = $peopleId;
@@ -1140,6 +1150,69 @@ Class FamilyController extends AppController {
                 $updateMotherDetails['People']['modified'] = date('Y-m-d H:i:s');
                 $this->request->data['People']['created_by'] = $this->Session->read('User.user_id');
                 $this->People->save($updateFatherDetails);
+                
+                    if ($getGender[0]['People']['gender'] == 'male') {
+                            $brotherData = array();
+                            foreach ($childs as $key => $value) {
+                                $brotherData[$key]['Brother']['people_id'] = $value['People']['id'];
+                                $brotherData[$key]['Brother']['brother_id'] = $peopleId;
+                            }
+
+                            $this->Brother->saveAll($brotherData);
+                           
+                             $addBrotherForNew = array();
+                            foreach ($childs as $key => $value) {
+                                
+                                if ($value['People']['gender'] == 'male') {
+                                    $addBrotherForNew[$key]['Brother']['people_id'] = $peopleId;
+                                    $addBrotherForNew[$key]['Brother']['brother_id'] = $value['People']['id'];
+                                   
+                                } 
+                            }
+                             $this->Brother->saveAll($addBrotherForNew);
+                            $addSisterForNew = array();
+                              foreach ($childs as $key => $value) {
+                                
+                                if ($value['People']['gender'] == 'female') {
+                                    $addSisterForNew[$key]['Sister']['people_id'] = $peopleId;
+                                    $addSisterForNew[$key]['Sister']['sister_id'] = $value['People']['id'];
+                                   
+                                } 
+                            }
+                             $this->Sister->saveAll($addSisterForNew);
+                           
+                            
+                            
+                        } else {
+                            $sisterData = array();
+                            foreach ($childs as $key => $value) {
+                                $sisterData[$key]['Sister']['people_id'] = $value['People']['id'];
+                                $sisterData[$key]['Sister']['sister_id'] = $peopleId;
+                            }
+
+                            $this->Sister->saveAll($sisterData);
+                            $addBrotherForNew = array();
+                            foreach ($childs as $key => $value) {
+                                
+                                if ($value['People']['gender'] == 'male') {
+                                    $addBrotherForNew[$key]['Brother']['people_id'] = $peopleId;
+                                    $addBrotherForNew[$key]['Brother']['brother_id'] = $value['People']['id'];
+                                   
+                                } 
+                            }
+                             $this->Brother->saveAll($addBrotherForNew);
+                            $addSisterForNew = array();
+                              foreach ($childs as $key => $value) {
+                                
+                                if ($value['People']['gender'] == 'female') {
+                                    $addSisterForNew[$key]['Sister']['people_id'] = $peopleId;
+                                    $addSisterForNew[$key]['Sister']['sister_id'] = $value['People']['id'];
+                                   
+                                } 
+                            }
+                             $this->Sister->saveAll($addSisterForNew);
+                           
+                        }
                 $msg['group_id'] = $gid;
                 $message = 'Child has been added';
                 break;
