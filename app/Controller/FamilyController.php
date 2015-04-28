@@ -746,7 +746,16 @@ Class FamilyController extends AppController {
                 }
 
                 break;
-            case 'addchilld':
+            case 'addchilld':                
+                
+                // get childrens ids
+                $childs = $this->People->find('all', array(
+                    'conditions' => array('People.f_id' => $_REQUEST['peopleid']),
+                    'fields' => array('People.id', 'People.gender')
+                ));
+              
+                 
+                
                 $mothers = $this->People->getAllSpouses($_REQUEST['peopleid']);
                 //echo '<pre>';print_r($mothers);exit;
                 if (count($mothers) > 1) {
@@ -795,6 +804,68 @@ Class FamilyController extends AppController {
                         $this->PeopleGroup->save($peopleGroup);
                         if ($same == 1) {
                             $this->_copyAddress($parentId, $this->People->id);
+                        }
+                        if ($this->request->data['People']['gender'] == 'male') {
+                            $brotherData = array();
+                            foreach ($childs as $key => $value) {
+                                $brotherData[$key]['Brother']['people_id'] = $value['People']['id'];
+                                $brotherData[$key]['Brother']['brother_id'] = $this->People->id;
+                            }
+
+                            $this->Brother->saveAll($brotherData);
+                           
+                             $addBrotherForNew = array();
+                            foreach ($childs as $key => $value) {
+                                
+                                if ($value['People']['gender'] == 'male') {
+                                    $addBrotherForNew[$key]['Brother']['people_id'] = $this->People->id;
+                                    $addBrotherForNew[$key]['Brother']['brother_id'] = $value['People']['id'];
+                                   
+                                } 
+                            }
+                             $this->Brother->saveAll($addBrotherForNew);
+                            $addSisterForNew = array();
+                              foreach ($childs as $key => $value) {
+                                
+                                if ($value['People']['gender'] == 'female') {
+                                    $addSisterForNew[$key]['Sister']['people_id'] = $this->People->id;
+                                    $addSisterForNew[$key]['Sister']['sister_id'] = $value['People']['id'];
+                                   
+                                } 
+                            }
+                             $this->Sister->saveAll($addSisterForNew);
+                           
+                            
+                            
+                        } else {
+                            $sisterData = array();
+                            foreach ($childs as $key => $value) {
+                                $sisterData[$key]['Sister']['people_id'] = $value['People']['id'];
+                                $sisterData[$key]['Sister']['sister_id'] = $this->People->id;
+                            }
+
+                            $this->Sister->saveAll($sisterData);
+                            $addBrotherForNew = array();
+                            foreach ($childs as $key => $value) {
+                                
+                                if ($value['People']['gender'] == 'male') {
+                                    $addBrotherForNew[$key]['Brother']['people_id'] = $this->People->id;
+                                    $addBrotherForNew[$key]['Brother']['brother_id'] = $value['People']['id'];
+                                   
+                                } 
+                            }
+                             $this->Brother->saveAll($addBrotherForNew);
+                            $addSisterForNew = array();
+                              foreach ($childs as $key => $value) {
+                                
+                                if ($value['People']['gender'] == 'female') {
+                                    $addSisterForNew[$key]['Sister']['people_id'] = $this->People->id;
+                                    $addSisterForNew[$key]['Sister']['sister_id'] = $value['People']['id'];
+                                   
+                                } 
+                            }
+                             $this->Sister->saveAll($addSisterForNew);
+                           
                         }
                     }
                 } else {
