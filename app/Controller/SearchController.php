@@ -190,11 +190,33 @@ Class SearchController extends AppController {
 //echo $this->Session->read('User.user_id');
 //exit;
     
-        if ($tmpArray[$searchedId]['es'] != '' && $isRecursive == false) {
+        if ($tmpArray[$searchedId]['es'] != '' && !count(array_intersect($tmpArray[$searchedId]['es'], $this->peopleIds)) && $isRecursive == false) {
+            
+            if ( in_array($this->Session->read('User.user_id'), $tmpArray[$searchedId]['c'])) {
+             $common = array_values(array_intersect($tmpArray[$searchedId]['c'], $this->peopleIds));
+            if ($tmpArray[$searchedId]['g'] == 'f') {
+                $text = '<span style="font-size:12px;">--<b>Mother of</b>--></span>';
+            } else {
+                $text = '<span style="font-size:12px;">--<b>Father of</b>--></span>';
+            }
+             $array[] = $text;
+            $array[] = $data[$common[0]]['n'];
+            
+                 $isRecursive = true;
+            
+            } else {
 
-            $text = '<span style="font-size:12px;">--<b>Wife of</b>--></span>';
+           
+            if ( $tmpArray[$searchedId]['g'] == 'f') {
+                $text = '<span style="font-size:12px;">--<b>Wife of</b>--></span>';
+            } else {
+                $text = '<span style="font-size:12px;">--<b>Husband of</b>--></span>';
+            }
             $array[] = $text;
             $array[] = $data[$tmpArray[$searchedId]['es']]['n'];
+            
+             $familyDetails = $this->Tree->buildFamilyJson($tmpArray[$searchedId]['es']);
+             
              if ( $tmpArray[$searchedId]['es'] == $this->Session->read('User.user_id')) {
                  $isRecursive = true;
              } else {
@@ -205,8 +227,8 @@ Class SearchController extends AppController {
                      
                     $familyDetails = $this->Tree->buildFamilyJson($data[$tmpArray[$searchedId]['es']]['bid'][$key]);
                     
-                   
                     $text = '<span style="font-size:12px;">--<b>Brother of</b>--></span>';
+                    
                     $array[] = $text;                  
                     $array[] = $familyDetails['tree'][$data[$tmpArray[$searchedId]['es']]['bid'][$key]]['n'];
                     
@@ -214,6 +236,7 @@ Class SearchController extends AppController {
                         $isRecursive = true;
                     }
                 }
+            }
             }
         } 
         
