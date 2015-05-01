@@ -670,10 +670,24 @@ class People extends AppModel {
                 'conditions' => array(
                     'People.id = Address.people_id'
                 )
+            ),
+            array('table' => 'sisters',
+                'alias' => 'Sister',
+                'type' => 'LEFT',
+                'conditions' => array(
+                    'Sister.people_id = People.id'
+                )
+            ),
+              array('table' => 'brothers',
+                'alias' => 'Brother',
+                'type' => 'LEFT',
+                'conditions' => array(
+                    'Brother.people_id = People.id'
+                )
             )
         );
 
-        $options['fields'] = array('People.*', 'Group.*', 'Address.*');
+        $options['fields'] = array('People.*', 'Group.*', 'Address.*','Sister.*','Brother.*');
         try {
             $userData = $this->find('all', $options);
 
