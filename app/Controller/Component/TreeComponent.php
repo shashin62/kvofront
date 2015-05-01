@@ -175,14 +175,16 @@ class TreeComponent extends Component{
         }
         
         public function buildFamilyJson ($peopleId = false) {
+            
              $peopleModel = ClassRegistry::init('People');
         if ( isset($_REQUEST['id'])) {
             $id = $_REQUEST['id'];        
             $id = (int) str_replace('?', '',$id);
-        } else if( $peopleId ) {
+        }
+        if( $peopleId ) {
             $id = $peopleId;
         }
-       
+     
         $tree = array();
         $ids = array();
         
