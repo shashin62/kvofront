@@ -58,6 +58,11 @@ Class SearchController extends AppController {
         }
 
         $data = $this->People->search($peopleId);
+       
+        foreach ($data as $d1 => $d3) {
+            $this->peopleIds[] = $d3['id'];
+            $this->peopleIds[] = $d3['partner_id'];
+        }
         $peopleData = $data['People'];
         $groupData = $data['Group'];
         $addressData = $data['Address'];
@@ -70,7 +75,10 @@ Class SearchController extends AppController {
 
         foreach ($data1 as $d1 => $d2) {
             $this->peopleIds[] = $d2['People']['id'];
+            $this->peopleIds[] = $d2['People']['partner_id'];
         }
+        
+        $this->peopleIds = array_unique($this->peopleIds);
 
         $familyDetails = $this->Tree->buildFamilyJson($peopleId);
 
@@ -114,7 +122,7 @@ Class SearchController extends AppController {
         $tmpArray = $data;
         $isRecursive = false;
 
-        if (is_array($tmpArray[$searchedId]['bid']) && $tmpArray[$searchedId]['g'] == 'm' && count(array_intersect($tmpArray[$searchedId]['bid'], $this->peopleIds))) {
+        if (is_array($tmpArray[$searchedId]['bid']) && $tmpArray[$searchedId]['g'] == 'm' && count(array_intersect($tmpArray[$searchedId]['bid'], $this->peopleIds)) && $isRecursive == false) {
             $common = array_values(array_intersect($tmpArray[$searchedId]['bid'], $this->peopleIds));
 
             $text = '<span style="font-size:12px;">--<b>Brother of</b>--></span>';
@@ -176,13 +184,40 @@ Class SearchController extends AppController {
                  $isRecursive = true;
              }
         }
-
-        if ($tmpArray[$searchedId]['es'] != '' && $tmpArray[$searchedId]['es'] == $this->Session->read('User.user_id') && $isRecursive == false) {
+//echo '<pre>';
+//print_r($tmpArray);
+//print_r($this->peopleIds);
+//echo $this->Session->read('User.user_id');
+//exit;
+    
+        if ($tmpArray[$searchedId]['es'] != '' && $isRecursive == false) {
 
             $text = '<span style="font-size:12px;">--<b>Wife of</b>--></span>';
             $array[] = $text;
             $array[] = $data[$tmpArray[$searchedId]['es']]['n'];
-        } else if (is_array($tmpArray[$searchedId]) && count(array_intersect($tmpArray[$searchedId]['c'], $this->peopleIds)) && $isRecursive == false) {
+             if ( $tmpArray[$searchedId]['es'] == $this->Session->read('User.user_id')) {
+                 $isRecursive = true;
+             } else {
+//                $array1=  $this->__getDetails($data, $id, false,$this->Session->read('User.user_id'), $tmpArray[$searchedId]['es']);
+//                array_merge($array,$array1);
+                if (in_array($this->Session->read('User.user_id'), $data[$tmpArray[$searchedId]['es']]['bid'])) {
+                     $key = array_search($this->Session->read('User.user_id'), $data[$tmpArray[$searchedId]['es']]['bid']);
+                     
+                    $familyDetails = $this->Tree->buildFamilyJson($data[$tmpArray[$searchedId]['es']]['bid'][$key]);
+                    
+                   
+                    $text = '<span style="font-size:12px;">--<b>Brother of</b>--></span>';
+                    $array[] = $text;                  
+                    $array[] = $familyDetails['tree'][$data[$tmpArray[$searchedId]['es']]['bid'][$key]]['n'];
+                    
+                    if ( $data[$tmpArray[$searchedId]['es']]['bid'][$key] == $this->Session->read('User.user_id')) {
+                        $isRecursive = true;
+                    }
+                }
+            }
+        } 
+        
+        if (is_array($tmpArray[$searchedId]) && count(array_intersect($tmpArray[$searchedId]['c'], $this->peopleIds)) && $isRecursive == false) {
 
             $common = array_values(array_intersect($tmpArray[$searchedId]['c'], $this->peopleIds));
             if ($tmpArray[$searchedId]['g'] == 'f') {
