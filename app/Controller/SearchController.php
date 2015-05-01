@@ -63,7 +63,7 @@ Class SearchController extends AppController {
             $this->peopleIds[] = $d3['id'];
             $this->peopleIds[] = $d3['partner_id'];
             $this->peopleIds[] = $d3['sister_id'];
-            $this->peopleIds[] = $d3['brother_id'];
+            //$this->peopleIds[] = $d3['brother_id'];
         }
         $peopleData = $data['People'];
         $groupData = $data['Group'];
@@ -131,7 +131,13 @@ Class SearchController extends AppController {
         $tmpArray = $data;
         $isRecursive = false;
 
-        if (is_array($tmpArray[$searchedId]['bid']) && $tmpArray[$searchedId]['g'] == 'm' && count(array_intersect($tmpArray[$searchedId]['bid'], $this->peopleIds)) && $isRecursive == false) {
+        if (is_array($tmpArray[$searchedId]['bid']) && $tmpArray[$searchedId]['g'] == 'm' && count(array_intersect($tmpArray[$searchedId]['bid'], $this->peopleIds)) && $isRecursive == false
+                
+                ) {
+            if ( !in_array($this->Session->read('User.user_id'), $tmpArray[$searchedId]['c'] )) {
+                
+          
+            
             $common = array_values(array_intersect($tmpArray[$searchedId]['bid'], $this->peopleIds));
 
             $text = '<span style="font-size:12px;">--<b>Brother of</b>--></span>';
@@ -147,6 +153,7 @@ Class SearchController extends AppController {
                 $array[] = $data[$data[$common[0]]['f']]['n'];
                 $isRecursive = true;
             }
+             }
         }
 
         if (is_array($tmpArray[$searchedId]['sid']) && $tmpArray[$searchedId]['g'] == 'f' && $isRecursive == false) {
@@ -179,8 +186,11 @@ Class SearchController extends AppController {
             }
         }
         if (is_array($tmpArray[$searchedId]['sid']) && $tmpArray[$searchedId]['g'] == 'm' && $isRecursive == false) {
+             if ( !in_array($this->Session->read('User.user_id'), $tmpArray[$searchedId]['c'] )) {
+                 
+             
             $common = array_values(array_intersect($tmpArray[$searchedId]['sid'], $this->peopleIds));
-            
+            $array = array();
             if (count($common)) {
                 $text = '<span style="font-size:12px;">--<b>Brother of</b>--></span>';
                 $array[] = $text;
@@ -203,6 +213,7 @@ Class SearchController extends AppController {
             if ($data[$child[0]]['ai'] == $this->Session->read('User.user_id')) {
                  $isRecursive = true;
              }
+             }
         }
 //echo '<pre>';
 //print_r($tmpArray);
@@ -211,7 +222,7 @@ Class SearchController extends AppController {
 //exit;
     
         if ($tmpArray[$searchedId]['es'] != '' && !count(array_intersect($tmpArray[$searchedId]['es'], $this->peopleIds)) && $isRecursive == false) {
-            
+            $array = array();
             if ( in_array($this->Session->read('User.user_id'), $tmpArray[$searchedId]['c'])) {
              $common = array_values(array_intersect($tmpArray[$searchedId]['c'], $this->peopleIds));
             if ($tmpArray[$searchedId]['g'] == 'f') {
@@ -261,7 +272,7 @@ Class SearchController extends AppController {
         } 
         
         if (is_array($tmpArray[$searchedId]) && count(array_intersect($tmpArray[$searchedId]['c'], $this->peopleIds)) && $isRecursive == false) {
-
+$array = array();
             $common = array_values(array_intersect($tmpArray[$searchedId]['c'], $this->peopleIds));
             if ($tmpArray[$searchedId]['g'] == 'f') {
                 $text = '<span style="font-size:12px;">--<b>Mother of</b>--></span>';
@@ -295,7 +306,7 @@ Class SearchController extends AppController {
                 $key = array_search($this->Session->read('User.user_id'), $tmpArray[$searchedId]['c']);
             }
         } else if ($tmpArray[$searchedId]['f'] != '' && in_array($tmpArray[$searchedId]['f'], $this->peopleIds) && $isRecursive == false) {
-
+$array = array();
             if ($tmpArray[$searchedId]['f'] != $this->Session->read('User.user_id')) {
 
                 
@@ -320,6 +331,7 @@ Class SearchController extends AppController {
                 }
             }
         } else if ( $tmpArray[$searchedId]['f'] != '' && $isRecursive == false) {
+            $array = array();
                 $textLabel = 'Son Of';
                 if ($data[$common[0]]['g'] == 'f') {
                     $textLabel = 'Daughter Of';
