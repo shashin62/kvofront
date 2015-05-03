@@ -2116,7 +2116,8 @@ GROUP BY p.created_by");
         $options['limit'] = 15;
         $options['offset'] = 0;
         $options['fields'] = array('People.id', "CONCAT(People.first_name, ' ' , People.last_name) as name");
-        $options['conditions'] = array('People.first_name like' => '%' . $term . '%');
+        //(CONCAT_WS(  ', ',  `last_name`,  `first_name` ) LIKE '%1\$s' OR CONCAT_WS(  ' ',  `first_name`,  `last_name` ) LIKE '%1\$s')
+        $options['conditions'] = array('CONCAT_WS( " ", People.first_name, People.last_name) like' => '%' . $term . '%');
         try {
             $userData = $this->find('all', $options);
             if ($userData) {
