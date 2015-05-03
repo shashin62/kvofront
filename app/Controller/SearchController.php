@@ -211,20 +211,20 @@ Class SearchController extends AppController {
                 $array = array_merge($array,$array1);
              }
         }
-//        else if(is_array($data[$searchedId]['sid']))
-//        {
-//            $textLabel = 'Sister of';
-//            if ( $data[$searchedId]['g'] == 'm') {
-//                 $textLabel = 'Brother of';
-//            }
-//            $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
-//            $array[] = $text;
-//            $array[] = $data[$data[$searchedId]['sid'][0]]['n'];
-//             if( $common[0] != $this->Session->read('User.user_id')) {
-//                $array1 = $this->_buildLinkage($data, $data[$searchedId]['sid'][0], $this->Session->read('User.user_id')) ;
-//                $array = array_merge($array,$array1);
-//             }
-//        }
+        else if(is_array($data[$searchedId]['sid']))
+        {
+            $textLabel = 'Sister of';
+            if ( $data[$searchedId]['g'] == 'm') {
+                 $textLabel = 'Brother of';
+            }
+            $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
+            $array[] = $text;
+            $array[] = $data[$data[$searchedId]['sid'][0]]['n'];
+             if( $common[0] != $this->Session->read('User.user_id')) {
+                $array1 = $this->_buildLinkage($data, $data[$searchedId]['sid'][0], $this->Session->read('User.user_id')) ;
+                $array = array_merge($array,$array1);
+             }
+        }
         
         else if( $data[$searchedId]['f'] != '') 
         {
