@@ -6,6 +6,8 @@
  * and open the template in the editor.
  */
 App::load('model','People');
+App::load('model','Sister');
+App::load('model','Brother');
 class TreeComponent extends Component{
     
     /**
@@ -20,6 +22,8 @@ class TreeComponent extends Component{
         $groupId =  $group_id;
         
         $peopleModel = ClassRegistry::init('People');
+         $sisterModel = ClassRegistry::init('Sister');
+          $brotherModel = ClassRegistry::init('Brother');
          $peopleGroupModel = ClassRegistry::init('PeopleGroup');
             $data = $peopleModel->getFamilyDetails($groupId);
             //check each id exists in other group then get all gamily detials for this group also
@@ -42,7 +46,7 @@ class TreeComponent extends Component{
             $ids = array();
 
             $data = array_map("unserialize", array_unique(array_map("serialize", $data)));
-
+            
             foreach ($data as $key => $value) {
                 $peopleData = $value['People'];
                 $peopleGroup = $value['Group'];
@@ -50,7 +54,20 @@ class TreeComponent extends Component{
                 $exSpouses = $value[0];
                 if (!in_array($peopleData['id'], $ids)) {
 
-
+                    $sisters = $sisterModel->getSisters($peopleData['id']);
+                    $brothers = $brotherModel->getBrothers($peopleData['id']);
+                    $sids = array();
+                    foreach ($sisters as $ks => $vs) {
+                        $sids[] = $vs;
+                    }
+                    
+                    $bids = array();
+                    foreach ($brothers as $kb => $vb) {
+                        $bids[] = $vb;
+                    }
+                    
+       
+                    
                     $children = $peopleModel->getChildren($peopleData['id'], $peopleData['gender'], $groupId);
                     $childids = array();
                     foreach ($children as $k => $v) {
@@ -85,6 +102,9 @@ class TreeComponent extends Component{
                         $tree[$peopleData['id']]['c'] = array();
                         $tree[$peopleData['id']]['cp'] = false;
                     }
+                    
+                    $tree[$peopleData['id']]['bid'] = array_unique($bids);
+                    $tree[$peopleData['id']]['sid'] = array_unique($sids);
 
                     $tree[$peopleData['id']]['e'] = $peopleData['email'];
                     $tree[$peopleData['id']]['u'] = $peopleData['mobile_number'];
@@ -128,20 +148,13 @@ class TreeComponent extends Component{
                     $tree[$peopleData['id']]['gid'] = $peopleData['group_id'];
                     $tree[$peopleData['id']]['father'] = ucfirst($peopleData['father']);
                     $tree[$peopleData['id']]['city'] = ucfirst($addressData['city']);
-
+                    
+                    
+                    
                     $tree[$peopleData['id']]['suburb'] = $addressData['suburb'];
                     $tree[$peopleData['id']]['suburb_zone'] = ucfirst($addressData['suburb_zone']);
 
-                    if ($peopleData['partner_id'] == $rootId) {
-
-                        if ($peopleData['partner_id'] != '') {
-                            $tree[$peopleData['id']]['pc'] = array(
-                                'START' => true
-                            );
-                           // $tree[$peopleData['id']]['es'] = 'START';
-                           // $tree[$peopleData['id']]['s'] = 'START';
-                        }
-                    } else if ($peopleData['partner_id'] != '') {
+                    if ($peopleData['partner_id'] != '') {
                         $tree[$peopleData['id']]['pc'] = array(
                             $peopleData['partner_id'] => true
                         );
@@ -160,6 +173,7 @@ class TreeComponent extends Component{
                     $tree[$peopleData['id']]['q'] = $peopleData['maiden_surname'];
                 }
             }
+            
 //            echo '<pre>';
 //            print_r($tree);
 //            exit;

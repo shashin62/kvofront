@@ -15,7 +15,7 @@ Class SearchController extends AppController {
      *
      * @var type 
      */
-    public $uses = array('User', 'People', 'Group', 'PeopleGroup');
+    public $uses = array('User', 'People', 'Group', 'PeopleGroup','Sister','Brother');
 
     /**
      *
@@ -58,39 +58,200 @@ Class SearchController extends AppController {
         }
 
         $data = $this->People->search($peopleId);
-    
-        foreach ($data as $d1 => $d3) {
+        
+        $loggedUserData = $this->People->search($this->Session->read('User.user_id'));
+        $sisters = $this->Sister->getSisters($this->Session->read('User.user_id'));
+        $brothers = $this->Brother->getBrothers($this->Session->read('User.user_id'));
+        
+        foreach ($loggedUserData as $d1 => $d3) {
             $this->peopleIds[] = $d3['id'];
+            $this->peopleIds[] = $d3['f_id'];
+            $this->peopleIds[] = $d3['m_id'];
             $this->peopleIds[] = $d3['partner_id'];
-            $this->peopleIds[] = $d3['sister_id'];
+            foreach ($sisters as $ks => $vs) {
+                $this->peopleIds[] = $vs;
+            }
+            foreach ($brothers as $kb => $vb) {
+                $this->peopleIds[] = $vb;
+            }
             //$this->peopleIds[] = $d3['brother_id'];
         }
         $peopleData = $data['People'];
         $groupData = $data['Group'];
         $addressData = $data['Address'];
         $userID = $this->Session->read('User.user_id');
+        $this->Session->read('User.group_id');
         $this->set('peopleData', $peopleData);
         $this->set('groupData', $groupData);
         $this->set('addressData', $addressData);
+       // $this->Session->read('User.group_id');
+        $treeData =$this->Tree->buildTreeJson($groupData['group_id']);
+//        echo '<pre>';
+//        print_r($treeData);
+//        echo '</pre>';
 
-        $data1 = $this->People->getFamilyDetails($this->Session->read('User.group_id'));
-
-        foreach ($data1 as $d1 => $d2) {
-            $this->peopleIds[] = $d2['People']['id'];
-            $this->peopleIds[] = $d2['People']['partner_id'];
-        }
+        $dataTree = $this->_buildLinkage($treeData['tree'], $peopleId, $userID);
         
-        $this->peopleIds = array_unique($this->peopleIds);
-
-        $familyDetails = $this->Tree->buildFamilyJson($peopleId);
-
+        
+//        $data1 = $this->People->getFamilyDetails($this->Session->read('User.group_id'));
+//
+//        foreach ($data1 as $d1 => $d2) {
+//            $this->peopleIds[] = $d2['People']['id'];
+//            $this->peopleIds[] = $d2['People']['partner_id'];
+//        }
+//        
+//        $this->peopleIds = array_unique($this->peopleIds);
+//
+//        $familyDetails = $this->Tree->buildFamilyJson($peopleId);
+//
         $searchedName[] = $peopleData['first_name'] . ' ' . $peopleData['last_name'];
-
-        $treeData = $this->__getDetails($familyDetails['tree'], $peopleId, false, $userID, $this->request->data['id']);
-        $tree = array_merge($searchedName, $treeData);
+//
+//        $treeData = $this->__getDetails($familyDetails['tree'], $peopleId, false, $userID, $this->request->data['id']);
+        $tree = array_merge($searchedName, $dataTree);
 
         $this->set('treeLinkageData', $tree);
     }
+    
+    
+    
+    private function _buildLinkage($data, $searchedId, $userId) 
+    {
+//        echo $searchedId;
+//        
+//        echo $userId;
+//        
+//        echo '<pre>';
+//       // print_r($data[$searchedId]);
+//       // print_r($this->peopleIds);
+//        echo '</pre>';
+//        
+        
+        
+        if ( in_array($userId, $data[$searchedId]['c'])) {
+            $childId = array_search($userId, $data[$searchedId]['c']);
+            if ($data[$searchedId]['g'] == 'f') {
+                $text = '<span style="font-size:12px;">--<b>Mother of</b>--></span>';
+            } else {
+                $text = '<span style="font-size:12px;">--<b>Father of</b>--></span>';
+            }
+             $array[] = $text;
+            $array[] = $data[$data[$searchedId]['c'][$childId]]['n'];
+            
+        } else if (in_array($userId, $data[$searchedId]['bid'])) {
+            $brotherId = array_search($userId, $data[$searchedId]['bid']);
+            
+            if ($data[$searchedId]['g'] == 'f') {
+                $text = '<span style="font-size:12px;">--<b>Sister of</b>--></span>';
+            } else {
+                $text = '<span style="font-size:12px;">--<b>Brother of</b>--></span>';
+            }
+            $array[] = $text;
+//            echo '<pre>';
+//            print_r($data);
+//            echo $brotherId .'--';
+//            echo '</pre>';
+            $array[] = $data[74]['n'];
+            
+            
+            
+            
+        } else if (in_array($userId, $data[$searchedId]['sid'])) {
+            exit;
+        } else if(count(array_intersect($data[$searchedId]['sid'], $this->peopleIds)))
+        {
+            $common = array_values(array_intersect($data[$searchedId]['sid'], $this->peopleIds));
+             $textLabel = 'Sister';
+            if ($data[$searchedId]['g'] == 'm') {
+                $textLabel = 'Brother of';
+            }
+            $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
+            $array[] = $text;
+            $array[] = $data[$common[0]]['n'];
+             $treeData = $this->Tree->buildTreeJson($this->Session->read('User.group_id'));
+            $array1 = $this->_buildLinkage($treeData['tree'], $common[0], $this->Session->read('User.user_id')) ;
+            $array = array_merge($array,$array1);
+        }
+        else if (in_array($data[$searchedId]['es'], $this->peopleIds))
+        {
+            if ($data[$searchedId]['g'] == 'f') {
+                $text = '<span style="font-size:12px;">--<b>Wife of</b>--></span>';
+            } else {
+                $text = '<span style="font-size:12px;">--<b>Husband of</b>--></span>';
+            }
+             $array[] = $text;
+            $array[] = $data[$data[$searchedId]['es']]['n'];
+            if( $data[$searchedId]['es'] != $this->Session->read('User.user_id')) {
+                 $treeData = $this->Tree->buildTreeJson($this->Session->read('User.group_id'));
+                $array1 = $this->_buildLinkage($treeData['tree'], $data[$searchedId]['es'], $this->Session->read('User.user_id')) ;
+             $array = array_merge($array,$array1);
+            }            
+        }
+        
+        else if ( $userId  == $data[$searchedId]['f']) {
+             if ($data[$searchedId]['g'] == 'f') {
+                $text = '<span style="font-size:12px;">--<b>Daughter of</b>--></span>';
+            } else {
+                $text = '<span style="font-size:12px;">--<b>Son of</b>--></span>';
+            }
+             $array[] = $text;
+            $array[] = $data[$data[$searchedId]['f']]['n'];
+        } else if ( $userId  == $data[$searchedId]['m']) {
+            
+        } 
+        
+        else if(count(array_intersect($data[$searchedId]['c'], $this->peopleIds)))
+        {
+            $common = array_values(array_intersect($data[$searchedId]['c'], $this->peopleIds));
+             $textLabel = 'Mother of';
+            if ($data[$searchedId]['g'] == 'm') {
+                $textLabel = 'Father of';
+            }
+            $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
+            $array[] = $text;
+            $array[] = $data[$common[0]]['n'];
+             if( $common[0] != $this->Session->read('User.user_id')) {
+                 $treeData = $this->Tree->buildTreeJson($this->Session->read('User.group_id'));
+                $array1 = $this->_buildLinkage($treeData['tree'], $common[0], $this->Session->read('User.user_id')) ;
+                $array = array_merge($array,$array1);
+             }
+        }
+        else if(is_array($data[$searchedId]['sid']))
+        {
+            $textLabel = 'Sister of';
+            if ( $data[$searchedId]['g'] == 'm') {
+                 $textLabel = 'Brother of';
+            }
+            $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
+            $array[] = $text;
+            $array[] = $data[$data[$searchedId]['sid'][0]]['n'];
+             if( $common[0] != $this->Session->read('User.user_id')) {
+                 $treeData = $this->Tree->buildTreeJson($this->Session->read('User.group_id'));
+                $array1 = $this->_buildLinkage($treeData['tree'], $data[$searchedId]['sid'][0], $this->Session->read('User.user_id')) ;
+                $array = array_merge($array,$array1);
+             }
+        }
+        
+        else if( $data[$searchedId]['f'] != '') 
+        {
+            if ($data[$searchedId]['g'] == 'f') {
+                $text = '<span style="font-size:12px;">--<b>Daughter of</b>--></span>';
+            } else {
+                $text = '<span style="font-size:12px;">--<b>Son of</b>--></span>';
+            }
+             $array[] = $text;
+            $array[] = $data[$data[$searchedId]['f']]['n'];
+            
+        }
+            
+        
+        
+        
+        return $array;
+    }
+    
+    
+    
+    
 
     /**
      * Function to iterate through tree and find linkage
@@ -103,10 +264,10 @@ Class SearchController extends AppController {
     private function __getDetails($data, $id, $type = false, $userId = false, $searchedId = false) {
         $ids[] = $id;
         $array = array();
-     //   echo '<pre>';
+//        echo '<pre>';
 //print_r($data);
-
-//print_r($this->peopleIds);
+//
+////print_r($this->peopleIds);
 //echo '</pre>';
 //echo $this->Session->read('User.user_id');
 //exit;
@@ -157,8 +318,8 @@ Class SearchController extends AppController {
         }
 
         if (is_array($tmpArray[$searchedId]['sid']) && $tmpArray[$searchedId]['g'] == 'f' && $isRecursive == false) {
-           // echo '<pre>';
-           //print_r($this->peopleIds);
+//            echo '<pre>';
+//           print_r($tmpArray[$searchedId]);
             $common = array_values(array_intersect($tmpArray[$searchedId]['sid'], $this->peopleIds));
 
             if (count($common)) {
@@ -215,6 +376,31 @@ Class SearchController extends AppController {
              }
              }
         }
+          if (is_array($tmpArray[$searchedId]['bid']) && $tmpArray[$searchedId]['g'] == 'f' && $isRecursive == false
+                
+                ) {
+                $array = array();
+               $key = array_values($tmpArray[$searchedId]['bid']);
+                     
+              if ( $tmpArray[$searchedId]['g'] == 'f') {
+                $text = '<span style="font-size:12px;">--<b>Sister of</b>--></span>';
+            } else {
+                $text = '<span style="font-size:12px;">--<b>Brother of</b>--></span>';
+            }
+            $array[] = $text;
+            $array[] = $data[$key[0]]['n'];
+            
+             $familyDetails = $this->Tree->buildFamilyJson($key[0]);
+              $textLabel = 'Son Of';
+                if ($data[$key[0]]['g'] == 'f') {
+                    $textLabel = 'Daughter Of';
+                }
+                $text = '<span style="font-size:12px;">--<b>' . $textLabel . '</b>--></span>';
+                $array[] = $text;
+                $array[] = $data[$data[$key[0]]['f']]['n'];
+                $isRecursive = true;
+          }
+        
 //echo '<pre>';
 //print_r($tmpArray);
 //print_r($this->peopleIds);
@@ -306,7 +492,7 @@ $array = array();
                 $key = array_search($this->Session->read('User.user_id'), $tmpArray[$searchedId]['c']);
             }
         } else if ($tmpArray[$searchedId]['f'] != '' && in_array($tmpArray[$searchedId]['f'], $this->peopleIds) && $isRecursive == false) {
-$array = array();
+            $array = array();
             if ($tmpArray[$searchedId]['f'] != $this->Session->read('User.user_id')) {
 
                 
@@ -329,7 +515,7 @@ $array = array();
                     $array[] = $text;
                     $array[] = $data[$brother[0]]['n'];
                 }
-            }
+                }
         } else if ( $tmpArray[$searchedId]['f'] != '' && $isRecursive == false) {
             $array = array();
                 $textLabel = 'Son Of';
