@@ -62,7 +62,7 @@ Class SearchController extends AppController {
         $loggedUserData = $this->People->search($this->Session->read('User.user_id'));
         $sisters = $this->Sister->getSisters($this->Session->read('User.user_id'));
         $brothers = $this->Brother->getBrothers($this->Session->read('User.user_id'));
-        
+       
         foreach ($loggedUserData as $d1 => $d3) {
             $this->peopleIds[] = $d3['id'];
             $this->peopleIds[] = $d3['f_id'];
@@ -80,17 +80,16 @@ Class SearchController extends AppController {
         $groupData = $data['Group'];
         $addressData = $data['Address'];
         $userID = $this->Session->read('User.user_id');
-        $this->Session->read('User.group_id');
         $this->set('peopleData', $peopleData);
         $this->set('groupData', $groupData);
         $this->set('addressData', $addressData);
-       // $this->Session->read('User.group_id');
+        
         $treeData =$this->Tree->buildTreeJson($groupData['group_id']);
 //        echo '<pre>';
 //        print_r($treeData);
 //        echo '</pre>';
 
-        $dataTree = $this->_buildLinkage($treeData['tree'], $peopleId, $userID);
+        $dataTree = $this->_buildLinkage($treeData['tree'], $this->request->data['id'], $userID);
         
         
 //        $data1 = $this->People->getFamilyDetails($this->Session->read('User.group_id'));
@@ -146,11 +145,8 @@ Class SearchController extends AppController {
                 $text = '<span style="font-size:12px;">--<b>Brother of</b>--></span>';
             }
             $array[] = $text;
-//            echo '<pre>';
-//            print_r($data);
-//            echo $brotherId .'--';
-//            echo '</pre>';
-            $array[] = $data[74]['n'];
+           
+            $array[] = $data[$data[$searchedId]['bid'][$brotherId]]['n'];
             
             
             
@@ -167,8 +163,10 @@ Class SearchController extends AppController {
             $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
             $array[] = $text;
             $array[] = $data[$common[0]]['n'];
+             if( $common[0] != $this->Session->read('User.user_id')) {
             $array1 = $this->_buildLinkage($data, $common[0], $this->Session->read('User.user_id')) ;
             $array = array_merge($array,$array1);
+             }
         }
         else if (in_array($data[$searchedId]['es'], $this->peopleIds))
         {
@@ -186,6 +184,7 @@ Class SearchController extends AppController {
         }
         
         else if ( $userId  == $data[$searchedId]['f']) {
+           
              if ($data[$searchedId]['g'] == 'f') {
                 $text = '<span style="font-size:12px;">--<b>Daughter of</b>--></span>';
             } else {
@@ -208,25 +207,24 @@ Class SearchController extends AppController {
             $array[] = $text;
             $array[] = $data[$common[0]]['n'];
              if( $common[0] != $this->Session->read('User.user_id')) {
-                 
                 $array1 = $this->_buildLinkage($data, $common[0], $this->Session->read('User.user_id')) ;
                 $array = array_merge($array,$array1);
              }
         }
-        else if(is_array($data[$searchedId]['sid']))
-        {
-            $textLabel = 'Sister of';
-            if ( $data[$searchedId]['g'] == 'm') {
-                 $textLabel = 'Brother of';
-            }
-            $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
-            $array[] = $text;
-            $array[] = $data[$data[$searchedId]['sid'][0]]['n'];
-             if( $common[0] != $this->Session->read('User.user_id')) {
-                $array1 = $this->_buildLinkage($data, $data[$searchedId]['sid'][0], $this->Session->read('User.user_id')) ;
-                $array = array_merge($array,$array1);
-             }
-        }
+//        else if(is_array($data[$searchedId]['sid']))
+//        {
+//            $textLabel = 'Sister of';
+//            if ( $data[$searchedId]['g'] == 'm') {
+//                 $textLabel = 'Brother of';
+//            }
+//            $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
+//            $array[] = $text;
+//            $array[] = $data[$data[$searchedId]['sid'][0]]['n'];
+//             if( $common[0] != $this->Session->read('User.user_id')) {
+//                $array1 = $this->_buildLinkage($data, $data[$searchedId]['sid'][0], $this->Session->read('User.user_id')) ;
+//                $array = array_merge($array,$array1);
+//             }
+//        }
         
         else if( $data[$searchedId]['f'] != '') 
         {
