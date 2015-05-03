@@ -165,7 +165,7 @@ Class SearchController extends AppController {
         } else if(count(array_intersect($data[$searchedId]['sid'], $this->peopleIds)))
         {
             $common = array_values(array_intersect($data[$searchedId]['sid'], $this->peopleIds));
-             $textLabel = 'Sister';
+             $textLabel = 'Sister of';
             if ($data[$searchedId]['g'] == 'm') {
                 $textLabel = 'Brother of';
             }
