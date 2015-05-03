@@ -126,7 +126,16 @@ Class SearchController extends AppController {
 //        
         
         
-        if ( in_array($userId, $data[$searchedId]['c'])) {
+         if ( $userId  == $data[$searchedId]['f']) {
+           
+             if ($data[$searchedId]['g'] == 'f') {
+                $text = '<span style="font-size:12px;">--<b>Daughter of</b>--></span>';
+            } else {
+                $text = '<span style="font-size:12px;">--<b>Son of</b>--></span>';
+            }
+             $array[] = $text;
+            $array[] = $data[$data[$searchedId]['f']]['n'];
+        } else if ( in_array($userId, $data[$searchedId]['c'])) {
             $childId = array_search($userId, $data[$searchedId]['c']);
             if ($data[$searchedId]['g'] == 'f') {
                 $text = '<span style="font-size:12px;">--<b>Mother of</b>--></span>';
@@ -183,16 +192,7 @@ Class SearchController extends AppController {
             }            
         }
         
-        else if ( $userId  == $data[$searchedId]['f']) {
-           
-             if ($data[$searchedId]['g'] == 'f') {
-                $text = '<span style="font-size:12px;">--<b>Daughter of</b>--></span>';
-            } else {
-                $text = '<span style="font-size:12px;">--<b>Son of</b>--></span>';
-            }
-             $array[] = $text;
-            $array[] = $data[$data[$searchedId]['f']]['n'];
-        } else if ( $userId  == $data[$searchedId]['m']) {
+         else if ( $userId  == $data[$searchedId]['m']) {
             
         } 
         
