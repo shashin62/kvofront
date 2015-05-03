@@ -167,8 +167,7 @@ Class SearchController extends AppController {
             $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
             $array[] = $text;
             $array[] = $data[$common[0]]['n'];
-             $treeData = $this->Tree->buildTreeJson($this->Session->read('User.group_id'));
-            $array1 = $this->_buildLinkage($treeData['tree'], $common[0], $this->Session->read('User.user_id')) ;
+            $array1 = $this->_buildLinkage($data, $common[0], $this->Session->read('User.user_id')) ;
             $array = array_merge($array,$array1);
         }
         else if (in_array($data[$searchedId]['es'], $this->peopleIds))
@@ -181,8 +180,7 @@ Class SearchController extends AppController {
              $array[] = $text;
             $array[] = $data[$data[$searchedId]['es']]['n'];
             if( $data[$searchedId]['es'] != $this->Session->read('User.user_id')) {
-                 $treeData = $this->Tree->buildTreeJson($this->Session->read('User.group_id'));
-                $array1 = $this->_buildLinkage($treeData['tree'], $data[$searchedId]['es'], $this->Session->read('User.user_id')) ;
+                $array1 = $this->_buildLinkage($data, $data[$searchedId]['es'], $this->Session->read('User.user_id')) ;
              $array = array_merge($array,$array1);
             }            
         }
@@ -210,8 +208,8 @@ Class SearchController extends AppController {
             $array[] = $text;
             $array[] = $data[$common[0]]['n'];
              if( $common[0] != $this->Session->read('User.user_id')) {
-                 $treeData = $this->Tree->buildTreeJson($this->Session->read('User.group_id'));
-                $array1 = $this->_buildLinkage($treeData['tree'], $common[0], $this->Session->read('User.user_id')) ;
+                 
+                $array1 = $this->_buildLinkage($data, $common[0], $this->Session->read('User.user_id')) ;
                 $array = array_merge($array,$array1);
              }
         }
@@ -225,8 +223,7 @@ Class SearchController extends AppController {
             $array[] = $text;
             $array[] = $data[$data[$searchedId]['sid'][0]]['n'];
              if( $common[0] != $this->Session->read('User.user_id')) {
-                 $treeData = $this->Tree->buildTreeJson($this->Session->read('User.group_id'));
-                $array1 = $this->_buildLinkage($treeData['tree'], $data[$searchedId]['sid'][0], $this->Session->read('User.user_id')) ;
+                $array1 = $this->_buildLinkage($data, $data[$searchedId]['sid'][0], $this->Session->read('User.user_id')) ;
                 $array = array_merge($array,$array1);
              }
         }
