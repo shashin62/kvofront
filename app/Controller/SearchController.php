@@ -120,10 +120,11 @@ Class SearchController extends AppController {
 //        echo $userId;
 //        
 //        echo '<pre>';
-//       // print_r($data[$searchedId]);
-//       // print_r($this->peopleIds);
+  //      print_r($data[$searchedId]);
+
 //        echo '</pre>';
-//        
+        
+//exit;
         
         
          if ( $userId  == $data[$searchedId]['f']) {
@@ -135,7 +136,7 @@ Class SearchController extends AppController {
             }
              $array[] = $text;
             $array[] = $data[$data[$searchedId]['f']]['n'];
-        } else if ( in_array($userId, $data[$searchedId]['c'])) {
+        } else if ( count($data[$searchedId]['c']) && in_array($userId, $data[$searchedId]['c'])) {
             $childId = array_search($userId, $data[$searchedId]['c']);
             if ($data[$searchedId]['g'] == 'f') {
                 $text = '<span style="font-size:12px;">--<b>Mother of</b>--></span>';
@@ -145,7 +146,7 @@ Class SearchController extends AppController {
              $array[] = $text;
             $array[] = $data[$data[$searchedId]['c'][$childId]]['n'];
             
-        } else if (in_array($userId, $data[$searchedId]['bid'])) {
+        } else if (count($data[$searchedId]['bid']) & in_array($userId, $data[$searchedId]['bid'])) {
             $brotherId = array_search($userId, $data[$searchedId]['bid']);
             
             if ($data[$searchedId]['g'] == 'f') {
@@ -160,7 +161,7 @@ Class SearchController extends AppController {
             
             
             
-        } else if (in_array($userId, $data[$searchedId]['sid'])) {
+        } else if (count($data[$searchedId]['sid']) && in_array($userId, $data[$searchedId]['sid'])) {
             exit;
         } else if(count(array_intersect($data[$searchedId]['sid'], $this->peopleIds)))
         {
@@ -177,7 +178,7 @@ Class SearchController extends AppController {
             $array = array_merge($array,$array1);
              }
         }
-        else if (in_array($data[$searchedId]['es'], $this->peopleIds))
+        else if ($data[$searchedId]['es'] != '' && in_array($data[$searchedId]['es'], $this->peopleIds) )
         {
             if ($data[$searchedId]['g'] == 'f') {
                 $text = '<span style="font-size:12px;">--<b>Wife of</b>--></span>';
@@ -211,7 +212,7 @@ Class SearchController extends AppController {
                 $array = array_merge($array,$array1);
              }
         }
-        else if(is_array($data[$searchedId]['sid']))
+        else if(count($data[$searchedId]['sid']) && is_array($data[$searchedId]['sid']))
         {
             $textLabel = 'Sister of';
             if ( $data[$searchedId]['g'] == 'm') {
