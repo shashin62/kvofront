@@ -117,10 +117,10 @@ Class SearchController extends AppController {
     {
 
 
-//        echo '<pre>';
-  //      print_r($data[$searchedId]);
+       // echo '<pre>';
+       // print_r($data[$searchedId]);
 
-//        echo '</pre>';
+        //echo '</pre>';
         
 
         
@@ -145,6 +145,7 @@ Class SearchController extends AppController {
             $array[] = $data[$data[$searchedId]['c'][$childId]]['n'];
             
         } else if (count($data[$searchedId]['bid']) & in_array($userId, $data[$searchedId]['bid'])) {
+
             $brotherId = array_search($userId, $data[$searchedId]['bid']);
             
             if ($data[$searchedId]['g'] == 'f') {
@@ -163,6 +164,7 @@ Class SearchController extends AppController {
             exit;
         } else if(count(array_intersect($data[$searchedId]['sid'], $this->peopleIds)))
         {
+
             $common = array_values(array_intersect($data[$searchedId]['sid'], $this->peopleIds));
              $textLabel = 'Sister of';
             if ($data[$searchedId]['g'] == 'm') {
@@ -212,6 +214,7 @@ Class SearchController extends AppController {
         }
         else if(count($data[$searchedId]['sid']) && is_array($data[$searchedId]['sid']))
         {
+
             $textLabel = 'Sister of';
             if ( $data[$searchedId]['g'] == 'm') {
                  $textLabel = 'Brother of';
@@ -219,14 +222,18 @@ Class SearchController extends AppController {
             $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
             $array[] = $text;
             $array[] = $data[$data[$searchedId]['sid'][0]]['n'];
-             if( $common[0] != $this->Session->read('User.user_id')) {
-                $array1 = $this->_buildLinkage($data, $data[$searchedId]['sid'][0], $this->Session->read('User.user_id')) ;
-                $array = array_merge($array,$array1);
-             }
+	    if ( $data[$searchedId]['g'] == 'm') {
+              if( $data[$searchedId]['sid'][0] != $this->Session->read('User.user_id')) {
+                 $array1 = $this->_buildLinkage($data, $data[$searchedId]['sid'][0], $this->Session->read('User.user_id')) ;
+                 $array = array_merge($array,$array1);
+              }
+	    } else {
+	    }
         }
-        
+       
         else if( $data[$searchedId]['f'] != '') 
         {
+
             if ($data[$searchedId]['g'] == 'f') {
                 $text = '<span style="font-size:12px;">--<b>Daughter of</b>--></span>';
             } else {
