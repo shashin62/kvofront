@@ -222,13 +222,11 @@ Class SearchController extends AppController {
             $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
             $array[] = $text;
             $array[] = $data[$data[$searchedId]['sid'][0]]['n'];
-	    if ( $data[$searchedId]['g'] == 'm') {
+
               if( $data[$searchedId]['sid'][0] != $this->Session->read('User.user_id')) {
                  $array1 = $this->_buildLinkage($data, $data[$searchedId]['sid'][0], $this->Session->read('User.user_id'), true) ;
                  $array = array_merge($array,$array1);
               }
-	    } else {
-	    }
         }
        else if(count($data[$searchedId]['bid']) && is_array($data[$searchedId]['bid']) && $flag == false)
         {
