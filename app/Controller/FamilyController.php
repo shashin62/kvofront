@@ -1365,11 +1365,40 @@ Class FamilyController extends AppController {
             $this->set('ownername', $ownerData[$id]['owner']);
         }
         $getDetails = $this->People->getFamilyDetails($id, false, true);
+        
+        $names = array();
+        foreach ($getDetails as $ky => $vl) {
+            $names[] = $vl['People']['first_name'];
+            $names[] = $vl['People']['last_name'];
+            $names[] = $vl['People']['father'];
+            $names[] = $vl['People']['mother'];
+            $names[] = $vl['People']['partner_name'];
+            $names[] = $vl[0]['grandfather'];
+            $names[] = $vl[0]['grandfather_mother'];
+        }
+        
+        $names = array_filter(array_unique($names));
+        
+        $selLanguage = 'english';
+        $lang = 'english_text';
+        if ($this->Session->check('Website.language')) {
+            $selLanguage = $this->Session->read('Website.language');
+            if ($selLanguage == 'hindi') {
+                $lang = 'hindi_text';
+            } elseif ($selLanguage == 'gujurati') {
+                $lang = 'gujurathi_text';
+            } else {
+                $lang = 'english_text';
+            }
+        }        
+      
+        $getTranslations = $this->People->getTranslations($names, $lang);
         //echo '<pre>';print_r($getDetails);exit;
         $this->set('userId', $userID);
         $this->set('groupId', $id);
         $this->set('roleId', $roleID);
         $this->set('data', $getDetails);
+        $this->set('translations', $getTranslations);
     }
 
     public function buildTreeJson($group_id = false) {

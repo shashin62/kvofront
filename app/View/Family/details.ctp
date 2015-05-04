@@ -58,7 +58,7 @@ $firstName = $value['People']['first_name'];
 		</div>
 
         <div class="col-md-1" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?> >
-			<?php echo $firstName . ' ' . $lastName;?>
+			<?php echo (isset($translations[$value['People']['first_name']]) ? $translations[$value['People']['first_name']] :  $value['People']['first_name']) . ' ' . (isset($translations[$value['People']['last_name']]) ? $translations[$value['People']['last_name']] :  $value['People']['last_name']);?>
 		</div>
 
         <div class="col-md-1">
@@ -71,9 +71,9 @@ $firstName = $value['People']['first_name'];
 <?php } ?>
                                     <?php } else  { ?> 
 <?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
-            <div>Spouse: <a title="edit" class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['partner_id'];?>" href="javascript:void(0);"><?php echo $value['parent3']['partner_name'];?></a>
+            <div>Spouse: <a title="edit" class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['partner_id'];?>" href="javascript:void(0);"><?php echo isset($translations[$value['parent3']['partner_name']]) ? $translations[$value['parent3']['partner_name']] :  $value['parent3']['partner_name'];?></a>
 <?php } else {?>
-  <div>Spouse:<?php echo $value['parent3']['partner_name'];?>
+  <div>Spouse:<?php echo isset($translations[$value['parent3']['partner_name']]) ? $translations[$value['parent3']['partner_name']] :  $value['parent3']['partner_name'];?>
 <?php } ?>
 				<?php if( strtolower($value['People']['martial_status']) == 'married' && $value['People']['gender'] == 'male') { ?>
 <?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
@@ -97,9 +97,9 @@ $firstName = $value['People']['first_name'];
 <?php } ?>
                                     <?php }  else { ?>
         <?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
-            <div>Father: <a title="edit"  class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['f_id'];?>" href="javascript:void(0);"><?php echo $value['parent1']['father'];?></a></div>
+            <div>Father: <a title="edit"  class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['f_id'];?>" href="javascript:void(0);"><?php echo isset($translations[$value['parent1']['father']]) ? $translations[$value['parent1']['father']] :  $value['parent1']['father'];?></a></div>
         <?php } else { ?>
-            <div>Father: <?php echo $value['parent1']['father'];?></div>
+            <div>Father: <?php echo isset($translations[$value['parent1']['father']]) ? $translations[$value['parent1']['father']] :  $value['parent1']['father'];?></div>
         <?php } ?>
                                     <?php } ?>
 <?php if ( $value['People']['f_id'] != '') {?>
@@ -109,7 +109,7 @@ $firstName = $value['People']['first_name'];
 <?php $brothers = $People->getBrothers($value['People']['id']);
 $brother = array(); 
 foreach ( $brothers as $bKey => $vValue) {
-$brother[] = $vValue['People']['first_name']. ' (' . $vValue['b']['brother_id'] . ')';;
+$brother[] =isset($translations[$vValue['People']['first_name']]) ? $translations[$vValue['People']['first_name']] :  $vValue['People']['first_name'];
 
  } ?>
 <?php if(count($brother)) { ?>
@@ -124,7 +124,7 @@ $brother[] = $vValue['People']['first_name']. ' (' . $vValue['b']['brother_id'] 
 <?php $sisters = $People->getSisters($value['People']['id']);
 $sister = array(); 
 foreach ( $sisters as $bKey => $vValue) {
-$sister[] = $vValue['People']['first_name']. ' (' . $vValue['b']['sister_id'] . ')';;
+$sister[] = isset($translations[$vValue['People']['first_name']]) ? $translations[$vValue['People']['first_name']] :  $vValue['People']['first_name'];
 
  } ?>
 <?php if(count($sister)) { ?>
@@ -146,9 +146,9 @@ $sister[] = $vValue['People']['first_name']. ' (' . $vValue['b']['sister_id'] . 
 <?php } ?>
                                     <?php } else { ?>
  <?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
-            <div>Mother:  <a title="edit"  class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['m_id'];?>" href="javascript:void(0);"><?php echo $value['parent2']['mother'];?></a></div>
+            <div>Mother:  <a title="edit"  class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['m_id'];?>" href="javascript:void(0);"><?php echo isset($translations[$value['parent2']['mother']]) ? $translations[$value['parent2']['mother']] :  $value['parent2']['mother'];?></a></div>
 <?php } else { ?>
-<div>Mother:<?php echo $value['parent2']['mother'];?></div>
+<div>Mother:<?php echo isset($translations[$value['parent2']['mother']]) ? $translations[$value['parent2']['mother']] :  $value['parent2']['mother'];?></div>
 <?php } ?>
                                     <?php } ?>
         </div>
@@ -162,7 +162,14 @@ $sister[] = $vValue['People']['first_name']. ' (' . $vValue['b']['sister_id'] . 
                                     $children = $People->getChildren($value['People']['id'],$value['People']['gender']);
                                     $childs = array();
                                     foreach ( $children as $k => $v ) {
-                                        $childs[] = $v[0]['childname'];
+                                        $child = $v[0]['childname'];
+                                        $childArr = explode(' ', $child);
+                                        $childNewArr = array();
+                                        foreach ($childArr as $sp) {
+                                            $childNewArr[] = isset($translations[$sp]) ? $translations[$sp] :  $sp;
+                                        }
+                                        
+                                        $childs[] = implode(' ', $childNewArr);
                                     }
                                     
                                     ?>

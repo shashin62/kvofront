@@ -2155,6 +2155,24 @@ GROUP BY p.created_by");
 
         return $aResult[0];
     }
+    
+    public function getTranslations($names, $lang) {
+        $langNames = array();
+        foreach ($names as $name) {
+            $langNames[$name] = $name;
+        }
+        if ($lang != 'english_text') {
+            $sQry = "SELECT name,  {$lang} as lang FROM `translations` WHERE name IN ('" . implode('\',\'', $names) . "') ";
+            $aResult = $this->query($sQry);
+            
+            foreach ($aResult as $k => $v) {
+                $langNames[$v['translations']['name']] = $v['translations']['lang'];
+            }
+        }
+        
+        return $langNames;
+        
+    }
 
 }
 
