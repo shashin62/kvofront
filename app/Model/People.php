@@ -2115,9 +2115,11 @@ GROUP BY p.created_by");
         $this->recursive = -1;
         $options['limit'] = 15;
         $options['offset'] = 0;
-        $options['fields'] = array('People.id', "CONCAT(People.first_name, ' ' , People.last_name) as name");
-        //(CONCAT_WS(  ', ',  `last_name`,  `first_name` ) LIKE '%1\$s' OR CONCAT_WS(  ' ',  `first_name`,  `last_name` ) LIKE '%1\$s')
+        $options['fields'] = array('People.id', "CONCAT(People.first_name, ' ' , People.father, ' ', People.last_name) as name");
+        
         $options['conditions'] = array('CONCAT_WS( " ", People.first_name, People.last_name) like' => '%' . $term . '%');
+        $options['conditions']['AND'] = array('People.father is not null');
+        
         try {
             $userData = $this->find('all', $options);
             if ($userData) {
