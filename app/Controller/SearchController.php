@@ -99,9 +99,9 @@ Class SearchController extends AppController {
      * @return type
      */
     private function _buildLinkage($data, $searchedId, $userId, $flag) {
-        echo '<pre>';
-        print_r($data[$searchedId]);
-        echo '</pre>';
+        //echo '<pre>';
+       // print_r($data[$searchedId]);
+       // echo '</pre>';
 
         if ($userId == $data[$searchedId]['f']) {
 
