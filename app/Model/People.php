@@ -2150,9 +2150,14 @@ GROUP BY p.created_by");
         }
     }
     
-    public function getPeopleName($userId) {
+    public function getPeopleName($userId, $encode = false) {
+        $cond =  "people.id = '{$userId}'";
+        if ($encode) {
+            $cond = "md5(people.id) = '{$userId}'";
+        }
+        
         $sQry = "SELECT first_name, last_name FROM"
-                . " people  WHERE md5(people.id) = '{$userId}'";
+                . " people  WHERE {$cond}";
         $aResult = $this->query($sQry);
 
         return $aResult[0];

@@ -127,20 +127,7 @@
 				</div>
 			</div>
 
-			<div class="form-group">
-				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="gender">DOB</label>   
-				<div class="col-lg-8 col-md-8 col-xs-8">
-					<?php echo $this->Form->input('date_of_birth', 
-						array('id' => 'date_of_birth', 'value'=> $date_of_birth,'type' => 'text','title' => '','placeholder' => 'enter in dd/mm/yyyy format' ,'div' => false, 'label' => false, 'class' => 'dp form-control')); ?>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="mobile_number">Mobile Number</label>
-				<div class="col-lg-8 col-md-8 col-xs-8">
-					<?php echo $this->Form->input('mobile_number', array('id' => 'mobile_number', 'value'=> $mobile_number,'placeholder' => 'Enter Mobile Number' ,'title' => '','div' => false, 'label' => false, 'class' => 'phone_number form-control')); ?>
-				</div>
-			</div>
+			
 
 			<div class="form-group required">
 				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="martial_status">Marital status</label>   
@@ -290,124 +277,19 @@
 				</div>
 			</div>
 			<?php } ?>
-
-			<div class="form-group education1_div">
-				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="education">Education 1</label>   
-				<div class="col-lg-4 col-md-4 col-xs-4">
-
-				<?php
-
-				echo $this->Form->input('education_1', array('id' => 'education_1',
-				'label' => false,
-				'div' => false,
-				'legend' => false,
-				'class' => 'combobox',
-				'style' => '',
-				'empty' => __d('label', '--Select--'),
-				'options' => $educations,
-				'value' => $education_1
-
-				));
-				?>
-				</div>
-				<div class="col-lg-4 col-md-4 col-xs-4">
-					<?php echo $this->Form->input('year_of_passing_1', array('id' => 'year_of_passing_1','type' => 'tetfield', 'value'=> $year_of_passing_1,'placeholder' => 'Enter Year of passing' ,'title' => '','div' => false, 'label' => false, 'class' => 'phone_number form-control')); ?>
+                    
+                        <div class="form-group">
+				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="gender">DOB</label>   
+				<div class="col-lg-8 col-md-8 col-xs-8">
+					<?php echo $this->Form->input('date_of_birth', 
+						array('id' => 'date_of_birth', 'value'=> $date_of_birth,'type' => 'text','title' => '','placeholder' => 'enter in dd/mm/yyyy format' ,'div' => false, 'label' => false, 'class' => 'dp form-control')); ?>
 				</div>
 			</div>
 
-			<div class="form-group education2_div">
-				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="education">Education 2</label>
-				<div class="col-lg-4 col-md-4 col-xs-4">
-
-				<?php
-
-				echo $this->Form->input('education_2', array('id' => 'education_2',
-				'label' => false,
-				'div' => false,
-				'legend' => false,
-				'class' => 'combobox',
-				'style' => '',
-				'empty' => __d('label', '--Select--'),
-				'options' => $educations,
-				'value' => $education_2
-				));
-				?>
-				</div>
-				<div class="col-lg-4 col-md-4 col-xs-4">
-					<?php echo $this->Form->input('year_of_passing_2', array('id' => 'year_of_passing_2','type' => 'tetfield', 'value'=> $year_of_passing_2,'placeholder' => 'Enter Year of passing' ,'title' => '','div' => false, 'label' => false, 'class' => 'phone_number form-control')); ?>
-				</div>
-			</div>
-
-			<div class="form-group education3_div">
-				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="education">Education 3</label>   
-				<div class="col-lg-4 col-md-4 col-xs-4">
-
-				<?php
-
-				echo $this->Form->input('education_3', array('id' => 'education_3',
-				'label' => false,
-				'div' => false,
-				'legend' => false,
-				'class' => 'combobox',
-				'style' => '',
-				'empty' => __d('label', '--Select--'),
-				'options' => $educations,
-				'value' => $education_3
-
-				));
-				?>
-				</div>
-				<div class="col-lg-4 col-md-4 col-xs-4">
-					<?php echo $this->Form->input('year_of_passing_2', array('id' => 'year_of_passing_2','type' => 'tetfield', 'value'=> $year_of_passing_2,'placeholder' => 'Enter Year of passing' ,'title' => '','div' => false, 'label' => false, 'class' => 'phone_number form-control')); ?>
-				</div>
-			</div>
-
-			<div class="form-group education4_div">
-				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="education">Education 4</label>
-				<div class="col-lg-4 col-md-4 col-xs-4">
-				
-				<?php
-
-				echo $this->Form->input('education_4', array('id' => 'education_4',
-				'label' => false,
-				'div' => false,
-				'legend' => false,
-				'class' => 'combobox',
-				'style' => '',
-				'empty' => __d('label', '--Select--'),
-				'options' => $educations,
-				'value' => $education_4
-
-				));
-				?>
-				</div>
-				<div class="col-lg-4 col-md-4 col-xs-4">
-					<?php echo $this->Form->input('year_of_passing_4', array('id' => 'year_of_passing_4','type' => 'tetfield', 'value'=> $year_of_passing_4,'placeholder' => 'Enter Year of passing' ,'title' => '','div' => false, 'label' => false, 'class' => 'phone_number form-control')); ?>
-				</div>
-			</div>
-
-			<div class="form-group education5_div">
-				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="education">Education 5</label>
-				<div class="col-lg-4 col-md-4 col-xs-4">
-				
-				<?php
-
-				echo $this->Form->input('education_5', array('id' => 'education_5',
-				'label' => false,
-				'div' => false,
-				'legend' => false,
-				'class' => 'combobox',
-				'style' => '',
-				'empty' => __d('label', '--Select--'),
-				'options' => $educations,
-				'value' => $education_5
-
-				));
-				?>
-
-				</div>
-				<div class="col-lg-4 col-md-4 col-xs-4">
-					<?php echo $this->Form->input('year_of_passing_5', array('id' => 'year_of_passing_5','type' => 'tetfield', 'value'=> $year_of_passing_5,'placeholder' => 'Enter Year of passing' ,'title' => '','div' => false, 'label' => false, 'class' => 'phone_number form-control')); ?>
+			<div class="form-group">
+				<label class="col-lg-4 col-md-4 col-xs-4 control-label" for="mobile_number">Mobile Number</label>
+				<div class="col-lg-8 col-md-8 col-xs-8">
+					<?php echo $this->Form->input('mobile_number', array('id' => 'mobile_number', 'value'=> $mobile_number,'placeholder' => 'Enter Mobile Number' ,'title' => '','div' => false, 'label' => false, 'class' => 'phone_number form-control')); ?>
 				</div>
 			</div>
 		</div>

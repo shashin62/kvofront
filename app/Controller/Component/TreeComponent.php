@@ -8,6 +8,7 @@
 App::load('model','People');
 App::load('model','Sister');
 App::load('model','Brother');
+App::load('model','PeopleEducation');
 class TreeComponent extends Component{
     
     /**
@@ -25,6 +26,7 @@ class TreeComponent extends Component{
          $sisterModel = ClassRegistry::init('Sister');
           $brotherModel = ClassRegistry::init('Brother');
          $peopleGroupModel = ClassRegistry::init('PeopleGroup');
+         $peopleEducation = ClassRegistry::init('PeopleEducation');
             $data = $peopleModel->getFamilyDetails($groupId);
             //check each id exists in other group then get all gamily detials for this group also
             foreach ($data as $key => $value) {
@@ -127,7 +129,7 @@ class TreeComponent extends Component{
                     $tree[$peopleData['id']]['l'] = $peopleData['last_name'] . ' (' . $peopleId . ')';
                     $tree[$peopleData['id']]['p'] = ucfirst($peopleData['first_name']);
                     $tree[$peopleData['id']]['dob'] = date("m/d/Y", strtotime($peopleData['date_of_birth']));
-                    $tree[$peopleData['id']]['education'] = $peopleData['education_1'];
+                    $tree[$peopleData['id']]['education'] = $peopleEducation->getHighestQualification($peopleData['id']);
                     $tree[$peopleData['id']]['village'] = ucfirst($peopleData['village']);
                     $tree[$peopleData['id']]['father'] = ucfirst($peopleData['father']);
                     $tree[$peopleData['id']]['mother'] = ucfirst($peopleData['mother']);
@@ -191,6 +193,7 @@ class TreeComponent extends Component{
         public function buildFamilyJson ($peopleId = false) {
             
              $peopleModel = ClassRegistry::init('People');
+             
         if ( isset($_REQUEST['id'])) {
             $id = $_REQUEST['id'];        
             $id = (int) str_replace('?', '',$id);
@@ -257,7 +260,7 @@ class TreeComponent extends Component{
     }
     
     public function formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData, $brothers, $sisters) {
-      
+        $peopleEducation = ClassRegistry::init('PeopleEducation');
         $tree = array();
         $iId = $peopleData['id'];
         if ($peopleGroup['tree_level'] != '' && $peopleGroup['people_id'] != $rootId) {
@@ -308,7 +311,7 @@ class TreeComponent extends Component{
         $tree['bid'] = $brothers;
         $tree['sid'] = $sisters;
         $tree['dob'] = $peopleData['date_of_birth'] != '' ? date("m/d/Y", strtotime($peopleData['date_of_birth'])) : '';
-        $tree['education'] = $peopleData['education_1'];
+        $tree['education'] = $peopleEducation->getHighestQualification($peopleData['id']);
         $tree['village'] = ucfirst($peopleData['village']);
         $tree['father'] = ucfirst($peopleData['father']);
         $tree['mother'] = ucfirst($peopleData['mother']);
