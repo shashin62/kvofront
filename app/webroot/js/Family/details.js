@@ -156,7 +156,18 @@ doFormPost(baseUrl + "/family/searchPeople?type=addchilld",
    
 
 
+}); 
+
+$('.editeducation').click(function () {
+    var $this = $(this);
+    var id = $this.data('id');
+    var gid = $this.data('gid');
+
+    doFormPost(baseUrl + "/family/addEducation?type=addEducation&id=" + id + "&gid=" + gid,
+            '{ "type":"addEducation","fid":"' + id + '","gid":"' + gid + '"}');
+
 });
+
 
 function createThumbPreview() 
 {
