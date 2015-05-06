@@ -75,7 +75,6 @@
         <table id="all_degrees" class="display" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Degree</th>
                     <th>Institution</th>
                     <th>University</th>

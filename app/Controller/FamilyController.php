@@ -1907,7 +1907,7 @@ Class FamilyController extends AppController {
         $pdata = array();
         foreach ($data as $key => $val) {
             $fdata = array();
-            $fdata[] = $val['people_educations']['id'];
+            
             $fdata[] = ($val['people_educations']['name']) ? $val['people_educations']['name'] : '';
             $fdata[] = ($val['people_educations']['institution_name']) ? $val['people_educations']['institution_name'] : '';
             $fdata[] = ($val['people_educations']['university_name']) ? $val['people_educations']['university_name'] : '';
@@ -1915,6 +1915,7 @@ Class FamilyController extends AppController {
             $fdata[] = ($val['people_educations']['year_of_passing']) ? $val['people_educations']['year_of_passing'] : '';
             $fdata[] = ($val['people_educations']['percentage']) ? $val['people_educations']['percentage'] : '';
             $fdata[] = ($val['people_educations']['part_full_time']) ? $val['people_educations']['part_full_time'] : '';
+            $fdata[] = $val['people_educations']['id'];
             $fdata[] = $val['people_educations']['people_id'];
             
             $pdata[] = $fdata;

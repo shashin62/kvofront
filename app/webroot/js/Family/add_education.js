@@ -8,10 +8,10 @@ $(function () {
         "bServerSide": true,
         "sAjaxSource": baseUrl + "/family/getAjaxEducationData?people_id="+$('#people_id').val(),
         "fnCreatedRow": function (nRow, aData, iDataIndex) {
-            $('td:eq(8)', nRow).html('<a class="edit_row btn btn-xs btn-success" onclick="editEducation(' + aData[0] + ', \'' + aData[1] + '\', \''+aData[2]+ '\', \''+aData[3]+ '\', \''+aData[4]+ '\', \''+aData[5]+ '\', \''+aData[6]+ '\', \''+aData[7]+'\')" data-rowid=' + aData[0] + '><span class="glyphicon glyphicon-edit"></span>Edit</a> \n\
-<a class="delete_row btn btn-xs btn-danger" onclick="deleteEducation(' + aData[0] + ')" data-rowid=' + aData[0] + '><span class="glyphicon glyphicon-trash">Delete</a>');
-            if (parseInt(aData[6]) > 0) {
-                $('td:eq(6)', nRow).html(aData[6]+'%');
+            $('td:eq(7)', nRow).html('<a class="edit_row btn btn-xs btn-success" onclick="editEducation(' + aData[7] + ', \'' + aData[0] + '\', \''+aData[1]+ '\', \''+aData[2]+ '\', \''+aData[3]+ '\', \''+aData[4]+ '\', \''+aData[5]+ '\', \''+aData[6]+'\')" data-rowid=' + aData[7] + '><span class="glyphicon glyphicon-edit"></span>Edit</a> \n\
+<a class="delete_row btn btn-xs btn-danger" onclick="deleteEducation(' + aData[7] + ')" data-rowid=' + aData[7] + '><span class="glyphicon glyphicon-trash">Delete</a>');
+            if (parseInt(aData[5]) > 0) {
+                $('td:eq(5)', nRow).html(aData[5]+'%');
             }
         },
         "rowCallback": function (row, data) {
@@ -93,32 +93,16 @@ $(document).ready(function () {
             'data[PeopleEducation][name]': {
                 required: true,
             },
-            'data[PeopleEducation][institution_name]': {
-                required: true
-            },
             'data[PeopleEducation][year_of_passing]': {
-                required: true,
                 number: true
             },
             'data[PeopleEducation][percentage]': {
                 number: true
-            },
-            'data[PeopleEducation][part_full_time]': {
-                required: true
             }
         },
         messages: {
            'data[PeopleEducation][name]': {
                 required: 'Please select a degree'
-            },
-            'data[PeopleEducation][institution_name]': {
-                required: 'Please enter name of institute'
-            },
-            'data[PeopleEducation][year_of_passing]': {
-                required: 'Please enter year of passing'
-            },
-            'data[PeopleEducation][part_full_time]': {
-                required: 'Please select Full Time/Part Time'
             }
         },
         submitHandler: function (form) {
