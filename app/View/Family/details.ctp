@@ -7,8 +7,9 @@ z-index: 0 !important
 }
 </style>
 <div class="container-fluid">
-      <div class="row"> <h4>Family</h4></div>
-    <br>
+    <div class="panel panel-info">
+	<div class="panel-heading">Family details (<?php echo $data[0]['People']['first_name'] . ' ' . $data[0]['People']['last_name'];?>)</div>
+        <div class="panel-body">
                         <?php
 
                        App::import('Model', 'People');
@@ -372,6 +373,8 @@ $missingData = array();?>
 <?php } ?>
 <?php } ?>
 </div>
+        </div>
+    </div>
 <div id="dialog-form" title="Transfer of family">
     <div class="container-fluid">
         <div class="row">
