@@ -868,7 +868,7 @@ class People extends AppModel {
                 'concat_ws(" ",grandfather.first_name,grandfather.last_name) as grandfather',
                 'concat_ws(" ",grandfatherm.first_name,grandfatherm.last_name) as grandfather_mother',
                 'Address.phone1', 't.gujurathi_text', 't.hindi_text', 't1.gujurathi_text', 't1.hindi_text',
-                'parent3.first_name as partner_name', 'parent1.first_name as father', 'parent2.first_name as mother'
+                'parent3.first_name as partner_name', 'parent3.group_id as partner_group_id', 'parent1.first_name as father', 'parent1.group_id as father_group_id', 'parent2.first_name as mother', 'parent2.group_id as mother_group_id'
             );
         } else {
             $options['fields'] = array('People.*', 'Address.*', 'Brother.*','Sister.*','Group.tree_level', 'Group.people_id', 'group_concat(exspouse.spouse_id) as exspouses');
