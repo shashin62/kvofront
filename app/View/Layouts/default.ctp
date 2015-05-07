@@ -38,7 +38,7 @@
             'bootstrap-select.min', 'jquery-ui.min', 'jquery-ui.theme.min'));
         ?>
         <?php
-        echo $this->Html->script(array('jquery-1.11.1', 'common', 'bootstrap.min', 'jquery.validate', 'jquery-ui.min', 'combobox', 'autotab', 'jquery.imgareaselect.min_1.0.0'));
+        echo $this->Html->script(array('jquery-1.11.1', 'common', 'bootstrap.min', 'jquery.validate', 'jquery-ui.min', 'combobox', 'autotab', 'jquery.imgareaselect'));
         ?>
         <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
         <!-- Bootstrap DataTables JavaScript -->
@@ -162,6 +162,7 @@
                             <ul class="dropdown-menu dropdown-user">
                                 <?php if ($this->Session->read('Auth.User')) { ?>
                                 <li><a href="<?php echo FULL_BASE_URL . $this->base . '/profile';?>"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
+                                <li><a href="<?php echo FULL_BASE_URL . $this->base . '/user/changepassword';?>"><i class="fa fa-sign-in fa-fw"></i> Change Password</a></li>
                                 <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
                                 <li class="divider"></li>
                                 <?php } ?>

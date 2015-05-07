@@ -303,6 +303,31 @@ Class UserController extends AppController {
         $this->Cookie->delete('Auth.User');
         $this->redirect('/user/login');
     }
+    
+    public function changepassword() {
+        if ($this->request->is('post')) {
+            $this->layout = 'ajax';
+            $this->autoRender = false;
+            
+            $msg['status'] = 1;
+            
+            if ($this->People->checkPin($this->request->data['People']['old_pin'],$this->Session->read('User.user_id'))) {                
+                $data['People']['id'] = $this->Session->read('User.user_id');
+                $data['People']['pin'] = $this->request->data['People']['pin'];
+                if ($this->People->save($data)) {
+                    $msg['success'] = 1;
+                    $msg['message'] = 'Password has been changed succussfully';
+                }
+                
+            } else {
+                $msg['status'] = 0;
+                $msg['success'] = 0;
+                $msg['message'] = 'Old Password doesn\'t match, try again';
+            }
+            $this->set(compact('msg'));
+            $this->render("/Elements/json_messages");
+        }
+    }
 
     public function delete() {
         $this->autoRender = false;
