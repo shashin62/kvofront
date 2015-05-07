@@ -204,10 +204,7 @@ z-index: 0 !important
 
                     ?>
                     <div>Education: <?php echo implode(', ', $educations); ?></div>
-                    <?php if(  strtolower($value['People']['gender']) == 'male') { ?>
-<?php if ( $this->Session->read('User.user_id') == $hofId && strtolower($value['People']['martial_status']) != 'single') { ?>
-<a class="addchild" href="javascript:void(0);" data-gid="<?php echo $value['People']['group_id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" data-id="<?php echo $value['People']['id'];?>" >Add Children</a><br>
-                    <?php } } ?>  
+                      
 
                     <?php if( $this->Session->read('User.user_id') == $hofId && $value['People']['id'] != $hofId) { ?>
 <a  class="deletemember" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);" style="color: red">Delete</a>
