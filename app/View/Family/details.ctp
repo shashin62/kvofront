@@ -74,7 +74,7 @@ $firstName = $value['People']['first_name'];
             <a class="addspouse" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Spouse</a><br>
 <?php } ?>
                                     <?php } else  { ?> 
-<?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
+<?php if ( $this->Session->read('User.user_id') == $hofId && $value['People']['group_id'] == $groupId) { ?>
             <div>Spouse: <a title="edit" class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['partner_id'];?>" href="javascript:void(0);"><?php echo isset($translations[$value['parent3']['partner_name']]) ? $translations[$value['parent3']['partner_name']] :  $value['parent3']['partner_name'];?></a>
 <?php } else {?>
   <div>Spouse:<?php echo isset($translations[$value['parent3']['partner_name']]) ? $translations[$value['parent3']['partner_name']] :  $value['parent3']['partner_name'];?>
@@ -100,7 +100,7 @@ $firstName = $value['People']['first_name'];
             <a class="addfather" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Father</a>
 <?php } ?>
                                     <?php }  else { ?>
-        <?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
+        <?php if ( $this->Session->read('User.user_id') == $hofId  && $value['People']['group_id'] == $groupId) { ?>
             <div>Father: <a title="edit"  class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['f_id'];?>" href="javascript:void(0);"><?php echo isset($translations[$value['parent1']['father']]) ? $translations[$value['parent1']['father']] :  $value['parent1']['father'];?></a></div>
         <?php } else { ?>
             <div>Father: <?php echo isset($translations[$value['parent1']['father']]) ? $translations[$value['parent1']['father']] :  $value['parent1']['father'];?></div>
@@ -149,7 +149,7 @@ $sister[] = isset($translations[$vValue['People']['first_name']]) ? $translation
             <a class="addmother" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Mother</a>
 <?php } ?>
                                     <?php } else { ?>
- <?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
+ <?php if ( $this->Session->read('User.user_id') == $hofId && $value['People']['group_id'] == $groupId) { ?>
             <div>Mother:  <a title="edit"  class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['m_id'];?>" href="javascript:void(0);"><?php echo isset($translations[$value['parent2']['mother']]) ? $translations[$value['parent2']['mother']] :  $value['parent2']['mother'];?></a></div>
 <?php } else { ?>
 <div>Mother:<?php echo isset($translations[$value['parent2']['mother']]) ? $translations[$value['parent2']['mother']] :  $value['parent2']['mother'];?></div>
