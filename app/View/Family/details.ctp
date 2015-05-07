@@ -10,154 +10,188 @@ z-index: 0 !important
     <div class="panel panel-info">
 	<div class="panel-heading">Family details (<?php echo $data[0]['People']['first_name'] . ' ' . $data[0]['People']['last_name'];?>)</div>
         <div class="panel-body">
-                        <?php
+        <?php
+            App::import('Model', 'People');
+             $People = new People();
+             $hofId ;
 
-                       App::import('Model', 'People');
-                        $People = new People();
-                        $hofId ;
+            App::import('Model', 'PeopleEducation');
+             $PeopleEducation = new PeopleEducation();
+        ?>
                         
-                       App::import('Model', 'PeopleEducation');
-                        $PeopleEducation = new PeopleEducation();
-                  ?>
-                        
-			<?php foreach( $data as $key => $value ) {
-                            if( $value['Group']['tree_level'] == '') {
-                                $hofId = $value['People']['id'];
-								$hofAddressId = $value['People']['address_id'];
-                            }
-                            $missingData = array();?>
-                    <?php if( $groupId == $value['People']['group_id']) { 
-	switch( $type) {
-	case 'english':
-	$firstName = $value['People']['first_name'];
-	$lastName = $value['People']['last_name'];
-	break;
-	case 'gujurathi':
-	$firstName = $value['t1']['gujurathi_text'] ? $value['t1']['gujurathi_text'] : $value['People']['first_name'];
-	$lastName = $value['t']['gujurathi_text'] ? $value['t']['gujurathi_text'] : $value['People']['last_name'];
-	break;
-case 'hindi':
-	$firstName = $value['t1']['hindi_text'] ? $value['t1']['hindi_text'] :$value['People']['first_name'];
-	$lastName = $value['t']['hindi_text'] ? $value['t']['hindi_text'] :  $value['People']['last_name'];
-	break;
-	default :
-$firstName = $value['People']['first_name'];
-	$lastName = $value['People']['last_name'];
-	break;
-}
+	<?php foreach( $data as $key => $value ) {
+                    if( $value['Group']['tree_level'] == '') {
+                        $hofId = $value['People']['id'];
+                        $hofAddressId = $value['People']['address_id'];
+                        $hofName = $value['People']['first_name'];
+                    }
+                    $missingData = array();
+        ?>
+        <?php   
+                    if( $groupId == $value['People']['group_id']) { 
+                            switch( $type) {
+                            case 'english':
+                            $firstName = $value['People']['first_name'];
+                            $lastName = $value['People']['last_name'];
+                            break;
+                            case 'gujurathi':
+                            $firstName = $value['t1']['gujurathi_text'] ? $value['t1']['gujurathi_text'] : $value['People']['first_name'];
+                            $lastName = $value['t']['gujurathi_text'] ? $value['t']['gujurathi_text'] : $value['People']['last_name'];
+                            break;
+                    case 'hindi':
+                            $firstName = $value['t1']['hindi_text'] ? $value['t1']['hindi_text'] :$value['People']['first_name'];
+                            $lastName = $value['t']['hindi_text'] ? $value['t']['hindi_text'] :  $value['People']['last_name'];
+                            break;
+                            default :
+                    $firstName = $value['People']['first_name'];
+                            $lastName = $value['People']['last_name'];
+                            break;
+                    }
 
-?>
+        ?>
     <div class="row">
-		<div class="col-md-1">
-			<?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
-				<img style="width:60px;height:60px;" src="<?php echo $this->base;?>/people_images/<?php echo $value['People']['id'] .'.' . $value['People']['ext']; ?>"/><br />
+        <div class="col-md-1">
+                <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
+                        <img style="width:60px;height:60px;" src="<?php echo $this->base;?>/people_images/<?php echo $value['People']['id'] .'.' . $value['People']['ext']; ?>"/><br />
 <?php if ( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
-				<a href="javascript:void(0);" class="deletephoto" data-id="<?php echo $value['People']['id'];?>">Delete</a>
+                        <a href="javascript:void(0);" class="deletephoto" data-id="<?php echo $value['People']['id'];?>">Delete</a>
 <?php } ?>
-			<?php } else {?>
+                <?php } else {?>
 <?php if ( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
-				<a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);">Add Photo</a>
+                        <a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);">Add Photo</a>
 <?php } ?>
-			<?php } ?>
-		</div>
+                <?php } ?>
+        </div>
 
         <div class="col-md-1" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?> >
-			<?php echo (isset($translations[$value['People']['first_name']]) ? $translations[$value['People']['first_name']] :  $value['People']['first_name']) . ' ' . (isset($translations[$value['People']['last_name']]) ? $translations[$value['People']['last_name']] :  $value['People']['last_name']);?>
-		</div>
-
-        <div class="col-md-1">
-<?php if ( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
-            <a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);">Edit Detail</a><br>
-<?php } ?>
-                                    <?php if(strtolower($value['People']['martial_status']) == 'married' && empty($value['People']['partner_id'])) { ?>
-<?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
-            <a class="addspouse" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Spouse</a><br>
-<?php } ?>
-                                    <?php } else  { ?> 
-<?php if ( $this->Session->read('User.user_id') == $hofId && $value['parent3']['partner_group_id'] == $groupId) { ?>
-            <div>Spouse: <a title="edit" class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['partner_id'];?>" href="javascript:void(0);"><?php echo isset($translations[$value['parent3']['partner_name']]) ? $translations[$value['parent3']['partner_name']] :  $value['parent3']['partner_name'];?></a>
-<?php } else {?>
-  <div>Spouse:<?php echo isset($translations[$value['parent3']['partner_name']]) ? $translations[$value['parent3']['partner_name']] :  $value['parent3']['partner_name'];?>
-<?php } ?>
-				<?php if( strtolower($value['People']['martial_status']) == 'married' && $value['People']['gender'] == 'male') { ?>
-<?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
-				<a class="addexspouse" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Ex-Spouse</a>
-<?php } ?>
-				<?php } ?>
-			</div>
-                                    <?php } ?>
-        </div>
+            <?php if ( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
+                    <a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);"><?php echo (isset($translations[$value['People']['first_name']]) ? $translations[$value['People']['first_name']] :  $value['People']['first_name']) . ' ' . (isset($translations[$value['People']['last_name']]) ? $translations[$value['People']['last_name']] :  $value['People']['last_name']);?></a>
+            <?php } else { ?>
+                    <?php echo (isset($translations[$value['People']['first_name']]) ? $translations[$value['People']['first_name']] :  $value['People']['first_name']) . ' ' . (isset($translations[$value['People']['last_name']]) ? $translations[$value['People']['last_name']] :  $value['People']['last_name']);?>
+            <?php } ?>
+	</div>
 
         <div class="col-md-2">
-            <?php if ($value['People']['is_late'] != '1') {?>
-<?php if( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
-            <a class="editaddress" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-aid="<?php echo $value['People']['address_id'];?>" href="javascript:void(0);">
-                                <?php echo $value['People']['address_id'] ? 'Edit Home Address' : 'Add Home Address';?></a><br>
-<?php } ?>
+
+                <?php if (strtolower($value['People']['martial_status']) == 'married' && empty($value['People']['partner_id'])) { ?>
+                    <?php if ($this->Session->read('User.user_id') == $hofId) { ?>
+                        <a class="addspouse" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['id']; ?>" data-first_name="<?php echo $value['People']['first_name']; ?>" href="javascript:void(0);">Add Spouse</a><br>
                     <?php } ?>
-                                    <?php if( empty($value['People']['f_id'])) { ?>
-<?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
-            <a class="addfather" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Father</a>
-<?php } ?>
-                                    <?php }  else { ?>
-        <?php if ( $this->Session->read('User.user_id') == $hofId  && $value['parent1']['father_group_id'] == $groupId) { ?>
-            <div>Father: <a title="edit"  class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['f_id'];?>" href="javascript:void(0);"><?php echo isset($translations[$value['parent1']['father']]) ? $translations[$value['parent1']['father']] :  $value['parent1']['father'];?></a></div>
-        <?php } else { ?>
-            <div>Father: <?php echo isset($translations[$value['parent1']['father']]) ? $translations[$value['parent1']['father']] :  $value['parent1']['father'];?></div>
-        <?php } ?>
-                                    <?php } ?>
-<?php if ( $value['People']['f_id'] != '') {?>
- <?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
-            <a class="addbrother" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Brother</a>
-<?php } ?>
-<?php $brothers = $People->getBrothers($value['People']['id']);
-$brother = array(); 
-foreach ( $brothers as $bKey => $vValue) {
-$brother[] =isset($translations[$vValue['People']['first_name']]) ? $translations[$vValue['People']['first_name']] :  $vValue['People']['first_name'];
-
- } ?>
-<?php if(count($brother)) { ?>
-<div><strong>Brothers</strong>: <?php echo implode(', ',$brother); ?></div>
-<?php } ?>
-
-<?php } ?>
-<?php if ( $value['People']['f_id'] != '') {?>
-<?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
-<a class="addsister" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Sister</a>
-<?php } ?>
-<?php $sisters = $People->getSisters($value['People']['id']);
-$sister = array(); 
-foreach ( $sisters as $bKey => $vValue) {
-$sister[] = isset($translations[$vValue['People']['first_name']]) ? $translations[$vValue['People']['first_name']] :  $vValue['People']['first_name'];
-
- } ?>
-<?php if(count($sister)) { ?>
-<div><strong>Sisters</strong>: <?php echo implode(', ',$sister); ?></div>
-<?php } ?>
-<?php } ?>
-        </div>
-
-        <div class="col-md-2">
-             <?php if ($value['People']['is_late'] != '1') {?>
-<?php if( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
-            <a class="editbusiness" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-aid="<?php echo $value['People']['business_address_id'];?>" href="#">
-                            <?php echo $value['People']['business_address_id'] ? 'Edit Business Details' : 'Add Business Details';?></a><br>
-<?php } ?>
-             <?php } ?>
-                                    <?php if( empty($value['People']['m_id'])) { ?>
-<?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
-            <a class="addmother" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Mother</a>
-<?php } ?>
-                                    <?php } else { ?>
- <?php if ( $this->Session->read('User.user_id') == $hofId && $value['parent2']['mother_group_id'] == $groupId) { ?>
-            <div>Mother:  <a title="edit"  class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['m_id'];?>" href="javascript:void(0);"><?php echo isset($translations[$value['parent2']['mother']]) ? $translations[$value['parent2']['mother']] :  $value['parent2']['mother'];?></a></div>
-<?php } else { ?>
-<div>Mother:<?php echo isset($translations[$value['parent2']['mother']]) ? $translations[$value['parent2']['mother']] :  $value['parent2']['mother'];?></div>
-<?php } ?>
-                                    <?php } ?>
+                <?php } else { ?> 
+                <?php if ($this->Session->read('User.user_id') == $hofId && $value['parent3']['partner_group_id'] == $groupId) { ?>
+                    <div>Spouse: <a title="edit" class="self" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['partner_id']; ?>" href="javascript:void(0);"><?php echo isset($translations[$value['parent3']['partner_name']]) ? $translations[$value['parent3']['partner_name']] : $value['parent3']['partner_name']; ?></a>
+                    <?php } else { ?>
+                        <div>Spouse:<?php echo isset($translations[$value['parent3']['partner_name']]) ? $translations[$value['parent3']['partner_name']] : $value['parent3']['partner_name']; ?>
+                        <?php } ?>
+                        <?php if (strtolower($value['People']['martial_status']) == 'married' && $value['People']['gender'] == 'male') { ?>
+                            <?php if ($this->Session->read('User.user_id') == $hofId) { ?>
+                                <br><a class="addexspouse" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['id']; ?>" data-first_name="<?php echo $value['People']['first_name']; ?>" href="javascript:void(0);">Add Ex-Spouse</a>
+                            <?php } ?>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+                        
+                        
+                <?php if (empty($value['People']['f_id'])) { ?>
+                    <?php if ($this->Session->read('User.user_id') == $hofId) { ?>
+                        <a class="addfather" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['id']; ?>" data-first_name="<?php echo $value['People']['first_name']; ?>" href="javascript:void(0);">Add Father</a>
+                    <?php } ?>
+                <?php } else { ?>
+                    <?php if ($this->Session->read('User.user_id') == $hofId && $value['parent1']['father_group_id'] == $groupId) { ?>
+                        <div>Father: <a title="edit"  class="self" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['f_id']; ?>" href="javascript:void(0);"><?php echo isset($translations[$value['parent1']['father']]) ? $translations[$value['parent1']['father']] : $value['parent1']['father']; ?></a></div>
+                    <?php } else { ?>
+                        <div>Father: <?php echo isset($translations[$value['parent1']['father']]) ? $translations[$value['parent1']['father']] : $value['parent1']['father']; ?></div>
+                    <?php } ?>
+                <?php } ?>
+                        
+                        
+                <?php if (empty($value['People']['m_id'])) { ?>
+                    <?php if ($this->Session->read('User.user_id') == $hofId) { ?>
+                        <a class="addmother" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['id']; ?>" data-first_name="<?php echo $value['People']['first_name']; ?>" href="javascript:void(0);">Add Mother</a>
+                    <?php } ?>
+                <?php } else { ?>
+                    <?php if ($this->Session->read('User.user_id') == $hofId && $value['parent2']['mother_group_id'] == $groupId) { ?>
+                        <div>Mother:  <a title="edit"  class="self" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['m_id']; ?>" href="javascript:void(0);"><?php echo isset($translations[$value['parent2']['mother']]) ? $translations[$value['parent2']['mother']] : $value['parent2']['mother']; ?></a></div>
+                    <?php } else { ?>
+                        <div>Mother:<?php echo isset($translations[$value['parent2']['mother']]) ? $translations[$value['parent2']['mother']] : $value['parent2']['mother']; ?></div>
+                    <?php } ?>
+                <?php } ?>
         </div>
 
         <div class="col-md-3">
+            
+            <?php if(  strtolower($value['People']['gender']) == 'male') { ?>
+<?php if ( $this->Session->read('User.user_id') == $hofId && strtolower($value['People']['martial_status']) != 'single') { ?>
+<a class="addchild" href="javascript:void(0);" data-gid="<?php echo $value['People']['group_id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" data-id="<?php echo $value['People']['id'];?>" >Add Children</a><br>
+             <?php } } ?>  
+             <?php 
+                $children = $People->getChildren($value['People']['id'],$value['People']['gender']);
+                $childs = array();
+                foreach ( $children as $k => $v ) {
+                    $child = $v[0]['childname'];
+                    $childArr = explode(' ', $child);
+                    $childNewArr = array();
+                    foreach ($childArr as $sp) {
+                        $childNewArr[] = isset($translations[$sp]) ? $translations[$sp] :  $sp;
+                    }
+
+                    $childs[] = implode(' ', $childNewArr);
+                }
+
+            ?>
+            <div>Children: <?php echo implode(', ',$childs); ?></div>
+            
+            
+                                    
+            <?php if ( $value['People']['f_id'] != '') {?>
+                <?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
+                           <a class="addbrother" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Brother</a>
+               <?php } ?>
+               <?php $brothers = $People->getBrothers($value['People']['id']);
+               $brother = array(); 
+               foreach ( $brothers as $bKey => $vValue) {
+               $brother[] =isset($translations[$vValue['People']['first_name']]) ? $translations[$vValue['People']['first_name']] :  $vValue['People']['first_name'];
+
+                } ?>
+               <?php if(count($brother)) { ?>
+               <div><strong>Brothers</strong>: <?php echo implode(', ',$brother); ?></div>
+               <?php } ?>
+            <?php } ?>
+               
+               
+            <?php if ( $value['People']['f_id'] != '') {?>
+                <?php if ( $this->Session->read('User.user_id') == $hofId) { ?>
+                <a class="addsister" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" href="javascript:void(0);">Add Sister</a>
+                <?php } ?>
+                <?php $sisters = $People->getSisters($value['People']['id']);
+                $sister = array(); 
+                foreach ( $sisters as $bKey => $vValue) {
+                $sister[] = isset($translations[$vValue['People']['first_name']]) ? $translations[$vValue['People']['first_name']] :  $vValue['People']['first_name'];
+
+                 } ?>
+                <?php if(count($sister)) { ?>
+                <div><strong>Sisters</strong>: <?php echo implode(', ',$sister); ?></div>
+                <?php } ?>
+            <?php } ?>
+        </div>
+
+        <div class="col-md-3">
+            <?php if ($value['People']['is_late'] != '1') {?>
+                <?php if( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
+                            <a class="editaddress" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-aid="<?php echo $value['People']['address_id'];?>" href="javascript:void(0);">
+                                                <?php echo $value['People']['address_id'] ? 'Edit Home Address' : 'Add Home Address';?></a><?php echo ($value['People']['address_id'] && $value['People']['address_id'] == $hofAddressId && $value['People']['id'] != $hofId) ? ' (Same as '.$hofName.')' : '';?><br>
+                <?php } ?>
+            <?php } ?>
+                                                
+                                                
+            <?php if ($value['People']['is_late'] != '1') {?>
+<?php if( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
+            <a class="editbusiness" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-aid="<?php echo $value['People']['business_address_id'];?>" href="#">
+                            <?php echo $value['People']['business_address_id'] ? 'Edit Business Details' : 'Add Business Details';?></a><?php echo $value['People']['business_address_id'] ? ' ('.$value['People']['occupation'].')' : '';?><br>
+<?php } ?>
+            <?php } ?>     
+                            
+                            
             <?php if ($this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
                         <a class="editeducation" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['id']; ?>"  href="#">Add / Edit Education Details</a><br>
                     <?php } ?>
@@ -170,64 +204,48 @@ $sister[] = isset($translations[$vValue['People']['first_name']]) ? $translation
 
                     ?>
                     <div>Education: <?php echo implode(', ', $educations); ?></div>
-                                 <?php if(  strtolower($value['People']['gender']) == 'male') { ?>
+                    <?php if(  strtolower($value['People']['gender']) == 'male') { ?>
 <?php if ( $this->Session->read('User.user_id') == $hofId && strtolower($value['People']['martial_status']) != 'single') { ?>
-            <a class="addchild" href="javascript:void(0);" data-gid="<?php echo $value['People']['group_id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" data-id="<?php echo $value['People']['id'];?>" >Add Children</a><br>
-                                 <?php } } ?>  
-                                 <?php 
-                                    $children = $People->getChildren($value['People']['id'],$value['People']['gender']);
-                                    $childs = array();
-                                    foreach ( $children as $k => $v ) {
-                                        $child = $v[0]['childname'];
-                                        $childArr = explode(' ', $child);
-                                        $childNewArr = array();
-                                        foreach ($childArr as $sp) {
-                                            $childNewArr[] = isset($translations[$sp]) ? $translations[$sp] :  $sp;
-                                        }
-                                        
-                                        $childs[] = implode(' ', $childNewArr);
-                                    }
-                                    
-                                    ?>
-            <div>Children: <?php echo implode(', ',$childs); ?></div>
-                          
-                                    <?php if( $this->Session->read('User.user_id') == $hofId && $value['People']['id'] != $hofId) { ?>
-            <a  class="deletemember" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);" style="color: red">Delete</a>
-                                     <?php } ?>
+<a class="addchild" href="javascript:void(0);" data-gid="<?php echo $value['People']['group_id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" data-id="<?php echo $value['People']['id'];?>" >Add Children</a><br>
+                    <?php } } ?>  
+
+                    <?php if( $this->Session->read('User.user_id') == $hofId && $value['People']['id'] != $hofId) { ?>
+<a  class="deletemember" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);" style="color: red">Delete</a>
+                     <?php } ?>
         </div>
 
-                                <?php if ( $value['Group']['tree_level'] != '') { ?>
-        <div class="col-md-1">
- <?php if( $this->Session->read('User.user_id') == $hofId) { ?>
-<?php if( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
-            <?php if( $hofId != $value['People']['partner_id']) { ?>
-            <a style="display:block" data-gid="<?php echo $value['People']['group_id'];?>"  data-id="<?php echo $value['People']['id'];?>" class="transfer-family" href="javascript:void(0);">Transfer of Family</a>
-            <?php } ?>
-<?php } ?>
-<?php } ?>
- <?php if( $this->Session->read('User.user_id') == $hofId) { ?>
-<?php if($value['People']['first_name'] != '' && $value['People']['last_name'] != '' && $value['People']['mobile_number'] != '' && $value['People']['village'] != '' && $value['People']['is_late'] == 0 && $value['Group']['tree_level'] != '' && $value['People']['gender'] == 'male') { ?>
-            <a data-gid="<?php echo $value['People']['group_id'];?>" 
-            data-hofid="<?php echo $hofId;?>" 
-data-first_name="<?php echo $value['People']['first_name'];?>" 
-data-last_name="<?php echo $value['People']['last_name'];?>" 
-data-mobile_number="<?php echo $value['People']['mobile_number'];?>" 
-data-village="<?php echo $value['People']['village'];?>" 
-data-email="<?php echo $value['People']['email'];?>"
+        <?php if ( $value['Group']['tree_level'] != '') { ?>
+        <div class="col-md-2">
+            <?php if( $this->Session->read('User.user_id') == $hofId) { ?>
+           <?php if( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
+                       <?php if( $hofId != $value['People']['partner_id']) { ?>
+                       <a style="display:block" data-gid="<?php echo $value['People']['group_id'];?>"  data-id="<?php echo $value['People']['id'];?>" class="transfer-family" href="javascript:void(0);">Transfer of Family</a>
+                       <?php } ?>
+           <?php } ?>
+           <?php } ?>
+            <?php if( $this->Session->read('User.user_id') == $hofId) { ?>
+           <?php if($value['People']['first_name'] != '' && $value['People']['last_name'] != '' && $value['People']['mobile_number'] != '' && $value['People']['village'] != '' && $value['People']['is_late'] == 0 && $value['Group']['tree_level'] != '' && $value['People']['gender'] == 'male') { ?>
+                       <a data-gid="<?php echo $value['People']['group_id'];?>" 
+                       data-hofid="<?php echo $hofId;?>" 
+           data-first_name="<?php echo $value['People']['first_name'];?>" 
+           data-last_name="<?php echo $value['People']['last_name'];?>" 
+           data-mobile_number="<?php echo $value['People']['mobile_number'];?>" 
+           data-village="<?php echo $value['People']['village'];?>" 
+           data-email="<?php echo $value['People']['email'];?>"
 
-            data-id="<?php echo $value['People']['id'];?>" 
-            href="javascript:void(0);" class="make_hof" style="display:block;">Make HOF of New Family</a>
-<?php } ?>
-<?php } ?>
+                       data-id="<?php echo $value['People']['id'];?>" 
+                       href="javascript:void(0);" class="make_hof" style="display:block;">Make HOF of New Family</a>
+           <?php } ?>
+           <?php } ?>
         </div>
-                                <?php } else { ?>
-<?php if( $value['Group']['tree_level'] == '' )  { 
+        <?php } else { ?>
+    <?php if( $value['Group']['tree_level'] == '' )  { 
     $selLanguage = 'english';
     if ($this->Session->check('Website.language')) {
         $selLanguage = $this->Session->read('Website.language');
     }
     ?>
-        <div class="col-md-1"><a target="_blank" href="<?php echo $this->base.'/tree?gid='. $groupId.'&token='. urlencode('t='.md5('dsdsdss434dsds332323d34d').'&u='.md5($this->Session->read('User.user_id')).'&l='.md5($selLanguage));?>">View Tree</a></div>                
+        <div class="col-md-2"><a target="_blank" href="<?php echo $this->base.'/tree?gid='. $groupId.'&token='. urlencode('t='.md5('dsdsdss434dsds332323d34d').'&u='.md5($this->Session->read('User.user_id')).'&l='.md5($selLanguage));?>">View Tree</a></div>                
 <?php } ?>
                                 <?php } ?>
 
@@ -276,37 +294,35 @@ data-email="<?php echo $value['People']['email'];?>"
 $missingData = array();?>
 <?php if( $groupId != $value['People']['group_id']) { ?>
     <div style="display:none;" class="row">
-        <div class="col-md-1" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?>><?php echo $value['People']['first_name'] . ' ' . $value['People']['last_name'];?> (<?php echo $value['People']['id'];?>)</div>
+        <div class="col-md-2"></div>
+        <div class="col-md-2" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?>><?php echo $value['People']['first_name'] . ' ' . $value['People']['last_name'];?> </div>
         
- <div class="col-md-1">
+        <div class="col-md-2">
             
                                     <?php if(strtolower($value['People']['martial_status']) == 'married' && empty($value['People']['partner_id'])) { ?>
             
                                     <?php } else  { ?> 
             <div>Spouse: <?php echo $value['People']['partner_name'];?></div>
                                     <?php } ?>
-
-        </div>
-        <div class="col-md-2">
-            <?php if ($value['People']['is_late'] != '1') {?>
+                   <?php if ($value['People']['is_late'] != '1') {?>
            
                     <?php } ?>
-                                    <?php if( empty($value['People']['f_id'])) { ?>
-           
-                                    <?php }  else { ?>
-            <div>Father: <?php echo $value['People']['father'];?></div>
-                                    <?php } ?>
-        </div>
-        <div class="col-md-2">
-             <?php if ($value['People']['is_late'] != '1') {?>
+                    <?php if( empty($value['People']['f_id'])) { ?>
 
-             <?php } ?>
-                                    <?php if( empty($value['People']['m_id'])) { ?>
-           
-                                    <?php } else { ?>
-            <div>Mother: <?php echo $value['People']['mother'];?></div>
-                                    <?php } ?>
+                    <?php }  else { ?>
+                    <div>Father: <?php echo $value['People']['father'];?></div>
+                    <?php } ?>
+                    <?php if ($value['People']['is_late'] != '1') { ?>
+
+                    <?php } ?>
+                    <?php if (empty($value['People']['m_id'])) { ?>
+
+                    <?php } else { ?>
+                        <div>Mother: <?php echo $value['People']['mother']; ?></div>
+                    <?php } ?>
         </div>
+        
+        
         <div class="col-md-2">
                                  <?php if( !empty($value['People']['partner_id']) && strtolower($value['People']['gender']) == 'male') { ?>
             
@@ -362,11 +378,11 @@ $missingData = array();?>
 
 
                                     ?>
-        <div class="col-md-3">
+        <!--<div class="col-md-3">
 <?php if ( $value['People']['is_late'] == 0) { ?>
                                    <?php //echo "Missing: <span class=\"text-danger bg-danger\">" . implode(', ',$missingData) . "</span>";?>  
 <?php } ?>
-        </div>
+        </div>-->
     </div>
 
 
