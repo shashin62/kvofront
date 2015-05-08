@@ -3,6 +3,14 @@ $(document).ready(function () {
     $(".combobox").combobox({width: '100px'});
 
     showoccupation(occupation);
+    
+    if ($('.other').val() == 'other') {
+        $('.addresscontainer').show();
+    } else {
+        $('.addresscontainer').hide();
+    }
+    
+    
     $("#addressForm").validate({
         errorElement: "div",
         errorPlacement: function (error, element) {

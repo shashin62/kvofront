@@ -3,10 +3,10 @@
         <div class="panel-heading">Add/Edit Business for <?php echo $memberName;?></div>
         <div class="panel-body">
             <?php echo $this->Form->create('Address', array('class' => 'form-horizontal addressForm', 'id' => 'addressForm', 'name' => 'address')); ?>
-            <div class="row-fuild">
-                <div class="col-lg-6 col-md-6 col-xs-12">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12">
                     <div class="form-group">
-                        <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="Occupation">Current Occupation</label>
+                        <label class="col-lg-2 col-md-2 col-xs-2 control-label" for="Occupation">Current Occupation</label>
                         <div class="col-lg-8 col-md-8 col-xs-8">
                             <div class="btn-group occupations" data-toggle="buttons">
                                   <label class="btn btn-default <?php echo $occupation == 'Social Service' ? 'active' : '';?>">
@@ -33,22 +33,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group tohidecontainer">
-                        <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="specialty_business_service">Specialty Business/Service</label>
-                        <div class="col-lg-8 col-md-8 col-xs-8">
-                                <?php echo $this->Form->input('specialty_business_service', array('id' => 'specialty_business_service', 'value'=> $specialty_business_service,'placeholder' => 'Enter specialty of business/service' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control')); ?>
-                            <br />
-                            E.g. Dentist, Children Clothing, 
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
             <div class="tohidecontainer">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-xs-12" >
+                    <div class="col-lg-12 col-md-12 col-xs-12" >
                         <div class="form-group">
-                            <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="first_name">Nature of Business/Service</label>
-                            <div class="col-lg-8 col-md-8 col-xs-8">
+                            <label class="col-lg-2 col-md-2 col-xs-2 control-label" for="first_name">Nature of Business/Service</label>
+                            <div class="col-lg-4 col-md-4 col-xs-4">
                                  <?php
                     echo $this->Form->input('business_nature', array('id' => 'business_nature',
                         'label' => false,
@@ -56,7 +49,7 @@
                         'legend' => false,
 
                         'empty' => __d('label', '--Select--'),
-                        'class' => 'business_nature',
+                        'class' => 'form-control business_nature',
                         'tabindex'=> '10',
                         'style' => '',
                         'options' => $businessNatures,
@@ -66,15 +59,15 @@
                                 </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="first_name">Type of Business/Service</label>
-                            <div class="col-lg-8 col-md-8 col-xs-8">
+                            <label class="col-lg-2 col-md-2 col-xs-2 control-label" for="first_name">Type of Business/Service</label>
+                            <div class="col-lg-4 col-md-4 col-xs-4">
                             <?php
                     echo $this->Form->input('business_name', array('id' => 'business_name',
                         'label' => false,
                         'div' => false,
                         'legend' => false,
                         'empty' => __d('label', '--Select--'),
-                        'class' => 'business_name',
+                        'class' => 'form-control business_name',
                         'tabindex'=> '10',
                         'style' => '',
                         'options' => array(),
@@ -82,19 +75,33 @@
                     ));
                     ?>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="name_of_business"></label>
-                            <div class="col-lg-8 col-md-8 col-xs-8">
+                            <div class="col-lg-2 col-md-2 col-xs-2">
                             <?php echo $this->Form->input('other_business_type', array('id' => 'other_business_type', 
                                 'value'=> $other_business_type,'placeholder' => 'Enter other business type' ,'title' => '','div' => false, 
                                 'label' => false, 'class' => 'form-control other','style' => 'display:none')); ?>
 
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="name_of_business">Name of Business/Service</label>
+                        <!--<div class="form-group">
+                            <label class="col-lg-2 col-md-2col-xs-2 control-label" for="name_of_business"></label>
                             <div class="col-lg-8 col-md-8 col-xs-8">
+                            <?php /*echo $this->Form->input('other_business_type', array('id' => 'other_business_type', 
+                                'value'=> $other_business_type,'placeholder' => 'Enter other business type' ,'title' => '','div' => false, 
+                                'label' => false, 'class' => 'form-control other','style' => 'display:none'));*/ ?>
+
+                            </div>
+                        </div>-->
+                        <div class="form-group">
+                        <label class="col-lg-2 col-md-2 col-xs-2 control-label" for="specialty_business_service">Specialty Business/Service</label>
+                        <div class="col-lg-4 col-md-4 col-xs-4">
+                                <?php echo $this->Form->input('specialty_business_service', array('id' => 'specialty_business_service', 'value'=> $specialty_business_service,'placeholder' => 'Enter specialty of business/service' ,'title' => '','div' => false, 'label' => false, 'class' => 'form-control')); ?>
+                            <br />
+                            E.g. Dentist, Children Clothing, 
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 col-md-2 col-xs-2 control-label" for="name_of_business">Name of Business/Service</label>
+                            <div class="col-lg-4 col-md-4 col-xs-4">
                             <?php echo $this->Form->input('name_of_business', array('id' => 'name_of_business', 
                                 'value'=> $nature_of_business,'placeholder' => 'Enter name of business/service' ,'title' => '','div' => false, 
                                 'label' => false, 'class' => 'form-control')); ?>
