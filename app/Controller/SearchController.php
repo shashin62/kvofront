@@ -131,8 +131,13 @@ Class SearchController extends AppController {
                 $text = '<span style="font-size:12px;">--<b>Brother of</b>--></span>';
             }
             $array[] = $text;
-
-            $array[] = $data[$data[$searchedId]['bid'][$brotherId]]['n'];
+            
+            if ($brotherId == 0) {
+                $array[] = $this->Session->read('User.first_name') . ' ' . $this->Session->read('User.last_name');
+              
+            } else  {
+                 $array[] = $data[$data[$searchedId]['bid'][$brotherId]]['n'];
+            }
         } else if (count($data[$searchedId]['sid']) && in_array($userId, $data[$searchedId]['sid'])) {
             exit;
         } else if (count(array_intersect($data[$searchedId]['sid'], $this->peopleIds))) {
