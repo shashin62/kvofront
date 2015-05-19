@@ -2,11 +2,23 @@
     <div class="col-md-10">
         <div class="row">
         <div class="col-md-3 col-offset-2">
+            <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleData['id'] .'.' . $peopleData['ext']) ===  true) { ?>
+            <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <?php if( $this->Session->read('User.user_id') == $peopleData['id'] || ($this->Session->read('User.group_id') == $peopleData['group_id'] && $this->Session->read('Auth.User.tree_level') == '')) { ?><a href="<?php echo FULL_BASE_URL . $this->base. '/family/index?type=self&id='.$peopleData['id'].'&gid='.$peopleData['group_id'];?>" class="text-default"><i class="fa fa-gear fa-fw pull-right"></i></a><?php } ?>
+                            <h1 class="panel-title"><?php echo (isset($translations[$peopleData['first_name']]) ? $translations[$peopleData['first_name']] :  $peopleData['first_name']) . ' ' . (isset($translations[$peopleData['last_name']]) ? $translations[$peopleData['last_name']] :  $peopleData['last_name']);?></h1>
+                    </div>
+                    <div class="panel-body">
+                        <img class="media-object img-responsive center-block" src="<?php echo $this->base;?>/people_images/<?php echo $peopleData['id'] .'.' . $peopleData['ext']; ?>">
+                    </div>
+            </div>
+            <?php } else { ?>
             <div class="panel panel-default">
                 <div class="panel-body">
                 <?php echo (isset($translations[$peopleData['first_name']]) ? $translations[$peopleData['first_name']] :  $peopleData['first_name']) . ' ' . (isset($translations[$peopleData['last_name']]) ? $translations[$peopleData['last_name']] :  $peopleData['last_name']);?>
                 </div>
             </div>
+            <?php } ?>
         </div>
         <div class="col-md-9 col-offset-2">
             <div class="panel panel-info">
@@ -34,20 +46,7 @@
         </div>
         <div class="row">
 	<div class="col-md-3">
-		<div class="panel panel-danger">
-			<div class="panel-heading">
-                            <?php if( $this->Session->read('User.user_id') == $peopleData['id'] || ($this->Session->read('User.group_id') == $peopleData['group_id'] && $this->Session->read('Auth.User.tree_level') == '')) { ?><a href="<?php echo FULL_BASE_URL . $this->base. '/family/index?type=self&id='.$peopleData['id'].'&gid='.$peopleData['group_id'];?>" class="text-default"><i class="fa fa-gear fa-fw pull-right"></i></a><?php } ?>
-				<h1 class="panel-title">Photo</h1>
-			</div>
-			<div class="panel-body">
-                            
-                            <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleData['id'] .'.' . $peopleData['ext']) ===  true) { ?>
-                            <img class="media-object img-responsive center-block" src="<?php echo $this->base;?>/people_images/<?php echo $peopleData['id'] .'.' . $peopleData['ext']; ?>">
-                            <?php } else { ?>
-				<img class="media-object img-responsive center-block" src="http://placehold.it/120x120">
-                            <?php } ?>
-			</div>
-		</div>
+		
             
                 <div class="panel panel-danger">
 			<div class="panel-heading">
