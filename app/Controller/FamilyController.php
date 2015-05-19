@@ -2251,7 +2251,7 @@ Class FamilyController extends AppController {
         $lists = array();
         foreach ($list as $key => $value) {
             if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] . '.' . $value['People']['ext']) === true) {
-                $pic = '<img  src="' . $this->base . '/people_images/' . $value['People']['id'] . '.' . $value['People']['ext'] . '">';
+                $pic = '<img  src="' . $this->base . '/people_images/' . $value['People']['id'] . '.' . $value['People']['ext'] . '" width="50" height="50">';
             } else {
                 $pic = '<img  src="http://placehold.it/50x50">';
             }
