@@ -28,7 +28,7 @@
         </div>
         <div class="row">
 	<div class="col-md-3">
-		<div class="panel panel-default">
+		<div class="panel panel-danger">
 			<div class="panel-heading">
                             <?php if( $this->Session->read('User.user_id') == $peopleData['id'] || ($this->Session->read('User.group_id') == $peopleData['group_id'] && $this->Session->read('Auth.User.tree_level') == '')) { ?><a href="<?php echo FULL_BASE_URL . $this->base. '/family/index?type=self&id='.$peopleData['id'].'&gid='.$peopleData['group_id'];?>" class="text-default"><i class="fa fa-gear fa-fw pull-right"></i></a><?php } ?>
 				<h1 class="panel-title">Photo</h1>
@@ -43,7 +43,7 @@
 			</div>
 		</div>
             
-                <div class="panel panel-default">
+                <div class="panel panel-danger">
 			<div class="panel-heading">
                             <h1 class="panel-title">Family Members</h1>
 			</div>
