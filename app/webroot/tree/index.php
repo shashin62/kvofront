@@ -167,7 +167,7 @@ $auth = (isset($u) && $u != '') ? true : false;
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Account <span class="caret"></span></a>
                                         <ul class="dropdown-menu" role="menu">
                                             <li><a href="#">Media</a></li>
-                                            <li><a href="<?php echo $baseUrl . '/profile'; ?>">Profile</a></li>
+                                            <li><a href="<?php echo $baseUrl . '/profile'; ?>">My Profile</a></li>
                                             <li><a href="<?php echo $baseUrl . '/family/details/'.$_GET['gid']; ?>">My Family</a></li>
                                             <li><a href="<?php echo $baseUrl . '/tree?gid=' . $_GET['gid'] . '&token=' . urlencode($_GET['token']); ?>">My Tree</a></li>
                                         </ul>
