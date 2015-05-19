@@ -11,16 +11,22 @@
         <div class="col-md-9 col-offset-2">
             <div class="panel panel-info">
                 <div class="panel-body">
-                    <?php foreach ($treeLinkageData as $key => $value) { ?>
-                        <?php $i = 1; ?>
+                    <table>
+                        <tbody>
+                             <tr>
+                                <?php foreach ($treeLinkageData as $key => $value) { ?>
+                                    <?php $i = 1; ?>
 
 
-                        <span><?php echo $value; ?></span>
+                                    <span><?php echo $value; ?></span>
 
 
 
-                        <?php $i++;
-                    } ?>
+                                    <?php $i++;
+                                } ?>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 

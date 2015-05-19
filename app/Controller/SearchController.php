@@ -144,7 +144,26 @@ Class SearchController extends AppController {
         
         $treeData = $this->Tree->buildTreeJson($groupData['group_id']);
         $dataTree = $this->_buildLinkage($treeData['tree'], $this->request->data['id'], $userID, false);
-        $searchedName[] = (isset($getTranslations[$peopleData['first_name']]) ? $getTranslations[$peopleData['first_name']] :  $peopleData['first_name']) . ' ' . (isset($getTranslations[$peopleData['last_name']]) ? $getTranslations[$peopleData['last_name']] :  $peopleData['last_name']);
+        
+        if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleData['id'] . '.' . $peopleData['ext']) === true) {
+            $pic = '<img  src="' . $this->base . '/people_images/' . $peopleData['id'] . '.' . $peopleData['ext'] . '" width="35" height="35"><br />';
+        } else {
+            $pic = '';
+        }
+        
+        $searchedName[] = '<td> 
+                <a href="#" style="width:50px;">
+                        <table>
+                                <tbody>
+                                        <tr>
+                                                <td>'.$pic.(isset($getTranslations[$peopleData['first_name']]) ? $getTranslations[$peopleData['first_name']] :  $peopleData['first_name']) . '<br />' . (isset($getTranslations[$peopleData['last_name']]) ? $getTranslations[$peopleData['last_name']] :  $peopleData['last_name']).'</td>
+                                        </tr>
+                                </tbody>
+                        </table>
+                </a>
+        </td>';
+        
+        //$searchedName[] = (isset($getTranslations[$peopleData['first_name']]) ? $getTranslations[$peopleData['first_name']] :  $peopleData['first_name']) . ' ' . (isset($getTranslations[$peopleData['last_name']]) ? $getTranslations[$peopleData['last_name']] :  $peopleData['last_name']);
         $tree = array_merge($searchedName, $dataTree);
         $this->set('treeLinkageData', $tree);
     }
@@ -167,67 +186,67 @@ Class SearchController extends AppController {
         if ($userId == $data[$searchedId]['f']) {
 
             if ($data[$searchedId]['g'] == 'f') {
-                $text = '<span style="font-size:12px;">--<b>Daughter of</b>--></span>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Daughter Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             } else {
-                $text = '<span style="font-size:12px;">--<b>Son of</b>--></span>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Son Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             }
             $array[] = $text;
             
             $ph = $data[$data[$searchedId]['f']]['r'];
             if ($ph != '') {
-                $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35">&nbsp;';
+                $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35"><br />';
             } else {
                 $pic = '';
             }
             
             list($fnm, $lnm) = explode (' ', $data[$data[$searchedId]['f']]['n']);
-            $array[] = $pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . ' ' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm);
+            $array[] = '<td style="min-width:50px;"><a href="javascript: search('.$data[$data[$searchedId]['f']]['ai'].')" style="width:50px;">'.$pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . '<br />' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm).'</a></td>';
         } else if (count($data[$searchedId]['c']) && in_array($userId, $data[$searchedId]['c'])) {
             $childId = array_search($userId, $data[$searchedId]['c']);
             if ($data[$searchedId]['g'] == 'f') {
-                $text = '<span style="font-size:12px;">--<b>Mother of</b>--></span>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Mother Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             } else {
-                $text = '<span style="font-size:12px;">--<b>Father of</b>--></span>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Father Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             }
             $array[] = $text;
             
             $ph = $data[$data[$searchedId]['c'][$childId]]['r'];
             if ($ph != '') {
-                $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35">&nbsp;';
+                $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35"><br />';
             } else {
                 $pic = '';
             }
             
             list($fnm, $lnm) = explode (' ', $data[$data[$searchedId]['c'][$childId]]['n']);
-            $array[] = $pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . ' ' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm);
+            $array[] = '<td style="min-width:50px;"><a href="javascript: search('.$data[$data[$searchedId]['c'][$childId]]['ai'].')" style="width:50px;">'.$pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . '<br />' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm).'</a></td>';
         } else if (count($data[$searchedId]['bid']) & in_array($userId, $data[$searchedId]['bid'])) {
 
             $brotherId = array_search($userId, $data[$searchedId]['bid']);
 
             if ($data[$searchedId]['g'] == 'f') {
-                $text = '<span style="font-size:12px;">--<b>Sister of</b>--></span>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Sister Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             } else {
-                $text = '<span style="font-size:12px;">--<b>Brother of</b>--></span>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Brother Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             }
             $array[] = $text;
             
             if ($brotherId == 0) {
                 if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $this->Session->read('User.id') . '.' . $this->Session->read('User.ext')) === true) {
-                    $pic = '<img  src="' . $this->base . '/people_images/' . $this->Session->read('User.id') . '.' . $this->Session->read('User.ext') . '" width="35" height="35">&nbsp;';
+                    $pic = '<img  src="' . $this->base . '/people_images/' . $this->Session->read('User.id') . '.' . $this->Session->read('User.ext') . '" width="35" height="35"><br />';
                 } else {
                     $pic = '';
                 }
-                $array[] = $pic.(isset($translations[$this->Session->read('User.first_name')]) ? $translations[$this->Session->read('User.first_name')] :  $this->Session->read('User.first_name')) . ' ' . (isset($translations[$this->Session->read('User.last_name')]) ? $translations[$this->Session->read('User.last_name')] :  $this->Session->read('User.last_name'));
+                $array[] = '<td style="min-width:50px;"><a href="javascript: search('.$this->Session->read('User.id').')" style="width:50px;">'.$pic.(isset($translations[$this->Session->read('User.first_name')]) ? $translations[$this->Session->read('User.first_name')] :  $this->Session->read('User.first_name')) . '<br />' . (isset($translations[$this->Session->read('User.last_name')]) ? $translations[$this->Session->read('User.last_name')] :  $this->Session->read('User.last_name')).'</a></td>';
               
             } else  {
                 $ph = $data[$data[$searchedId]['bid'][$brotherId]]['r'];
                 if ($ph != '') {
-                    $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35">&nbsp;';
+                    $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35"><br />';
                 } else {
                     $pic = '';
                 }
                 list($fnm, $lnm) = explode (' ', $data[$data[$searchedId]['bid'][$brotherId]]['n']);
-                $array[] = $pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . ' ' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm);
+                $array[] = '<td style="min-width:50px;"><a href="javascript: search('.$data[$data[$searchedId]['bid'][$brotherId]]['ai'].')" style="width:50px;">'.$pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . '<br />' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm).'</a></td>';
             }
         } else if (count($data[$searchedId]['sid']) && in_array($userId, $data[$searchedId]['sid'])) {
             exit;
@@ -238,17 +257,17 @@ Class SearchController extends AppController {
             if ($data[$searchedId]['g'] == 'm') {
                 $textLabel = 'Brother of';
             }
-            $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
+            $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>' . $textLabel . ' </b>-->&nbsp;&nbsp;</span></td>';
             $array[] = $text;
             
             $ph = $data[$common[0]]['r'];
             if ($ph != '') {
-                $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35">&nbsp;';
+                $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35"><br />';
             } else {
                 $pic = '';
             }
             list($fnm, $lnm) = explode (' ', $data[$common[0]]['n']);
-            $array[] = $pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . ' ' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm);
+            $array[] = '<td style="min-width:50px;"><a href="javascript: search('.$data[$common[0]]['ai'].')" style="width:50px;">'.$pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . '<br />' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm).'</a></td>';
             
             if ($common[0] != $this->Session->read('User.user_id')) {
                 $array1 = $this->_buildLinkage($data, $common[0], $this->Session->read('User.user_id'));
@@ -256,20 +275,20 @@ Class SearchController extends AppController {
             }
         } else if ($data[$searchedId]['es'] != '' && in_array($data[$searchedId]['es'], $this->peopleIds)) {
             if ($data[$searchedId]['g'] == 'f') {
-                $text = '<span style="font-size:12px;">--<b>Wife of</b>--></span>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Wife Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             } else {
-                $text = '<span style="font-size:12px;">--<b>Husband of</b>--></span>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Husband Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             }
             $array[] = $text;
             
             $ph = $data[$data[$searchedId]['es']]['r'];
             if ($ph != '') {
-                $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35">&nbsp;';
+                $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35"><br />';
             } else {
                 $pic = '';
             }
             list($fnm, $lnm) = explode (' ', $data[$data[$searchedId]['es']]['n']);
-            $array[] = $pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . ' ' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm);
+            $array[] = '<td style="min-width:50px;"><a href="javascript: search('.$data[$data[$searchedId]['es']]['ai'].')" style="width:50px;">'.$pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . '<br />' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm).'</a></td>';
             
             
             if ($data[$searchedId]['es'] != $this->Session->read('User.user_id')) {
@@ -284,17 +303,17 @@ Class SearchController extends AppController {
             if ($data[$searchedId]['g'] == 'm') {
                 $textLabel = 'Father of';
             }
-            $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
+            $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>' . $textLabel . ' </b>-->&nbsp;&nbsp;</span></td>';
             $array[] = $text;
             
             $ph = $data[$common[0]]['r'];
             if ($ph != '') {
-                $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35">&nbsp;';
+                $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35"><br />';
             } else {
                 $pic = '';
             }
             list($fnm, $lnm) = explode (' ', $data[$common[0]]['n']);
-            $array[] = $pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . ' ' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm);
+            $array[] = '<td style="min-width:50px;"><a href="javascript: search('.$data[$common[0]]['ai'].')" style="width:50px;">'.$pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . '<br />' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm).'</a></td>';
             
             if ($common[0] != $this->Session->read('User.user_id')) {
                 $array1 = $this->_buildLinkage($data, $common[0], $this->Session->read('User.user_id'));
@@ -306,17 +325,17 @@ Class SearchController extends AppController {
             if ($data[$searchedId]['g'] == 'm') {
                 $textLabel = 'Brother of';
             }
-            $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
+            $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>' . $textLabel . ' </b>-->&nbsp;&nbsp;</span></td>';
             $array[] = $text;
          
             $ph = $data[$data[$searchedId]['sid'][0]]['r'];
             if ($ph != '') {
-                $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35">&nbsp;';
+                $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35"><br />';
             } else {
                 $pic = '';
             }
             list($fnm, $lnm) = explode (' ', $data[$data[$searchedId]['sid'][0]]['n']);
-            $array[] = $pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . ' ' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm);
+            $array[] = '<td style="min-width:50px;"><a href="javascript: search('.$data[$data[$searchedId]['sid'][0]]['ai'].')" style="width:50px;">'.$pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . '<br />' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm).'</a></td>';
 
             if ($data[$searchedId]['sid'][0] != $this->Session->read('User.user_id')) {
                 $array1 = $this->_buildLinkage($data, $data[$searchedId]['sid'][0], $this->Session->read('User.user_id'), true);
@@ -328,7 +347,7 @@ Class SearchController extends AppController {
             if ($data[$searchedId]['g'] == 'm') {
                 $textLabel = 'Brother of';
             }
-            $text = '<span style="font-size:12px;">--<b>' . $textLabel . ' </b>--></span>';
+            $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>' . $textLabel . ' </b>-->&nbsp;&nbsp;</span></td>';
             $array[] = $text;
          
             $ph = $data[$data[$searchedId]['bid'][0]]['r'];
@@ -338,7 +357,7 @@ Class SearchController extends AppController {
                 $pic = '';
             }
             list($fnm, $lnm) = explode (' ', $data[$data[$searchedId]['bid'][0]]['n']);
-            $array[] = $pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . ' ' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm);
+            $array[] = '<td style="min-width:50px;"><a href="javascript: search('.$data[$data[$searchedId]['bid'][0]]['ai'].')" style="width:50px;">'.$pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . ' ' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm).'</a></td>';
 
             if ($data[$searchedId]['bid'][0] != $this->Session->read('User.user_id')) {
                 $array1 = $this->_buildLinkage($data, $data[$searchedId]['bid'][0], $this->Session->read('User.user_id'), true);
@@ -347,20 +366,20 @@ Class SearchController extends AppController {
         } else if ($data[$searchedId]['f'] != '') {
 
             if ($data[$searchedId]['g'] == 'f') {
-                $text = '<span style="font-size:12px;">--<b>Daughter of</b>--></span>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Daughter Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             } else {
-                $text = '<span style="font-size:12px;">--<b>Son of</b>--></span>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Son Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             }
             $array[] = $text;
           
             $ph = $data[$data[$searchedId]['f']]['r'];
             if ($ph != '') {
-                $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35">&nbsp;';
+                $pic = '<img  src="' . $this->base . '/people_images/' . $ph . '" width="35" height="35"><br />';
             } else {
                 $pic = '';
             }
             list($fnm, $lnm) = explode (' ', $data[$data[$searchedId]['f']]['n']);
-            $array[] = $pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . ' ' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm);
+            $array[] = '<td style="min-width:50px;"><a href="javascript: search('.$data[$data[$searchedId]['f']]['ai'].')" style="width:50px;">'.$pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . '<br />' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm).'</a></td>';
             
             if ($data[$searchedId]['f'] != $this->Session->read('User.user_id')) {
                 $array1 = $this->_buildLinkage($data, $data[$searchedId]['f'], $this->Session->read('User.user_id'));
