@@ -52,7 +52,7 @@
                                 
                                 if ($familyMembers['father_id'] || $familyMembers['mother_id']) {
                                     if ($familyMembers['father_id']) {
-                                        $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $familyMembers['father_id'] .'.' . $familyMembers['father_ext']) ===  true) ? $_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $familyMembers['father_id'] .'.' . $familyMembers['father_ext'] : 'http://placehold.it/60x60';
+                                        $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $familyMembers['father_id'] .'.' . $familyMembers['father_ext']) ===  true) ? FULL_BASE_URL . $this->base . '/people_images/' . $familyMembers['father_id'] .'.' . $familyMembers['father_ext'] : 'http://placehold.it/60x60';
                                         $relation = 'Father';
                                         $rname = $familyMembers['father_name'];
                                         $rid = $familyMembers['father_id'];
@@ -65,7 +65,7 @@
                             <?php
                                     }
                                     if ($familyMembers['mother_id']) {
-                                        $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $familyMembers['mother_id'] .'.' . $familyMembers['mother_ext']) ===  true) ? $_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $familyMembers['mother_id'] .'.' . $familyMembers['mother_ext'] : 'http://placehold.it/60x60';
+                                        $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $familyMembers['mother_id'] .'.' . $familyMembers['mother_ext']) ===  true) ? FULL_BASE_URL . $this->base . '/people_images/' . $familyMembers['mother_id'] .'.' . $familyMembers['mother_ext'] : 'http://placehold.it/60x60';
                                         $relation = 'Mother';
                                         $rname = $familyMembers['mother_name'];
                                         $rid = $familyMembers['mother_id'];
@@ -81,7 +81,7 @@
                                 }
                             
                                 if ($familyMembers['partner_id']) {
-                                    $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $familyMembers['partner_id'] .'.' . $familyMembers['partner_ext']) ===  true) ? $_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $familyMembers['partner_id'] .'.' . $familyMembers['partner_ext'] : 'http://placehold.it/60x60';
+                                    $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $familyMembers['partner_id'] .'.' . $familyMembers['partner_ext']) ===  true) ? FULL_BASE_URL . $this->base . '/people_images/' . $familyMembers['partner_id'] .'.' . $familyMembers['partner_ext'] : 'http://placehold.it/60x60';
                                     $relation = 'Spouse';
                                     $rname = $familyMembers['partner_name'];
                                     $rid = $familyMembers['partner_id'];
@@ -99,7 +99,7 @@
                                 if ($cntChildren) {   
                                     $d = 0;
                                     foreach ($familyMembers['children'] as $cid => $cdetail) {
-                                        $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $cid .'.' . $cdetail[1]) ===  true) ? $_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $cid .'.' . $cdetail[2] : 'http://placehold.it/60x60';
+                                        $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $cid .'.' . $cdetail[1]) ===  true) ? FULL_BASE_URL . $this->base . '/people_images/' . $cid .'.' . $cdetail[1] : 'http://placehold.it/60x60';
                                         $relation = ($cdetail[2] == 'male') ? 'Son' : 'Daughter';
                                         $rname = $cdetail[0];
                                         $rid = $cid;
@@ -123,7 +123,7 @@
                                 if (count($familyMembers['brothers'])) {
                                     $b = 0;
                                     foreach ($familyMembers['brothers'] as $cid => $cdetail) {
-                                        $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $cid .'.' . $cdetail[1]) ===  true) ? $_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $cid .'.' . $cdetail[2] : 'http://placehold.it/60x60';
+                                        $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $cid .'.' . $cdetail[1]) ===  true) ? FULL_BASE_URL . $this->base . '/people_images/' . $cid .'.' . $cdetail[1] : 'http://placehold.it/60x60';
                                         $relation = 'Brother';
                                         $rname = $cdetail[0];
                                         $rid = $cid;
@@ -143,7 +143,7 @@
                                 
                                 if (count($familyMembers['sisters'])) {
                                     foreach ($familyMembers['sisters'] as $cid => $cdetail) {
-                                        $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $cid .'.' . $cdetail[1]) ===  true) ? $_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $cid .'.' . $cdetail[2] : 'http://placehold.it/60x60';
+                                        $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $cid .'.' . $cdetail[1]) ===  true) ? FULL_BASE_URL . $this->base . '/people_images/' . $cid .'.' . $cdetail[1] : 'http://placehold.it/60x60';
                                         $relation = 'Sister';
                                         $rname = $cdetail[0];
                                         $rid = $cid;
