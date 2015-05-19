@@ -553,7 +553,7 @@ class People extends AppModel {
                     'b.brother_id = People.id'
                 )
             ),);
-        $options['fields'] = array('People.id', 'People.first_name', 'b.brother_id');
+        $options['fields'] = array('People.id', 'People.first_name','People.last_name', 'b.brother_id');
         try {
             $userData = $this->find('all', $options);
             if ($userData) {
@@ -579,7 +579,7 @@ class People extends AppModel {
                     'b.sister_id = People.id'
                 )
             ),);
-        $options['fields'] = array('People.id', 'People.first_name', 'b.sister_id');
+        $options['fields'] = array('People.id', 'People.first_name','People.last_name', 'b.sister_id');
         try {
             $userData = $this->find('all', $options);
             if ($userData) {
@@ -868,7 +868,7 @@ class People extends AppModel {
                 'concat_ws(" ",grandfather.first_name,grandfather.last_name) as grandfather',
                 'concat_ws(" ",grandfatherm.first_name,grandfatherm.last_name) as grandfather_mother',
                 'Address.phone1', 't.gujurathi_text', 't.hindi_text', 't1.gujurathi_text', 't1.hindi_text',
-                'parent3.first_name as partner_name', 'parent3.group_id as partner_group_id', 'parent1.first_name as father', 'parent1.group_id as father_group_id', 'parent2.first_name as mother', 'parent2.group_id as mother_group_id'
+                'parent3.first_name as partner_name','parent3.last_name as partner_lastname', 'parent3.group_id as partner_group_id', 'parent1.first_name as father','parent1.last_name as father_lastname', 'parent1.group_id as father_group_id', 'parent2.first_name as mother','parent2.last_name as mother_lastname', 'parent2.group_id as mother_group_id'
             );
         } else {
             $options['fields'] = array('People.*', 'Address.*', 'Brother.*','Sister.*','Group.tree_level', 'Group.people_id', 'group_concat(exspouse.spouse_id) as exspouses');

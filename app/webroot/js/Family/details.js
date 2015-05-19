@@ -46,14 +46,19 @@ $('.addnote').click(function () {
     $('.noteid').val('');
     $('.addNoteForm').toggle('slow');
 });
-$('.self').click(function () {
+
+function profileOf(id) {
+    doFormPost(baseUrl +"/search/index",'{ "id":"' + id + '"}');
+}
+
+/*$('.self').click(function () {
     var $this = $(this);
     var id = $this.data('id');
     var gid = $this.data('gid');
 
     doFormPost(baseUrl + "/family/index?type=self&id=" + id + "&gid=" + gid, '{ "type":"self","fid":"' + id + '","gid":"' + gid + '"}');
 
-});
+});*/
 
 $('.editaddress').click(function () {
 

@@ -4,7 +4,7 @@
         <div class="col-md-3 col-offset-2">
             <div class="panel panel-default">
                 <div class="panel-body">
-                <?php echo $peopleData['first_name'] . ' ' . $peopleData['last_name'];?>
+                <?php echo (isset($translations[$peopleData['first_name']]) ? $translations[$peopleData['first_name']] :  $peopleData['first_name']) . ' ' . (isset($translations[$peopleData['last_name']]) ? $translations[$peopleData['last_name']] :  $peopleData['last_name']);?>
                 </div>
             </div>
         </div>
@@ -51,10 +51,12 @@
                             <?php                                 
                                 
                                 if ($familyMembers['father_id'] || $familyMembers['mother_id']) {
+                                    $father = '';
                                     if ($familyMembers['father_id']) {
                                         $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $familyMembers['father_id'] .'.' . $familyMembers['father_ext']) ===  true) ? FULL_BASE_URL . $this->base . '/people_images/' . $familyMembers['father_id'] .'.' . $familyMembers['father_ext'] : 'http://placehold.it/60x60';
                                         $relation = 'Father';
-                                        $rname = $familyMembers['father_name'];
+                                        list($rfname, $rlname) = explode(' ',$familyMembers['father_name']);
+                                        $father = $rname =  (isset($translations[$rfname]) ? $translations[$rfname] :  $rfname) . ' ' . (isset($translations[$rlname]) ? $translations[$rlname] :  $rlname);
                                         $rid = $familyMembers['father_id'];
                                     
                             ?>
@@ -64,10 +66,12 @@
                             </div>
                             <?php
                                     }
+                                    $mother = '';
                                     if ($familyMembers['mother_id']) {
                                         $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $familyMembers['mother_id'] .'.' . $familyMembers['mother_ext']) ===  true) ? FULL_BASE_URL . $this->base . '/people_images/' . $familyMembers['mother_id'] .'.' . $familyMembers['mother_ext'] : 'http://placehold.it/60x60';
                                         $relation = 'Mother';
-                                        $rname = $familyMembers['mother_name'];
+                                        list($rfname, $rlname) = explode(' ',$familyMembers['mother_name']);
+                                        $mother = $rname =  (isset($translations[$rfname]) ? $translations[$rfname] :  $rfname) . ' ' . (isset($translations[$rlname]) ? $translations[$rlname] :  $rlname);
                                         $rid = $familyMembers['mother_id'];
 
                             ?>
@@ -83,7 +87,8 @@
                                 if ($familyMembers['partner_id']) {
                                     $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $familyMembers['partner_id'] .'.' . $familyMembers['partner_ext']) ===  true) ? FULL_BASE_URL . $this->base . '/people_images/' . $familyMembers['partner_id'] .'.' . $familyMembers['partner_ext'] : 'http://placehold.it/60x60';
                                     $relation = 'Spouse';
-                                    $rname = $familyMembers['partner_name'];
+                                    list($rfname, $rlname) = explode(' ',$familyMembers['partner_name']);
+                                    $rname =  (isset($translations[$rfname]) ? $translations[$rfname] :  $rfname) . ' ' . (isset($translations[$rlname]) ? $translations[$rlname] :  $rlname);
                                     $rid = $familyMembers['partner_id'];
                                     
                             ?>
@@ -101,7 +106,9 @@
                                     foreach ($familyMembers['children'] as $cid => $cdetail) {
                                         $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $cid .'.' . $cdetail[1]) ===  true) ? FULL_BASE_URL . $this->base . '/people_images/' . $cid .'.' . $cdetail[1] : 'http://placehold.it/60x60';
                                         $relation = ($cdetail[2] == 'male') ? 'Son' : 'Daughter';
-                                        $rname = $cdetail[0];
+                                       
+                                        list($rfname, $rlname) = explode(' ',$cdetail[0]);
+                                    $rname =  (isset($translations[$rfname]) ? $translations[$rfname] :  $rfname) . ' ' . (isset($translations[$rlname]) ? $translations[$rlname] :  $rlname);
                                         $rid = $cid;
 
                              ?>
@@ -125,7 +132,8 @@
                                     foreach ($familyMembers['brothers'] as $cid => $cdetail) {
                                         $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $cid .'.' . $cdetail[1]) ===  true) ? FULL_BASE_URL . $this->base . '/people_images/' . $cid .'.' . $cdetail[1] : 'http://placehold.it/60x60';
                                         $relation = 'Brother';
-                                        $rname = $cdetail[0];
+                                        list($rfname, $rlname) = explode(' ',$cdetail[0]);
+                                    $rname =  (isset($translations[$rfname]) ? $translations[$rfname] :  $rfname) . ' ' . (isset($translations[$rlname]) ? $translations[$rlname] :  $rlname);
                                         $rid = $cid;
 
                              ?>
@@ -145,7 +153,8 @@
                                     foreach ($familyMembers['sisters'] as $cid => $cdetail) {
                                         $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $cid .'.' . $cdetail[1]) ===  true) ? FULL_BASE_URL . $this->base . '/people_images/' . $cid .'.' . $cdetail[1] : 'http://placehold.it/60x60';
                                         $relation = 'Sister';
-                                        $rname = $cdetail[0];
+                                        list($rfname, $rlname) = explode(' ',$cdetail[0]);
+                                    $rname =  (isset($translations[$rfname]) ? $translations[$rfname] :  $rfname) . ' ' . (isset($translations[$rlname]) ? $translations[$rlname] :  $rlname);
                                         $rid = $cid;
 
                             ?>
@@ -178,26 +187,20 @@
 							<tbody>
                                                                <?php if ($peopleData['first_name']) { ?>
                                                                <tr>
-									<td width="200">First name</td>
-									<td><?php echo $peopleData['first_name'];?></td>
+									<td width="200">Full name</td>
+									<td><?php echo (isset($translations[$peopleData['first_name']]) ? $translations[$peopleData['first_name']] :  $peopleData['first_name']) . ' ' . (isset($translations[$peopleData['last_name']]) ? $translations[$peopleData['last_name']] :  $peopleData['last_name']);?></td>
 								</tr>
                                                                 <?php } ?>
-                                                                <?php if ($peopleData['last_name']) { ?>
-                                                                <tr>
-									<td width="200">Last name</td>
-									<td><?php echo $peopleData['last_name'];?></td>
-								</tr>
-                                                                <?php } ?>
-                                                                <?php if ($peopleData['father']) { ?>
+                                                                <?php if ($father != '') { ?>
                                                                 <tr>
 									<td width="200">Father</td>
-									<td><?php echo $peopleData['father'];?></td>
+									<td><?php echo $father;?></td>
 								</tr>
                                                                 <?php } ?>
-                                                                <?php if ($peopleData['mother']) { ?>
+                                                                <?php if ($mother != '') { ?>
                                                                 <tr>
 									<td width="200">Mother</td>
-									<td><?php echo $peopleData['mother'];?></td>
+									<td><?php echo $mother;?></td>
 								</tr>
                                                                 <?php } ?>
                                                                 <?php if ($peopleData['sect']) { ?>
