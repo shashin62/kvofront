@@ -2250,7 +2250,12 @@ Class FamilyController extends AppController {
        
         $lists = array();
         foreach ($list as $key => $value) {
-            $row['value'] = $value[0]['name'];
+            if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] . '.' . $value['People']['ext']) === true) {
+                $pic = '<img  src="' . $this->base . '/people_images/' . $value['People']['id'] . '.' . $value['People']['ext'] . '">';
+            } else {
+                $pic = '<img  src="http://placehold.it/50x50">';
+            }
+            $row['value'] = $pic.'&nbsp;'.$value[0]['name'];
             $row['id'] = (int) $value['People']['id'];
             
             $row_set[] = $row; //build an array
