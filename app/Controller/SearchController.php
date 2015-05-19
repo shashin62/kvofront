@@ -186,9 +186,9 @@ Class SearchController extends AppController {
         if ($userId == $data[$searchedId]['f']) {
 
             if ($data[$searchedId]['g'] == 'f') {
-                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Daughter Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Daughter Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             } else {
-                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Son Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Son Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             }
             $array[] = $text;
             
@@ -204,9 +204,9 @@ Class SearchController extends AppController {
         } else if (count($data[$searchedId]['c']) && in_array($userId, $data[$searchedId]['c'])) {
             $childId = array_search($userId, $data[$searchedId]['c']);
             if ($data[$searchedId]['g'] == 'f') {
-                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Mother Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Mother Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             } else {
-                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Father Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Father Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             }
             $array[] = $text;
             
@@ -224,9 +224,9 @@ Class SearchController extends AppController {
             $brotherId = array_search($userId, $data[$searchedId]['bid']);
 
             if ($data[$searchedId]['g'] == 'f') {
-                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Sister Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Sister Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             } else {
-                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Brother Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Brother Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             }
             $array[] = $text;
             
@@ -257,7 +257,7 @@ Class SearchController extends AppController {
             if ($data[$searchedId]['g'] == 'm') {
                 $textLabel = 'Brother of';
             }
-            $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>' . $textLabel . ' </b>-->&nbsp;&nbsp;</span></td>';
+            $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>' . $textLabel . ' </b>-->&nbsp;&nbsp;</span></td>';
             $array[] = $text;
             
             $ph = $data[$common[0]]['r'];
@@ -275,9 +275,9 @@ Class SearchController extends AppController {
             }
         } else if ($data[$searchedId]['es'] != '' && in_array($data[$searchedId]['es'], $this->peopleIds)) {
             if ($data[$searchedId]['g'] == 'f') {
-                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Wife Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Wife Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             } else {
-                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Husband Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Husband Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             }
             $array[] = $text;
             
@@ -303,7 +303,7 @@ Class SearchController extends AppController {
             if ($data[$searchedId]['g'] == 'm') {
                 $textLabel = 'Father of';
             }
-            $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>' . $textLabel . ' </b>-->&nbsp;&nbsp;</span></td>';
+            $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>' . $textLabel . ' </b>-->&nbsp;&nbsp;</span></td>';
             $array[] = $text;
             
             $ph = $data[$common[0]]['r'];
@@ -325,7 +325,7 @@ Class SearchController extends AppController {
             if ($data[$searchedId]['g'] == 'm') {
                 $textLabel = 'Brother of';
             }
-            $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>' . $textLabel . ' </b>-->&nbsp;&nbsp;</span></td>';
+            $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>' . $textLabel . ' </b>-->&nbsp;&nbsp;</span></td>';
             $array[] = $text;
          
             $ph = $data[$data[$searchedId]['sid'][0]]['r'];
@@ -347,7 +347,7 @@ Class SearchController extends AppController {
             if ($data[$searchedId]['g'] == 'm') {
                 $textLabel = 'Brother of';
             }
-            $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>' . $textLabel . ' </b>-->&nbsp;&nbsp;</span></td>';
+            $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>' . $textLabel . ' </b>-->&nbsp;&nbsp;</span></td>';
             $array[] = $text;
          
             $ph = $data[$data[$searchedId]['bid'][0]]['r'];
@@ -366,9 +366,9 @@ Class SearchController extends AppController {
         } else if ($data[$searchedId]['f'] != '') {
 
             if ($data[$searchedId]['g'] == 'f') {
-                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Daughter Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Daughter Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             } else {
-                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;<b>Son Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
+                $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Son Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             }
             $array[] = $text;
           
