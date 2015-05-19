@@ -2180,6 +2180,82 @@ GROUP BY p.created_by");
         return $langNames;
         
     }
+    
+    public function getFamilyMembers($peopleId) {
+        $sQuery = "SELECT "
+                . "partner.id as partner_id, CONCAT_WS(' ',partner.first_name,partner.last_name) as partner_name, partner.ext as partner_ext, "
+                . "father.id as father_id, CONCAT_WS(' ',father.first_name,father.last_name) as father_name, father.ext as father_ext, "
+                . "mother.id as mother_id, CONCAT_WS(' ',mother.first_name,mother.last_name) as mother_name, mother.ext as mother_ext, "
+                . "GROUP_CONCAT(DISTINCT CONCAT_WS(';',child.id,child.ext,child.gender)) as child_id, GROUP_CONCAT(DISTINCT CONCAT_WS(' ',child.first_name,child.last_name)) as child_name, "
+                . "GROUP_CONCAT(DISTINCT CONCAT_WS(';',brother.id,brother.ext)) as brother_id, GROUP_CONCAT(DISTINCT CONCAT_WS(' ',brother.first_name,brother.last_name)) as brother_name, "
+                . "GROUP_CONCAT(DISTINCT CONCAT_WS(';',sister.id,sister.ext)) as sister_id, GROUP_CONCAT(DISTINCT CONCAT_WS(' ',sister.first_name,sister.last_name)) as sister_name "
+                . "FROM people "
+                . "LEFT JOIN people partner ON (people.partner_id = partner.id) "
+                . "LEFT JOIN people father ON (people.f_id = father.id) "
+                . "LEFT JOIN people mother ON (people.m_id = mother.id) "
+                . "LEFT JOIN people child ON (people.id = child.f_id OR people.id = child.m_id) "
+                . "LEFT JOIN people brother ON ((people.f_id = brother.f_id OR people.m_id = brother.m_id) AND people.id != brother.id AND brother.gender = 'male') "
+                . "LEFT JOIN people sister ON ((people.f_id = sister.f_id OR people.m_id = sister.m_id) AND people.id != sister.id AND sister.gender = 'female') "
+                . "WHERE people.id = '{$peopleId}'";
+        $aResult = $this->query($sQuery);
+        
+        $aData = array();
+        $aData['partner_id'] = $aResult[0]['partner']['partner_id'];
+        $aData['partner_name'] = $aResult[0][0]['partner_name'];
+        $aData['partner_ext'] = $aResult[0]['partner']['partner_ext'];
+        $aData['father_id'] = $aResult[0]['father']['father_id'];
+        $aData['father_ext'] = $aResult[0]['father']['father_ext'];
+        $aData['father_name'] = $aResult[0][0]['father_name'];
+        $aData['mother_id'] = $aResult[0]['mother']['mother_id'];
+        $aData['mother_ext'] = $aResult[0]['mother']['mother_ext'];
+        $aData['mother_name'] = $aResult[0][0]['mother_name'];
+        
+        $childIds = explode(',',$aResult[0][0]['child_id']);
+        $childNames = explode(',',$aResult[0][0]['child_name']);
+        
+        $countChild = count($childIds);
+        $children = array();
+        
+        for ($c=0; $c<$countChild; $c++) {
+            list($cid,$cext,$gender) = explode(';', $childIds[$c]);
+            
+            if ($cid) {
+                $children[$cid] = array($childNames[$c], $cext, $gender);
+            }
+        }
+        $aData['children'] = $children;
+        
+        $sisterIds = explode(',',$aResult[0][0]['sister_id']);
+        $sisterNames = explode(',',$aResult[0][0]['sister_name']);
+        
+        $countSister = count($sisterIds);
+        $sisters = array();
+        
+        for ($c=0; $c<$countSister; $c++) {
+            list($sid,$sext) = explode(';', $sisterIds[$c]);
+            
+            if ($sid) {
+                $sisters[$sid] = array($sisterNames[$c], $sext);
+            }
+        }
+        $aData['sisters'] = $sisters;
+        
+        $brotherIds = explode(',',$aResult[0][0]['brother_id']);
+        $brotherNames = explode(',',$aResult[0][0]['brother_name']);
+        
+        $countBrother = count($brotherIds);
+        $brothers = array();
+        
+        for ($c=0; $c<$countBrother; $c++) {
+            list($bid,$bext) = explode(';', $brotherIds[$c]);
+            if ($bid) {
+                $brothers[$bid] = array($brotherNames[$c], $bext);
+            }
+        }
+        $aData['brothers'] = $brothers;
+        //echo '<pre>';print_r($aData);
+        return $aData;
+    }
 
 }
 

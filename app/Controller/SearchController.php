@@ -56,7 +56,7 @@ Class SearchController extends AppController {
         if (!$peopleId) {
             $peopleId = $this->Session->read('User.user_id');
         }
-
+        
         $data = $this->People->search($peopleId);
 
         $loggedUserData = $this->People->search($this->Session->read('User.user_id'));
@@ -88,6 +88,8 @@ Class SearchController extends AppController {
         $searchedName[] = $peopleData['first_name'] . ' ' . $peopleData['last_name'];
         $tree = array_merge($searchedName, $dataTree);
         $this->set('treeLinkageData', $tree);
+        
+        $this->set('familyMembers', $this->People->getFamilyMembers($peopleId));
     }
     
     /**
