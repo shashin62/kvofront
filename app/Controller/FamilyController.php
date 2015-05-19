@@ -2255,7 +2255,8 @@ Class FamilyController extends AppController {
             } else {
                 $pic = '<img  src="http://placehold.it/50x50">';
             }
-            $row['value'] = $pic.'&nbsp;'.$value[0]['name'];
+            $row['label'] = $pic.'&nbsp;'.$value[0]['name'];
+            $row['value'] = $value[0]['name'];
             $row['id'] = (int) $value['People']['id'];
             
             $row_set[] = $row; //build an array
