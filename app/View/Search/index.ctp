@@ -194,13 +194,13 @@
                                                                 <?php if ($father != '') { ?>
                                                                 <tr>
 									<td width="200">Father</td>
-									<td><?php echo $father;?></td>
+                                                                        <td><a href="javascript: search(<?php echo $peopleData['f_id']; ?>);"><?php echo $father;?></a></td>
 								</tr>
                                                                 <?php } ?>
                                                                 <?php if ($mother != '') { ?>
                                                                 <tr>
 									<td width="200">Mother</td>
-									<td><?php echo $mother;?></td>
+                                                                        <td><a href="javascript: search(<?php echo $peopleData['m_id']; ?>);"><?php echo $mother;?></a></td>
 								</tr>
                                                                 <?php } ?>
                                                                 <?php if ($peopleData['sect']) { ?>
