@@ -319,7 +319,7 @@
                         App::import('Model', 'PeopleEducation');
                         $PeopleEducation = new PeopleEducation();
 
-                        $edducations = $PeopleEducation->getPeopleEducations($value['People']['id']);
+                        $edducations = $PeopleEducation->getPeopleEducations($peopleData['id']);
                         $educations = array();
                         foreach ( $edducations as $k => $v ) {
                             $educations[] = $v['people_educations']['name'];
