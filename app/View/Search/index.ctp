@@ -332,7 +332,7 @@
                         <div class="col-md-6">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-                                                <?php if( $this->Session->read('User.user_id') == $peopleData['id'] || ($this->Session->read('User.group_id') == $peopleData['group_id'] && $this->Session->read('Auth.User.tree_level') == '')) { ?><a href="<?php echo FULL_BASE_URL . $this->base. '/family/index?type=addEducation&id='.$peopleData['id'].'&gid='.$peopleData['group_id'];?>" class="text-info"><i class="fa fa-gear fa-fw pull-right"></i></a><?php } ?>
+                                                <?php if( $this->Session->read('User.user_id') == $peopleData['id'] || ($this->Session->read('User.group_id') == $peopleData['group_id'] && $this->Session->read('Auth.User.tree_level') == '')) { ?><a href="<?php echo FULL_BASE_URL . $this->base. '/family/addEducation?type=addEducation&id='.$peopleData['id'].'&gid='.$peopleData['group_id'];?>" class="text-info"><i class="fa fa-gear fa-fw pull-right"></i></a><?php } ?>
 						<h4 class="panel-title">Education</h4>
 					</div>
 					<div class="panel-body">
