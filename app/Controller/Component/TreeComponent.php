@@ -123,7 +123,7 @@ class TreeComponent extends Component{
                         $tree[$peopleData['id']]['r'] = '';
                     }
                     $tree[$peopleData['id']]['fg'] = true;
-                    $tree[$peopleData['id']]['g'] = $peopleData['gender'] == 'male' ? 'm' : 'f';
+                    $tree[$peopleData['id']]['g'] = $peopleData['gender'] == 'Male' ? 'm' : 'f';
                     $tree[$peopleData['id']]['hp'] = true;
                     $tree[$peopleData['id']]['i'] = $peopleData['id'];
                     $tree[$peopleData['id']]['l'] = $peopleData['last_name'] . ' (' . $peopleId . ')';
@@ -133,7 +133,7 @@ class TreeComponent extends Component{
                     $tree[$peopleData['id']]['village'] = ucfirst($peopleData['village']);
                     $tree[$peopleData['id']]['father'] = ucfirst($peopleData['father']);
                     $tree[$peopleData['id']]['mother'] = ucfirst($peopleData['mother']);
-                    if ($peopleData['gender'] == 'male') {
+                    if ($peopleData['gender'] == 'Male') {
                         $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . ucfirst($peopleData['first_name']) . " " . $peopleData['last_name'];
                     } else {
                         $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . $peopleData['last_name'];
@@ -303,7 +303,7 @@ class TreeComponent extends Component{
             $tree['r'] = '';
         }
         $tree['fg'] = true;
-        $tree['g'] = $peopleData['gender'] == 'male' ? 'm' : 'f';
+        $tree['g'] = $peopleData['gender'] == 'Male' ? 'm' : 'f';
         $tree['hp'] = true;
         $tree['i'] = $peopleData['id'];
         $tree['l'] = $peopleData['last_name'];
@@ -315,7 +315,7 @@ class TreeComponent extends Component{
         $tree['village'] = ucfirst($peopleData['village']);
         $tree['father'] = ucfirst($peopleData['father']);
         $tree['mother'] = ucfirst($peopleData['mother']);
-        if ( $peopleData['gender'] == 'male') {
+        if ( $peopleData['gender'] == 'Male') {
             $tree['partner_name'] = ucfirst($peopleData['partner_name']) . " " . ucfirst($peopleData['first_name']) . " " . $peopleData['last_name'] ;
         } else {
             $tree['partner_name'] = ucfirst($peopleData['partner_name']) . " " . $peopleData['last_name'] ;

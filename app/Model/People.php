@@ -159,7 +159,7 @@ class People extends AppModel {
                     } else {
                         $sWhere .= ' AND ';
                     }
-                    $sWhere .= ' p.gender = "male" AND p.first_name is not null and p.m_id IS NULL AND p.f_id IS NULL ';
+                    $sWhere .= ' p.gender = "Male" AND p.first_name is not null and p.m_id IS NULL AND p.f_id IS NULL ';
                     break;
                 case 'addfather':
                     if ($sWhere == "") {
@@ -167,7 +167,7 @@ class People extends AppModel {
                     } else {
                         $sWhere .= ' AND ';
                     }
-                    $sWhere .= ' p.gender = "male" AND p.first_name is not null';
+                    $sWhere .= ' p.gender = "Male" AND p.first_name is not null';
                     break;
                 case 'addsister':
                     if ($sWhere == "") {
@@ -175,7 +175,7 @@ class People extends AppModel {
                     } else {
                         $sWhere .= ' AND ';
                     }
-                    $sWhere .= ' p.gender = "female"  AND p.first_name is not null and p.m_id IS NULL AND p.f_id IS NULL ';
+                    $sWhere .= ' p.gender = "Female"  AND p.first_name is not null and p.m_id IS NULL AND p.f_id IS NULL ';
                     break;
                 case 'addmother':
                     if ($sWhere == "") {
@@ -183,7 +183,7 @@ class People extends AppModel {
                     } else {
                         $sWhere .= ' AND ';
                     }
-                    $sWhere .= ' p.gender = "female"  AND p.first_name is not null';
+                    $sWhere .= ' p.gender = "Female"  AND p.first_name is not null';
                     break;
                 case 'addchilld':
                     if ($sWhere == "") {
@@ -191,7 +191,7 @@ class People extends AppModel {
                     } else {
                         $sWhere .= ' AND ';
                     }
-                    $sWhere .= ' (p.gender = "female" OR p.gender = "male")  AND p.first_name is not null';
+                    $sWhere .= ' (p.gender = "Female" OR p.gender = "Male")  AND p.first_name is not null';
                     break;
                 case 'addspouse':
                     if ($sWhere == "") {
@@ -199,7 +199,7 @@ class People extends AppModel {
                     } else {
                         $sWhere .= ' AND ';
                     }
-                    $sWhere .= ' (p.gender = "female" )  AND p.first_name is not null';
+                    $sWhere .= ' (p.gender = "Female" )  AND p.first_name is not null';
                     break;
                 case 'transfer':
                     if ($sWhere == "") {
@@ -223,7 +223,7 @@ class People extends AppModel {
                     } else {
                         $sWhere .= ' AND ';
                     }
-                    $sWhere .= ' p.gender = "male"  AND p.first_name is not null';
+                    $sWhere .= ' p.gender = "Male"  AND p.first_name is not null';
                     break;
             }
         } else {
@@ -627,7 +627,7 @@ class People extends AppModel {
 
     public function getChildren($fatherId, $gender = false, $groupId = false) {
         $this->recursive = -1;
-        if ($gender == 'male') {
+        if ($gender == 'Male') {
             $options['conditions']['People.f_id'] = $fatherId;
         } else {
             $options['conditions']['People.m_id'] = $fatherId;
@@ -907,7 +907,7 @@ class People extends AppModel {
 
     public function getAllSpouses($id) {
         $this->recursive = -1;
-        $options['conditions'] = array('People.partner_id' => $id, 'People.gender' => 'female');
+        $options['conditions'] = array('People.partner_id' => $id, 'People.gender' => 'Female');
         $options['fields'] = array('People.id', 'People.first_name');
         try {
             $userData = $this->find('list', $options);
@@ -2115,9 +2115,9 @@ GROUP BY p.created_by");
         $this->recursive = -1;
         $options['limit'] = 15;
         $options['offset'] = 0;
-        $options['fields'] = array('People.id', "People.ext", "CONCAT(People.first_name, ' ' , IF(People.gender = 'male',People.father,People.partner_name), ' ', People.last_name) as name");
+        $options['fields'] = array('People.id', "People.ext", "CONCAT(People.first_name, ' ' , IF(People.gender = 'Male',People.father,People.partner_name), ' ', People.last_name) as name");
         
-        $options['conditions'] = array('CONCAT_WS( " ", People.first_name, IF(People.gender = "male", People.father,People.partner_name) , People.last_name) like' => '%' . $term . '%');
+        $options['conditions'] = array('CONCAT_WS( " ", People.first_name, IF(People.gender = "Male", People.father,People.partner_name) , People.last_name) like' => '%' . $term . '%');
           
           $options['conditions']['AND'] = array('People.father is not null');
           
@@ -2197,8 +2197,8 @@ GROUP BY p.created_by");
                 . "LEFT JOIN people father ON (people.f_id = father.id) "
                 . "LEFT JOIN people mother ON (people.m_id = mother.id) "
                 . "LEFT JOIN people child ON (people.id = child.f_id OR people.id = child.m_id) "
-                . "LEFT JOIN people brother ON ((people.f_id = brother.f_id OR people.m_id = brother.m_id) AND people.id != brother.id AND brother.gender = 'male') "
-                . "LEFT JOIN people sister ON ((people.f_id = sister.f_id OR people.m_id = sister.m_id) AND people.id != sister.id AND sister.gender = 'female') "
+                . "LEFT JOIN people brother ON ((people.f_id = brother.f_id OR people.m_id = brother.m_id) AND people.id != brother.id AND brother.gender = 'Male') "
+                . "LEFT JOIN people sister ON ((people.f_id = sister.f_id OR people.m_id = sister.m_id) AND people.id != sister.id AND sister.gender = 'Female') "
                 . "WHERE people.id = '{$peopleId}'";
         $aResult = $this->query($sQuery);
         

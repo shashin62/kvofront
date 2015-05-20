@@ -65,8 +65,8 @@
                     <div class="col-lg-8 col-md-8 col-xs-8">
                          <?php
                          $genderOptions = array(
-                    'male' => 'Male',
-                    'female' => 'Female'
+                    'Male' => 'Male',
+                    'Female' => 'Female'
                     
                 );
             echo $this->Form->input('gender', array('id' => 'gender',

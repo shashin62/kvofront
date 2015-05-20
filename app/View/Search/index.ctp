@@ -110,7 +110,7 @@
                                     $d = 0;
                                     foreach ($familyMembers['children'] as $cid => $cdetail) {
                                         $photo = (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $cid .'.' . $cdetail[1]) ===  true) ? FULL_BASE_URL . $this->base . '/people_images/' . $cid .'.' . $cdetail[1] : 'http://placehold.it/60x60';
-                                        $relation = ($cdetail[2] == 'male') ? 'Son' : 'Daughter';
+                                        $relation = ($cdetail[2] == 'Male') ? 'Son' : 'Daughter';
                                        
                                         list($rfname, $rlname) = explode(' ',$cdetail[0]);
                                     $rname =  (isset($translations[$rfname]) ? $translations[$rfname] :  $rfname) . ' ' . (isset($translations[$rlname]) ? $translations[$rlname] :  $rlname);

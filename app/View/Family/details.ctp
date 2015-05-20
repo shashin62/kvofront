@@ -77,7 +77,7 @@ z-index: 0 !important
                 <?php  ?>
                     <div>Spouse: <a title="edit" class="self" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['partner_id']; ?>" href="javascript:profileOf(<?php echo $value['People']['partner_id']; ?>);"><?php echo isset($translations[$value['parent3']['partner_name']]) ? $translations[$value['parent3']['partner_name']] : $value['parent3']['partner_name']; ?> <?php echo isset($translations[$value['parent3']['partner_lastname']]) ? $translations[$value['parent3']['partner_lastname']] : $value['parent3']['partner_lastname']; ?></a>
                     
-                    <?php if (strtolower($value['People']['martial_status']) == 'married' && $value['People']['gender'] == 'male') { ?>
+                    <?php if (strtolower($value['People']['martial_status']) == 'married' && $value['People']['gender'] == 'Male') { ?>
                         <?php if ($this->Session->read('User.user_id') == $hofId) { ?>
                             <br><a class="addexspouse" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['id']; ?>" data-first_name="<?php echo $value['People']['first_name']; ?>" href="javascript:void(0);">Add Ex-Spouse</a>
                         <?php } ?>
@@ -106,7 +106,7 @@ z-index: 0 !important
 
         <div class="col-md-3">
             
-            <?php if( strtolower($value['People']['gender']) == 'male') { ?>
+            <?php if( strtolower($value['People']['gender']) == 'Male') { ?>
 <?php if ( $this->Session->read('User.user_id') == $hofId && strtolower($value['People']['martial_status']) != 'single') { ?>
 <a class="addchild" href="javascript:void(0);" data-gid="<?php echo $value['People']['group_id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" data-id="<?php echo $value['People']['id'];?>" >Add Children</a><br>
              <?php } } ?>  
@@ -208,7 +208,7 @@ z-index: 0 !important
            <?php } ?>
            <?php } ?>
             <?php if( $this->Session->read('User.user_id') == $hofId) { ?>
-           <?php if($value['People']['first_name'] != '' && $value['People']['last_name'] != '' && $value['People']['mobile_number'] != '' && $value['People']['village'] != '' && $value['People']['is_late'] == 0 && $value['Group']['tree_level'] != '' && $value['People']['gender'] == 'male') { ?>
+           <?php if($value['People']['first_name'] != '' && $value['People']['last_name'] != '' && $value['People']['mobile_number'] != '' && $value['People']['village'] != '' && $value['People']['is_late'] == 0 && $value['Group']['tree_level'] != '' && $value['People']['gender'] == 'Male') { ?>
                        <a data-gid="<?php echo $value['People']['group_id'];?>" 
                        data-hofid="<?php echo $hofId;?>" 
            data-first_name="<?php echo $value['People']['first_name'];?>" 
@@ -308,9 +308,9 @@ $missingData = array();?>
         
         
         <div class="col-md-2">
-                                 <?php if( !empty($value['People']['partner_id']) && strtolower($value['People']['gender']) == 'male') { ?>
+                                 <?php if( !empty($value['People']['partner_id']) && strtolower($value['People']['gender']) == 'Male') { ?>
             
-                                    <?php $children = $People->getChildren($value['People']['id'],'male');
+                                    <?php $children = $People->getChildren($value['People']['id'],'Male');
                                     $childs = array();
                                     foreach ( $children as $k => $v ) {
                                         $childs[] = $v[0]['childname'];

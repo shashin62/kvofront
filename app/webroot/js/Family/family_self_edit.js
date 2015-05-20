@@ -6,7 +6,7 @@ $(document).ready(function () {
     $(".combobox1").combobox();
     late(is_late);
     console.log(userType);
-    if (gender == 'female') {
+    if (gender == 'Female') {
         showmaidensurname('Female');
         showmaidenvillage('Female');
     } else if (userType == 'addfather') {

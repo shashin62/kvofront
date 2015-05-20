@@ -144,8 +144,8 @@ Class UserController extends AppController {
             $data['People']['village'] = $this->request->data['village'];
             $data['People']['date_of_birth'] = $this->request->data['date_of_birth'];
             $data['People']['email'] = $this->request->data['email'];
-            $data['People']['gender'] = 'male';
-            $data['People']['sect'] = 'deravasi';
+            $data['People']['gender'] = 'Male';
+            $data['People']['sect'] = 'Deravasi';
             $data['People']['created_by'] = Configure::read('SELF_ID');
             $random_number = mt_rand(10000, 99999);
             $data['People']['pin'] = $random_number;

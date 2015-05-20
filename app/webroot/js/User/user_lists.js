@@ -139,10 +139,10 @@ function editUser(id, adata)
      $('.last_name').val(aData[2]);
      $('.email').val(aData[3]);
      if (aData[4] == 'Male') {
-         $('.gender').val('male');
+         $('.gender').val('Male');
      }
      if (aData[4] == 'Female') {
-         $('.gender').val('female');
+         $('.gender').val('Female');
      }
      
     $('.userid').val(aData[0]);
