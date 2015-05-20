@@ -5,7 +5,7 @@
             <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleData['id'] .'.' . $peopleData['ext']) ===  true) { ?>
             <div class="panel panel-danger">
                     <div class="panel-heading">
-                        <?php if( $this->Session->read('User.user_id') == $peopleData['id'] || ($this->Session->read('User.group_id') == $peopleData['group_id'] && $this->Session->read('Auth.User.tree_level') == '')) { ?><a href="<?php echo FULL_BASE_URL . $this->base. '/family/index?type=self&id='.$peopleData['id'].'&gid='.$peopleData['group_id'];?>" class="text-default"><i class="fa fa-gear fa-fw pull-right"></i></a><?php } ?>
+                        <?php if( $this->Session->read('User.user_id') == $peopleData['id'] || ($this->Session->read('User.group_id') == $peopleData['group_id'] && $this->Session->read('Auth.User.tree_level') == '')) { ?><a href="<?php echo FULL_BASE_URL . $this->base. '/family/index?type=self&fid='.$peopleData['id'].'&gid='.$peopleData['group_id'];?>" class="text-default"><i class="fa fa-gear fa-fw pull-right"></i></a><?php } ?>
                             <h1 class="panel-title"><?php echo (isset($translations[$peopleData['first_name']]) ? $translations[$peopleData['first_name']] :  $peopleData['first_name']) . ' ' . (isset($translations[$peopleData['last_name']]) ? $translations[$peopleData['last_name']] :  $peopleData['last_name']);?></h1>
                     </div>
                     <div class="panel-body">
@@ -184,7 +184,7 @@
 			<div class="col-md-6">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-                                            <?php if( $this->Session->read('User.user_id') == $peopleData['id'] || ($this->Session->read('User.group_id') == $peopleData['group_id'] && $this->Session->read('Auth.User.tree_level') == '')) { ?><a href="<?php echo FULL_BASE_URL . $this->base. '/family/index?type=self&id='.$peopleData['id'].'&gid='.$peopleData['group_id'];?>" class="text-info"><i class="fa fa-gear fa-fw pull-right"></i></a><?php } ?>
+                                            <?php if( $this->Session->read('User.user_id') == $peopleData['id'] || ($this->Session->read('User.group_id') == $peopleData['group_id'] && $this->Session->read('Auth.User.tree_level') == '')) { ?><a href="<?php echo FULL_BASE_URL . $this->base. '/family/index?type=self&fid='.$peopleData['id'].'&gid='.$peopleData['group_id'];?>" class="text-info"><i class="fa fa-gear fa-fw pull-right"></i></a><?php } ?>
 						<h4 class="panel-title">Personal Information</h4>
 					</div>
 					<div class="panel-body">
@@ -259,7 +259,7 @@
 			<div class="col-md-6">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-                                                <?php if( $this->Session->read('User.user_id') == $peopleData['id'] || ($this->Session->read('User.group_id') == $peopleData['group_id'] && $this->Session->read('Auth.User.tree_level') == '')) { ?><a href="<?php echo FULL_BASE_URL . $this->base. '/family/index?type=self&id='.$peopleData['id'].'&gid='.$peopleData['group_id'];?>" class="text-info"><i class="fa fa-gear fa-fw pull-right"></i></a><?php } ?>
+                                                <?php if( $this->Session->read('User.user_id') == $peopleData['id'] || ($this->Session->read('User.group_id') == $peopleData['group_id'] && $this->Session->read('Auth.User.tree_level') == '')) { ?><a href="<?php echo FULL_BASE_URL . $this->base. '/family/index?type=self&fid='.$peopleData['id'].'&gid='.$peopleData['group_id'];?>" class="text-info"><i class="fa fa-gear fa-fw pull-right"></i></a><?php } ?>
 						<h4 class="panel-title">Contact</h4>
 					</div>
 					<div class="panel-body">
@@ -332,7 +332,7 @@
                         <div class="col-md-6">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-                                                <?php if( $this->Session->read('User.user_id') == $peopleData['id'] || ($this->Session->read('User.group_id') == $peopleData['group_id'] && $this->Session->read('Auth.User.tree_level') == '')) { ?><a href="<?php echo FULL_BASE_URL . $this->base. '/family/index?type=self&id='.$peopleData['id'].'&gid='.$peopleData['group_id'];?>" class="text-info"><i class="fa fa-gear fa-fw pull-right"></i></a><?php } ?>
+                                                <?php if( $this->Session->read('User.user_id') == $peopleData['id'] || ($this->Session->read('User.group_id') == $peopleData['group_id'] && $this->Session->read('Auth.User.tree_level') == '')) { ?><a href="<?php echo FULL_BASE_URL . $this->base. '/family/index?type=addEducation&id='.$peopleData['id'].'&gid='.$peopleData['group_id'];?>" class="text-info"><i class="fa fa-gear fa-fw pull-right"></i></a><?php } ?>
 						<h4 class="panel-title">Education</h4>
 					</div>
 					<div class="panel-body">
