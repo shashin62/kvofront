@@ -87,7 +87,6 @@ Class FamilyController extends AppController {
         $this->set('village', isset($this->request->data['village']) ?
                         $this->request->data['village'] : '');
 
-        $requestData['fid'] = isset($requestData['fid']) ? $requestData['fid'] : $requestData['id'];
         if ($requestData['type'] == 'self') {
             $userId = $requestData['fid']; //$this->Session->read('User.user_id');
             $toFetchData = true;
