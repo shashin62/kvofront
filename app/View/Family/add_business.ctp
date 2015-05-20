@@ -224,17 +224,17 @@
                                 <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="suburb_zone">Suburb Zone</label>   
                                 <div class="col-lg-8 col-md-8 col-xs-8">
                                     <div class="btn-group zones" data-toggle="buttons">
-                                        <label class="btn btn-default <?php echo $suburb_zone == 'east' ? 'active' : '';?>">
-                                            <input data-zone="east" type="radio" name="suburb_zone" <?php echo $suburb == 'east' ? 'checked=checked' : '';?> value="east">East
+                                        <label class="btn btn-default <?php echo $suburb_zone == 'East' ? 'active' : '';?>">
+                                            <input data-zone="East" type="radio" name="suburb_zone" <?php echo $suburb == 'East' ? 'checked=checked' : '';?> value="East">East
                                         </label>
-                                        <label class="btn btn-default <?php echo $suburb_zone == 'west' ? 'active' : '';?>">
-                                            <input data-zone="west" type="radio" name="suburb_zone" <?php echo $suburb == 'west' ? 'checked=checked' : '';?> value="west">West
+                                        <label class="btn btn-default <?php echo $suburb_zone == 'West' ? 'active' : '';?>">
+                                            <input data-zone="West" type="radio" name="suburb_zone" <?php echo $suburb == 'West' ? 'checked=checked' : '';?> value="West">West
                                         </label>
-                                        <label class="btn btn-default <?php echo $suburb_zone == 'central' ? 'active' : '';?>">
-                                            <input data-zone="central"  type="radio" name="suburb_zone" <?php echo $suburb == 'central' ? 'checked=checked' : '';?> value="central">Central
+                                        <label class="btn btn-default <?php echo $suburb_zone == 'Central' ? 'active' : '';?>">
+                                            <input data-zone="Central"  type="radio" name="suburb_zone" <?php echo $suburb == 'Central' ? 'checked=checked' : '';?> value="Central">Central
                                         </label>
-                                        <label class="btn btn-default <?php echo $suburb_zone == 'other' ? 'active' : '';?>">
-                                            <input data-zone="other" type="radio" name="suburb_zone" <?php echo $suburb_zone == 'other' ? 'checked=checked' : '';?> value="other">Other
+                                        <label class="btn btn-default <?php echo $suburb_zone == 'Other' ? 'active' : '';?>">
+                                            <input data-zone="Other" type="radio" name="suburb_zone" <?php echo $suburb_zone == 'Other' ? 'checked=checked' : '';?> value="Other">Other
                                         </label>
                                     </div>
 
