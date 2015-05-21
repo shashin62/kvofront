@@ -1510,10 +1510,14 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['village'] = ucfirst($peopleData['village']);
                     $tree[$peopleData['id']]['father'] = ucfirst($peopleData['father']);
                     $tree[$peopleData['id']]['mother'] = ucfirst($peopleData['mother']);
-                    if ($peopleData['gender'] == 'Male') {
-                        $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . ucfirst($peopleData['first_name']) . " " . $peopleData['last_name'];
-                    } else {
-                        $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . $peopleData['last_name'];
+                    if ($peopleData['partner_name']) {
+                        if ($peopleData['gender'] == 'Male') {
+                            $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . ucfirst($peopleData['first_name']) . " " . $peopleData['last_name'];
+                        } else {
+                            $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . $peopleData['last_name'];
+                        }
+                    }else{
+                        $tree[$peopleData['id']]['partner_name'] = $tree[$peopleData['id']]['partner_name'];
                     }
                     $tree[$peopleData['id']]['specialty_business_service'] = $peopleData['specialty_business_service'];
                     $tree[$peopleData['id']]['nature_of_business'] = $peopleData['nature_of_business'];
@@ -1692,10 +1696,15 @@ Class FamilyController extends AppController {
         $tree['village'] = ucfirst($peopleData['village']);
         $tree['father'] = ucfirst($peopleData['father']);
         $tree['mother'] = ucfirst($peopleData['mother']);
-        if ( $peopleData['gender'] == 'Male') {
-            $tree['partner_name'] = ucfirst($peopleData['partner_name']) . " " . ucfirst($peopleData['first_name']) . " " . $peopleData['last_name'] ;
-        } else {
-            $tree['partner_name'] = ucfirst($peopleData['partner_name']) . " " . $peopleData['last_name'] ;
+        
+        if ($peopleData['partner_name']) {
+            if ($peopleData['gender'] == 'Male') {
+                $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . ucfirst($peopleData['first_name']) . " " . $peopleData['last_name'];
+            } else {
+                $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . $peopleData['last_name'];
+            }
+        }else{
+            $tree[$peopleData['id']]['partner_name'] = $tree[$peopleData['id']]['partner_name'];
         }
         $tree['specialty_business_service'] = $peopleData['specialty_business_service'];
         $tree['nature_of_business'] = $peopleData['nature_of_business'];
