@@ -439,7 +439,6 @@ function SRP(e) {
 function SP0() {
     var f = parent.Efa;
     var p = f[Spe];
-    Sed = false;
     if (Sed) {
         GE("gender_f").checked = (p.g == "f");
         GE("gender_m").checked = (p.g == "m");
