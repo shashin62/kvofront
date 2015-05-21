@@ -237,7 +237,7 @@
                                         </div>
                                 </div>                        
                                 <div class="form-group">
-                                        <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="mahajan_membership_number">Mahajan #</label>   
+                                        <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="mahajan_membership_number">Mahajan Membership Number</label>   
                                         <div class="col-lg-8 col-md-8 col-xs-8">
                                                 <?php echo $this->Form->input('mahajan_membership_number', 
                                                         array('id' => 'mahajan_membership_number', 'value'=> $mahajan_membership_number,'type' => 'text','title' => '','div' => false, 'label' => false, 'class' => 'dp form-control')); ?>
