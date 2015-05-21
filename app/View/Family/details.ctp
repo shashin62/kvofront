@@ -124,10 +124,11 @@ z-index: 0 !important
 
                     $childs[] = '<a href="javascript: profileOf('.$childId.');">'.implode(' ', $childNewArr).'</a>';
                 }
-
+                
+            if (count($childs)) {
             ?>
             <div>Children: <?php echo implode(', ',$childs); ?></div>
-            
+            <?php } ?>
             
                                     
             <?php if ( $value['People']['f_id'] != '') {?>
@@ -189,9 +190,10 @@ z-index: 0 !important
                         $educations[] = $v['people_educations']['name'];
                     }
 
+                    if (count($educations)) {
                     ?>
                     <div>Education: <?php echo implode(', ', $educations); ?></div>
-                      
+                    <?php } ?> 
 
                     <?php if( $this->Session->read('User.user_id') == $hofId && $value['People']['id'] != $hofId) { ?>
 <a  class="deletemember" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);" style="color: red">Delete</a>
