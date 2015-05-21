@@ -75,7 +75,7 @@ z-index: 0 !important
                     <?php } ?>
                 <?php } else { ?> 
                 <?php  ?>
-                    <div>Spouse: <a title="edit" class="self" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['partner_id']; ?>" href="javascript:profileOf(<?php echo $value['People']['partner_id']; ?>);"><?php echo isset($translations[$value['parent3']['partner_name']]) ? $translations[$value['parent3']['partner_name']] : $value['parent3']['partner_name']; ?> <?php echo isset($translations[$value['parent3']['partner_lastname']]) ? $translations[$value['parent3']['partner_lastname']] : $value['parent3']['partner_lastname']; ?></a>
+                    <div><strong>Spouse</strong>: <a title="edit" class="self" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['partner_id']; ?>" href="javascript:profileOf(<?php echo $value['People']['partner_id']; ?>);"><?php echo isset($translations[$value['parent3']['partner_name']]) ? $translations[$value['parent3']['partner_name']] : $value['parent3']['partner_name']; ?> <?php echo isset($translations[$value['parent3']['partner_lastname']]) ? $translations[$value['parent3']['partner_lastname']] : $value['parent3']['partner_lastname']; ?></a>
                     
                     <?php if (strtolower($value['People']['martial_status']) == 'married' && $value['People']['gender'] == 'Male') { ?>
                         <?php if ($this->Session->read('User.user_id') == $hofId) { ?>
@@ -91,7 +91,7 @@ z-index: 0 !important
                         <a class="addfather" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['id']; ?>" data-first_name="<?php echo $value['People']['first_name']; ?>" href="javascript:void(0);">Add Father</a>
                     <?php } ?>
                 <?php } else { ?>
-                        <div>Father: <a title="profile"  class="self" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['f_id']; ?>" href="javascript:profileOf(<?php echo $value['People']['f_id']; ?>);"><?php echo isset($translations[$value['parent1']['father']]) ? $translations[$value['parent1']['father']] : $value['parent1']['father']; ?> <?php echo isset($translations[$value['parent1']['father_lastname']]) ? $translations[$value['parent1']['father_lastname']] : $value['parent1']['father_lastname']; ?></a></div>
+                        <div><strong>Father</strong>: <a title="profile"  class="self" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['f_id']; ?>" href="javascript:profileOf(<?php echo $value['People']['f_id']; ?>);"><?php echo isset($translations[$value['parent1']['father']]) ? $translations[$value['parent1']['father']] : $value['parent1']['father']; ?> <?php echo isset($translations[$value['parent1']['father_lastname']]) ? $translations[$value['parent1']['father_lastname']] : $value['parent1']['father_lastname']; ?></a></div>
                 <?php } ?>
                         
                         
@@ -100,7 +100,7 @@ z-index: 0 !important
                         <a class="addmother" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['id']; ?>" data-first_name="<?php echo $value['People']['first_name']; ?>" href="javascript:void(0);">Add Mother</a>
                     <?php } ?>
                 <?php } else { ?>                  
-                        <div>Mother:  <a title="profile"  class="self" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['m_id']; ?>" href="javascript:profileOf(<?php echo $value['People']['m_id']; ?>);"><?php echo isset($translations[$value['parent2']['mother']]) ? $translations[$value['parent2']['mother']] : $value['parent2']['mother']; ?> <?php echo isset($translations[$value['parent2']['mother_lastname']]) ? $translations[$value['parent2']['mother_lastname']] : $value['parent2']['mother_lastname']; ?></a></div>
+                        <div><strong>Mother</strong>:  <a title="profile"  class="self" data-gid="<?php echo $value['People']['group_id']; ?>" data-id="<?php echo $value['People']['m_id']; ?>" href="javascript:profileOf(<?php echo $value['People']['m_id']; ?>);"><?php echo isset($translations[$value['parent2']['mother']]) ? $translations[$value['parent2']['mother']] : $value['parent2']['mother']; ?> <?php echo isset($translations[$value['parent2']['mother_lastname']]) ? $translations[$value['parent2']['mother_lastname']] : $value['parent2']['mother_lastname']; ?></a></div>
                 <?php } ?>
         </div>
 
@@ -127,7 +127,7 @@ z-index: 0 !important
                 
             if (count($childs)) {
             ?>
-            <div>Children: <?php echo implode(', ',$childs); ?></div>
+            <div><strong>Children</strong>: <?php echo implode(', ',$childs); ?></div>
             <?php } ?>
             
                                     
