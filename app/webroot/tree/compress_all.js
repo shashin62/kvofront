@@ -1076,7 +1076,7 @@ var c=s?"marginon":"marginoff";
 GE("treemargin").className=c;
 GE("externalmargin").className=c;
 GE("navmargin").className=c;
-GE("welcomemargin").className=c;
+//GE("welcomemargin").className=c;
 GE("keymargin").className=c;
 SI("leftdiv",s);
 self.navframe.NSS(s);

@@ -403,7 +403,7 @@ $auth = (isset($u) && $u != '') ? true : false;
 
 
 
-				<DIV ID="welcomediv" ><DIV ID="welcomemargin" CLASS="marginon"><CENTER>
+				<DIV ID="welcomediv123" ><DIV ID="welcomemargin123" CLASS="marginon"><CENTER>
 
 
 
