@@ -481,7 +481,8 @@ function SP0() {
         if ( p.date_of_marriage != '') {
             SSR("personalview", "Marriage Date", p.date_of_marriage, false);
         }
-        if ( p.partner_name != '') {
+        console.log(p.partner_name+'##');
+        if ( p.partner_name != '' && typeof p.partner_name != 'undefined') {
             SSR("personalview", "Spouse", p.partner_name, false);
         }
        
@@ -513,13 +514,13 @@ function SP0() {
         if( p.mother == '') {
             SSR("personalview", "Add Mother", p.pid, false, '', p.gid, p.m);
         }
-        if (p.partner_name == '') {
+        if (p.partner_name == '' || typeof p.partner_name == 'undefined') {
             SSR("personalview", "Add Spouse", p.pid, false, '', p.gid, '', p.s);
         }
         if (p.father == '') {
             SSR("personalview", "Add Father", p.pid, false, '', p.gid, '', '', p.f);
         }
-        if (p.partner_name != '') {
+        if (p.partner_name != '' && typeof p.partner_name != 'undefined') {
             SSR("personalview", "Add Child", p.pid, false, '', p.gid,p.s,p.g);
         }
         if (p.father != '' && p.mother != '') {
