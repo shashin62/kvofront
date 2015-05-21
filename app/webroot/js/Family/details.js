@@ -51,6 +51,15 @@ function profileOf(id) {
     doFormPost(baseUrl +"/search/index",'{ "id":"' + id + '"}');
 }
 
+$('.selfPhoto').click(function () {
+    var $this = $(this);
+    var id = $this.data('id');
+    var gid = $this.data('gid');
+
+    doFormPost(baseUrl + "/family/index?type=self&id=" + id + "&gid=" + gid, '{ "type":"self","fid":"' + id + '","gid":"' + gid + '"}');
+
+});
+
 /*$('.self').click(function () {
     var $this = $(this);
     var id = $this.data('id');

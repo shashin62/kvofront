@@ -58,7 +58,7 @@ z-index: 0 !important
 <?php } ?>
                 <?php } else {?>
 <?php if ( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
-                        <a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);">Add Photo</a>
+                        <a class="selfPhoto" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript:void(0);">Add Photo</a>
 <?php } ?>
                 <?php } ?>
         </div>
