@@ -106,7 +106,7 @@ z-index: 0 !important
 
         <div class="col-md-3">
             
-            <?php if( strtolower($value['People']['gender']) == 'Male') { ?>
+            <?php if( $value['People']['gender'] == 'Male') {  ?>
 <?php if ( $this->Session->read('User.user_id') == $hofId && strtolower($value['People']['martial_status']) != 'single') { ?>
 <a class="addchild" href="javascript:void(0);" data-gid="<?php echo $value['People']['group_id'];?>" data-first_name="<?php echo $value['People']['first_name'];?>" data-id="<?php echo $value['People']['id'];?>" >Add Children</a><br>
              <?php } } ?>  
@@ -308,7 +308,7 @@ $missingData = array();?>
         
         
         <div class="col-md-2">
-                                 <?php if( !empty($value['People']['partner_id']) && strtolower($value['People']['gender']) == 'Male') { ?>
+                                 <?php if( !empty($value['People']['partner_id']) && $value['People']['gender'] == 'Male') { ?>
             
                                     <?php $children = $People->getChildren($value['People']['id'],'Male');
                                     $childs = array();
