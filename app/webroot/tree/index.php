@@ -1,6 +1,6 @@
 <?php
 
-$baseUrl = 'http://localhost/kvofront';
+$baseUrl = 'http://website.kvomahajan.com';
 
 parse_str(urldecode($_GET["token"]), $output);
 
