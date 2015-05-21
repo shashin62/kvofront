@@ -1094,7 +1094,7 @@ return "/people_images/"+r;//BR("ap/","image_read",{f:GV("familyid"),p:GV("perso
 }
 }
 function EHW(){
-SS("welcomediv",false);
+//SS("welcomediv",false);
 }
 function KDK(o){
 var d=TND();
@@ -1138,7 +1138,7 @@ Efa={};
 Eis="";
 EUS(true,null,"edit",true,false);
 EUL(false);
-SS("welcomediv",true);
+//SS("welcomediv",true);
 }
 
 var ios=navigator.userAgent.match(/(iPod|iPhone|iPad)/)&&navigator.userAgent.match(/AppleWebKit/);

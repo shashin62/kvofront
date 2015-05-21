@@ -407,7 +407,7 @@ $auth = (isset($u) && $u != '') ? true : false;
 
 
 
-				<TABLE CLASS="mbody" STYLE="margin:8px; display:none;" CELLSPACING="6">
+				<TABLE CLASS="mbody" STYLE="margin:8px;" CELLSPACING="6">
 
 					<TR><TD STYLE="font-size:18px; font-weight:bold;" ALIGN="center"><SPAN STYLE="float:right; font-size:10px;"><A HREF="#" onClick="EHW(); return false;">[X]</A></SPAN>&nbsp; Welcome to Family Tree!</TD></TR>
 
