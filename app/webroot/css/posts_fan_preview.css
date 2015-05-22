@@ -25,7 +25,7 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e82c0c', endColorstr='#ae1d04',GradientType=0 ); /* IE6-8 */ 
     color: #fff; font-size: 19px; height: 30px; padding-top: 5px 0px ; border-radius:10px 10px 0 0; position: relative; margin-bottom: 10px; text-align: center;}
 .postTitle{display: block; line-height: 28px;}
-.prviewClose { background: url('../images/sprite.png') -39px 0 no-repeat #f4f4f4; border-radius:100%; transition:all 0.3s ease 0s; width: 32px; height: 32px; float: right; font-size: 15px; margin: 0; position: absolute; right: -15px; top: -10px;}
+.prviewClose { background: url('./images/sprite.png') -39px 0 no-repeat #f4f4f4; border-radius:100%; transition:all 0.3s ease 0s; width: 32px; height: 32px; float: right; font-size: 15px; margin: 0; position: absolute; right: -15px; top: -10px;}
 .fansPreview .previewCommon {max-height: 530px; overflow: auto;}
 .fansPreview .postPreviewPad {padding:10px 20px 20px; /* max-height: 530px; overflow: auto;*/ color:#333; }
 .fansPreview p {background: transparent; padding: 20px 0px; font-size: 13px; color: #333; border-bottom:1px dotted #DFDDE0; word-wrap:break-word;}
