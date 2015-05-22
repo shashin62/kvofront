@@ -90,20 +90,24 @@ tr.shown td.details-control {
     }
 }
 
+/*
+ * imgAreaSelect default style
+ */
+
 .imgareaselect-border1 {
-	border: dashed 1px #000;
+	background: url(./images/border-v.gif) repeat-y left top;
 }
 
 .imgareaselect-border2 {
-    border: dashed 1px #000;
+    background: url(./images/border-h.gif) repeat-x left top;
 }
 
 .imgareaselect-border3 {
-    border: dashed 1px #000;
+    background: url(./images/border-v.gif) repeat-y right top;
 }
 
 .imgareaselect-border4 {
-    border: dashed 1px #000;
+    background: url(./images/border-h.gif) repeat-x left bottom;
 }
 
 .imgareaselect-border1, .imgareaselect-border2,
@@ -119,6 +123,11 @@ tr.shown td.details-control {
     filter: alpha(opacity=50);
 }
 
-.upload-image #parent div{
-    position: absolute !important;
+.imgareaselect-outer {
+    background-color: #000;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.imgareaselect-selection {  
 }
