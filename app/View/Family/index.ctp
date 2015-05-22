@@ -312,7 +312,7 @@
          </div>
     </div>
 </div>
-
+<div id="treeredirect" data-lang="<?php echo md5($selLanguage); ?>" data-user="<?php echo md5($this->Session->read('User.user_id')); ?>" style="display:none;"></div>
 <script type="text/javascript">
     var pid = '<?php echo $pid; ?>';
     var userType = '<?php echo $userType; ?>';
