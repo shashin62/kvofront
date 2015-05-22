@@ -106,11 +106,11 @@ $(document).ready(function () {
             queryString += '&data[People][maiden_surname]=' + $('.maidensurname').find('.ui-autocomplete-input').val();
             queryString += '&data[People][maiden_village]=' + $('.maidenvillage').find('.ui-autocomplete-input').val();
             queryString += '&data[People][blood_group]=' + $('.blood_groupdiv').find('.ui-autocomplete-input').val();
-            queryString += '&data[People][education_1]=' + $('.education1_div').find('.ui-autocomplete-input').val();
-            queryString += '&data[People][education_2]=' + $('.education2_div').find('.ui-autocomplete-input').val();
-            queryString += '&data[People][education_3]=' + $('.education3_div').find('.ui-autocomplete-input').val();
-            queryString += '&data[People][education_4]=' + $('.education4_div').find('.ui-autocomplete-input').val();
-            queryString += '&data[People][education_5]=' + $('.education5_div').find('.ui-autocomplete-input').val();
+            //queryString += '&data[People][education_1]=' + $('.education1_div').find('.ui-autocomplete-input').val();
+            //queryString += '&data[People][education_2]=' + $('.education2_div').find('.ui-autocomplete-input').val();
+            //queryString += '&data[People][education_3]=' + $('.education3_div').find('.ui-autocomplete-input').val();
+            //queryString += '&data[People][education_4]=' + $('.education4_div').find('.ui-autocomplete-input').val();
+            //queryString += '&data[People][education_5]=' + $('.education5_div').find('.ui-autocomplete-input').val();
 
 
             var type = userType;
@@ -209,8 +209,8 @@ $(document).ready(function () {
             $("#postview").load(vUrl, function () {
                 var d = new Date();
                 var n = Math.random();
-                $('#thumbnail').attr('src', baseUrl + '/' + response.userImagePath + '?q=' + n);
-                $('#thumbPreview').attr('src', baseUrl + "/" + response.userImagePath + '?q=' + n);
+                $('#thumbnail').attr('src',  response.userImagePath + '?q=' + n);
+                $('#thumbPreview').attr('src',  response.userImagePath + '?q=' + n);
                 createThumbPreview();
                 var selectionObject = {};
                 var newW = 346;
@@ -361,7 +361,7 @@ function createThumbPreview()
         newW = newH;
     }
 
-    $('#thumbnail').imgAreaSelect({
+    /*$('#thumbnail').imgAreaSelect({
         parent:$('#parent'),
         handles: true,
         aspectRatio: t,
@@ -370,8 +370,18 @@ function createThumbPreview()
         x2: 100, 
         y2: 101,
         show:true,
+        onSelectChange: preview,
+    });*/
+    $('#thumbnail').imgAreaSelect({
+        parent:$('#parent'),
+        handles: true, 
+        aspectRatio: t, 
+        x1: 0,
+        y1: 1,
+        x2: 100,
+        y2: 101, 
+        show:true,
         onSelectChange: preview
-
     });
 
     $('.publishFansPopup').css('height', newH + 'px');
