@@ -118,3 +118,7 @@ tr.shown td.details-control {
     opacity: 0.5;
     filter: alpha(opacity=50);
 }
+
+.upload-image #parent div{
+    position: absolute !important;
+}
