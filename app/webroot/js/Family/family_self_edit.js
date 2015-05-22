@@ -138,7 +138,7 @@ $(document).ready(function () {
                         
                         if( module == 'tree') {
                             //window.location.href = baseUrl + "/tree/?gid=" + grpid+'&token=9daa9b2f09c22636b56d33786a270af';
-                            window.location.href = baseUrl + "/tree/?gid=" + grpid+'&token=9daa9b2f09c22636b56d33786a270af'+'&u='+$('#treeredirect').attr('data-user')+'&l='+$('#treeredirect').attr('data-lang');
+                            window.location.href = baseUrl + "/tree/?gid=" + grpid+'&token='+encodeURIComponent('9daa9b2f09c22636b56d33786a270af'+'&u='+$('#treeredirect').attr('data-user')+'&l='+$('#treeredirect').attr('data-lang'));
                         } else {
                             window.location.href = baseUrl + "/family/details/" + grpid;
                         }
