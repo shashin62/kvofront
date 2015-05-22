@@ -12,6 +12,9 @@ if (isset($_GET['full'])) {
 	$json_data = file_get_contents('http://kvo.quadzero.in/people/index/export_as_json:1/full_tree:1/?full_tree=1');
 } else if (isset($_GET['group_id'])){
 	$json_data = file_get_contents('http://kvo.quadzero.in/people/index/export_as_json:1/group_id:' . $_GET['group_id']);
+} elseif (isset($_GET['reset_id'])) {
+	//$json_data = file_get_contents('http://10.50.249.127/kvoadmin/family/buildTreeJson?gid=' . $_GET['gid'] . ' &uid=1');
+        $json_data = file_get_contents($baseUrl.'/family/buildFamilyJson?id=' . $_GET['reset_id'] . '&token='.$t);
 } else {
 	//$json_data = file_get_contents('http://10.50.249.127/kvoadmin/family/buildTreeJson?gid=' . $_GET['gid'] . ' &uid=1');
         $json_data = file_get_contents($baseUrl.'/family/buildTreeJson?gid=' . $_GET["gid"] . '&token='.$t);
@@ -529,6 +532,7 @@ $auth = (isset($u) && $u != '') ? true : false;
 
     //setTimeout("setJSONValue()",2000);    
      setJSONValue();
+     
     
     function resetJSONValue(id) {
         if (id != 'START'){

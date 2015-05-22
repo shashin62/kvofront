@@ -145,8 +145,10 @@
         </div>
     </div>
 </div>
+<div id="treeredirect" data-userid="<?php echo $this->Session->read('User.user_id'); ?>" data-lang="<?php echo md5($selLanguage); ?>" data-user="<?php echo md5($this->Session->read('User.user_id')); ?>" style="display:none;"></div>
 <?php echo $this->Html->script(array('Family/search_people')); ?>
 <script type="text/javascript">
+
  $(function () {
         $("#date_of_birth").datepicker({
             format: "dd/mm/yyyy",
@@ -157,13 +159,19 @@
        
     });
     
-    
+    var module = "<?php echo $module; ?>";
     var actiontype = '<?php echo $type;?>';
     var user_id = '<?php echo $fid;?>';
     var group_id = '<?php echo $gid;?>';
     
     $('.cancel').click(function(){
-         if(  actiontype == 'addnew') {
+         if (module == 'tree') {
+             var rUrl = baseUrl + "/tree/?gid=" + group_id+'&token='+encodeURIComponent('9daa9b2f09c22636b56d33786a270af'+'&u='+$('#treeredirect').attr('data-user')+'&l='+$('#treeredirect').attr('data-lang'));
+            if ($('#treeredirect').attr('data-userid') != user_id) {
+                rUrl += '&reset_id='+user_id;
+            }
+            window.location.href = rUrl;
+         } else if(  actiontype == 'addnew') {
               window.location.href = baseUrl +"/family/familiyGroups";
          } else {
              window.location.href = baseUrl +"/family/details/"+ group_id;
@@ -185,7 +193,7 @@
  
  
    doFormPost(baseUrl+"/family/index?type=" + actiontype ,'{ "type":"'+ actiontype+'",\n\
-"fid":"'+ id +'","gid":"'+ gid +'","name_parent":"'+ first_name +'","first_name":"'+ firstname +'",\n\
+"fid":"'+ id +'","module":"'+ module +'","gid":"'+ gid +'","name_parent":"'+ first_name +'","first_name":"'+ firstname +'",\n\
 "last_name":"'+ lastname +'","date_of_birth":"'+ dob +'","mobile_number":"'+ phone +'","village":"'+ village +'"}');
 });
 </script>

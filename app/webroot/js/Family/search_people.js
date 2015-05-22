@@ -129,7 +129,15 @@ function insertUser(id, data)
             showJsSuccessMessage(displayMsg);
             setTimeout(function () {
                 $('.jssuccessMessage').hide('slow');
-                window.location = baseUrl + '/family/details/'+ response.group_id;
+                if (module == 'tree') {
+                    var rUrl = baseUrl + "/tree/?gid=" + response.group_id+'&token='+encodeURIComponent('9daa9b2f09c22636b56d33786a270af'+'&u='+$('#treeredirect').attr('data-user')+'&l='+$('#treeredirect').attr('data-lang'));
+                    if ($('#treeredirect').attr('data-userid') != user_id) {
+                        rUrl += '&reset_id='+user_id;
+                    }
+                    window.location.href = rUrl;
+                } else {
+                    window.location = baseUrl + '/family/details/'+ response.group_id;
+                }
             }, 2500);
         },
         error: function()

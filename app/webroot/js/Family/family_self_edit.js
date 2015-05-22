@@ -138,7 +138,11 @@ $(document).ready(function () {
                         
                         if( module == 'tree') {
                             //window.location.href = baseUrl + "/tree/?gid=" + grpid+'&token=9daa9b2f09c22636b56d33786a270af';
-                            window.location.href = baseUrl + "/tree/?gid=" + grpid+'&token='+encodeURIComponent('9daa9b2f09c22636b56d33786a270af'+'&u='+$('#treeredirect').attr('data-user')+'&l='+$('#treeredirect').attr('data-lang'));
+                           var rUrl = baseUrl + "/tree/?gid=" + grpid+'&token='+encodeURIComponent('9daa9b2f09c22636b56d33786a270af'+'&u='+$('#treeredirect').attr('data-user')+'&l='+$('#treeredirect').attr('data-lang'));
+                           if ($('#treeredirect').attr('data-userid') != fid) {
+                               rUrl += '&reset_id='+fid;
+                           }
+                            window.location.href = rUrl;
                         } else {
                             window.location.href = baseUrl + "/family/details/" + grpid;
                         }

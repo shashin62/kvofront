@@ -77,6 +77,7 @@ Class FamilyController extends AppController {
         }
         $requestData = $_REQUEST;
         $this->set('module', $requestData['module']);
+        $this->set('fid', $requestData['fid']);
         $this->set('first_name', isset($this->request->data['first_name']) ?
                         $this->request->data['first_name'] : '');
         $this->set('last_name', isset($this->request->data['last_name']) ?
@@ -2239,6 +2240,7 @@ Class FamilyController extends AppController {
          $main_surnames = $this->Surname->find('list', array('fields' => array('Surname.name', 'Surname.name')));
         $this->set(compact('main_surnames'));
         $this->set('name_parent', $_REQUEST['name_parent']);
+        $this->set('module', $_REQUEST['module']);
     }
     
     public function getBusinessTypes()
