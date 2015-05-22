@@ -78,7 +78,8 @@ class People extends AppModel {
         $type = $data['type'];
         $aColumns = array('p.id', 'p.first_name', 'p.last_name', 'p.village', 'p.mobile_number', 'p.m_id', 'p.f_id',
             'IF( p.f_id = parent.id, parent.first_name, "") as father',
-            'IF( p.m_id = parent2.id, parent2.first_name, "") as mother'
+            'IF( p.m_id = parent2.id, parent2.first_name, "") as mother',
+            'p.partner_name'
         );
 
         /* Indexed column (used for fast and accurate table cardinality) */
@@ -116,7 +117,8 @@ class People extends AppModel {
             }
         }
 
-        $aSearchCollumns = array('p.id', 'p.first_name', 'p.last_name', 'p.main_surname', 'p.mobile_number');
+        //$aSearchCollumns = array('p.id', 'p.first_name', 'p.last_name', 'p.main_surname', 'p.mobile_number');
+        $aSearchCollumns = array('p.id', 'p.first_name', 'p.last_name', 'p.mobile_number', 'DATE_FORMAT(p.date_of_birth,   "%m/%d/%Y"  )', 'p.village', 'p.main_surname','p.father', 'p.mother','p.partner_name');
         /*
          * Filtering
          * NOTE this does not match the built-in DataTables filtering which does it
@@ -637,6 +639,7 @@ class People extends AppModel {
             // $options['conditions']['People.group_id'] = $groupId;
         }
         $options['fields'] = array('concat(People.first_name,"  ",People.last_name) as childname', 'People.id', 'People.group_id');
+        //$options['order'] = array('People.date_of_birth');
         try {
             $userData = $this->find('all', $options);
 

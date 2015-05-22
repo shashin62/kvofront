@@ -32,6 +32,18 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="father">Fathers Name</label>
+                            <div class="col-lg-8 col-md-8 col-xs-8">
+                                <input type="text" class="form-control father search_username" name="father_name" placeholder="Fathers Name" custom="7" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="father">Spouse Name</label>
+                            <div class="col-lg-8 col-md-8 col-xs-8">
+                                <input type="text" class="form-control father search_username" name="partner_name" placeholder="Partners Name" custom="9" />
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="last_name">Last Name</label>
                             <div class="col-lg-8 col-md-8 col-xs-8">
                                 <input type="text" class="form-control last_name search_username" name="last_name" placeholder="Last Name" custom="2" />
@@ -51,16 +63,10 @@
                                         'style' => '',
                                         //'disabled' => $readonly,
                                         'options' => $main_surnames,
-                                            'custom'=> 3
+                                            'custom'=> 6
 
                                         ));
                                         ?>
-                            </div>
-                        </div>
-        <!--                <div class="form-group">
-                            <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="father">Fathers Name</label>
-                            <div class="col-lg-8 col-md-8 col-xs-8">
-                                <input type="text" class="form-control father search_username" name="father_name" placeholder="Fathers Name" custom="7" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -68,14 +74,14 @@
                             <div class="col-lg-8 col-md-8 col-xs-8">
                                 <input type="text" class="form-control mother search_username" name="mother_name" placeholder="Mothers Name" custom="8" />
                             </div>
-                        </div> -->
+                        </div>
                         <div class="form-group">
                             <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="mobile_number">Mobile Number</label>
                             <div class="col-lg-8 col-md-8 col-xs-8">
-                                <input type="text" class="form-control mobile_number search" name="mobile_number" placeholder="Mobile number" custom="4"/>
+                                <input type="text" class="form-control mobile_number search" name="mobile_number" placeholder="Mobile number" custom="3"/>
                             </div>
                         </div>
-                     <!--    <div class="form-group">
+                        <div class="form-group">
                             <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="date_of_birth">DOB</label>
                             <div class="col-lg-8 col-md-8 col-xs-8">
                                 <input id = "date_of_birth" type="text" class="dob form-control dp search_DOB" name="date_of_birth" placeholder="DOB" custom="4"/>
@@ -100,7 +106,7 @@
 
                             </div>
                         </div>
-                        -->
+                        
                     </form>
                 <div class="row">
                                 <div class="form-actions">
@@ -127,6 +133,8 @@
                                 <th>Phone</th>
                                 <th>DOB</th>
                                 <th>Action</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>

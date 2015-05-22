@@ -32,8 +32,20 @@ $(function () {
             {"aaData": 4},
             {"aaData": 5},
             {"aaData": 6},
-            {"aaData": 7}
+            {"aaData": 7},
+            {"aaData": 8},
+            {"aaData": 9},
 
+        ],
+        "columnDefs": [
+            {
+                "targets": [ 8 ],
+                "visible": false
+            },
+            {
+                "targets": [ 9 ],
+                "visible": false
+            }
         ],
         "fnCreatedRow": function (nRow, aData, iDataIndex) {
             $('td:eq(7)', nRow).html('<a class="edit_row btn btn-xs btn-success insert" onclick="insertUser(' + aData[1] + ', \'' + aData + '\')" data-rowid=' + aData[0] + '><span class="glyphicon glyphicon-edit"></span>Insert</a> \n');
@@ -47,7 +59,7 @@ $(function () {
 
     $('#all_users').removeClass('display').addClass('table table-striped table-bordered');
 
-    $(".search, .search_username").bind("keyup", function () {
+    $(".search, .search_username").bind("keyup blur", function () {
         var table = $('#all_users').DataTable();
         
         table
