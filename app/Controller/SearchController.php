@@ -145,7 +145,7 @@ Class SearchController extends AppController {
         $treeData = $this->Tree->buildTreeJson($groupData['group_id']);
         
         foreach ( $treeData['tree'] as $tKey => $tValue) {
-            $this->peopleIds[] = $tValue['ai'];
+           // $this->peopleIds[] = $tValue['ai'];
         }
         $dataTree = $this->_buildLinkage($treeData['tree'], $this->request->data['id'], $userID, false);
         
