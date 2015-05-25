@@ -519,7 +519,7 @@ function SP0() {
         if (p.father == '') {
             SSR("personalview", "Add Father", p.pid, false, '', p.gid, '', '', p.f);
         }
-        if (p.partner_name != '' && typeof p.partner_name != 'undefined') {
+        if (p.partner_name != '' && typeof p.partner_name != 'undefined' && p.partner_name != null) {
             SSR("personalview", "Add Child", p.pid, false, '', p.gid,p.s,p.g);
         }
         if (p.father != '' && p.mother != '') {
