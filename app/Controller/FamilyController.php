@@ -1510,8 +1510,8 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['dob'] = date("d/m/Y", strtotime($peopleData['date_of_birth']));
                     $tree[$peopleData['id']]['education'] = $this->PeopleEducation->getHighestQualification($peopleData['id']);
                     $tree[$peopleData['id']]['village'] = ucfirst($peopleData['village']);
-                    $tree[$peopleData['id']]['father'] = ucfirst($peopleData['father']);
-                    $tree[$peopleData['id']]['mother'] = ucfirst($peopleData['mother']);
+                    $tree[$peopleData['id']]['father'] = ucfirst($peopleData['father']).' '.ucfirst($value['parent1']['father_lastname']);
+                    $tree[$peopleData['id']]['mother'] = ucfirst($peopleData['father']).' '.ucfirst($value['parent2']['mother_lastname']);
                     if ($peopleData['partner_name']) {
                         if ($peopleData['gender'] == 'Male') {
                             $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . ucfirst($peopleData['first_name']) . " " . $peopleData['last_name'];
@@ -1531,7 +1531,7 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['email'] = $peopleData['email'];
                     $tree[$peopleData['id']]['pid'] = $originalPId;
                     $tree[$peopleData['id']]['gid'] = $peopleData['group_id'];
-                    $tree[$peopleData['id']]['father'] = ucfirst($peopleData['father']);
+                    $tree[$peopleData['id']]['father'] = ucfirst($peopleData['father']).' '.ucfirst($value['parent1']['father_lastname']);
                     $tree[$peopleData['id']]['city'] = ucfirst($addressData['city']);
 
                     $tree[$peopleData['id']]['suburb'] = $addressData['suburb'];
@@ -1594,6 +1594,7 @@ Class FamilyController extends AppController {
         $allIds = array();
         $childrens = array();
         $rootId = $id;
+        $names = array();
         
         foreach ($data as $key => $value) {
             if (!in_array($value['people']['id'], $allIds)) {
@@ -1613,11 +1614,12 @@ Class FamilyController extends AppController {
                 $peopleRootGroup = $value['people_groups'];
                 $exSpousesRoot = array_unique($value[0]);
                 $ids[] = $value['people']['id'];
+                $names[$value['people']['id']] = ucfirst($value['people']['first_name']).' '.ucfirst($value['people']['last_name']);
             }
         }
         
       
-        $tree['START'] = $this->formatTree($peopleRootData, $peopleRootGroup, $exSpousesRoot, $rootId, $childrens, $allIds, $addressData);      
+        $tree['START'] = $this->formatTree($peopleRootData, $peopleRootGroup, $exSpousesRoot, $rootId, $childrens, $allIds, $addressData, $names);      
 
       
         foreach ($data as $key => $value) {
@@ -1640,7 +1642,7 @@ Class FamilyController extends AppController {
         exit;
     }
     
-    public function formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData) {
+    public function formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData, $names) {
         //print_r($peopleData);
         $tree = array();
         $iId = $peopleData['id'];
@@ -1697,8 +1699,8 @@ Class FamilyController extends AppController {
         $tree['dob'] = $peopleData['date_of_birth'] != '' ? date("d/m/Y", strtotime($peopleData['date_of_birth'])) : '';
         $tree['education'] = $this->PeopleEducation->getHighestQualification($peopleData['id']);
         $tree['village'] = ucfirst($peopleData['village']);
-        $tree['father'] = ucfirst($peopleData['father']);
-        $tree['mother'] = ucfirst($peopleData['mother']);
+        $tree['father'] = $names[$peopleData['f_id']];
+        $tree['mother'] = $names[$peopleData['m_id']];
         
         if ($peopleData['partner_name']) {
             if ($peopleData['gender'] == 'Male') {
