@@ -143,6 +143,10 @@ Class SearchController extends AppController {
         $this->translations = $getTranslations;
         
         $treeData = $this->Tree->buildTreeJson($groupData['group_id']);
+        
+        foreach ( $treeData['tree'] as $tKey => $tValue) {
+            $this->peopleIds[] = $tValue['ai'];
+        }
         $dataTree = $this->_buildLinkage($treeData['tree'], $this->request->data['id'], $userID, false);
         
         if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleData['id'] . '.' . $peopleData['ext']) === true) {
@@ -177,14 +181,11 @@ Class SearchController extends AppController {
      * @return type
      */
     private function _buildLinkage($data, $searchedId, $userId, $flag) {
-        //echo '<pre>';
-       // print_r($data[$searchedId]);
-       // echo '</pre>';
+     
         
         $translations = $this->translations;
-
         if ($userId == $data[$searchedId]['f']) {
-
+            
             if ($data[$searchedId]['g'] == 'f') {
                 $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Daughter Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             } else {
@@ -274,6 +275,7 @@ Class SearchController extends AppController {
                 $array = array_merge($array, $array1);
             }
         } else if ($data[$searchedId]['es'] != '' && in_array($data[$searchedId]['es'], $this->peopleIds)) {
+            
             if ($data[$searchedId]['g'] == 'f') {
                 $text = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Wife Of&nbsp;</b>-->&nbsp;&nbsp;</span></td>';
             } else {
@@ -297,7 +299,7 @@ Class SearchController extends AppController {
             }
         } else if ($userId == $data[$searchedId]['m']) {
             
-        } else if (count(array_intersect($data[$searchedId]['c'], $this->peopleIds))) {
+        } else if ( count(array_intersect($data[$searchedId]['c'], $this->peopleIds))) {
             $common = array_values(array_intersect($data[$searchedId]['c'], $this->peopleIds));
             $textLabel = 'Mother of';
             if ($data[$searchedId]['g'] == 'm') {
