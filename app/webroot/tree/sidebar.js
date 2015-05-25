@@ -249,7 +249,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
 
 
     if (t == 'Add Child') {
-        if (typeof mother !== 'undefined' && spouse == 'm') {
+        if (typeof spouse === 'string') {
             b.innerHTML = '<a data-id="' + v + '" target="_parent" href="http://website.kvomahajan.com/family/searchPeople?type=addchilld&fid=' + v + '&gid=' + gid + '&module=tree">' + t + '</a>';
         } else {
         }
@@ -481,7 +481,6 @@ function SP0() {
         if ( p.date_of_marriage != '') {
             SSR("personalview", "Marriage Date", p.date_of_marriage, false);
         }
-        console.log(p.partner_name+'##');
         if ( p.partner_name != '' && typeof p.partner_name != 'undefined') {
             SSR("personalview", "Spouse", p.partner_name, false);
         }

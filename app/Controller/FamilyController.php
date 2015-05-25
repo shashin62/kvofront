@@ -1702,12 +1702,12 @@ Class FamilyController extends AppController {
         
         if ($peopleData['partner_name']) {
             if ($peopleData['gender'] == 'Male') {
-                $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . ucfirst($peopleData['first_name']) . " " . $peopleData['last_name'];
+                $tree['partner_name'] = ucfirst($peopleData['partner_name']) . " " . ucfirst($peopleData['first_name']) . " " . $peopleData['last_name'];
             } else {
-                $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . $peopleData['last_name'];
+                $tree['partner_name'] = ucfirst($peopleData['partner_name']) . " " . $peopleData['last_name'];
             }
         }else{
-            $tree[$peopleData['id']]['partner_name'] = $tree[$peopleData['id']]['partner_name'];
+            $tree['partner_name'] = $tree['partner_name'];
         }
         $tree['specialty_business_service'] = $peopleData['specialty_business_service'];
         $tree['nature_of_business'] = $peopleData['nature_of_business'];
