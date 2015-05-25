@@ -145,7 +145,7 @@ Class SearchController extends AppController {
         $treeData = $this->Tree->buildTreeJson($groupData['group_id']);
         
         foreach ( $treeData['tree'] as $tKey => $tValue) {
-          // $this->peopleIds[] = $tValue['ai'];
+           $this->peopleIds[] = $tValue['ai'];
         }
         $dataTree = $this->_buildLinkage($treeData['tree'], $this->request->data['id'], $userID, false);
         
@@ -181,8 +181,7 @@ Class SearchController extends AppController {
      * @return type
      */
     private function _buildLinkage($data, $searchedId, $userId, $flag) {
-     
-        
+    
         $translations = $this->translations;
         if ($userId == $data[$searchedId]['f']) {
             
@@ -220,7 +219,7 @@ Class SearchController extends AppController {
             
             list($fnm, $lnm) = explode (' ', $data[$data[$searchedId]['c'][$childId]]['n']);
             $array[] = '<td style="min-width:50px;"><a href="javascript: search('.$data[$data[$searchedId]['c'][$childId]]['ai'].')" style="width:50px;">'.$pic.(isset($translations[$fnm]) ? $translations[$fnm] :  $fnm) . '<br />' . (isset($translations[$lnm]) ? $translations[$lnm] :  $lnm).'</a></td>';
-        } else if (count($data[$searchedId]['bid']) & in_array($userId, $data[$searchedId]['bid'])) {
+        } else if (count($data[$searchedId]['bid']) && in_array($userId, $data[$searchedId]['bid'])) {
 
             $brotherId = array_search($userId, $data[$searchedId]['bid']);
 
