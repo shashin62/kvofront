@@ -448,7 +448,12 @@ function SP0() {
     } else {
         
         SRR("personalview");
-        SSR("personalview", "Full name", (p.p || "")  + " " + (p.father || "") + " " + (p.l || p.q || ""), false, false, p.gid, p.pid);
+        var father = p.father;
+        if (p.father != '') {
+            fth = father.split(" ");
+            father = fth[0];
+        }
+        SSR("personalview", "Full name", (p.p || "")  + " " + (father || "") + " " + (p.l || p.q || ""), false, false, p.gid, p.pid);
         
         
          if ( p.father != '') {

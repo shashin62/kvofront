@@ -440,7 +440,7 @@ $auth = (isset($u) && $u != '') ? true : false;
 
 				
 
-				<DIV ID="leftdiv" CLASS="dleft"><IFRAME NAME="sideframe" ID="sideframe"  SRC="sidebar.htm?130317" CLASS="fullsize" FRAMEBORDER="0" SCROLLING="no"></IFRAME></DIV>
+				<DIV ID="leftdiv" CLASS="dleft"><IFRAME NAME="sideframe" ID="sideframe"  SRC="sidebar.htm?130317" CLASS="fullsize" FRAMEBORDER="0" SCROLLING="auto"></IFRAME></DIV>
 
 
 
