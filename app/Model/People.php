@@ -863,7 +863,21 @@ class People extends AppModel {
                     'conditions' => array(
                         'Sister.people_id = People.id'
                     )
-                )
+                ),
+                array('table' => 'people',
+                    'alias' => 'parent1',
+                    'type' => 'LEFT',
+                    'conditions' => array(
+                        'parent1.id = People.f_id'
+                    )
+                ),
+                array('table' => 'people',
+                    'alias' => 'parent2',
+                    'type' => 'LEFT',
+                    'conditions' => array(
+                        'parent2.id = People.m_id'
+                    )
+                ),
             );
         }
         if ($getAllDetails) {
@@ -874,7 +888,7 @@ class People extends AppModel {
                 'parent3.first_name as partner_name','parent3.last_name as partner_lastname', 'parent3.group_id as partner_group_id', 'parent1.first_name as father','parent1.last_name as father_lastname', 'parent1.group_id as father_group_id', 'parent2.first_name as mother','parent2.last_name as mother_lastname', 'parent2.group_id as mother_group_id'
             );
         } else {
-            $options['fields'] = array('People.*', 'Address.*', 'Brother.*','Sister.*','Group.tree_level', 'Group.people_id', 'group_concat(exspouse.spouse_id) as exspouses');
+            $options['fields'] = array('People.*', 'Address.*', 'Brother.*','Sister.*','Group.tree_level', 'Group.people_id', 'group_concat(exspouse.spouse_id) as exspouses','parent1.last_name as father_lastname','parent2.last_name as mother_lastname');
             //$options['fields'] = array('People.*', 'Group.tree_level', 'Group.people_id');
             if ($flag) {
                 //$options['fields'][] = array('secondary as secondary');

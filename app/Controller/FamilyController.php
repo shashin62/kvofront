@@ -1565,9 +1565,9 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['q'] = $peopleData['maiden_surname'];
                 }
             }
-//            echo '<pre>';
-//            print_r($tree);
-//            exit;
+            //echo '<pre>';
+            //print_r($tree);
+            //exit;
             $jsonData['tree'] = $tree;
             $jsonData['parent_name'] = $parentName;
             if ($group_id) {
@@ -1614,10 +1614,10 @@ Class FamilyController extends AppController {
                 $peopleRootGroup = $value['people_groups'];
                 $exSpousesRoot = array_unique($value[0]);
                 $ids[] = $value['people']['id'];
-                $names[$value['people']['id']] = ucfirst($value['people']['first_name']).' '.ucfirst($value['people']['last_name']);
             }
+            
+            $names[$value['people']['id']] = ucfirst($value['people']['first_name']).' '.ucfirst($value['people']['last_name']);
         }
-        
       
         $tree['START'] = $this->formatTree($peopleRootData, $peopleRootGroup, $exSpousesRoot, $rootId, $childrens, $allIds, $addressData, $names);      
 
@@ -1721,7 +1721,7 @@ Class FamilyController extends AppController {
         $tree['email'] = $peopleData['email'];
         $tree['pid'] = $iId;
         $tree['gid'] = $peopleData['group_id'];
-        $tree['father'] = ucfirst($peopleData['father']);
+        $tree['father'] = $names[$peopleData['f_id']];
         $tree['city'] = ucfirst($addressData['city']);
 
         $tree['suburb'] = $addressData['suburb'];
