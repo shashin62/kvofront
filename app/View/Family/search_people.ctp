@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="father">Fathers Name</label>
                             <div class="col-lg-8 col-md-8 col-xs-8">
-                                <input type="text" class="form-control father search_username" name="father_name" placeholder="Fathers Name" custom="7" />
+                                <input type="text" class="form-control father search_username" name="father_name" placeholder="Fathers Name" custom="7" value="<?php echo isset($father_name) ? $father_name : ''; ?>" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -46,7 +46,7 @@
                         <div class="form-group">
                             <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="last_name">Last Name</label>
                             <div class="col-lg-8 col-md-8 col-xs-8">
-                                <input type="text" class="form-control last_name search_username" name="last_name" placeholder="Last Name" custom="2" />
+                                <input type="text" class="form-control last_name search_username" name="last_name" placeholder="Last Name" custom="2" value="<?php echo isset($last_name) ? $last_name : ''; ?>"  />
                             </div>
                         </div>
                         <div class="form-group">
@@ -72,7 +72,7 @@
                         <div class="form-group">
                             <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="mother_name">Mothers Name</label>
                             <div class="col-lg-8 col-md-8 col-xs-8">
-                                <input type="text" class="form-control mother search_username" name="mother_name" placeholder="Mothers Name" custom="8" />
+                                <input type="text" class="form-control mother search_username" name="mother_name" placeholder="Mothers Name" custom="8" value="<?php echo isset($mother_name) ? $mother_name : ''; ?>" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -100,7 +100,8 @@
                         'class' => 'village combobox',
                         'style' => '',
                         'options' => $villages,
-                        'custom' => 5
+                        'custom' => 5,
+                        'value' => isset($village) ?  $village : ''
                     ));
                     ?>
 

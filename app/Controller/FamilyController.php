@@ -2239,10 +2239,21 @@ Class FamilyController extends AppController {
         $this->set(compact('villages'));
 
         
-         $main_surnames = $this->Surname->find('list', array('fields' => array('Surname.name', 'Surname.name')));
+        $main_surnames = $this->Surname->find('list', array('fields' => array('Surname.name', 'Surname.name')));
         $this->set(compact('main_surnames'));
         $this->set('name_parent', $_REQUEST['name_parent']);
         $this->set('module', $_REQUEST['module']);
+        
+        if ($_REQUEST['type'] == 'addbrother') {
+            $result = $this->People->getParentsDetail($_REQUEST['fid'], 'father');
+            $this->set('last_name', $result[0]['Father']['last_name']);
+            $this->set('village', $result[0]['Father']['village']);
+        }
+        if ($_REQUEST['type'] == 'addchilld') {
+            $result = $this->People->getParentsDetail($_REQUEST['fid'], 'both');
+            $this->set('father_name', $result[0]['Father']['first_name']);
+            $this->set('mother_name', $result[0]['Mother']['first_name']);
+        }
     }
     
     public function getBusinessTypes()

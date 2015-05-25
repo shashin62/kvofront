@@ -2276,6 +2276,25 @@ GROUP BY p.created_by");
         //echo '<pre>';print_r($aData);
         return $aData;
     }
+    
+    public function getParentsDetail($id, $type = 'both') {
+        
+        if ($type == 'father') {
+            $fields = array('Father.*');
+            $join = ' LEFT JOIN people as Father ON (Father.id=People.f_id) ';
+        } elseif ($type == 'mother') {
+            $fields = array('Mother.*');
+            $join = ' LEFT JOIN people as Mother ON (Mother.id=People.m_id) ';
+        } else {
+            $fields = array('Father.*', 'Mother.*');
+            $join = '  LEFT JOIN people as Father ON (Father.id=People.f_id)  LEFT JOIN people as Mother ON (Mother.id=People.m_id) ';
+        }
+        
+        $sQuery = "SELECT ".implode (', ', $fields) . " FROM people as People ".$join." WHERE People.id='".$id."'";
+        $aResult = $this->query($sQuery);
+        
+        return $aResult;
+    }
 
 }
 
