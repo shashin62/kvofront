@@ -413,16 +413,16 @@ Class FamilyController extends AppController {
                 $msg['status'] = 1;
                 $result = $this->People->checkEmailExists($this->request->data['People']['email']);
                 
-                if (!empty($result) && !empty($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
+                if (strlen($result) && strlen($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
                     $msg['status'] = 0;
                     $msg['error']['name'][] = "email";
                     $msg['error']['errormsg'][] = __('This Email already exists.');
                 }
 
-                if (isset($this->request->data['People']['mobile_number']) && !empty($this->request->data['People']['mobile_number'])) {
+                if (isset($this->request->data['People']['mobile_number']) && strlen($this->request->data['People']['mobile_number'])) {
                     $phoneData = $this->People->checkPhoneExists($this->request->data['People']['mobile_number']);
 
-                    if (!empty($phoneData) && $this->request->data['People']['id'] == '') {
+                    if (strlen($phoneData) && $this->request->data['People']['id'] == '') {
                         $msg['status'] = 0;
                         $msg['error']['name'][] = "mobile_number";
                         $msg['error']['errormsg'][] = __('This Phone already exists.');
@@ -476,16 +476,16 @@ Class FamilyController extends AppController {
                 $msg['status'] = 1;
                 $result = $this->People->checkEmailExists($this->request->data['People']['email']);
                 
-                if (!empty($result) && !empty($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
+                if (strlen($result) && strlen($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
                     $msg['status'] = 0;
                     $msg['error']['name'][] = "email";
                     $msg['error']['errormsg'][] = __('This Email already exists.');
                 }
 
-                if (isset($this->request->data['People']['mobile_number']) && !empty($this->request->data['People']['mobile_number'])) {
+                if (isset($this->request->data['People']['mobile_number']) && strlen($this->request->data['People']['mobile_number'])) {
                     $phoneData = $this->People->checkPhoneExists($this->request->data['People']['mobile_number']);
 
-                    if (!empty($phoneData) && $this->request->data['People']['id'] == '') {
+                    if (strlen($phoneData) && $this->request->data['People']['id'] == '') {
                         $msg['status'] = 0;
                         $msg['error']['name'][] = "mobile_number";
                         $msg['error']['errormsg'][] = __('This Phone already exists.');
@@ -536,16 +536,16 @@ Class FamilyController extends AppController {
                 $msg['status'] = 1;
                 $result = $this->People->checkEmailExists($this->request->data['People']['email']);
 
-                if (!empty($result) && !empty($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
+                if (strlen($result) && strlen($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
                     $msg['status'] = 0;
                     $msg['error']['name'][] = "email";
                     $msg['error']['errormsg'][] = __('This Email already exists.');
                 }
 
-                if (isset($this->request->data['People']['mobile_number']) && !empty($this->request->data['People']['mobile_number'])) {
+                if (isset($this->request->data['People']['mobile_number']) && strlen($this->request->data['People']['mobile_number'])) {
                     $phoneData = $this->People->checkPhoneExists($this->request->data['People']['mobile_number']);
 
-                    if (!empty($phoneData) && $this->request->data['People']['id'] == '') {
+                    if (strlen($phoneData) && $this->request->data['People']['id'] == '') {
                         $msg['status'] = 0;
                         $msg['error']['name'][] = "mobile_number";
                         $msg['error']['errormsg'][] = __('This Phone already exists.');
@@ -586,15 +586,15 @@ Class FamilyController extends AppController {
                 $msg['status'] = 1;
                 $result = $this->People->checkEmailExists($this->request->data['People']['email']);
 
-                if (!empty($result) && !empty($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
+                if (strlen($result) && strlen($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
                     $msg['status'] = 0;
                     $msg['error']['name'][] = "email";
                     $msg['error']['errormsg'][] = __('This Email already exists.');
                 }
 
-                if (isset($this->request->data['People']['mobile_number']) && !empty($this->request->data['People']['mobile_number'])) {
+                if (isset($this->request->data['People']['mobile_number']) && strlen($this->request->data['People']['mobile_number'])) {
                     $phoneData = $this->People->checkPhoneExists($this->request->data['People']['mobile_number']);
-                    if (!empty($phoneData) && $this->request->data['People']['id'] == '') {
+                    if (strlen($phoneData) && $this->request->data['People']['id'] == '') {
                         $msg['status'] = 0;
                         $msg['error']['name'][] = "mobile_number";
                         $msg['error']['errormsg'][] = __('This Phone already exists.');
@@ -638,15 +638,15 @@ Class FamilyController extends AppController {
                 $msg['status'] = 1;
                 $result = $this->People->checkEmailExists($this->request->data['People']['email']);
 
-                if (!empty($result) && !empty($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
+                if (strlen($result) && strlen($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
                     $msg['status'] = 0;
                     $msg['error']['name'][] = "email";
                     $msg['error']['errormsg'][] = __('This Email already exists.');
                 }
 
-                if (isset($this->request->data['People']['mobile_number']) && !empty($this->request->data['People']['mobile_number'])) {
+                if (isset($this->request->data['People']['mobile_number']) && strlen($this->request->data['People']['mobile_number'])) {
                     $phoneData = $this->People->checkPhoneExists($this->request->data['People']['mobile_number']);
-                    if (!empty($phoneData) && $this->request->data['People']['id'] == '') {
+                    if (strlen($phoneData) && $this->request->data['People']['id'] == '') {
                         $msg['status'] = 0;
                         $msg['error']['name'][] = "mobile_number";
                         $msg['error']['errormsg'][] = __('This Phone already exists.');
@@ -689,16 +689,16 @@ Class FamilyController extends AppController {
                 //$this->request->data['People']['village'] = $getPeopleDetail[0]['People']['village'];
                 $msg['status'] = 1;
                 $result = $this->People->checkEmailExists($this->request->data['People']['email']);
-                if (!empty($result) && !empty($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
+                if (strlen($result) && strlen($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
                     $msg['status'] = 0;
                     $msg['error']['name'][] = "email";
                     $msg['error']['errormsg'][] = __('This Email already exists.');
                 }
 
-                if (isset($this->request->data['People']['mobile_number']) && !empty($this->request->data['People']['mobile_number'])) {
+                if (isset($this->request->data['People']['mobile_number']) && strlen($this->request->data['People']['mobile_number'])) {
                     $phoneData = $this->People->checkPhoneExists($this->request->data['People']['mobile_number']);
 
-                    if (!empty($phoneData) && $this->request->data['People']['id'] == '') {
+                    if (strlen($phoneData) && $this->request->data['People']['id'] == '') {
                         $msg['status'] = 0;
                         $msg['error']['name'][] = "mobile_number";
                         $msg['error']['errormsg'][] = __('This Phone already exists.');
@@ -720,7 +720,7 @@ Class FamilyController extends AppController {
                             'conditions' => array('People.id' => $_REQUEST['peopleid']))
                         );
 
-                        if (!empty($getMotherDetails[0]['People']['m_id'])) {
+                        if (strlen($getMotherDetails[0]['People']['m_id'])) {
                             $data = array();
                             $data['partner_id'] = $getMotherDetails[0]['People']['m_id'];
                             $data['partner_name'] = $getMotherDetails[0]['People']['mother'];
@@ -780,7 +780,7 @@ Class FamilyController extends AppController {
                 $msg['status'] = 1;
                 $result = $this->People->checkEmailExists($this->request->data['People']['email']);
 
-                if (!empty($result) && !empty($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
+                if (strlen($result) && strlen($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
                     $msg['status'] = 0;
                     $msg['error']['name'][] = "email";
                     $msg['error']['errormsg'][] = __('This Email already exists.');
@@ -789,7 +789,7 @@ Class FamilyController extends AppController {
                 if (isset($this->request->data['People']['mobile_number'])) {
                     $phoneData = $this->People->checkPhoneExists($this->request->data['People']['mobile_number']);
 
-                    if (!empty($phoneData) && !empty($this->request->data['People']['mobile_number']) && $this->request->data['People']['id'] == '') {
+                    if (strlen($phoneData) && strlen($this->request->data['People']['mobile_number']) && $this->request->data['People']['id'] == '') {
                         $msg['status'] = 0;
                         $msg['error']['name'][] = "mobile_number";
                         $msg['error']['errormsg'][] = __('This Phone already exists.');
@@ -887,7 +887,7 @@ Class FamilyController extends AppController {
                 $msg['status'] = 1;
                 $result = $this->People->checkEmailExists($this->request->data['People']['email']);
 
-                if (!empty($result) && !empty($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
+                if (strlen($result) && strlen($this->request->data['People']['email']) && $this->request->data['People']['id'] == '') {
                     $msg['status'] = 0;
                     $msg['error']['name'][] = "email";
                     $msg['error']['errormsg'][] = __('This Email already exists.');
@@ -896,7 +896,7 @@ Class FamilyController extends AppController {
                 if (isset($this->request->data['People']['mobile_number'])) {
                     $phoneData = $this->People->checkPhoneExists($this->request->data['People']['mobile_number']);
 
-                    if (!empty($phoneData) && !empty($this->request->data['People']['mobile_number']) && $this->request->data['People']['id'] == '') {
+                    if (strlen($phoneData) && strlen($this->request->data['People']['mobile_number']) && $this->request->data['People']['id'] == '') {
                         $msg['status'] = 0;
                         $msg['error']['name'][] = "mobile_number";
                         $msg['error']['errormsg'][] = __('This Phone already exists.');
@@ -917,7 +917,7 @@ Class FamilyController extends AppController {
                         $getFatherDetails = $this->People->find('all', array('fields' => array('People.f_id', 'People.father'),
                             'conditions' => array('People.id' => $_REQUEST['peopleid']))
                         );
-                        if (!empty($getFatherDetails[0]['People']['f_id'])) {
+                        if (strlen($getFatherDetails[0]['People']['f_id'])) {
                             $data = array();
                             $data['partner_id'] = $getFatherDetails[0]['People']['f_id'];
                             $data['partner_name'] = $getFatherDetails[0]['People']['father'];
@@ -1283,7 +1283,7 @@ Class FamilyController extends AppController {
 
                     $allData = array();
                     foreach ($ids as $peopleIds) {
-                        if (!empty($peopleIds)) {
+                        if (strlen($peopleIds)) {
                             $allData[$i]['PeopleGroup']['group_id'] = $this->Group->id;
                             $allData[$i]['PeopleGroup']['people_id'] = $peopleIds;
                             $allData[$i]['PeopleGroup']['tree_level'] = $_REQUEST['peopleid'];
@@ -1436,6 +1436,37 @@ Class FamilyController extends AppController {
             $ids = array();
 
             $data = array_map("unserialize", array_unique(array_map("serialize", $data)));
+            
+            $tNames = array();
+            foreach ($data as $ky => $vl) {
+                $tNames[] = $vl['People']['first_name'];
+                $tNames[] = $vl['People']['last_name'];
+                $tNames[] = $vl['People']['father'];
+                $tNames[] = $vl['People']['mother'];
+                $tNames[] = $vl['People']['partner_name'];
+                $tNames[] = $vl['Brother']['first_name'];
+                $tNames[] = $vl['Brother']['last_name'];
+                $tNames[] = $vl['Sister']['first_name'];
+                $tNames[] = $vl['Sister']['last_name'];
+                $tNames[] = $vl['parent1']['father_lastname'];
+                $tNames[] = $vl['parent2']['mother_lastname'];
+            }
+
+            $tNames = array_filter(array_unique($tNames));
+
+            $selLanguage = $_REQUEST['l'];
+            $lang = 'english_text';
+            if ($selLanguage) {
+                if ($selLanguage == md5('hindi')) {
+                    $lang = 'hindi_text';
+                } elseif ($selLanguage == md5('gujurati')) {
+                    $lang = 'gujurathi_text';
+                } else {
+                    $lang = 'english_text';
+                }
+            }        
+
+            $getTranslations = $this->People->getTranslations($tNames, $lang);
 
             foreach ($data as $key => $value) {
                 $peopleData = $value['People'];
@@ -1466,7 +1497,7 @@ Class FamilyController extends AppController {
                         }
                     }
 
-                    $tree[$peopleData['id']]['n'] = $peopleData['first_name'] . ' ' . $peopleData['last_name'];
+                    $tree[$peopleData['id']]['n'] = isset($getTranslations[$peopleData['first_name']]) ? $getTranslations[$peopleData['first_name']] : $peopleData['first_name'] . ' ' . isset($getTranslations[$peopleData['last_name']]) ? $getTranslations[$peopleData['last_name']] : $peopleData['last_name'];
                     $tree[$peopleData['id']]['ai'] = $peopleData['id'];
 
                     if (count($children)) {
@@ -1504,23 +1535,52 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['g'] = $peopleData['gender'] == 'Male' ? 'm' : 'f';
                     $tree[$peopleData['id']]['hp'] = true;
                     $tree[$peopleData['id']]['i'] = $peopleData['id'];
-                    $tree[$peopleData['id']]['l'] = $peopleData['last_name'];
-                    $tree[$peopleData['id']]['p'] = ucfirst($peopleData['first_name']);
+                    $tree[$peopleData['id']]['l'] = strlen($getTranslations[$peopleData['last_name']]) ? $getTranslations[$peopleData['last_name']] : $peopleData['last_name'];
+                    $tree[$peopleData['id']]['p'] = strlen($getTranslations[$peopleData['first_name']]) ? $getTranslations[$peopleData['first_name']] : $peopleData['first_name'];
                     $tree[$peopleData['id']]['b'] = $peopleData['date_of_birth'] != '' ? date("Ymd", strtotime($peopleData['date_of_birth'])) : '';
                     $tree[$peopleData['id']]['dob'] = date("d/m/Y", strtotime($peopleData['date_of_birth']));
                     $tree[$peopleData['id']]['education'] = $this->PeopleEducation->getHighestQualification($peopleData['id']);
                     $tree[$peopleData['id']]['village'] = ucfirst($peopleData['village']);
-                    $tree[$peopleData['id']]['father'] = ucfirst($peopleData['father']).' '.ucfirst($value['parent1']['father_lastname']);
-                    $tree[$peopleData['id']]['mother'] = ucfirst($peopleData['father']).' '.ucfirst($value['parent2']['mother_lastname']);
-                    if ($peopleData['partner_name']) {
+                    
+                    if ($peopleData['father'] != '' && $peopleData['father'] != NULL) {
+                        $tree[$peopleData['id']]['father'] = strlen($getTranslations[$peopleData['father']]) ? $getTranslations[$peopleData['father']] : $peopleData['father'];
+                        $tree[$peopleData['id']]['father'] .= ' ';
+                        $tree[$peopleData['id']]['father'] .= strlen($getTranslations[$value['parent1']['father_lastname']]) ? $getTranslations[$value['parent1']['father_lastname']] : $value['parent1']['father_lastname'];
+                    } else {
+                        $tree[$peopleData['id']]['father'] = '';
+                    }
+                    $tree[$peopleData['id']]['father'] = trim($tree[$peopleData['id']]['father']);
+                    
+                    
+                    
+                    if ($peopleData['mother'] != '' && $peopleData['father'] != NULL) {
+                        $tree[$peopleData['id']]['mother'] = strlen($getTranslations[$peopleData['mother']]) ? $getTranslations[$peopleData['mother']] : $peopleData['mother'];
+                        $tree[$peopleData['id']]['mother'] .= ' ';
+                        $tree[$peopleData['id']]['mother'] .= strlen($getTranslations[$value['parent1']['mother_lastname']]) ? $getTranslations[$value['parent1']['mother_lastname']] : $value['parent1']['mother_lastname'];
+                    } else {
+                        $tree[$peopleData['id']]['mother'] = '';
+                    }
+                    $tree[$peopleData['id']]['mother'] = trim($tree[$peopleData['id']]['mother']);
+                    
+                    
+                    if ($peopleData['partner_name'] != ''  && $peopleData['partner_name'] != NULL) {
                         if ($peopleData['gender'] == 'Male') {
-                            $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . ucfirst($peopleData['first_name']) . " " . $peopleData['last_name'];
+                            $tree[$peopleData['id']]['partner_name'] = strlen($getTranslations[$peopleData['partner_name']]) ? $getTranslations[$peopleData['partner_name']] : $peopleData['partner_name'];
+                            $tree[$peopleData['id']]['partner_name'] .=  " "; 
+                            $tree[$peopleData['id']]['partner_name'] .= strlen($getTranslations[$peopleData['first_name']]) ? $getTranslations[$peopleData['first_name']] : $peopleData['first_name'];
+                            $tree[$peopleData['id']]['partner_name'] .= " "; 
+                            $tree[$peopleData['id']]['partner_name'] .= strlen($getTranslations[$peopleData['last_name']]) ? $getTranslations[$peopleData['last_name']] : $peopleData['last_name'];
                         } else {
-                            $tree[$peopleData['id']]['partner_name'] = ucfirst($peopleData['partner_name']) . " " . $peopleData['last_name'];
+                            $tree[$peopleData['id']]['partner_name'] = strlen($getTranslations[$peopleData['partner_name']]) ? $getTranslations[$peopleData['partner_name']] : $peopleData['partner_name'];
+                            $tree[$peopleData['id']]['partner_name'] .= " " ;
+                            $tree[$peopleData['id']]['partner_name'] .= strlen($getTranslations[$peopleData['last_name']]) ? $getTranslations[$peopleData['last_name']] : $peopleData['last_name'];
                         }
                     }else{
-                        $tree[$peopleData['id']]['partner_name'] = $tree[$peopleData['id']]['partner_name'];
+                        $tree[$peopleData['id']]['partner_name'] = '';
                     }
+                    $tree[$peopleData['id']]['partner_name'] = trim($tree[$peopleData['id']]['partner_name']);
+                    
+                    
                     $tree[$peopleData['id']]['specialty_business_service'] = $peopleData['specialty_business_service'];
                     $tree[$peopleData['id']]['nature_of_business'] = $peopleData['nature_of_business'];
                     $tree[$peopleData['id']]['business_type'] = $peopleData['business_name'];
@@ -1531,7 +1591,6 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['email'] = $peopleData['email'];
                     $tree[$peopleData['id']]['pid'] = $originalPId;
                     $tree[$peopleData['id']]['gid'] = $peopleData['group_id'];
-                    $tree[$peopleData['id']]['father'] = ucfirst($peopleData['father']).' '.ucfirst($value['parent1']['father_lastname']);
                     $tree[$peopleData['id']]['city'] = ucfirst($addressData['city']);
 
                     $tree[$peopleData['id']]['suburb'] = $addressData['suburb'];
@@ -1562,18 +1621,18 @@ Class FamilyController extends AppController {
                             $tree[$peopleData['id']]['pc'][$eValue] = true;
                         }
                     }
-                    $tree[$peopleData['id']]['q'] = $peopleData['maiden_surname'];
+                    $tree[$peopleData['id']]['q'] = strlen($getTranslations[$peopleData['maiden_surname']]) ? $getTranslations[$peopleData['maiden_surname']] : $peopleData['maiden_surname'];
                 }
             }
             //echo '<pre>';
             //print_r($tree);
             //exit;
             $jsonData['tree'] = $tree;
-            $jsonData['parent_name'] = $parentName;
+            $jsonData['parent_name'] = $getTranslations[$parentName];
             if ($group_id) {
                 return $jsonData;
             } else {
-                echo json_encode($jsonData);
+                echo json_encode($jsonData, JSON_UNESCAPED_UNICODE);
                 exit;
             }
         } else {
@@ -1595,6 +1654,7 @@ Class FamilyController extends AppController {
         $childrens = array();
         $rootId = $id;
         $names = array();
+        $tNames = array();
         
         foreach ($data as $key => $value) {
             if (!in_array($value['people']['id'], $allIds)) {
@@ -1617,9 +1677,30 @@ Class FamilyController extends AppController {
             }
             
             $names[$value['people']['id']] = ucfirst($value['people']['first_name']).' '.ucfirst($value['people']['last_name']);
+            
+            $tNames[] = $value['people']['first_name'];
+            $tNames[] = $value['people']['last_name'];
+            $tNames[] = $value['people']['father'];
+            $tNames[] = $value['people']['mother'];
+            $tNames[] = $value['people']['partner_name'];
         }
+        $tNames = array_filter(array_unique($tNames));
+        
+        $selLanguage = str_replace('?','',$_REQUEST['l']);
+        $lang = 'english_text';
+        if ($selLanguage) {
+            if ($selLanguage == md5('hindi')) {
+                $lang = 'hindi_text';
+            } elseif ($selLanguage == md5('gujurati')) {
+                $lang = 'gujurathi_text';
+            } else {
+                $lang = 'english_text';
+            }
+        }        
+
+        $getTranslations = $this->People->getTranslations($tNames, $lang);
       
-        $tree['START'] = $this->formatTree($peopleRootData, $peopleRootGroup, $exSpousesRoot, $rootId, $childrens, $allIds, $addressData, $names);      
+        $tree['START'] = $this->formatTree($peopleRootData, $peopleRootGroup, $exSpousesRoot, $rootId, $childrens, $allIds, $addressData, $names, $getTranslations);      
 
       
         foreach ($data as $key => $value) {
@@ -1630,7 +1711,7 @@ Class FamilyController extends AppController {
 
             if (!in_array($peopleData['id'], $ids) && $peopleData['id'] != $rootId) {
                 $ids[] = $peopleData['id'];
-                $tree[$peopleData['id']] = $this->formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData);
+                $tree[$peopleData['id']] = $this->formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData, $names, $getTranslations);
             }
         }
 
@@ -1638,12 +1719,12 @@ Class FamilyController extends AppController {
         $jsonData['parent_name'] = $peopleRootData['first_name'] . ' ' . $peopleRootData['last_name'];
         $jsonData['count'] = count($tree);
         
-        echo json_encode($jsonData);
+        echo json_encode($jsonData, JSON_UNESCAPED_UNICODE);
         exit;
     }
     
-    public function formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData, $names) {
-        //print_r($peopleData);
+    public function formatTree($peopleData, $peopleGroup, $exSpouses, $rootId, $childrens, $allIds, $addressData, $names, $getTranslations) {
+        //print_r($names);
         $tree = array();
         $iId = $peopleData['id'];
         if ($peopleGroup['tree_level'] != '' && $peopleGroup['people_id'] != $rootId) {
@@ -1654,7 +1735,7 @@ Class FamilyController extends AppController {
             }
         }
 
-        $tree['n'] = $peopleData['first_name'] . ' ' . $peopleData['last_name'];
+        $tree['n'] = isset($getTranslations[$peopleData['first_name']]) ? $getTranslations[$peopleData['first_name']] : $peopleData['first_name'] . ' ' . isset($getTranslations[$peopleData['last_name']]) ? $getTranslations[$peopleData['last_name']] : $peopleData['last_name'];
         $tree['ai'] = $peopleData['id'];
 
         if (count($childrens[$iId])) {
@@ -1693,24 +1774,50 @@ Class FamilyController extends AppController {
         $tree['g'] = $peopleData['gender'] == 'Male' ? 'm' : 'f';
         $tree['hp'] = true;
         $tree['i'] = $peopleData['id'];
-        $tree['l'] = $peopleData['last_name'];
-        $tree['p'] = $peopleData['first_name'];
+        $tree['l'] = strlen($getTranslations[$peopleData['last_name']]) ? $getTranslations[$peopleData['last_name']] : $peopleData['last_name'];
+        $tree['p'] = strlen($getTranslations[$peopleData['first_name']]) ? $getTranslations[$peopleData['first_name']] : $peopleData['first_name'];
         $tree['b'] = $peopleData['date_of_birth'] != '' ? date("Ymd", strtotime($peopleData['date_of_birth'])) : '';
         $tree['dob'] = $peopleData['date_of_birth'] != '' ? date("d/m/Y", strtotime($peopleData['date_of_birth'])) : '';
         $tree['education'] = $this->PeopleEducation->getHighestQualification($peopleData['id']);
         $tree['village'] = ucfirst($peopleData['village']);
-        $tree['father'] = $names[$peopleData['f_id']];
-        $tree['mother'] = $names[$peopleData['m_id']];
         
-        if ($peopleData['partner_name']) {
-            if ($peopleData['gender'] == 'Male') {
-                $tree['partner_name'] = ucfirst($peopleData['partner_name']) . " " . ucfirst($peopleData['first_name']) . " " . $peopleData['last_name'];
-            } else {
-                $tree['partner_name'] = ucfirst($peopleData['partner_name']) . " " . $peopleData['last_name'];
-            }
-        }else{
-            $tree['partner_name'] = $tree['partner_name'];
+        if (isset($names[$peopleData['f_id']])) {
+            list($father_fname, $father_lname) = explode(' ', $names[$peopleData['f_id']]);
+            $tree['father'] = strlen($getTranslations[$father_fname]) ? $getTranslations[$father_fname] : $father_fname;
+            $tree['father'] .= ' ';
+            $tree['father'] .= strlen($getTranslations[$father_lname]) ? $getTranslations[$father_lname] : $father_lname;
+        } else {
+            $tree['father'] = '';
         }
+        $tree['father'] = trim($tree['father']);
+        
+        if (isset($names[$peopleData['m_id']])) {
+            list($mother_fname, $mother_lname) = explode(' ', $names[$peopleData['m_id']]);        
+            $tree['mother'] = strlen($getTranslations[$mother_fname]) ? $getTranslations[$mother_fname] : $mother_fname;
+            $tree['mother'] .= ' ';
+            $tree['mother'] .= strlen($getTranslations[$mother_lname]) ? $getTranslations[$mother_lname] : $mother_lname;
+        } else {
+            $tree['mother'] = '';
+        }
+        $tree['mother'] = trim($tree['mother']);
+        
+        if ($peopleData['partner_name'] != '' && $peopleData['partner_name'] != NULL) {
+            if ($peopleData['gender'] == 'Male') {
+                $tree['partner_name'] = strlen($getTranslations[$peopleData['partner_name']]) ? $getTranslations[$peopleData['partner_name']] : $peopleData['partner_name']; 
+                $tree['partner_name'] .= " ";
+                $tree['partner_name'] .= strlen($getTranslations[$peopleData['first_name']]) ? $getTranslations[$peopleData['first_name']] : $peopleData['first_name'];
+                $tree['partner_name'] .= " ";
+                $tree['partner_name'] .= strlen($getTranslations[$peopleData['last_name']]) ? $getTranslations[$peopleData['last_name']] : $peopleData['last_name'];
+            } else {
+                $tree['partner_name'] = strlen($getTranslations[$peopleData['partner_name']]) ? $getTranslations[$peopleData['partner_name']] : $peopleData['partner_name']; 
+                $tree['partner_name'] .= ' ';
+                $tree['partner_name'] .= strlen($getTranslations[$peopleData['last_name']]) ? $getTranslations[$peopleData['last_name']] : $peopleData['last_name'];
+            }
+        } else {
+            $tree['partner_name'] = '';
+        }
+        $tree['partner_name'] = trim($tree['partner_name']);
+        
         $tree['specialty_business_service'] = $peopleData['specialty_business_service'];
         $tree['nature_of_business'] = $peopleData['nature_of_business'];
         $tree['business_type'] = $peopleData['business_name'];
@@ -1721,7 +1828,6 @@ Class FamilyController extends AppController {
         $tree['email'] = $peopleData['email'];
         $tree['pid'] = $iId;
         $tree['gid'] = $peopleData['group_id'];
-        $tree['father'] = $names[$peopleData['f_id']];
         $tree['city'] = ucfirst($addressData['city']);
 
         $tree['suburb'] = $addressData['suburb'];
@@ -1754,7 +1860,7 @@ Class FamilyController extends AppController {
                 $tree['pc'][$eValue] = true;
             }
         }
-        $tree['q'] = $peopleData['maiden_surname'];
+        $tree['q'] = strlen($getTranslations[$peopleData['maiden_surname']]) ? $getTranslations[$peopleData['maiden_surname']] : $peopleData['maiden_surname'];
         
         return $tree;
     }
