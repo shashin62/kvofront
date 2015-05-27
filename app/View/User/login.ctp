@@ -7,7 +7,7 @@
 </div>
 <!-- Close Alert for all pages -->
 
-	<div id="loginbox" class="col-xs-12 col-md-6">
+	<div id="loginbox" class="col-xs-12 col-sm-12 col-md-6">
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<div><a href="#" onClick="$('#loginbox').hide(); $('#forgotbox').show()" class="pull-right">Forgot password?</a></div>
@@ -55,7 +55,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="forgotbox" style="display:none" class="col-xs-12 col-md-6">
+	<div id="forgotbox" style="display:none" class="col-xs-12 col-sm-12 col-md-6">
 		<div class="panel panel-info" >
 			<div class="panel-heading">
 				<div class="panel-title">Forgot password</div>
@@ -109,15 +109,14 @@
 			</div>
 		</div>
 	</div>
-	<div id="signupbox" style="display:none" class="col-xs-12 col-md-6">
+	<div id="signupbox" style="display:none" class="col-xs-12 col-sm-12 col-md-6">
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<div><a id="signinlink" href="<?php echo FULL_BASE_URL . $this->base . '/user/login'; ?>"  class="pull-right">Sign In</a></div>
 				<div class="panel-title">Sign Up</div>
 			</div>
 			<div class="panel-body">
-<form  class="form-horizontal" role="form" action="<?php echo FULL_BASE_URL . $this->base; ?>/user/register" role="form" id="registerUser" method="post" accept-charset="utf-8" class="form-horizontal" role="form">
-				
+				<form  class="form-horizontal" role="form" action="<?php echo FULL_BASE_URL . $this->base; ?>/user/register" role="form" id="registerUser" method="post" accept-charset="utf-8" class="form-horizontal" role="form">
 					<div class="form-group">
 						<label for="firstname" class="col-md-4 control-label">First Name</label>
 						<div class="col-md-8">
@@ -164,7 +163,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-12 col-md-6">
+	<div class="col-xs-12 col-sm-12 col-md-6">
 		<div class="panel panel-danger">
 			<div class="panel-heading">
 				Register now for <span class="text-success">FREE</span>
