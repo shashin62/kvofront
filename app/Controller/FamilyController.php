@@ -106,6 +106,10 @@ Class FamilyController extends AppController {
 
         $this->set('name', $getOwnerDetails['first_name']);
         $this->set('address_id', $getOwnerDetails['address_id']);
+        
+        if (!$_REQUEST['name_parent']) {
+            $_REQUEST['name_parent'] = $getPeopleData['People']['first_name'].' '.$getPeopleData['People']['last_name'];
+        }
 
         // add primary relationships to user- spouse, father, mother and childrens
         switch ($requestData['type']) {
@@ -218,6 +222,11 @@ Class FamilyController extends AppController {
         $this->set('pid', $peopleId);
         $this->set('pageTitle', $pageTitle);
         $this->set('userType', $requestData['type']);
+        
+        $hof = $this->People->getHOF ($_REQUEST['gid']);
+        $this->set('hof', $hof['people']['first_name'].' '.$hof['people']['last_name']);
+        
+        $this->set('gid', $_REQUEST['gid']);
 
         $villages = $this->Village->find('list', array('fields' => array('Village.name', 'Village.name')));
         $this->set(compact('villages'));
@@ -405,6 +414,13 @@ Class FamilyController extends AppController {
             $date2 = date_parse_from_format("d/m/Y", $this->request->data['People']['date_of_marriage']);
             $this->request->data['People']['date_of_marriage'] = "$date2[year]-$date2[month]-$date2[day]";
         }
+        
+        $newFamilyFlag = false;
+        if (isset($this->request->data['People']['family_flag']) && $this->request->data['People']['family_flag'] == 'new') {
+            $newFamilyFlag = true;
+        } elseif (isset($this->request->data['family_flag']) && $this->request->data['family_flag'] == 'new') {
+            $newFamilyFlag = true;
+        }
 
         switch ($_REQUEST['type']) {
             case 'addbrother':
@@ -437,6 +453,7 @@ Class FamilyController extends AppController {
                     $this->request->data['People']['mother'] = $getPeopleDetail[0]['People']['mother'];
                     $this->request->data['People']['f_id'] = $getPeopleDetail[0]['People']['f_id'];
                     $this->request->data['People']['father'] = $getPeopleDetail[0]['People']['father'];
+                    
                     
                     if ($this->People->save($this->request->data)) {
                         $msg['status'] = 1;
@@ -578,6 +595,7 @@ Class FamilyController extends AppController {
                         $msg['message'] = 'System Error, Please trye again';
                     }
                 }
+                $newFamilyFlag = false;
                 break;
             case 'addexspouse':
                 $this->request->data['People']['partner_id'] = $_REQUEST['peopleid'];
@@ -967,7 +985,34 @@ Class FamilyController extends AppController {
                     }
                 }
                 $message = 'Information updated';
+                $newFamilyFlag = false;
                 break;
+        }
+        
+        
+        if ($newFamilyFlag) {            
+            $groupData = array();
+            $groupData['Group']['name'] = 'Family of ' . $this->request->data['People']['first_name'];
+            $groupData['Group']['created'] = date('Y-m-d H:i:s');
+            $groupData['Group']['people_id'] = $this->People->id;
+
+            $this->Group->save($groupData);
+            
+            $this->request->data['People']['group_id'] = $this->Group->id;
+            $this->request->data['People']['tree_level'] = '';
+            
+            if ($this->People->save($this->request->data)) {
+                $msg['status'] = 1;
+                $message = 'Family has been created';
+                $peopleGroup = array();
+                $peopleGroup['PeopleGroup']['group_id'] = $this->Group->id;
+                $peopleGroup['PeopleGroup']['people_id'] = $this->People->id;
+                $peopleGroup['PeopleGroup']['tree_level'] = '';
+                $this->PeopleGroup->save($peopleGroup);                
+            } else {
+                $msg['success'] = 0;
+                $msg['message'] = 'System Error, Please trye again';
+            }
         }
 
         if ($msg['status'] == 1) {

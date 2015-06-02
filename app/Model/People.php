@@ -2295,6 +2295,13 @@ GROUP BY p.created_by");
         
         return $aResult;
     }
+    
+    public function getHOF ($groupId) {
+        $sQuery = "SELECT first_name, last_name, id FROM `people` WHERE tree_level = '' AND group_id = '{$groupId}'";
+        $aResult = $this->query($sQuery); 
+
+        return $aResult[0];
+    }
 
 }
 
