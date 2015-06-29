@@ -231,7 +231,7 @@ z-index: 0 !important
         $selLanguage = $this->Session->read('Website.language');
     }
     ?>
-        <div class="col-md-2"><a target="_blank" href="<?php echo $this->base.'/tree?gid='. $groupId.'&token='. urlencode('t='.md5('dsdsdss434dsds332323d34d').'&u='.md5($this->Session->read('User.user_id')).'&l='.md5($selLanguage));?>">View Tree</a></div>                
+        <div class="col-md-2 col-xs-hide"><a target="_blank" href="<?php echo $this->base.'/tree?gid='. $groupId.'&token='. urlencode('t='.md5('dsdsdss434dsds332323d34d').'&u='.md5($this->Session->read('User.user_id')).'&l='.md5($selLanguage));?>">View Tree</a></div>                
 <?php } ?>
                                 <?php } ?>
 
