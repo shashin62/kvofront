@@ -50,7 +50,7 @@ z-index: 0 !important
 
         ?>
     <div class="row">
-        <div class="col-md-1">
+        <div class="col-md-1 col-xs-2">
                 <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
                         <img style="width:60px;height:60px;" src="<?php echo $this->base;?>/people_images/<?php echo $value['People']['id'] .'.' . $value['People']['ext']; ?>"/><br />
 <?php if ( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
@@ -67,7 +67,7 @@ z-index: 0 !important
             <a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript: profileOf(<?php echo $value['People']['id'];?>);"><?php echo (isset($translations[$value['People']['first_name']]) ? $translations[$value['People']['first_name']] :  $value['People']['first_name']) . ' ' . (isset($translations[$value['People']['last_name']]) ? $translations[$value['People']['last_name']] :  $value['People']['last_name']);?></a>
 	</div>
 
-        <div class="col-md-2">
+        <div class="col-md-2 col-xs-2">
 
                 <?php if (strtolower($value['People']['martial_status']) == 'married' && empty($value['People']['partner_id'])) { ?>
                     <?php if ($this->Session->read('User.user_id') == $hofId) { ?>
@@ -104,7 +104,7 @@ z-index: 0 !important
                 <?php } ?>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3 col-xs-2">
             
             <?php if( $value['People']['gender'] == 'Male') {  ?>
 <?php if ( $this->Session->read('User.user_id') == $hofId && strtolower($value['People']['martial_status']) != 'single') { ?>
