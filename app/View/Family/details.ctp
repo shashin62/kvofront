@@ -163,7 +163,7 @@ z-index: 0 !important
             <?php } ?>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3 hidden-xs">
             <?php if ($value['People']['is_late'] != '1') {?>
                 <?php if( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
                             <a class="editaddress" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-aid="<?php echo $value['People']['address_id'];?>" href="javascript:void(0);">
