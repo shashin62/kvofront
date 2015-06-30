@@ -1392,10 +1392,11 @@ Class FamilyController extends AppController {
             $this->redirect('/family/details/' . $this->Session->read('User.group_id'));
             exit;
         }
-
+        //echo $id."-----".$this->Session->read('User.group_id'); exit;
         $userID = $this->Session->read('User.user_id');
         $roleID = $this->Session->read('User.role_id');
-        $getOwners = $this->Group->getOwners();
+        //$getOwners = $this->Group->getOwners();
+        $getOwners = $this->Group->getOwners($id);
 
         $ownerData = array();
         foreach ($getOwners as $key => $value) {
@@ -2382,7 +2383,7 @@ Class FamilyController extends AppController {
     
     public function searchPeople() {
         $userID = $this->Session->read('User.user_id');
-
+        //echo "<pre>------"; print_r($_REQUEST); exit;
         $this->set('type', $_REQUEST['type']);
         $this->set('fid', $_REQUEST['fid']);
         $this->set('gid', $_REQUEST['gid']);
@@ -2393,7 +2394,7 @@ Class FamilyController extends AppController {
         $main_surnames = $this->Surname->find('list', array('fields' => array('Surname.name', 'Surname.name')));
         $this->set(compact('main_surnames'));
         $this->set('name_parent', $_REQUEST['name_parent']);
-        $this->set('module', $_REQUEST['module']);
+        //$this->set('module', $_REQUEST['module']);//Module undefine here
         
         if ($_REQUEST['type'] == 'addbrother') {
             $result = $this->People->getParentsDetail($_REQUEST['fid'], 'father');
