@@ -113,19 +113,16 @@ z-index: 0 !important
              <?php 
                 $children = $People->getChildren($value['People']['id'],$value['People']['gender']);
                 $childs = array();
-               // echo "<pre>------------"; print_r($children); exit;
-                if(is_array($children)){
-                    foreach ( $children as $k => $v ) {
-                        $child = $v[0]['childname'];
-                        $childId = $v['People']['id'];
-                        $childArr = explode(' ', $child);
-                        $childNewArr = array();
-                        foreach ($childArr as $sp) {
-                            $childNewArr[] = isset($translations[$sp]) ? $translations[$sp] :  $sp;
-                        }
-
-                        $childs[] = '<a href="javascript: profileOf('.$childId.');">'.implode(' ', $childNewArr).'</a>';
+                foreach ( $children as $k => $v ) {
+                    $child = $v[0]['childname'];
+                    $childId = $v['People']['id'];
+                    $childArr = explode(' ', $child);
+                    $childNewArr = array();
+                    foreach ($childArr as $sp) {
+                        $childNewArr[] = isset($translations[$sp]) ? $translations[$sp] :  $sp;
                     }
+
+                    $childs[] = '<a href="javascript: profileOf('.$childId.');">'.implode(' ', $childNewArr).'</a>';
                 }
                 
             if (count($childs)) {
