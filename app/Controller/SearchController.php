@@ -422,7 +422,7 @@ Class SearchController extends AppController {
                         } else {
                             $text[] = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Daughter of &nbsp;</b>-->&nbsp;&nbsp;</span></td>';
                         }
-                        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $tmpArray1[$id]['id'] . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name'] . '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
+                        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $c . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name'] . '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
                         break;
                     case 'm_id':
                         if ($tmpArray1[$id]['gender'] == 'Male') {
@@ -430,7 +430,7 @@ Class SearchController extends AppController {
                         } else {
                             $text[] = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Daughter of &nbsp;</b>-->&nbsp;&nbsp;</span></td>';
                         }
-                        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $tmpArray1[$id]['id'] . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name']. '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
+                        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $c . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name']. '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
                         break;
                     case 'partner_id' :
                         if ($tmpArray1[$id]['gender'] == 'Male') {
@@ -438,7 +438,7 @@ Class SearchController extends AppController {
                         } else {
                             $text[] = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Wife of &nbsp;</b>-->&nbsp;&nbsp;</span></td>';
                         }
-                        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $tmpArray1[$id]['id'] . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name'] . '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
+                        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $c . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name'] . '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
                         break;
                     case 'child' :
                         if ($tmpArray1[$id]['gender'] == 'Male') {
@@ -446,7 +446,7 @@ Class SearchController extends AppController {
                         } else {
                             $text[] = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Mother of &nbsp;</b>-->&nbsp;&nbsp;</span></td>';
                         }
-                        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $tmpArray1[$id]['id'] . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name'] . '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
+                        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $c . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name'] . '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
                         break;
                     case 'brother' :
                         if ($tmpArray1[$id]['gender'] == 'Male') {
@@ -454,7 +454,7 @@ Class SearchController extends AppController {
                         } else {
                             $text[] = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Sister of  &nbsp;</b>-->&nbsp;&nbsp;</span></td>';
                         }
-                        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $tmpArray1[$id]['id'] . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name'] . '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
+                        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $c . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name'] . '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
 
                         break;
                     case 'sister' :
@@ -463,7 +463,7 @@ Class SearchController extends AppController {
                         } else {
                             $text[] = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Sister of  &nbsp;</b>-->&nbsp;&nbsp;</span></td>';
                         }
-                        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $tmpArray1[$id]['id'] . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name'] . '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
+                        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $c . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name'] . '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
 
                         break;
                 }
