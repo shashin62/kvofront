@@ -2128,18 +2128,17 @@ GROUP BY p.created_by");
         return $aResult;
     }
 
-    public function searchUser($term) {
+    public function searchUser($term) 
+	{
         $this->recursive = -1;
         $options['limit'] = 15;
         $options['offset'] = 0;
-        $options['fields'] = array('People.id', "People.ext", "CONCAT(People.first_name, ' ' , IF(People.gender = 'Male',People.father,People.partner_name), ' ', People.last_name) as name");
-        
-        $options['conditions'] = array('CONCAT_WS( " ", People.first_name, IF(People.gender = "Male", People.father,People.partner_name) , People.last_name) like' => '%' . $term . '%');
-          
-          $options['conditions']['AND'] = array('People.father is not null');
-          
-           $options['conditions']['AND'] = array('People.partner_name is not null');
-        
+		
+        $options['fields'] = array('People.id', "People.ext", "CONCAT(People.first_name, ' ', People.last_name) as name");        
+        $options['conditions'] = array('CONCAT_WS( " ", People.first_name, IF(People.gender = "male", People.father,People.partner_name) , People.last_name) like' => '%' . $term . '%');          
+		$options['conditions']['AND'] = array('People.father is not null');          
+		$options['conditions']['AND'] = array('People.partner_name is not null');
+		
         try {
             $userData = $this->find('all', $options);
             if ($userData) {
@@ -2199,6 +2198,27 @@ GROUP BY p.created_by");
         
         return $langNames;
         
+    }
+    /**
+     * 
+     * @param type $id
+     */
+    public function getAllRelationsGroupData($id)
+    {
+        $this->recursive = -1;
+        $options['conditions'] = array('People.id' => $id, 'People.pin' => $pin);
+        $options['fields'] = array('People.id');
+        try {
+            $userData = $this->find('all', $options);
+            if ($userData) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
+            return false;
+        }
     }
     
     public function getFamilyMembers($peopleId) {
@@ -2295,7 +2315,97 @@ GROUP BY p.created_by");
         
         return $aResult;
     }
+    
+	public function getParentsId($searchedPeopleId)
+	{
+		
+		$sQuery = "select DISTINCT(p.tree_level) as treelevel from people_search as p
+where p.group_id = (select group_id from people_search where id = {$searchedPeopleId})";
+		
+		 $aResult = $this->query($sQuery);
+         
+         return $aResult;
+	}
+	
+    public function getAllMembersByGroup($loggedinId, $sId, $treeLevels)
+    {
+		
+		$treeLevels = array_filter($treeLevels);
+		if( count(($treeLevels))) {
+			$treeLevels = implode(',', $treeLevels);
+			$sWhere = " or people_id in ({$treeLevels})";
+		}
+  
+        $sQuery = "SELECT p.id, image.ext,p.tree_level as tree_level,p.first_name, p.last_name,p.gender, p.partner_name, p.father, p.mother,p.f_id,p.m_id,p.partner_id,p.group_id,
+group_concat(distinct(s.sister_id)) as sisters,group_concat(distinct(b.brother_id)) as brothers,
+group_concat(distinct(p1.id)) as childrens,
+group_concat(distinct(p2.id)) as childrens2
+from people_search as p
+left join people_groups as pg on pg.people_id = p.id
+left join sisters as s on s.people_id = p.id
+left join brothers as b on b.people_id = p.id
+left join people as p1 on p1.f_id =  p.id
+left join people as p2 on p2.m_id =  p.id
+left join people as image on image.id = p.id
+where p.group_id IN ( select group_id from people_groups where people_id = {$loggedinId} or people_id = {$sId} {$sWhere})
+group by p.id";
+        
+         $aResult = $this->query($sQuery);
+         
+         return $aResult;
+    }
+	
+	public function getParents($loggedinId)
+	{
+		$getParents = "select p.m_id,p.f_id ,p.partner_id,group_concat(distinct(s.sister_id)) as sisters,group_concat(distinct(b.brother_id)) as brothers
+  
+        from people_search as p left join sisters as s on s.people_id = p.id
+left join brothers as b on b.people_id = p.id 
+where p.id = {$loggedinId} ";
 
+  $aResult = $this->query($getParents);
+         
+         return $aResult;
+	}
+	
+	public function getRelationshipIds($loggedinId)
+	{
+		
+	$sQuery = "select p.m_id,p.f_id ,p.partner_id,group_concat(distinct(s.sister_id)) as sisters,group_concat(distinct(b.brother_id)) as brothers,
+    group_concat(distinct(sf.brother_id)) as brothers_f,group_concat(distinct(ss.sister_id)) as sisters_s
+        from people_search as p left join sisters as s on s.people_id = p.id
+left join brothers as b on b.people_id = p.id 
+
+left join sisters as ss on ss.people_id = p.f_id
+left join brothers as sf on sf.people_id = p.f_id
+where p.id = {$loggedinId} ";
+	
+	 $aResult = $this->query($sQuery);
+         
+         return $aResult;
+
+	}
+	
+	/**
+	*
+	*/
+	public function getGroupIds($array)
+	{
+		$sQuery = "select group_id from people_search where id in ({$array}) group by group_id";
+	
+		$aResult = $this->query($sQuery);
+         
+         return $aResult;
+	}
+	
+	public function getPic($peopleId)
+	{
+		$sQuery = "select p.ext,group_id from people_search where id in ({$array}) group by group_id";
+	
+		$aResult = $this->query($sQuery);
+         
+         return $aResult;
+	}
 }
 
 ?>
