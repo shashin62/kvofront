@@ -89,11 +89,13 @@ Class SearchController extends AppController {
         
         if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleId . '.' . $data['People']['ext']) === true) {
             $imageUrl = $peopleId . '.' . $data['People']['ext'];
+            $pic = '<img  src="' . $this->base . '/people_images/' . $peopleId . '.' . $data['People']['ext'] . '" width="35" height="35"><br />';
         } else {
             $imageUrl = '';
+            $pic = "";
         }
         
-        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $id . ')" style="width:50px;">'. $imageUrl. $firstName . '</a></td>';
+        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $id . ')" style="width:50px;">'. $pic. $firstName . '</a></td>';
         $getLinkage = $this->__getRelationShipText($rebuildTreeLevels, $getTreeLevels, $peopleId);
         $getLinkage = array_merge($text, $getLinkage);
 
