@@ -84,7 +84,12 @@ Class SearchController extends AppController {
         $getTreeLevels = $this->__getTreeLevels($peopleId, $rebuildTreeLevels, $loggedInId);
         $firstName = $rebuildTreeLevels[$peopleId]['first_name'] . ' ' . $rebuildTreeLevels[$peopleId]['last_name'];
         $text = array();
-        $text[] = '<td style="min-width:50px;">'.$firstName . '</td>';
+//        if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $id . '.' . $result['image']['ext']) === true) {
+//                $lists[$result['p']['id']]['r'] = $result['p']['id'] . '.' . $result['image']['ext'];
+//            } else {
+//                $lists[$result['p']['id']]['r'] = '';
+//            }
+        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $id . ')" style="width:50px;">'.$firstName . '</a></td>';
         $getLinkage = $this->__getRelationShipText($rebuildTreeLevels, $getTreeLevels, $peopleId);
         $getLinkage = array_merge($text, $getLinkage);
 
