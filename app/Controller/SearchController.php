@@ -380,8 +380,8 @@ Class SearchController extends AppController {
         return $ids;
     }
 
-    private function __getRelationShipText($tmpArray1, $levels, $searchedId) {
-
+    private function __getRelationShipText($tmpArray1, $levels, $searchedId) 
+    {
         $id = $searchedId;
         
         foreach (array_filter($levels) as $k => $c) {
@@ -407,10 +407,12 @@ Class SearchController extends AppController {
                         $key = 'sister';
                     }
                 }
+                if($id != $searchedId) {
                 if ($tmpArray1[$id]['r'] != "") {
                     $pic = '<img  src="' . $this->base . '/people_images/' . $tmpArray1[$id]['r'] . '" width="35" height="35"><br />';
                 } else {
                     $pic = "";
+                }
                 }
                 switch ($key) {
                     case 'f_id' :
@@ -446,7 +448,6 @@ Class SearchController extends AppController {
                         }
                         $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $tmpArray1[$id]['id'] . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name'] . '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
                         break;
-
                     case 'brother' :
                         if ($tmpArray1[$id]['gender'] == 'Male') {
                             $text[] = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Brother of &nbsp;</b>-->&nbsp;&nbsp;</span></td>';
