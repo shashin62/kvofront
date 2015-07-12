@@ -68,8 +68,8 @@ class DATABASE_CONFIG {
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
 		'host' => 'localhost',
-		'login' => 'admin',
-		'password' => 'india@123',
+		'login' => 'root',
+		'password' => '',
 		'database' => 'kvoadmin',
 		'prefix' => '',
 		'encoding' => 'UTF8' 
