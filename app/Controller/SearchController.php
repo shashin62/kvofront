@@ -89,14 +89,14 @@ Class SearchController extends AppController {
         
         if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleId . '.' . $data['People']['ext']) === true) {
             $imageUrl = $peopleId . '.' . $data['People']['ext'];
-            $pic = "";//'<img  src="' . $this->base . '/people_images/' . $peopleId . '.' . $data['People']['ext'] . '" width="35" height="35"><br />';
+            $pic = '<img  src="' . $this->base . '/people_images/' . $peopleId . '.' . $data['People']['ext'] . '" width="35" height="35"><br />';
         } else {
             $imageUrl = '';
             $pic = "";
         }
         
-        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $id . ')" style="width:50px;">'. $pic. $firstName . '</a></td>';
-        $getLinkage = $this->__getRelationShipText($rebuildTreeLevels, $getTreeLevels, $peopleId);
+        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $peopleId . ')" style="width:50px;">'. $pic. $firstName . '</a></td>';
+        $getLinkage = $this->__getRelationShipText($rebuildTreeLevels, $getTreeLevels, $peopleId, $loggedInId);
         $getLinkage = array_merge($text, $getLinkage);
 
         $peopleData = $data['People'];
@@ -380,7 +380,7 @@ Class SearchController extends AppController {
         return $ids;
     }
 
-    private function __getRelationShipText($tmpArray1, $levels, $searchedId) 
+    private function __getRelationShipText($tmpArray1, $levels, $searchedId, $loggedInId) 
     {
         $id = $searchedId;
         
@@ -408,8 +408,8 @@ Class SearchController extends AppController {
                     }
                 }
                 
-                if ($tmpArray1[$id]['r'] != "") {
-                    $pic = "";//'<img  src="' . $this->base . '/people_images/' . $tmpArray1[$id]['r'] . '" width="35" height="35"><br />';
+                if ($tmpArray1[$c]['r'] != "") {
+                    $pic = '<img  src="' . $this->base . '/people_images/' . $tmpArray1[$c]['r'] . '" width="35" height="35"><br />';
                 } else {
                     $pic = "";
                 }
