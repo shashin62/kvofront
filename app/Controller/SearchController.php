@@ -458,7 +458,7 @@ Class SearchController extends AppController {
 
                         break;
                     case 'sister' :
-                        if ($tmpArray1[$id]['gender'] == 'male') {
+                        if ($tmpArray1[$id]['gender'] == 'Male') {
                             $text[] = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Brother of  &nbsp;</b>-->&nbsp;&nbsp;</span></td>';
                         } else {
                             $text[] = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Sister of  &nbsp;</b>-->&nbsp;&nbsp;</span></td>';
