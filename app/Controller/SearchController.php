@@ -89,7 +89,7 @@ Class SearchController extends AppController {
         
         if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleId . '.' . $data['People']['ext']) === true) {
             $imageUrl = $peopleId . '.' . $data['People']['ext'];
-            $pic = '<img  src="' . $this->base . '/people_images/' . $peopleId . '.' . $data['People']['ext'] . '" width="35" height="35"><br />';
+            $pic = "";//'<img  src="' . $this->base . '/people_images/' . $peopleId . '.' . $data['People']['ext'] . '" width="35" height="35"><br />';
         } else {
             $imageUrl = '';
             $pic = "";
@@ -368,7 +368,7 @@ Class SearchController extends AppController {
     }
 
     private function __getLevels($id, $tmpArray1) {
-
+        
         $searchid = $tmpArray1[$id]['tree_level'];
         $key = array_search($searchid, $tmpArray1[$id]);
         $ids[] = $searchid;
@@ -407,13 +407,13 @@ Class SearchController extends AppController {
                         $key = 'sister';
                     }
                 }
-                if($id != $searchedId) {
+                
                 if ($tmpArray1[$id]['r'] != "") {
                     $pic = '<img  src="' . $this->base . '/people_images/' . $tmpArray1[$id]['r'] . '" width="35" height="35"><br />';
                 } else {
                     $pic = "";
                 }
-                }
+
                 switch ($key) {
                     case 'f_id' :
 
