@@ -409,7 +409,7 @@ Class SearchController extends AppController {
                 }
                 
                 if ($tmpArray1[$id]['r'] != "") {
-                    $pic = '<img  src="' . $this->base . '/people_images/' . $tmpArray1[$id]['r'] . '" width="35" height="35"><br />';
+                    $pic = "";//'<img  src="' . $this->base . '/people_images/' . $tmpArray1[$id]['r'] . '" width="35" height="35"><br />';
                 } else {
                     $pic = "";
                 }
