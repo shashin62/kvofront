@@ -450,7 +450,7 @@ function SP0() {
         SRR("personalview");
         var father = p.father;
         if (p.father != '') {
-            fth = father.split(" ");
+            var fth = father.split(" ");
             father = fth[0];
         }
         SSR("personalview", "Full name", (p.p || "")  + " " + (father || "") + " " + (p.l || p.q || ""), false, false, p.gid, p.pid);

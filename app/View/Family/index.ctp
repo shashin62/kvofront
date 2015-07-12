@@ -160,6 +160,21 @@
                                array('id' => 'date_of_marriage', 'type' => 'text','value'=> $date_of_marriage,'placeholder' => 'enter in dd/mm/yyyy format' ,'title' => '','div' => false, 'label' => false, 'class' => 'dp form-control')); ?>
                         </div>
                     </div>
+                    <?php if ($userType != 'self') { 
+                        $family_flag = 'same';
+                    ?>
+                    <div class="form-group">
+                            <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="family_flag">Family</label>
+                            <div class="col-lg-8 col-md-8 col-xs-8">
+                                    <label>
+                                    <input class="family_flag" type="radio" name="family_flag" <?php echo $family_flag == 'same' ? 'checked=checked' : '';?> value="same">Same Family (same as <?php echo $hof;?>)
+                                    </label>
+                                    <label>
+                                    <input class="family_flag" type="radio" name="family_flag" <?php echo $family_flag == 'new' ? 'checked=checked' : '';?> value="new">New Family
+                                    </label>
+                            </div>
+                    </div>
+                    <?php } ?>
                 </div>
                     <div class="col-lg-6 col-md-6 col-xs-12">
                         <div class="form-group">

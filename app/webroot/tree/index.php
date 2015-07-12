@@ -17,7 +17,7 @@ if (isset($_GET['full'])) {
         $json_data = file_get_contents($baseUrl.'/family/buildFamilyJson?id=' . $_GET['reset_id'] . '&token='.$t);
 } else {
 	//$json_data = file_get_contents('http://10.50.249.127/kvoadmin/family/buildTreeJson?gid=' . $_GET['gid'] . ' &uid=1');
-        $json_data = file_get_contents($baseUrl.'/family/buildTreeJson?gid=' . $_GET["gid"] . '&token='.$t);
+        $json_data = file_get_contents($baseUrl.'/family/buildTreeJson?gid=' . $_GET["gid"] . '&token='.$t.'&l='.$l);
 }
 $welcomeUser = file_get_contents($baseUrl.'/family/getPeopleName?user_id='.$u);
 
@@ -192,57 +192,7 @@ $auth = (isset($u) && $u != '') ? true : false;
                                 <?php if ($auth) { ?>
                                     <li>Welcome <?php echo $welcomeUser; ?></li>
                                 <?php } ?>
-                                <li class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        <i class="fa fa-language fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-alerts">
-                                        <li <?php echo ($l == md5('english')) ? 'class="active"' : ''; ?>>
-                                            <a href="javascript: void();" class="web_lang" lang="english">
-                                                <div>
-                                                    <i class="fa fa-fw"></i> English
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li <?php echo ($l == md5('hindi')) ? 'class="active"' : ''; ?>>
-                                            <a href="javascript: void();" class="web_lang" lang="hindi">
-                                                <div>
-                                                    <i class="fa fa-fw"></i> हिन्दी
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li <?php echo ($l == md5('gujurati')) ? 'class="active"' : ''; ?>>
-                                            <a href="javascript: void();" class="web_lang" lang="gujurati">
-                                                <div>
-                                                    <i class="fa fa-fw"></i> ગુજરાતી
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <!-- /.dropdown-alerts -->
-                                </li>
-                                <!-- /.dropdown -->
-                                <li class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-user">
-                                        <?php if ($auth) { ?>
-                                            <li><a href="<?php echo $baseUrl . '/profile'; ?>"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
-                                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
-                                            <li class="divider"></li>
-                                        <?php } ?>
-                                        <?php if (!$auth) { ?>
-                                            <li><a href="<?php echo $baseUrl . '/user/signup'; ?>"><i class="fa fa-sign-in fa-fw"></i> Sign Up</a></li>
-                                            <li><a href="<?php echo $baseUrl . '/user/login'; ?>"><i class="fa fa-sign-in fa-fw"></i> Login</a></li>
-                                        <?php } ?>
-                                        <?php if ($auth) { ?>
-                                            <li><a href="<?php echo $baseUrl . '/user/logout'; ?>"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
-                                        <?php } ?>
-                                    </ul>
-                                    <!-- /.dropdown-user -->
-                                </li>
-                                <!-- /.dropdown -->
+                                
                             </ul>
                         </div>
                         <!-- /.navbar-collapse -->
@@ -543,7 +493,7 @@ $auth = (isset($u) && $u != '') ? true : false;
             navshowchildren = window.navframe.document.getElementById('showchildren').value;
             navshowcousins = window.navframe.document.getElementById('showcousins').value;
 
-            new Ajax.Request('<?php echo $baseUrl; ?>/family/buildFamilyJson?id='+id, {
+            new Ajax.Request('<?php echo $baseUrl; ?>/family/buildFamilyJson?id='+id+'&l=<?php echo $l; ?>', {
                 method: 'get',
                 onComplete:function(_2d){
                     data = _2d.responseText;

@@ -50,7 +50,11 @@ z-index: 0 !important
 
         ?>
     <div class="row">
-        <div class="col-md-1">
+        <div class="col-md-2 col-xs-4">
+				<a class="self" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?> data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript: profileOf(<?php echo $value['People']['id'];?>);"><?php echo (isset($translations[$value['People']['first_name']]) ? $translations[$value['People']['first_name']] :  $value['People']['first_name']) . ' ' . (isset($translations[$value['People']['last_name']]) ? $translations[$value['People']['last_name']] :  $value['People']['last_name']);?></a>
+
+				<br />
+
                 <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $value['People']['id'] .'.' . $value['People']['ext']) ===  true) { ?>
                         <img style="width:60px;height:60px;" src="<?php echo $this->base;?>/people_images/<?php echo $value['People']['id'] .'.' . $value['People']['ext']; ?>"/><br />
 <?php if ( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
@@ -63,11 +67,7 @@ z-index: 0 !important
                 <?php } ?>
         </div>
 
-        <div class="col-md-1" <?php echo $value['People']['is_late'] == '1' ? "style='color:red';" : ''?> >            
-            <a class="self" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" href="javascript: profileOf(<?php echo $value['People']['id'];?>);"><?php echo (isset($translations[$value['People']['first_name']]) ? $translations[$value['People']['first_name']] :  $value['People']['first_name']) . ' ' . (isset($translations[$value['People']['last_name']]) ? $translations[$value['People']['last_name']] :  $value['People']['last_name']);?></a>
-	</div>
-
-        <div class="col-md-2">
+        <div class="col-md-2 col-xs-4">
 
                 <?php if (strtolower($value['People']['martial_status']) == 'married' && empty($value['People']['partner_id'])) { ?>
                     <?php if ($this->Session->read('User.user_id') == $hofId) { ?>
@@ -104,7 +104,7 @@ z-index: 0 !important
                 <?php } ?>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3 col-xs-4">
             
             <?php if( $value['People']['gender'] == 'Male') {  ?>
 <?php if ( $this->Session->read('User.user_id') == $hofId && strtolower($value['People']['martial_status']) != 'single') { ?>
@@ -113,16 +113,18 @@ z-index: 0 !important
              <?php 
                 $children = $People->getChildren($value['People']['id'],$value['People']['gender']);
                 $childs = array();
-                foreach ( $children as $k => $v ) {
-                    $child = $v[0]['childname'];
-                    $childId = $v['People']['id'];
-                    $childArr = explode(' ', $child);
-                    $childNewArr = array();
-                    foreach ($childArr as $sp) {
-                        $childNewArr[] = isset($translations[$sp]) ? $translations[$sp] :  $sp;
-                    }
+                if(is_array($children)){
+                    foreach ( $children as $k => $v ) {
+                        $child = $v[0]['childname'];
+                        $childId = $v['People']['id'];
+                        $childArr = explode(' ', $child);
+                        $childNewArr = array();
+                        foreach ($childArr as $sp) {
+                            $childNewArr[] = isset($translations[$sp]) ? $translations[$sp] :  $sp;
+                        }
 
-                    $childs[] = '<a href="javascript: profileOf('.$childId.');">'.implode(' ', $childNewArr).'</a>';
+                        $childs[] = '<a href="javascript: profileOf('.$childId.');">'.implode(' ', $childNewArr).'</a>';
+                    }
                 }
                 
             if (count($childs)) {
@@ -163,7 +165,7 @@ z-index: 0 !important
             <?php } ?>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3 hidden-xs">
             <?php if ($value['People']['is_late'] != '1') {?>
                 <?php if( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
                             <a class="editaddress" data-gid="<?php echo $value['People']['group_id'];?>" data-id="<?php echo $value['People']['id'];?>" data-aid="<?php echo $value['People']['address_id'];?>" href="javascript:void(0);">
@@ -201,7 +203,7 @@ z-index: 0 !important
         </div>
 
         <?php if ( $value['Group']['tree_level'] != '') { ?>
-        <div class="col-md-2">
+        <div class="col-md-2 hidden-xs">
             <?php if( $this->Session->read('User.user_id') == $hofId) { ?>
            <?php if( $this->Session->read('User.user_id') == $value['People']['id'] || $this->Session->read('User.user_id') == $hofId) { ?>
                        <?php if( $hofId != $value['People']['partner_id']) { ?>
@@ -231,7 +233,7 @@ z-index: 0 !important
         $selLanguage = $this->Session->read('Website.language');
     }
     ?>
-        <div class="col-md-2"><a target="_blank" href="<?php echo $this->base.'/tree?gid='. $groupId.'&token='. urlencode('t='.md5('dsdsdss434dsds332323d34d').'&u='.md5($this->Session->read('User.user_id')).'&l='.md5($selLanguage));?>">View Tree</a></div>                
+        <div class="col-md-2 hidden-xs"><a target="_blank" href="<?php echo $this->base.'/tree?gid='. $groupId.'&token='. urlencode('t='.md5('dsdsdss434dsds332323d34d').'&u='.md5($this->Session->read('User.user_id')).'&l='.md5($selLanguage));?>">View Tree</a></div>                
 <?php } ?>
                                 <?php } ?>
 
