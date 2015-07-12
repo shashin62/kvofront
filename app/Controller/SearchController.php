@@ -84,7 +84,7 @@ Class SearchController extends AppController {
         $getTreeLevels = $this->__getTreeLevels($peopleId, $rebuildTreeLevels, $loggedInId);
         $firstName = $rebuildTreeLevels[$peopleId]['first_name'] . ' ' . $rebuildTreeLevels[$peopleId]['last_name'];
         $text = array();
-        $text[] = $firstName;
+        $text[] = '<td style="min-width:50px;">'.$firstName . '</td>';
         $getLinkage = $this->__getRelationShipText($rebuildTreeLevels, $getTreeLevels, $peopleId);
         $getLinkage = array_merge($text, $getLinkage);
 
@@ -301,7 +301,7 @@ Class SearchController extends AppController {
             } else {
                 $lists[$result['p']['id']]['r'] = '';
             }
-
+            
             $lists[$result['p']['id']]['partner_name'] = $result['p']['partner_name'];
             $lists[$result['p']['id']]['f_id'] = $result['p']['f_id'];
             $lists[$result['p']['id']]['m_id'] = $result['p']['m_id'];
@@ -372,7 +372,7 @@ Class SearchController extends AppController {
     private function __getRelationShipText($tmpArray1, $levels, $searchedId) {
 
         $id = $searchedId;
-
+        
         foreach (array_filter($levels) as $k => $c) {
             unset($tmpArray1[$id]['tree_level']);
 
