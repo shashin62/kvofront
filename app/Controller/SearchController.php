@@ -59,6 +59,7 @@ Class SearchController extends AppController {
         }
 
         $data = $this->People->search($peopleId);
+        
         $getParentsIds = $this->People->getParentsId($peopleId);
         $pIds = array();
         foreach ($getParentsIds as $pKey => $pValue) {
@@ -82,14 +83,17 @@ Class SearchController extends AppController {
         $lists = $this->_getLists($datas, $gIds, $loggedInId);
         $rebuildTreeLevels = $this->__reBuildTreeLevels($lists['lists'], $lists['asscoIds'], $loggedInId, $getParentsArray);
         $getTreeLevels = $this->__getTreeLevels($peopleId, $rebuildTreeLevels, $loggedInId);
-        $firstName = $rebuildTreeLevels[$peopleId]['first_name'] . ' ' . $rebuildTreeLevels[$peopleId]['last_name'];
+        $firstName = $rebuildTreeLevels[$peopleId]['first_name'] . '<br/> ' . $rebuildTreeLevels[$peopleId]['last_name'];
         $text = array();
-//        if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $id . '.' . $result['image']['ext']) === true) {
-//                $lists[$result['p']['id']]['r'] = $result['p']['id'] . '.' . $result['image']['ext'];
-//            } else {
-//                $lists[$result['p']['id']]['r'] = '';
-//            }
-        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $id . ')" style="width:50px;">'.$firstName . '</a></td>';
+        
+        
+        if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleId . '.' . $data['People']['ext']) === true) {
+            $imageUrl = $peopleId . '.' . $data['People']['ext'];
+        } else {
+            $imageUrl = '';
+        }
+        
+        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $id . ')" style="width:50px;">'. $imageUrl. $firstName . '</a></td>';
         $getLinkage = $this->__getRelationShipText($rebuildTreeLevels, $getTreeLevels, $peopleId);
         $getLinkage = array_merge($text, $getLinkage);
 
