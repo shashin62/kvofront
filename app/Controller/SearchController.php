@@ -299,7 +299,7 @@ Class SearchController extends AppController {
             if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $result['p']['id'] . '.' . $result['image']['ext']) === true) {
                 $lists[$result['p']['id']]['r'] = $result['p']['id'] . '.' . $result['image']['ext'];
             } else {
-                $lists[$result['id']]['r'] = '';
+                $lists[$result['p']['id']]['r'] = '';
             }
 
             $lists[$result['p']['id']]['partner_name'] = $result['p']['partner_name'];
