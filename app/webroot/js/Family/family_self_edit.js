@@ -158,7 +158,7 @@ $(document).ready(function () {
 
 
 
-    var button2 = $('#uploadButton'), interval2;
+   /* var button2 = $('#uploadButton'), interval2;
     var upload2 = new AjaxUpload(button2, {
         action: baseUrl + '/image/uploadimage?pid=' + pid,
         name: 'image',
@@ -168,7 +168,7 @@ $(document).ready(function () {
             var ext = ext.toString().toLowerCase();
             var regexp1 = new RegExp("^(" + image_format + ")$");
 
-            if (ext && regexp1.test(ext)) {
+            if (ext && regexp1.test(ext)) {*/
                 // show the loader in place of button
                 // button2.html('<span>Uploading...</span>');
                 /* If you want to allow uploading only 1 file at time,
@@ -185,7 +185,7 @@ $(document).ready(function () {
 //                        }, 200);
 
 
-            } else {
+           /* } else {
                 var displayMsg = image_upload_error;
                 displayTopSuccessMessage(displayMsg, 'imessage');
                 return false;
@@ -253,7 +253,7 @@ $(document).ready(function () {
             $('.editPhoto').attr('title', 'Edit');
         }
 
-    });
+    });*/
 
 });
 

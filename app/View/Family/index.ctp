@@ -1,3 +1,20 @@
+<link href="/js/scripts/jQuery-Impromptu/jquery-impromptu.css" rel="stylesheet" type="text/css" />
+<link href="/js/scripts/fineuploader/fineuploader.css" rel="stylesheet" type="text/css" />
+<link href="/js/scripts/Jcrop/jquery.Jcrop.min.css" rel="stylesheet" type="text/css" />
+
+<!-- <script type="text/javascript" src="/js/scripts/jquery-1.9.1.min.js"></script> -->
+<script type="text/javascript" src="/js/scripts/jQuery-Impromptu/jquery-impromptu.js"></script>
+<script type="text/javascript" src="/js/scripts/fineuploader/jquery.fineuploader-3.0.min.js"></script>
+<script type="text/javascript" src="/js/scripts/Jcrop/jquery.Jcrop.min.js"></script>
+<script type="text/javascript" src="/js/scripts/jquery-uberuploadcropper.js"></script>
+<style type="text/css">
+   /* .qq-upload-list{display:none};*/
+   .jqi{width: 538px !important;}
+   .qq-upload-button{background: #969292 !important;border-radius: 5px;}
+</style>
+<?php
+    //echo "<pre>"; print_r($_SERVER); exit;
+?>
 <div class="container-fluid">
     <div class="panel panel-info">
          <div class="panel-heading"><?php echo $pageTitle;?></div>
@@ -176,22 +193,20 @@
                     </div>
                     <?php } ?>
                 </div>
-                    <div class="col-lg-6 col-md-6 col-xs-12">
-                        <div class="form-group">
-                            <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="photo">Photo</label>
-                        <form id="<?php echo 'imagepic' ;?>" enctype="multipart/form-data"
-           method="post" action="<?php echo $this->base;?>/image/upload" name="add" class="clearfix imagepic">
-              <div class="col-md-2">
-                  <input type = "button" value = "Browse"  id="uploadButton" class="uploadAdminLogoBtn editViewDetail" style="z-index:0"/>
-                        <input class = "imagefile" id="uploadButton"  style="display: none;z-index:-1" type="file" name="img" />
-                         <?php if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $pid . '.' . $ext) === true) {?>
-                            <img style="width: 75px;height: 75px;" src="<?php echo $this->base . '/people_images/' . $pid . '.' . $ext;?>"/>
-                         <?php } ?>
-              </div>
-                 <?php echo $this->Form->input('people_id',array('type' => 'hidden','label'=>false,'value' => $pid)); ?>
-                 <?php echo $this->Form->end(); ?>
-                    </div>
+
+                <div class="col-lg-6 col-md-6 col-xs-12">
+                        <div id="forMob" style="position:absolute;width:350px;height:35px;z-index:1;display:none"></div>
+                        <label class="col-lg-4 col-md-4 col-xs-4 control-label" for="photo">Photo</label>
+                        <div id="UploadImages">
+                            <noscript>Please enable javascript to upload and crop images.</noscript>
                         </div>
+
+                        <div id="PhotoPrevs" style="text-align: center;">
+                            <?php  if (file_exists($uploadFilePath . '\\' . $pid . '.' . $ext) === true) {?>
+                                <img style="" src="<?php echo $this->base . '/people_images/' . $pid . '.' . $ext;?>"/>
+                            <?php } ?>
+                        </div>
+                </div>
 
                         <div class="col-lg-6 col-md-6 col-xs-12">
 
@@ -327,22 +342,30 @@
          </div>
     </div>
 </div>
+<?php
+ $selLanguage = 'english';
+    if ($this->Session->check('Website.language')) {
+        $selLanguage = $this->Session->read('Website.language');
+    }
+    ?>
 <div id="treeredirect" data-userid="<?php echo $this->Session->read('User.user_id'); ?>" data-lang="<?php echo md5($selLanguage); ?>" data-user="<?php echo md5($this->Session->read('User.user_id')); ?>" style="display:none;"></div>
+<?php
+   $token = urlencode('t='.md5('dsdsdss434dsds332323d34d').'&u='.md5($this->Session->read('User.user_id')).'&l='.md5($selLanguage));
+?>
 <script type="text/javascript">
     var pid = '<?php echo $pid; ?>';
     var userType = '<?php echo $userType; ?>';
     var grpid = '<?php echo $gid; ?>';
     var is_late = '<?php echo $is_late; ?>';
     var gender = '<?php echo $gender;?>';
+    var module = "<?php echo $module; ?>";
+    var token = "<?php echo $token; ?>";
 </script>
 <script>
-    $(function () {
-        
-       
+    $(function () { 
             $( "#first_name" ).autocomplete({
                source: baseUrl + "/family/getAutoCompleteFirstName"
             });
-            
              $( "#last_name" ).autocomplete({
                source: baseUrl + "/family/getAutoCompleteLastName"
             });
@@ -360,24 +383,83 @@
 //            format: "mm/dd/yyyy"
 //        });
     });
+    
      $('.cancel').click(function(){
-         if(  userType == 'addnew') {
-              window.location.href = baseUrl +"/family/familiyGroups";
-         } else {
-             window.location.href = baseUrl +"/family/details/"+ grpid;
-         }
+           
+       if(module==''){
+            if(  userType == 'addnew') {
+                  window.location.href = baseUrl +"/family/familiyGroups";
+            } else {
+                 window.location.href = baseUrl +"/family/details/"+ grpid;
+            }
+        }else if(module=='tree'){
+            window.location.href = baseUrl +"/tree?gid="+grpid+"&token="+token;
+        }
        
     });
 </script>
 <script type="text/javascript">
  var image_format = "<?php echo 'jpeg|png|jpg'; ?>";
- var module = "<?php echo $module; ?>";
+ //var module = "<?php echo $module; ?>";
  var fid = "<?php echo $fid; ?>";
-$('.imagesubmit').click(function(){
+/*$('.imagesubmit').click(function(){
      $("#imagepic").submit();
      return false;
-})
+})*/
 </script>
-<?php echo $this->Html->script(array('ajaxupload')); ?>
+
+<script type="text/javascript">
+    $(function() {
+       $('#UploadImages').uberuploadcropper({
+            //---------------------------------------------------
+            // uploadify options..
+            //---------------------------------------------------
+            fineuploader: {
+                //debug : true,
+                request : { 
+                    // params: {}
+                    endpoint: '/image/imageUpload?pid=' + pid 
+                },                      
+                validation: {
+                    //sizeLimit : 0,
+                    allowedExtensions: ['jpg','jpeg','png','gif']
+                }
+            },
+            //---------------------------------------------------
+            //now the cropper options..
+            //---------------------------------------------------
+            jcrop: {
+                aspectRatio  : 1, 
+                allowSelect  : false, //can reselect
+                allowResize  : true,  //can resize selection
+                setSelect    : [ 0, 0, 200, 200 ], //these are the dimensions of the crop box x1,y1,x2,y2
+                minSize      : [ 200, 200 ], //if you want to be able to resize, use these
+                maxSize      : [ 500, 500 ]
+            },
+            //---------------------------------------------------
+            //now the uber options..
+            //---------------------------------------------------
+            folder           : '/people_images/', // only used in uber, not passed to server
+            cropAction       : '/image/cropUploadedImage', // server side request to crop image
+            onComplete       : function(e,imgs,data){ 
+                if(module=='tree'){
+                    window.location.href = baseUrl +"/tree?gid="+grpid+"&token="+token;
+                }
+                var $PhotoPrevs = $('#PhotoPrevs');
+
+                for(var i=0,l=imgs.length; i<l; i++){
+                    $PhotoPrevs.html('<img src="/people_images/'+ imgs[i].filename +'?d='+ (new Date()).getTime() +'" />');
+                    $(".qq-upload-list").hide();
+                }
+            }
+        });
+    });
+    var ua = navigator.userAgent;
+    var device_type = (ua.match(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i)) ? "mobile" : "desktop";
+    if(device_type == "mobile"){
+        $("#forMob").show();
+    }
+</script>
+<?php //echo $this->Html->script(array('ajaxupload')); ?>
 
 <?php echo $this->Html->script(array('Family/family_self_edit')); ?>

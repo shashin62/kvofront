@@ -105,6 +105,7 @@ function SSE(i, e) {
         parent.SE("NoPerson: " + i + "|" + js + "|" + ks + "|" + parent.Ess.length + "|" + parent.TR());
     }
     var v = GE("nametitle");
+    GE("UID").value = p.pid;
     v.innerHTML = (p.p || "") + " " + (p.l || p.q || "");
     v.className = (p.p || p.l) ? "sname" : "sdefname";
     SV("shareperson", "Invite " + p.p + " to share family");
@@ -290,6 +291,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
     }
     if( t == 'Full name') {
     b.innerHTML += ' <a target="_parent" href="http://website.kvomahajan.com/family/index?type=self&fid=' + mother + '&gid=' + gid + '&module=tree" class="edit">Edit Detail</a>';
+    GE('UploadImages').innerHTML = ' <a target="_parent" href="http://qfront.dev:8002/family/index?type=self&fid=' + mother + '&gid=' + gid + '&module=tree" class="edit">Upload Image</a>';
 }
     r.appendChild(a);
     r.appendChild(b);
@@ -1290,6 +1292,7 @@ function SSU(s) {
 }
 function SIU(u) {
     var p = parent.Efa[Spe];
+    console.log(p)
     var r = p ? p.r : null;
     var pw = (!Sed) && SPW(Spe) && parent.GV("familyid");
     u = u && pw;
@@ -1300,7 +1303,8 @@ function SIU(u) {
         if (r) {
             var e = r.split(" ");
             var v = GE("personimage");
-            var s = parent.EIU(e[0]);
+            //var s = parent.EIU(e[0]);
+            var s = e[0];
             if (v.src != s) {
                 if (e[1] && e[2]) {
                     v.style.width = e[1] + "px";

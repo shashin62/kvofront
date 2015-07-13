@@ -342,8 +342,8 @@ function TRD(d,y,bn,mn,sp,o,oi,wp,pr,zf,_24){
                
                 if( d.e[i].p.r != '') {
                      
-                     u = "../../people_images/"+d.e[i].p.r;
-                     
+                     //u = "../../people_images/"+d.e[i].p.r;
+                     u = d.e[i].p.r;
                      pPhoto = true;
                     
                 } else {

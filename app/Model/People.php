@@ -642,13 +642,14 @@ class People extends AppModel {
         //$options['order'] = array('People.date_of_birth');
         try {
             $userData = $this->find('all', $options);
-
+           //echo "<pre>-123-------"; print_r($userData); exit;
             if (!empty($userData) && isset($userData[0])) {
+            //    echo "i am here ------------";
                 $userData = $userData;
 
                 return $userData;
             }
-
+            //echo "i am here out------------"; exit;
             return false;
         } catch (Exception $e) {
             CakeLog::write('db', __FUNCTION__ . " in " . __CLASS__ . " at " . __LINE__ . $e->getMessage());
