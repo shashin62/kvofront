@@ -2176,7 +2176,7 @@ GROUP BY p.created_by");
             $cond = "md5(people.id) = '{$userId}'";
         }
         
-        $sQry = "SELECT first_name, last_name FROM"
+        $sQry = "SELECT first_name, last_name, father FROM"
                 . " people  WHERE {$cond}";
         $aResult = $this->query($sQry);
 

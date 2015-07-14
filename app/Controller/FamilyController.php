@@ -1508,7 +1508,6 @@ Class FamilyController extends AppController {
             }
 
             $tNames = array_filter(array_unique($tNames));
-
             $selLanguage = $_REQUEST['l'];
             $lang = 'english_text';
             if ($selLanguage) {
@@ -1600,6 +1599,11 @@ Class FamilyController extends AppController {
                     if ($peopleData['father'] != '' && $peopleData['father'] != NULL) {
                         $tree[$peopleData['id']]['father'] = strlen($getTranslations[$peopleData['father']]) ? $getTranslations[$peopleData['father']] : $peopleData['father'];
                         $tree[$peopleData['id']]['father'] .= ' ';
+                        if(isset($peopleData['f_id']) && !empty($peopleData['f_id'])){
+                            $ffname = $this->People->getPeopleName($peopleData['f_id']);
+                            $tree[$peopleData['id']]['father'] .= strlen($getTranslations[$ffname['people']['father']]) ? $getTranslations[$ffname['people']['father']] : $ffname['people']['father'];
+                            $tree[$peopleData['id']]['father'] .= ' ';
+                        }
                         $tree[$peopleData['id']]['father'] .= strlen($getTranslations[$value['parent1']['father_lastname']]) ? $getTranslations[$value['parent1']['father_lastname']] : $value['parent1']['father_lastname'];
                     } else {
                         $tree[$peopleData['id']]['father'] = '';
@@ -1679,9 +1683,9 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['q'] = strlen($getTranslations[$peopleData['maiden_surname']]) ? $getTranslations[$peopleData['maiden_surname']] : $peopleData['maiden_surname'];
                 }
             }
-            //echo '<pre>';
-            //print_r($tree);
-            //exit;
+            /*echo '<pre>';
+            print_r($tree);
+            exit;*/
             $jsonData['tree'] = $tree;
             $jsonData['parent_name'] = $getTranslations[$parentName];
             if ($group_id) {
