@@ -25,6 +25,19 @@
 		<script src="common.js?130317" type="text/javascript"></script>
 		<script src="family.js?130317" type="text/javascript"></script>	
 		<script src="sidebar.js?130317" type="text/javascript"></script>
+
+		<link href="/js/scripts/jQuery-Impromptu/jquery-impromptu.css" rel="stylesheet" type="text/css" />
+		<link href="/js/scripts/fineuploader/fineuploader.css" rel="stylesheet" type="text/css" />
+		<link href="/js/scripts/Jcrop/jquery.Jcrop.min.css" rel="stylesheet" type="text/css" />
+
+		<script type="text/javascript" src="/js/scripts/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="/js/scripts/jQuery-Impromptu/jquery-impromptu.js"></script>
+		<script type="text/javascript" src="/js/scripts/fineuploader/jquery.fineuploader-3.0.min.js"></script>
+		<script type="text/javascript" src="/js/scripts/Jcrop/jquery.Jcrop.min.js"></script>
+		<script type="text/javascript" src="/js/scripts/jquery-uberuploadcropper.js"></script>
+		<style type="text/css">
+		    .qq-upload-list{display:none};
+		</style>
 	</HEAD>
 	
 	<BODY CLASS="lbody" onLoad="PL();">
@@ -35,9 +48,11 @@
 			
                         <h3 class="head"><SPAN ID="nametitle">Loading...</SPAN><br /><h5>(Personal Detail)</h5></h3>
 			<!--<INPUT TYPE="image" SRC="blankpixel.gif" WIDTH="1" HEIGHT="6">-->
-			
-			<IMG ID="personimage" SRC="blankpixel.gif" CLASS="simage" STYLE="display:none; margin-bottom:6px;" onClick="SIC(); return false;">
+			<div id="UploadImages"><!-- <noscript>Please enable javascript to upload and crop images.</noscript --></div>
 
+            
+			<IMG ID="personimage" SRC="blankpixel.gif" CLASS="simage" STYLE="display:none; margin-bottom:6px;" onClick="SIC(); return false;">
+				<INPUT ID="UID" name="UID" type="hidden">
 			<DIV ID="nonrelations" STYLE="display:none;">
 			
 			<DIV ID="nonediting">

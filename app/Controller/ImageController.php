@@ -39,6 +39,7 @@ class ImageController extends Controller {
         if (isset($this->request->params['form'])) {
             $imageFile = $this->request->params['form']['image'];
             $image = new Imagick($imageFile['tmp_name']);
+            //echo "<pre>"; print_r($imageFile['tmp_name']); exit;
             $d = $image->getImageGeometry();
             $w = $d['width'];
             $h = $d['height'];
@@ -47,7 +48,7 @@ class ImageController extends Controller {
             $file_ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
             $destination = WWW_ROOT . $this->uploadDir . DS . $peopleId . "." . $file_ext;
-           
+           //echo $destination; exit;
             if( $h > 500 && $w > 500) {
                 $image->scaleImage(500, 500);   
             }
@@ -152,14 +153,14 @@ class ImageController extends Controller {
     }
 
     public function deleteImage() {
-
+        define('UPLOAD_DIR', WWW_ROOT . "people_images". DS);
         $this->autoRender = false;
         $this->layout = 'ajax';
         if ($this->Session->read('Auth.User')) {
             $id = $this->request->data['id'];
             $getExt = $this->People->getImageExtension($id);
-            
-            if (unlink($_SERVER["DOCUMENT_ROOT"] . '/people_images/'. $id . '.' . $getExt[0]['People']['ext'])) {
+            //unlink($_SERVER["DOCUMENT_ROOT"] . '/people_images/'. $id . '.' . $getExt[0]['People']['ext'])
+            if (unlink(UPLOAD_DIR . '\\'. $id . '.' . $getExt[0]['People']['ext'])) {
 
                 $msg['success'] = 1;
                 $msg['message'] = 'Photo has been deleted';
@@ -173,5 +174,83 @@ class ImageController extends Controller {
         }
         $this->set(compact('msg'));
         $this->render("/Elements/json_messages");
+    }
+
+     public function imageUpload() {
+        $peopleId = $this->request->query('pid');
+        define('UPLOAD_DIR', WWW_ROOT . "people_images". DS);
+        require "/js/scripts".DS."fineuploader".DS."fineuploader.php";
+
+        $allowedExtensions = array('jpeg','jpg','gif','png');
+        $sizeLimit = 2 * 1024 * 1024; // max file size in bytes
+        $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+
+        //$result = $uploader->handleUpload(UPLOAD_DIR, false, md5(uniqid())); //handleUpload($uploadDirectory, $replaceOldFile=FALSE, $filename='')
+        $result = $uploader->handleUpload(UPLOAD_DIR, false, $peopleId);
+
+        require ROOT . DS . 'lib'. DS ."gd_image.php";
+        $gd = new GdImage();
+
+        // step 1: make a copy of the original
+        $filePath = UPLOAD_DIR . $result['filename'];
+        $copyName = $gd->createName($result['filename'], '_FULLSIZE');
+        $gd->copy($filePath, UPLOAD_DIR.$copyName);
+
+        // step 2: Scale down or up this image so it fits in the browser nicely, lets say 500px is safe
+        $oldSize = $gd->getProperties($filePath);
+        $newSize = $gd->getAspectRatio($oldSize['w'], $oldSize['h'], 500, 0);
+        $gd->resize($filePath, $newSize['w'], $newSize['h']);
+
+        // step 3: handled in crop.php!
+
+        // to pass data through iframe you will need to encode all html tags
+        echo json_encode($result);exit();
+    }
+    public function cropUploadedImage() { 
+
+        define('UPLOAD_DIR', WWW_ROOT . "people_images". DS);
+
+        require ROOT . DS . 'lib'. DS ."gd_image.php";
+        $gd = new GdImage();
+        
+       foreach($_POST['imgcrop'] as $k => $v) {
+            
+            
+            // 1) delete resized, move to full size
+            $fname = $v['filename'];
+            $filePath = UPLOAD_DIR . $v['filename'];
+           // $file_ext = pathinfo($filePath, PATHINFO_EXTENSION); 
+            $fullSizeFilePath = UPLOAD_DIR . $gd->createName($v['filename'], '_FULLSIZE');
+            
+            unlink($filePath);
+            rename($fullSizeFilePath, $filePath);
+    
+            // 2) compute the new coordinates
+            $scaledSize = $gd->getProperties($filePath);
+            $percentChange = $scaledSize['w'] / 500; // we know we scaled by width of 500 in upload
+            
+            $newCoords = array(
+                'x' => $v['x'] * $percentChange,
+                'y' => $v['y'] * $percentChange,
+                'w' => $v['w'] * $percentChange,
+                'h' => $v['h'] * $percentChange
+            );
+            
+            // 3) crop the full size image
+            $gd->crop($filePath, $newCoords['x'], $newCoords['y'], $newCoords['w'], $newCoords['h']);
+
+            // 4) resize the cropped image to whatever size we need (lets go with 200 wide)
+            $ar = $gd->getAspectRatio($newCoords['w'], $newCoords['h'], 200, 0);
+
+            $gd->resize($filePath, $ar['w'], $ar['h']);
+            $file_name = explode('.',$fname);
+            $updateExtensions = array();
+            $updateExtensions['ext'] = $file_name[1];
+            $updateExtensions['id'] = $file_name[0];
+            $this->People->updateExt($updateExtensions);
+            
+        }
+        exit;
+        //echo "1";
     }
 }

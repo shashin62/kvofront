@@ -76,7 +76,11 @@ Class FamilyController extends AppController {
             $this->redirect('/user/login');
         }
         $requestData = $_REQUEST;
-        $this->set('module', $requestData['module']);
+        //echo "<pre>"; print_r($requestData); exit;
+        $module = '';
+        if(isset($requestData['module']))
+                $module = $requestData['module'];
+        $this->set('module', $module);
         $this->set('fid', $requestData['fid']);
         $this->set('first_name', isset($this->request->data['first_name']) ?
                         $this->request->data['first_name'] : '');
@@ -222,6 +226,9 @@ Class FamilyController extends AppController {
         $this->set('pid', $peopleId);
         $this->set('pageTitle', $pageTitle);
         $this->set('userType', $requestData['type']);
+        define('UPLOAD_DIR', WWW_ROOT . "people_images". DS);
+        $this->set('uploadFilePath', UPLOAD_DIR);
+
         
         $hof = $this->People->getHOF ($_REQUEST['gid']);
         $this->set('hof', $hof['people']['first_name'].' '.$hof['people']['last_name']);
@@ -1449,10 +1456,12 @@ Class FamilyController extends AppController {
         $this->set('roleId', $roleID);
         $this->set('data', $getDetails);
         $this->set('translations', $getTranslations);
+        define('UPLOAD_DIR', WWW_ROOT . "people_images". DS);
+        $this->set('uploadFilePath', UPLOAD_DIR);
     }
 
     public function buildTreeJson($group_id = false) {
-
+        define('UPLOAD_DIR', WWW_ROOT . "people_images". DS);
         $this->autoRender = false;
         $this->layout = null;
         $groupId = $this->request->query['gid'] ? $this->request->query['gid'] : $group_id;
@@ -1572,8 +1581,8 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['m'] = $peopleData['m_id'];
                     $peopleId = $peopleGroup['people_id'];
 
-                    if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleId . '.' . $peopleData['ext']) === true) {
-                        $tree[$peopleData['id']]['r'] = $peopleId . '.' . $peopleData['ext'];
+                    if (file_exists(UPLOAD_DIR . '\\' . $peopleId . '.' . $peopleData['ext']) === true) {
+                        $tree[$peopleData['id']]['r'] = 'http://'.$_SERVER['HTTP_HOST'] . '/people_images/' . $peopleId . '.' . $peopleData['ext'];
                     } else {
                         $tree[$peopleData['id']]['r'] = '';
                     }
