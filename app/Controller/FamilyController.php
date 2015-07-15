@@ -37,7 +37,7 @@ Class FamilyController extends AppController {
      */
     public $uses = array(
         'User', 'Aro', 'Role', 'Note',
-        'People', 'Village', 'Education', 'State', 'BloodGroup',
+        'People', 'Village', 'Education', 'State', 'BloodGroup','PeopleSearch',
         'Group', 'Address', 'PeopleGroup', 'Suburb', 'Surname', 'Translation',
         'ZipCode', 'Spouse', 'ZipCode','BusinessNature','BusinessType','Brother','Sister', 'PeopleEducation'
     );
@@ -303,6 +303,17 @@ Class FamilyController extends AppController {
             // $getOwnerDetails
         }
     }
+	
+       private function __change_key( $array, $old_key, $new_key) {
+
+    if( ! array_key_exists( $old_key, $array ) )
+        return $array;
+
+    $keys = array_keys( $array );
+    $keys[ array_search( $old_key, $keys ) ] = $new_key;
+
+    return array_combine( $keys, $array );
+    }
 
     public function transferUser() {
         $this->autoRender = false;
@@ -314,6 +325,9 @@ Class FamilyController extends AppController {
         $updatePeple['People']['group_id'] = $ownerGroupId;
         $updatePeple['People']['id'] = $idToTransfer;
         $this->People->save($updatePeple);
+	$array = $this->__change_key($updatePeple, 'People','PeopleSearch');
+        $array['PeopleSearch']['id'] = $this->People->id;
+	$this->PeopleSearch->save($array);
 
         $getOwnerId = $this->Group->find('all', array('fields' => array('Group.people_id'), 'conditions'
             => array('Group.id' => $ownerGroupId)));
@@ -463,6 +477,9 @@ Class FamilyController extends AppController {
                     
                     
                     if ($this->People->save($this->request->data)) {
+			$array = $this->__change_key($this->request->data, 'People','PeopleSearch');
+                        $array['PeopleSearch']['id'] = $this->People->id;
+                        $this->PeopleSearch->save($array);
                         $msg['status'] = 1;
                         $brotherId = $this->People->id;
                         $updateParentUser = array();
@@ -526,6 +543,9 @@ Class FamilyController extends AppController {
                     $this->request->data['People']['father'] = $getPeopleDetail[0]['People']['father'];
                     
                     if ($this->People->save($this->request->data)) {
+			$array = $this->__change_key($this->request->data, 'People','PeopleSearch');
+                        $array['PeopleSearch']['id'] = $this->People->id;
+                        $this->PeopleSearch->save($array);
                         $msg['status'] = 1;
                         $brotherId = $this->People->id;
                         $updateParentUser = array();
@@ -585,6 +605,9 @@ Class FamilyController extends AppController {
                     $this->request->data['People']['created_by'] = $this->Session->read('User.user_id');
                     $this->request->data['People']['created'] = date('Y-m-d H:i:s');
                     if ($this->People->save($this->request->data)) {
+			$array = $this->__change_key($this->request->data, 'People','PeopleSearch');
+                        $array['PeopleSearch']['id'] = $this->People->id;
+                        $this->PeopleSearch->save($array);
                         $msg['status'] = 1;
                         $message = 'Family has been created';
                         $peopleGroup = array();
@@ -631,6 +654,9 @@ Class FamilyController extends AppController {
                 $this->request->data['People']['created'] = date('Y-m-d H:i:s');
                 if ($msg['status'] == 1) {
                     if ($this->People->save($this->request->data)) {
+			$array = $this->__change_key($this->request->data, 'People','PeopleSearch');
+                        $array['PeopleSearch']['id'] = $this->People->id;
+                        $this->PeopleSearch->save($array);
                         $msg['status'] = 1;
                         $partnerId = $this->People->id;
                         $updateParentUser = array();
@@ -684,6 +710,9 @@ Class FamilyController extends AppController {
                 $this->request->data['People']['created'] = date('Y-m-d H:i:s');
                 if ($msg['status'] == 1) {
                     if ($this->People->save($this->request->data)) {
+			$array = $this->__change_key($this->request->data, 'People','PeopleSearch');
+                        $array['PeopleSearch']['id'] = $this->People->id;
+                        $this->PeopleSearch->save($array);
                         $msg['status'] = 1;
                         $partnerId = $this->People->id;
                         $updateParentUser = array();
@@ -733,6 +762,9 @@ Class FamilyController extends AppController {
                     $this->request->data['People']['created_by'] = $this->Session->read('User.user_id');
                     $this->request->data['People']['created'] = date('Y-m-d H:i:s');
                     if ($this->People->save($this->request->data)) {
+			$array = $this->__change_key($this->request->data, 'People','PeopleSearch');
+                        $array['PeopleSearch']['id'] = $this->People->id;
+                        $this->PeopleSearch->save($array);
                         $msg['status'] = 1;
                         $fatherId = $this->People->id;
                         $updateParentUser = array();
@@ -824,6 +856,9 @@ Class FamilyController extends AppController {
                     $this->request->data['People']['created_by'] = $this->Session->read('User.user_id');
                     $this->request->data['People']['created'] = date('Y-m-d H:i:s');
                     if ($this->People->save($this->request->data)) {
+			$array = $this->__change_key($this->request->data, 'People','PeopleSearch');
+                        $array['PeopleSearch']['id'] = $this->People->id;
+                        $this->PeopleSearch->save($array);
                         $msg['status'] = 1;
                         $message = 'Child has been added';
                         $peopleGroup = array();
@@ -930,7 +965,10 @@ Class FamilyController extends AppController {
                 if ($msg['status'] == 1) {
                     $this->request->data['People']['created_by'] = $this->Session->read('User.user_id');
                     $this->request->data['People']['created'] = date('Y-m-d H:i:s');
-                    if ($this->People->save($this->request->data)) {
+                    if ($this->People->save($this->request->data)) {	
+			$array = $this->__change_key($this->request->data, 'People','PeopleSearch');
+                        $array['PeopleSearch']['id'] = $this->People->id;
+                        $this->PeopleSearch->save($array);
                         $msg['status'] = 1;
                         $motherId = $this->People->id;
                         $updateParentUser = array();
@@ -983,6 +1021,9 @@ Class FamilyController extends AppController {
                     $this->request->data['People']['id'] = $_REQUEST['peopleid'];
                     $this->request->data['People']['modified'] = date('Y-m-d H:i:s');
                     if ($this->People->save($this->request->data)) {
+			$array = $this->__change_key($this->request->data, 'People','PeopleSearch');
+                        $array['PeopleSearch']['id'] = $_REQUEST['peopleid'];
+                        $this->PeopleSearch->save($array);
                         $msg['status'] = 1;
                         if ($same == 1) {
                             $this->_copyAddress($parentId, $_REQUEST['peopleid']);
@@ -1508,7 +1549,6 @@ Class FamilyController extends AppController {
             }
 
             $tNames = array_filter(array_unique($tNames));
-
             $selLanguage = $_REQUEST['l'];
             $lang = 'english_text';
             if ($selLanguage) {
@@ -1600,6 +1640,11 @@ Class FamilyController extends AppController {
                     if ($peopleData['father'] != '' && $peopleData['father'] != NULL) {
                         $tree[$peopleData['id']]['father'] = strlen($getTranslations[$peopleData['father']]) ? $getTranslations[$peopleData['father']] : $peopleData['father'];
                         $tree[$peopleData['id']]['father'] .= ' ';
+                        if(isset($peopleData['f_id']) && !empty($peopleData['f_id'])){
+                            $ffname = $this->People->getPeopleName($peopleData['f_id']);
+                            $tree[$peopleData['id']]['father'] .= strlen($getTranslations[$ffname['people']['father']]) ? $getTranslations[$ffname['people']['father']] : $ffname['people']['father'];
+                            $tree[$peopleData['id']]['father'] .= ' ';
+                        }
                         $tree[$peopleData['id']]['father'] .= strlen($getTranslations[$value['parent1']['father_lastname']]) ? $getTranslations[$value['parent1']['father_lastname']] : $value['parent1']['father_lastname'];
                     } else {
                         $tree[$peopleData['id']]['father'] = '';
@@ -1679,9 +1724,9 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['q'] = strlen($getTranslations[$peopleData['maiden_surname']]) ? $getTranslations[$peopleData['maiden_surname']] : $peopleData['maiden_surname'];
                 }
             }
-            //echo '<pre>';
-            //print_r($tree);
-            //exit;
+            /*echo '<pre>';
+            print_r($tree);
+            exit;*/
             $jsonData['tree'] = $tree;
             $jsonData['parent_name'] = $getTranslations[$parentName];
             if ($group_id) {
