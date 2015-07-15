@@ -203,6 +203,7 @@ Class SearchController extends AppController {
      * @param $tmpArray1 - Array
      */
     private function __reBuildTreeLevels($tmpArray1, $asscoIds, $loggedinId, $getParentsArray) {
+		
         foreach ($tmpArray1 as $keyPerson => $keyValue) {
             if ($keyValue['tree_level'] == " ") {
                 if (in_array($keyValue['m_id'], $asscoIds)) {
@@ -235,6 +236,13 @@ Class SearchController extends AppController {
                     $mathced = array_values(array_intersect($keyValue['brothers'], $asscoIds));
                     $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
                 }
+				else if (count(array_intersect($keyValue['childs_m'], $asscoIds))) {
+                    $mathced = array_values(array_intersect($keyValue['childs_m'], $asscoIds));
+                    $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
+                }else if (count(array_intersect($keyValue['childs_f'], $asscoIds))) {
+                    $mathced = array_values(array_intersect($keyValue['childs_f'], $asscoIds));
+                    $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
+                }
             }
 
             if ($keyValue['id'] == $keyValue['tree_level']) {
@@ -259,24 +267,40 @@ Class SearchController extends AppController {
             if (in_array($loggedinId, $keyValue['childs_f'])) {
                 $mathced = array_values(array_intersect($keyValue['childs_f'], (array) $loggedinId));
                 $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
-            } else if (in_array($loggedinId, $keyValue['sisters'])) {
+            } if (in_array($loggedinId, $keyValue['childs_m'])) {
+                $mathced = array_values(array_intersect($keyValue['childs_m'], (array) $loggedinId));
+                $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
+            }else if (in_array($loggedinId, $keyValue['sisters'])) {
                 $mathced = array_values(array_intersect($keyValue['sisters'], (array) $loggedinId));
                 $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
             } else if (in_array($loggedinId, $keyValue['brothers'])) {
                 $mathced = array_values(array_intersect($keyValue['brothers'], (array) $loggedinId));
                 $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
-            } if (count(array_intersect($keyValue['brothers'], $getParentsArray))) {
+            } 
+			if (count(array_intersect($keyValue['brothers'], $getParentsArray))) {
                 $mathced = array_values(array_intersect($keyValue['brothers'], $getParentsArray));
                 $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
-            } if (count(array_intersect($keyValue['childs_f'], $getParentsArray))) {
+            } 
+			if (count(array_intersect($keyValue['childs_f'], $getParentsArray))) {
                 $mathced = array_values(array_intersect($keyValue['childs_f'], $getParentsArray));
                 $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
             }
+			if (count(array_intersect($keyValue['childs_m'], $getParentsArray))) {
+                $mathced = array_values(array_intersect($keyValue['childs_m'], $getParentsArray));
+                $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
+            }
+			
+			
 
             if ($keyValue['id'] == $loggedinId) {
                 $tmpArray1[$keyPerson]['tree_level'] = '';
             }
+			if($keyValue['f_id'] == $loggedinId)
+			{
+				$tmpArray1[$keyPerson]['tree_level'] = $loggedinId;
+			}
         }
+		
         return $tmpArray1;
     }
 
