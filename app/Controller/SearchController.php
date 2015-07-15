@@ -204,6 +204,7 @@ Class SearchController extends AppController {
      */
     private function __reBuildTreeLevels($tmpArray1, $asscoIds, $loggedinId, $getParentsArray) {
 		
+		
         foreach ($tmpArray1 as $keyPerson => $keyValue) {
             if ($keyValue['tree_level'] == " ") {
                 if (in_array($keyValue['m_id'], $asscoIds)) {
@@ -306,7 +307,10 @@ Class SearchController extends AppController {
 				$tmpArray1[$keyPerson]['tree_level'] = $loggedinId;
 			}
         }
+		//echo '<pre>';
+		//print_r($tmpArray1);
 		
+		echo '</pre>';
         return $tmpArray1;
     }
 
