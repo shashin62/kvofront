@@ -218,6 +218,12 @@ Class SearchController extends AppController {
                 } else if (count(array_intersect($keyValue['brothers'], $asscoIds))) {
                     $mathced = array_values(array_intersect($keyValue['brothers'], $asscoIds));
                     $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
+                } else if (count(array_intersect($keyValue['childs_f'], $asscoIds))) {
+                    $mathced = array_values(array_intersect($keyValue['childs_f'], $asscoIds));
+                    $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
+                } else if (count(array_intersect($keyValue['childs_m'], $asscoIds))) {
+                    $mathced = array_values(array_intersect($keyValue['childs_m'], $asscoIds));
+                    $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
                 }
             }
 
