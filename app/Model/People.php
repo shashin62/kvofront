@@ -2335,7 +2335,7 @@ where p.group_id = (select group_id from people where id = {$searchedPeopleId})"
 		$treeLevels = array_filter($treeLevels);
                 if($loggedinId != "") 
                 {
-                    $sWhere = " people_id = ({$loggedinId})";
+                    $sWhere = " where people_id = ({$loggedinId})";
                 }
                 
                 if($sId != "")
@@ -2350,7 +2350,7 @@ where p.group_id = (select group_id from people where id = {$searchedPeopleId})"
                 if(count($remainigIds)) 
                 {
                     $remainigIds = implode(',', $remainigIds);
-                    $sWhere = " people_id in ({$remainigIds})";
+                    $sWhere = " where people_id in ({$remainigIds})";
                 }
   
         $sQuery = "SELECT p.id, image.ext,p.tree_level as tree_level,p.first_name, p.last_name,p.gender, p.partner_name, p.father, p.mother,p.f_id,p.m_id,p.partner_id,p.group_id,
@@ -2364,7 +2364,7 @@ left join brothers as b on b.people_id = p.id
 left join people as p1 on p1.f_id =  p.id
 left join people as p2 on p2.m_id =  p.id
 left join people as image on image.id = p.id
-where p.group_id IN ( select group_id from people_groups where {$sWhere})
+where p.group_id IN ( select group_id from people_groups {$sWhere})
 group by p.id";
         
          $aResult = $this->query($sQuery);
