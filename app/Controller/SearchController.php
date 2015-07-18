@@ -51,6 +51,7 @@ Class SearchController extends AppController {
      * 
      */
     public function index() {
+
         $peopleId = $this->request->data['id'];
         $loggedInId = $this->Session->read('User.user_id');
         //for profile
@@ -59,46 +60,53 @@ Class SearchController extends AppController {
         }
 
         $data = $this->People->search($peopleId);
-        
+
         $getParentsIds = $this->People->getParentsId($peopleId);
         $pIds = array();
         foreach ($getParentsIds as $pKey => $pValue) {
             $pIds[] = $pValue['p']['treelevel'];
         }
-
+        
         $datas = $this->People->getAllMembersByGroup($loggedInId, $peopleId, $pIds);
-
-        $getParents = $this->People->getParents($loggedInId);
-        $getParentsArray = $this->__getParentsArray($getParents);
-        $getRelationshipsIds = $this->People->getRelationshipIds($loggedInId);
-        $getR = $this->_getGroupIds($getRelationshipsIds);
-        $finalArray = implode(',', $getR);
-        $getGroupIds = $this->People->getGroupIds($finalArray);
+        
+//        $getParents = $this->People->getParents($loggedInId);
+//        $getParentsArray = $this->__getParentsArray($getParents);
+//        $getRelationshipsIds = $this->People->getRelationshipIds($loggedInId);
+//        $getR = $this->_getGroupIds($getRelationshipsIds);
+//        $finalArray = implode(',', $getR);
+//        $getGroupIds = $this->People->getGroupIds($finalArray);
 
         foreach ($getGroupIds as $gKey => $gValue) {
             $gIds[] = $gValue['people_search']['group_id'];
         }
 
         $assocIds = array();
-        $lists = $this->_getLists($datas, $gIds, $loggedInId);
-        $rebuildTreeLevels = $this->__reBuildTreeLevels($lists['lists'], $lists['asscoIds'], $loggedInId, $getParentsArray);
-        $getTreeLevels = $this->__getTreeLevels($peopleId, $rebuildTreeLevels, $loggedInId);
-        $firstName = $rebuildTreeLevels[$peopleId]['first_name'] . '<br/> ' . $rebuildTreeLevels[$peopleId]['last_name'];
+        $graph = $this->_getLists($datas);
+        
+        $getTreeLevels = $this->bfs_path($graph,$peopleId, $loggedInId);
+     
         $text = array();
-        
-        
-        if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $peopleId . '.' . $data['People']['ext']) === true) {
+
+        $first = array_shift($getTreeLevels);
+        if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $first . '.' . $data['People']['ext']) === true) {
             $imageUrl = $peopleId . '.' . $data['People']['ext'];
-            $pic = '<img  src="' . $this->base . '/people_images/' . $peopleId . '.' . $data['People']['ext'] . '" width="35" height="35"><br />';
+            $pic = '<img  src="' . $this->base . '/people_images/' . $first . '.' . $data['People']['ext'] . '" width="35" height="35"><br />';
         } else {
             $imageUrl = '';
             $pic = "";
         }
+//  
         
-        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $peopleId . ')" style="width:50px;">'. $pic. $firstName . '</a></td>';
-        $getLinkage = $this->__getRelationShipText($rebuildTreeLevels, $getTreeLevels, $peopleId, $loggedInId);
-        $getLinkage = array_merge($text, $getLinkage);
-
+        
+        $getAllMembers = $this->_getAllMembers($datas, $loggedInId);
+        $firstName = $getAllMembers['lists'][$first]['first_name'] . '<br/> ' . $getAllMembers['lists'][$first]['last_name'];
+        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $first . ')" style="width:50px;">' . $pic . $firstName . '</a></td>';
+        
+       
+        
+        $getLinkage = $this->__getRelationShipText($getAllMembers['lists'], $getTreeLevels, $peopleId, $loggedInId);
+         $getLinkage = array_merge($text, $getLinkage);
+        
         $peopleData = $data['People'];
         $groupData = $data['Group'];
         $addressData = $data['Address'];
@@ -107,7 +115,7 @@ Class SearchController extends AppController {
         $this->set('peopleData', $peopleData);
         $this->set('groupData', $groupData);
         $this->set('addressData', $addressData);
-
+        
         $familyMembers = $this->People->getFamilyMembers($peopleId);
         $this->set('familyMembers', $familyMembers);
         //translations
@@ -186,6 +194,119 @@ Class SearchController extends AppController {
         $tree = array_merge($searchedName, $dataTree);
         $this->set('treeLinkageData', $getLinkage);
     }
+    
+    private function _getAllMembers($datas, $loggedInId) {
+        $lists = array();
+        $data = array();
+        $loggedinId = $loggedInId;
+
+        foreach ($datas as $dataKey => $result) {
+            
+
+            $lists[$result['p']['id']]['id'] = $result['p']['id'];
+
+            if ($loggedinId != $result['p']['id'] && $result['p']['tree_level'] == '') {
+                if ($loggedinId == $result['p']['f_id'] || $loggedinId == $result['p']['m_id'] || $loggedinId == $result['p']['partner_id'] || in_array($loggedinId, explode(',', $result[0]['brothers'])) || in_array($loggedinId, explode(',', $result[0]['sisters'])) || in_array($loggedinId, explode(',', $result[0]['childrens']))) {
+                    $lists[$result['p']['id']]['tree_level'] = $loggedinId;
+                } else {
+                    $lists[$result['p']['id']]['tree_level'] = $result['p']['tree_level'];
+                }
+            } else {
+                $lists[$result['p']['id']]['tree_level'] = $result['p']['tree_level'];
+            }
+
+            $lists[$result['p']['id']]['first_name'] = $result['p']['first_name'];
+            $lists[$result['p']['id']]['last_name'] = $result['p']['last_name'];
+            if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $result['p']['id'] . '.' . $result['image']['ext']) === true) {
+                $lists[$result['p']['id']]['r'] = $result['p']['id'] . '.' . $result['image']['ext'];
+            } else {
+                $lists[$result['p']['id']]['r'] = '';
+            }
+            
+            $lists[$result['p']['id']]['partner_name'] = $result['p']['partner_name'];
+            $lists[$result['p']['id']]['f_id'] = $result['p']['f_id'];
+            $lists[$result['p']['id']]['m_id'] = $result['p']['m_id'];
+            $lists[$result['p']['id']]['partner_id'] = $result['p']['partner_id'];
+            $lists[$result['p']['id']]['group_id'] = $result['p']['group_id'];
+            $lists[$result['p']['id']]['gender'] = $result['p']['gender'];
+            $lists[$result['p']['id']]['sisters'] = explode(',', $result[0]['sisters']);
+            $lists[$result['p']['id']]['brothers'] = explode(',', $result[0]['brothers']);
+            $lists[$result['p']['id']]['childs_f'] = explode(',', $result[0]['childrens']);
+            $lists[$result['p']['id']]['childs_m'] = explode(',', $result[0]['childrens2']);
+        }
+
+        $data['lists'] = $lists;
+       
+        return $data;
+    }
+
+    private function bfs($graph, $start, $end) {
+        $queue = new SplQueue();
+        $queue->enqueue($start);
+        $visited = [$start];
+
+        while ($queue->count() > 0) {
+            $node = $queue->dequeue();
+
+            # We've found what we want
+            if ($node === $end) {
+                return true;
+            }
+
+            foreach ($graph[$node] as $neighbour) {
+                if (!in_array($neighbour, $visited)) {
+                    # Mark neighbour visited
+                    $visited[] = $neighbour;
+
+                    # Enqueue node
+                    $queue->enqueue($neighbour);
+                }
+            };
+        }
+
+        return false;
+    }
+
+    /*
+     * Same as bfs() except instead of returning a bool, it returns a path.
+     *
+     * Implemented by enqueuing a path, instead of a node, for each neighbour.
+     *
+     * @returns array or false
+     */
+
+    function bfs_path($graph, $start, $end) {
+        $queue = new SplQueue();
+        # Enqueue the path
+        $queue->enqueue([$start]);
+        $visited = [$start];
+
+        while ($queue->count() > 0) {
+            $path = $queue->dequeue();
+
+            # Get the last node on the path
+            # so we can check if we're at the end
+            $node = $path[sizeof($path) - 1];
+
+            if ($node === $end) {
+                return $path;
+            }
+
+            foreach ($graph[$node] as $neighbour) {
+                if (!in_array($neighbour, $visited)) {
+                    $visited[] = $neighbour;
+
+                    # Build new path appending the neighbour then and enqueue it
+                    $new_path = $path;
+                    $new_path[] = $neighbour;
+
+                    $queue->enqueue($new_path);
+                }
+            };
+        }
+
+        return false;
+    }
 
     private function __getTreeLevels($id, $treeData, $loggedinId) {
         $searchid = $treeData[$id]['tree_level'];
@@ -203,8 +324,12 @@ Class SearchController extends AppController {
      * @param $tmpArray1 - Array
      */
     private function __reBuildTreeLevels($tmpArray1, $asscoIds, $loggedinId, $getParentsArray) {
-		
-		
+        echo '<pre>';
+        print_r($asscoIds);
+        print_r($tmpArray1);
+        print_r($getParentsArray);
+        echo '</pre>';
+        echo '-------------------------------------------';
         foreach ($tmpArray1 as $keyPerson => $keyValue) {
             if ($keyValue['tree_level'] == " ") {
                 if (in_array($keyValue['m_id'], $asscoIds)) {
@@ -242,11 +367,10 @@ Class SearchController extends AppController {
                 } else if (count(array_intersect($keyValue['brothers'], $asscoIds))) {
                     $mathced = array_values(array_intersect($keyValue['brothers'], $asscoIds));
                     $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
-                }
-				else if (count(array_intersect($keyValue['childs_m'], $asscoIds))) {
+                } else if (count(array_intersect($keyValue['childs_m'], $asscoIds))) {
                     $mathced = array_values(array_intersect($keyValue['childs_m'], $asscoIds));
                     $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
-                }else if (count(array_intersect($keyValue['childs_f'], $asscoIds))) {
+                } else if (count(array_intersect($keyValue['childs_f'], $asscoIds))) {
                     $mathced = array_values(array_intersect($keyValue['childs_f'], $asscoIds));
                     $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
                 }
@@ -277,99 +401,73 @@ Class SearchController extends AppController {
             } if (in_array($loggedinId, $keyValue['childs_m'])) {
                 $mathced = array_values(array_intersect($keyValue['childs_m'], (array) $loggedinId));
                 $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
-            }else if (in_array($loggedinId, $keyValue['sisters'])) {
+            } else if (in_array($loggedinId, $keyValue['sisters'])) {
                 $mathced = array_values(array_intersect($keyValue['sisters'], (array) $loggedinId));
                 $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
             } else if (in_array($loggedinId, $keyValue['brothers'])) {
                 $mathced = array_values(array_intersect($keyValue['brothers'], (array) $loggedinId));
                 $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
-            } 
-			if (count(array_intersect($keyValue['brothers'], $getParentsArray))) {
+            }
+            if (count(array_intersect($keyValue['brothers'], $getParentsArray))) {
                 $mathced = array_values(array_intersect($keyValue['brothers'], $getParentsArray));
                 $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
-            } 
-			if (count(array_intersect($keyValue['childs_f'], $getParentsArray))) {
+            }
+            if (count(array_intersect($keyValue['childs_f'], $getParentsArray))) {
                 $mathced = array_values(array_intersect($keyValue['childs_f'], $getParentsArray));
                 $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
             }
-			if (count(array_intersect($keyValue['childs_m'], $getParentsArray))) {
+            if (count(array_intersect($keyValue['childs_m'], $getParentsArray))) {
                 $mathced = array_values(array_intersect($keyValue['childs_m'], $getParentsArray));
                 $tmpArray1[$keyPerson]['tree_level'] = $mathced[0];
             }
-			
-			
+
+
 
             if ($keyValue['id'] == $loggedinId) {
                 $tmpArray1[$keyPerson]['tree_level'] = '';
             }
-			if($keyValue['f_id'] == $loggedinId)
-			{
-				$tmpArray1[$keyPerson]['tree_level'] = $loggedinId;
-			}
+            if ($keyValue['f_id'] == $loggedinId) {
+                $tmpArray1[$keyPerson]['tree_level'] = $loggedinId;
+            }
         }
-		//echo '<pre>';
-		//print_r($tmpArray1);
-		
-		echo '</pre>';
+        //echo '<pre>';
+        //print_r($tmpArray1);
+
+        echo '<pre>';
+        print_r($tmpArray1);
+        echo '</pre>';
         return $tmpArray1;
     }
-
+    
     /**
-     * Private function get Lists
+     * 
+     * @param type $result
+     * @return type
      */
-    private function _getLists($datas, $groupIds, $loggedInId) {
-        $lists = array();
-        $data = array();
-        $loggedinId = $loggedInId;
-
-        foreach ($datas as $dataKey => $result) {
-            if (in_array($result['p']['group_id'], $groupIds)) {
-                $asscoIds[] = $result['p']['id'];
-            }
-
-            $lists[$result['p']['id']]['id'] = $result['p']['id'];
-
-            if ($loggedinId != $result['p']['id'] && $result['p']['tree_level'] == '') {
-                if ($loggedinId == $result['p']['f_id'] || $loggedinId == $result['p']['m_id'] || $loggedinId == $result['p']['partner_id'] || in_array($loggedinId, explode(',', $result[0]['brothers'])) || in_array($loggedinId, explode(',', $result[0]['sisters'])) || in_array($loggedinId, explode(',', $result[0]['childrens']))) {
-                    $lists[$result['p']['id']]['tree_level'] = $loggedinId;
-                } else {
-                    $lists[$result['p']['id']]['tree_level'] = $result['p']['tree_level'];
-                }
-            } else {
-                $lists[$result['p']['id']]['tree_level'] = $result['p']['tree_level'];
-            }
-
-            $lists[$result['p']['id']]['first_name'] = $result['p']['first_name'];
-            $lists[$result['p']['id']]['last_name'] = $result['p']['last_name'];
-            if (file_exists($_SERVER["DOCUMENT_ROOT"] . '/people_images/' . $result['p']['id'] . '.' . $result['image']['ext']) === true) {
-                $lists[$result['p']['id']]['r'] = $result['p']['id'] . '.' . $result['image']['ext'];
-            } else {
-                $lists[$result['p']['id']]['r'] = '';
-            }
-            
-            $lists[$result['p']['id']]['partner_name'] = $result['p']['partner_name'];
-            $lists[$result['p']['id']]['f_id'] = $result['p']['f_id'];
-            $lists[$result['p']['id']]['m_id'] = $result['p']['m_id'];
-            $lists[$result['p']['id']]['partner_id'] = $result['p']['partner_id'];
-            $lists[$result['p']['id']]['group_id'] = $result['p']['group_id'];
-            $lists[$result['p']['id']]['gender'] = $result['p']['gender'];
-            $lists[$result['p']['id']]['sisters'] = explode(',', $result[0]['sisters']);
-            $lists[$result['p']['id']]['brothers'] = explode(',', $result[0]['brothers']);
-            $lists[$result['p']['id']]['childs_f'] = explode(',', $result[0]['childrens']);
-            $lists[$result['p']['id']]['childs_m'] = explode(',', $result[0]['childrens2']);
-        }
-
-        $data['lists'] = $lists;
-        $data['asscoIds'] = $asscoIds;
-        return $data;
+    private function _getLists($result) 
+    {        
+        $graph = array();
+        foreach ($result as $k => $v) 
+        {          
+            $graph[$v['p']['id']] = array($v['p']['m_id'], $v['p']['f_id'], $v['p']['partner_id']);
+            $sisters = explode(',', $v[0]['sisters']);
+            $brothers = explode(',', $v[0]['brothers']);
+            $childsF = explode(',', $v[0]['childrens']);
+            $childsM = explode(',', $v[0]['childrens2']);
+            $graph[$v['p']['id']] = array_filter(array_merge($graph[$v['p']['id']], $sisters, $brothers, $childsM, $childsF));
+        } 
+        return $graph;
     }
 
     /**
-     * Function get All Groups Ids
-     * @param getRelationshipIds - Array
+     * @param type $getRelationshipIds
+     * 
+     * @return type
      */
-    private function _getGroupIds($getRelationshipIds) {
-        foreach ($getRelationshipIds as $k => $v) {
+    private function _getGroupIds($getRelationshipIds) 
+    {
+        foreach ($getRelationshipIds as $k => $v) 
+        {
             $m_id = $v['p']['m_id'];
             $f_id = $v['p']['f_id'];
             $partner_id = $v['p']['partner_id'];
@@ -378,16 +476,12 @@ Class SearchController extends AppController {
             $sisters1 = explode(',', $v[0]['sisters_s']);
             $brothers1 = explode(',', $v[0]['brothers_f']);
         }
-        $array1 = array($m_id, $f_id, $partner_id);
+        $array1     = array($m_id, $f_id, $partner_id);
         $finalArray = array_filter(array_merge($array1, $brothers, $sisters, $brothers1, $sisters1));
         return $finalArray;
     }
 
-    /**
-     * Function get All Groups Ids
-
-     * @param getParents- Array
-     */
+    
     private function __getParentsArray($getParents) {
         foreach ($getParents as $k => $v) {
             $pmid = $v['p']['m_id'];
@@ -402,7 +496,7 @@ Class SearchController extends AppController {
     }
 
     private function __getLevels($id, $tmpArray1) {
-        
+
         $searchid = $tmpArray1[$id]['tree_level'];
         $key = array_search($searchid, $tmpArray1[$id]);
         $ids[] = $searchid;
@@ -414,9 +508,9 @@ Class SearchController extends AppController {
         return $ids;
     }
 
-    private function __getRelationShipText($tmpArray1, $levels, $searchedId, $loggedInId) 
-    {
+    private function __getRelationShipText($tmpArray1, $levels, $searchedId, $loggedInId) {
         $id = $searchedId;
+
         
         foreach (array_filter($levels) as $k => $c) {
             unset($tmpArray1[$id]['tree_level']);
@@ -441,7 +535,7 @@ Class SearchController extends AppController {
                         $key = 'sister';
                     }
                 }
-                
+
                 if ($tmpArray1[$c]['r'] != "") {
                     $pic = '<img  src="' . $this->base . '/people_images/' . $tmpArray1[$c]['r'] . '" width="35" height="35"><br />';
                 } else {
@@ -464,7 +558,7 @@ Class SearchController extends AppController {
                         } else {
                             $text[] = '<td><span style="font-size:12px;">&nbsp;&nbsp;--<b>Daughter of &nbsp;</b>-->&nbsp;&nbsp;</span></td>';
                         }
-                        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $c . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name']. '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
+                        $text[] = '<td style="min-width:50px;"><a href="javascript: search(' . $c . ')" style="width:50px;">' . $pic . $tmpArray1[$c]['first_name'] . '<br />' . $tmpArray1[$c]['last_name'] . '</a></td>';
                         break;
                     case 'partner_id' :
                         if ($tmpArray1[$id]['gender'] == 'Male') {
