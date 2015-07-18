@@ -69,6 +69,18 @@ Class SearchController extends AppController {
         
         $datas = $this->People->getAllMembersByGroup($loggedInId, $peopleId, $pIds);
         
+        $peopleId1 = array();
+        foreach($datas as $ks => $vs)
+        {
+            $peopleId1[] = $vs['p']['id'];
+            $treeLevels1[] = $vs['p']['tree_level'];
+        }
+        
+        $diff = array_unique(array_diff(array_filter($treeLevels1),array_filter($peopleId1) ));
+        
+        $dataRemaining = $this->People->getAllMembersByGroup('','','',$diff);
+        $datas = array_merge($datas, $dataRemaining);
+        
 //        $getParents = $this->People->getParents($loggedInId);
 //        $getParentsArray = $this->__getParentsArray($getParents);
 //        $getRelationshipsIds = $this->People->getRelationshipIds($loggedInId);
@@ -77,7 +89,7 @@ Class SearchController extends AppController {
 //        $getGroupIds = $this->People->getGroupIds($finalArray);
 
         foreach ($getGroupIds as $gKey => $gValue) {
-            $gIds[] = $gValue['people_search']['group_id'];
+            $gIds[] = $gValue['people']['group_id'];
         }
 
         $assocIds = array();
