@@ -2329,14 +2329,29 @@ where p.group_id = (select group_id from people where id = {$searchedPeopleId})"
          return $aResult;
 	}
 	
-    public function getAllMembersByGroup($loggedinId, $sId, $treeLevels)
+    public function getAllMembersByGroup($loggedinId = false, $sId = false, $treeLevels = array(), $remainigIds= array())
     {
 		
 		$treeLevels = array_filter($treeLevels);
+                if($loggedinId != "") 
+                {
+                    $sWhere = " people_id = ({$loggedinId})";
+                }
+                
+                if($sId != "")
+                {
+                    $sWhere .= " or people_id = ({$sId})";
+                }
 		if( count(($treeLevels))) {
 			$treeLevels = implode(',', $treeLevels);
-			$sWhere = " or people_id in ({$treeLevels})";
+			$sWhere .= " or people_id in ({$treeLevels})";
 		}
+                
+                if(count($remainigIds)) 
+                {
+                    $remainigIds = implode(',', $remainigIds);
+                    $sWhere = " people_id in ({$remainigIds})";
+                }
   
         $sQuery = "SELECT p.id, image.ext,p.tree_level as tree_level,p.first_name, p.last_name,p.gender, p.partner_name, p.father, p.mother,p.f_id,p.m_id,p.partner_id,p.group_id,
 group_concat(distinct(s.sister_id)) as sisters,group_concat(distinct(b.brother_id)) as brothers,
@@ -2349,7 +2364,7 @@ left join brothers as b on b.people_id = p.id
 left join people as p1 on p1.f_id =  p.id
 left join people as p2 on p2.m_id =  p.id
 left join people as image on image.id = p.id
-where p.group_id IN ( select group_id from people_groups where people_id = {$loggedinId} or people_id = {$sId} {$sWhere})
+where p.group_id IN ( select group_id from people_groups where {$sWhere})
 group by p.id";
         
          $aResult = $this->query($sQuery);
