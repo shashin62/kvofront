@@ -179,7 +179,8 @@ class ImageController extends Controller {
      public function imageUpload() {
         $peopleId = $this->request->query('pid');
         define('UPLOAD_DIR', WWW_ROOT . "people_images". DS);
-        require "/js/scripts".DS."fineuploader".DS."fineuploader.php";
+		
+        require WWW_ROOT."js/scripts/fineuploader/fineuploader.php";
 
         $allowedExtensions = array('jpeg','jpg','gif','png');
         $sizeLimit = 2 * 1024 * 1024; // max file size in bytes
