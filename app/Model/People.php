@@ -2321,8 +2321,8 @@ GROUP BY p.created_by");
 	public function getParentsId($searchedPeopleId)
 	{
 		
-		$sQuery = "select DISTINCT(p.tree_level) as treelevel from people_search as p
-where p.group_id = (select group_id from people_search where id = {$searchedPeopleId})";
+		$sQuery = "select DISTINCT(p.tree_level) as treelevel from people as p
+where p.group_id = (select group_id from people where id = {$searchedPeopleId})";
 		
 		 $aResult = $this->query($sQuery);
          
@@ -2342,7 +2342,7 @@ where p.group_id = (select group_id from people_search where id = {$searchedPeop
 group_concat(distinct(s.sister_id)) as sisters,group_concat(distinct(b.brother_id)) as brothers,
 group_concat(distinct(p1.id)) as childrens,
 group_concat(distinct(p2.id)) as childrens2
-from people_search as p
+from people as p
 left join people_groups as pg on pg.people_id = p.id
 left join sisters as s on s.people_id = p.id
 left join brothers as b on b.people_id = p.id
@@ -2361,7 +2361,7 @@ group by p.id";
 	{
 		$getParents = "select p.m_id,p.f_id ,p.partner_id,group_concat(distinct(s.sister_id)) as sisters,group_concat(distinct(b.brother_id)) as brothers
   
-        from people_search as p left join sisters as s on s.people_id = p.id
+        from people as p left join sisters as s on s.people_id = p.id
 left join brothers as b on b.people_id = p.id 
 where p.id = {$loggedinId} ";
 
@@ -2375,7 +2375,7 @@ where p.id = {$loggedinId} ";
 		
 	$sQuery = "select p.m_id,p.f_id ,p.partner_id,group_concat(distinct(s.sister_id)) as sisters,group_concat(distinct(b.brother_id)) as brothers,
     group_concat(distinct(sf.brother_id)) as brothers_f,group_concat(distinct(ss.sister_id)) as sisters_s
-        from people_search as p left join sisters as s on s.people_id = p.id
+        from people as p left join sisters as s on s.people_id = p.id
 left join brothers as b on b.people_id = p.id 
 
 left join sisters as ss on ss.people_id = p.f_id
@@ -2393,7 +2393,7 @@ where p.id = {$loggedinId} ";
 	*/
 	public function getGroupIds($array)
 	{
-		$sQuery = "select group_id from people_search where id in ({$array}) group by group_id";
+		$sQuery = "select group_id from people where id in ({$array}) group by group_id";
 	
 		$aResult = $this->query($sQuery);
          
@@ -2402,7 +2402,7 @@ where p.id = {$loggedinId} ";
 	
 	public function getPic($peopleId)
 	{
-		$sQuery = "select p.ext,group_id from people_search where id in ({$array}) group by group_id";
+		$sQuery = "select p.ext,group_id from people where id in ({$array}) group by group_id";
 	
 		$aResult = $this->query($sQuery);
          
