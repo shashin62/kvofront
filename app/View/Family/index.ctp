@@ -202,7 +202,7 @@
                         </div>
 
                         <div id="PhotoPrevs" style="text-align: center;">
-                            <?php  if (file_exists($uploadFilePath . '\\' . $pid . '.' . $ext) === true) {?>
+                            <?php  if (file_exists($uploadFilePath . $pid . '.' . $ext) === true) {?>
                                 <img style="" src="<?php echo $this->base . '/people_images/' . $pid . '.' . $ext;?>"/>
                             <?php } ?>
                         </div>

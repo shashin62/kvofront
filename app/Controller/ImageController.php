@@ -160,7 +160,7 @@ class ImageController extends Controller {
             $id = $this->request->data['id'];
             $getExt = $this->People->getImageExtension($id);
             //unlink($_SERVER["DOCUMENT_ROOT"] . '/people_images/'. $id . '.' . $getExt[0]['People']['ext'])
-            if (unlink(UPLOAD_DIR . '\\'. $id . '.' . $getExt[0]['People']['ext'])) {
+            if (unlink(UPLOAD_DIR . $id . '.' . $getExt[0]['People']['ext'])) {
 
                 $msg['success'] = 1;
                 $msg['message'] = 'Photo has been deleted';
