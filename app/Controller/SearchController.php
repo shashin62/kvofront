@@ -77,9 +77,10 @@ Class SearchController extends AppController {
         }
         
         $diff = array_unique(array_diff(array_filter($treeLevels1),array_filter($peopleId1) ));
-        
-        $dataRemaining = $this->People->getAllMembersByGroup('','','',$diff);
-        $datas = array_merge($datas, $dataRemaining);
+        if( count($diff) ) {
+            $dataRemaining = $this->People->getAllMembersByGroup('','','',$diff);
+       	    $datas = array_merge($datas, $dataRemaining);
+	}
         
 //        $getParents = $this->People->getParents($loggedInId);
 //        $getParentsArray = $this->__getParentsArray($getParents);
