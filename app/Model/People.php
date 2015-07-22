@@ -2135,7 +2135,7 @@ GROUP BY p.created_by");
         $options['limit'] = 15;
         $options['offset'] = 0;
 		
-        $options['fields'] = array('People.id', "People.ext", "CONCAT(People.first_name, ' ',IF (People.father IS NOT NULL, People.father, IF (People.partner_name IS NOT NULL, People.partner_name, People.last_name)), ' ', People.last_name) as name");        
+        $options['fields'] = array('People.id', "People.ext", "CONCAT(People.first_name, ' ',IF (People.gender = 'Female' AND People.partner_id IS NOT NULL, People.partner_name, IF(People.father IS NOT NULL, People.father,'')), ' ', People.last_name) as name");        
   
 	$options['conditions'] = array("lower(CONCAT_WS( ' ', People.first_name,IF(People.father IS NOT NULL, People.father,IF (People.partner_name IS NOT NULL, People.partner_name, People.last_name)), People.last_name)) like" =>  '%' . $term . '%');
 		//$options['conditions']['AND'] = array('People.father is not null');          
