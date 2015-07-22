@@ -1621,7 +1621,7 @@ Class FamilyController extends AppController {
                     $tree[$peopleData['id']]['m'] = $peopleData['m_id'];
                     $peopleId = $peopleGroup['people_id'];
 
-                    if (file_exists(UPLOAD_DIR . '\\' . $peopleId . '.' . $peopleData['ext']) === true) {
+                    if (file_exists(UPLOAD_DIR  . $peopleId . '.' . $peopleData['ext']) === true) {
                         $tree[$peopleData['id']]['r'] = 'http://'.$_SERVER['HTTP_HOST'] . '/people_images/' . $peopleId . '.' . $peopleData['ext'];
                     } else {
                         $tree[$peopleData['id']]['r'] = '';

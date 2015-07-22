@@ -291,7 +291,7 @@ function SSR(e, t, v, h, a, gid, mother, spouse, father) {
     }
     if( t == 'Full name') {
     b.innerHTML += ' <a target="_parent" href="http://website.kvomahajan.com/family/index?type=self&fid=' + mother + '&gid=' + gid + '&module=tree" class="edit">Edit Detail</a>';
-    GE('UploadImages').innerHTML = ' <a target="_parent" href="http://qfront.dev:8002/family/index?type=self&fid=' + mother + '&gid=' + gid + '&module=tree" class="edit">Upload Image</a>';
+    GE('UploadImages').innerHTML = ' <a target="_parent" href="http://website.kvomahajan.com/family/index?type=self&fid=' + mother + '&gid=' + gid + '&module=tree" class="edit">Upload Image</a>';
 }
     r.appendChild(a);
     r.appendChild(b);
