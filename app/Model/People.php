@@ -2365,7 +2365,7 @@ left join brothers as b on b.people_id = p.id
 left join people as p1 on p1.f_id =  p.id
 left join people as p2 on p2.m_id =  p.id
 left join people as image on image.id = p.id
-where p.group_id IN ( select group_id from people_groups {$sWhere})
+where pg.group_id IN ( select group_id from people_groups {$sWhere})
 group by p.id";
         
          $aResult = $this->query($sQuery);
