@@ -121,10 +121,10 @@ Class FamilyController extends AppController {
                 $pageTitle = 'Add Spouse of ' . $_REQUEST['name_parent'];
                 // by default set gender, martial status
                 //  as spouse is always female and married
-	if($getPeopleData['People']['gender'] == 'Female' ) {
-                $this->set('gender', 'Female');
+	 if($getPeopleData['People']['gender'] == 'Female' ) {
+                $this->set('gender', 'Male');
 } else {
-               $this->set('gender', 'Male');
+               $this->set('gender', 'Female');
 }
                 $this->set('martial_status', 'Married');
                 $this->set('sect', 'Deravasi');
