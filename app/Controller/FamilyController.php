@@ -2452,7 +2452,11 @@ Class FamilyController extends AppController {
         $main_surnames = $this->Surname->find('list', array('fields' => array('Surname.name', 'Surname.name')));
         $this->set(compact('main_surnames'));
         $this->set('name_parent', $_REQUEST['name_parent']);
-        //$this->set('module', $_REQUEST['module']);//Module undefine here
+        $module = "";
+        if (isset($_REQUEST['module']))//Undefined index: module
+            $module = $_REQUEST['module'];
+
+        $this->set('module', $module);
         
         if ($_REQUEST['type'] == 'addbrother') {
             $result = $this->People->getParentsDetail($_REQUEST['fid'], 'father');
