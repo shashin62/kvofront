@@ -161,7 +161,7 @@ class People extends AppModel {
                     } else {
                         $sWhere .= ' AND ';
                     }
-                    $sWhere .= ' p.gender = "Male" AND p.first_name is not null and p.m_id IS NULL AND p.f_id IS NULL ';
+                    $sWhere .= ' p.gender = "Male" AND p.first_name is not nul ';
                     break;
                 case 'addfather':
                     if ($sWhere == "") {
@@ -177,7 +177,7 @@ class People extends AppModel {
                     } else {
                         $sWhere .= ' AND ';
                     }
-                    $sWhere .= ' p.gender = "Female"  AND p.first_name is not null and p.m_id IS NULL AND p.f_id IS NULL ';
+                    $sWhere .= ' p.gender = "Female"  AND p.first_name is not null';
                     break;
                 case 'addmother':
                     if ($sWhere == "") {
@@ -2330,31 +2330,27 @@ where p.group_id = (select group_id from people where id = {$searchedPeopleId})"
          return $aResult;
 	}
 	
-    public function getAllMembersByGroup($loggedinId = false, $sId = false, $treeLevels = array(), $remainigIds= array())
-    {
-		
-		$treeLevels = array_filter($treeLevels);
-                if($loggedinId != "") 
-                {
-                    $sWhere = " where people_id = ({$loggedinId})";
-                }
-                
-                if($sId != "")
-                {
-                    $sWhere .= " or people_id = ({$sId})";
-                }
-		if( count(($treeLevels))) {
-			$treeLevels = implode(',', $treeLevels);
-			$sWhere .= " or people_id in ({$treeLevels})";
-		}
-                
-                if(count($remainigIds)) 
-                {
-                    $remainigIds = implode(',', $remainigIds);
-                    $sWhere = " where people_id in ({$remainigIds})";
-                }
-  
-        $sQuery = "SELECT p.id, image.ext,p.tree_level as tree_level,p.first_name, p.last_name,p.gender, p.partner_name, p.father, p.mother,p.f_id,p.m_id,p.partner_id,p.group_id,
+        public function getAllMembersByGroup($loggedinId = false, $sId = false, $treeLevels = array(), $remainigIds = array()) {
+
+        $treeLevels = array_filter($treeLevels);
+        if ($loggedinId != "") {
+            $sWhere = " where people_id = ({$loggedinId})";
+        }
+
+        if ($sId != "") {
+            $sWhere .= " or people_id = ({$sId})";
+        }
+        if (count(($treeLevels))) {
+            $treeLevels = implode(',', $treeLevels);
+            $sWhere .= " or people_id in ({$treeLevels})";
+        }
+
+        if (count($remainigIds)) {
+            $remainigIds = implode(',', $remainigIds);
+            $sWhere = " where people_id in ({$remainigIds})";
+        }
+
+        echo $sQuery = "SELECT p.id, image.ext,p.tree_level as tree_level,p.first_name, p.last_name,p.gender, p.partner_name, p.father, p.mother,p.f_id,p.m_id,p.partner_id,p.group_id,
 group_concat(distinct(s.sister_id)) as sisters,group_concat(distinct(b.brother_id)) as brothers,
 group_concat(distinct(p1.id)) as childrens,
 group_concat(distinct(p2.id)) as childrens2
@@ -2367,29 +2363,27 @@ left join people as p2 on p2.m_id =  p.id
 left join people as image on image.id = p.id
 where pg.group_id IN ( select group_id from people_groups {$sWhere})
 group by p.id";
-        
-         $aResult = $this->query($sQuery);
-         
-         return $aResult;
+
+        $aResult = $this->query($sQuery);
+
+        return $aResult;
     }
-	
-	public function getParents($loggedinId)
-	{
-		$getParents = "select p.m_id,p.f_id ,p.partner_id,group_concat(distinct(s.sister_id)) as sisters,group_concat(distinct(b.brother_id)) as brothers
+
+    public function getParents($loggedinId) {
+        $getParents = "select p.m_id,p.f_id ,p.partner_id,group_concat(distinct(s.sister_id)) as sisters,group_concat(distinct(b.brother_id)) as brothers
   
         from people as p left join sisters as s on s.people_id = p.id
 left join brothers as b on b.people_id = p.id 
 where p.id = {$loggedinId} ";
 
-  $aResult = $this->query($getParents);
-         
-         return $aResult;
-	}
-	
-	public function getRelationshipIds($loggedinId)
-	{
-		
-	$sQuery = "select p.m_id,p.f_id ,p.partner_id,group_concat(distinct(s.sister_id)) as sisters,group_concat(distinct(b.brother_id)) as brothers,
+        $aResult = $this->query($getParents);
+
+        return $aResult;
+    }
+
+    public function getRelationshipIds($loggedinId) {
+
+        $sQuery = "select p.m_id,p.f_id ,p.partner_id,group_concat(distinct(s.sister_id)) as sisters,group_concat(distinct(b.brother_id)) as brothers,
     group_concat(distinct(sf.brother_id)) as brothers_f,group_concat(distinct(ss.sister_id)) as sisters_s
         from people as p left join sisters as s on s.people_id = p.id
 left join brothers as b on b.people_id = p.id 
@@ -2397,14 +2391,13 @@ left join brothers as b on b.people_id = p.id
 left join sisters as ss on ss.people_id = p.f_id
 left join brothers as sf on sf.people_id = p.f_id
 where p.id = {$loggedinId} ";
-	
-	 $aResult = $this->query($sQuery);
-         
-         return $aResult;
 
-	}
-	
-	/**
+        $aResult = $this->query($sQuery);
+
+        return $aResult;
+    }
+
+    /**
 	*
 	*/
 	public function getGroupIds($array)
