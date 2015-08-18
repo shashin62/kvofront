@@ -161,7 +161,7 @@ class People extends AppModel {
                     } else {
                         $sWhere .= ' AND ';
                     }
-                    $sWhere .= ' p.gender = "Male" AND p.first_name is not nul ';
+                    $sWhere .= ' p.gender = "Male" AND p.first_name is not null ';
                     break;
                 case 'addfather':
                     if ($sWhere == "") {
