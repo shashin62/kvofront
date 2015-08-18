@@ -121,7 +121,11 @@ Class FamilyController extends AppController {
                 $pageTitle = 'Add Spouse of ' . $_REQUEST['name_parent'];
                 // by default set gender, martial status
                 //  as spouse is always female and married
-                $this->set('gender', 'Female');
+	 if($getPeopleData['People']['gender'] == 'Female' ) {
+                $this->set('gender', 'Male');
+} else {
+               $this->set('gender', 'Female');
+}
                 $this->set('martial_status', 'Married');
                 $this->set('sect', 'Deravasi');
                 $this->set('parent_name', $_REQUEST['first_name']);
@@ -2448,7 +2452,11 @@ Class FamilyController extends AppController {
         $main_surnames = $this->Surname->find('list', array('fields' => array('Surname.name', 'Surname.name')));
         $this->set(compact('main_surnames'));
         $this->set('name_parent', $_REQUEST['name_parent']);
-        //$this->set('module', $_REQUEST['module']);//Module undefine here
+        $module = "";
+        if (isset($_REQUEST['module']))//Undefined index: module
+            $module = $_REQUEST['module'];
+
+        $this->set('module', $module);
         
         if ($_REQUEST['type'] == 'addbrother') {
             $result = $this->People->getParentsDetail($_REQUEST['fid'], 'father');
