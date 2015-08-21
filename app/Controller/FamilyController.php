@@ -235,7 +235,7 @@ Class FamilyController extends AppController {
 
         
         $hof = $this->People->getHOF ($_REQUEST['gid']);
-        $this->set('hof', $hof['people']['first_name'].' '.$hof['people']['last_name']);
+        $this->set('hof', $hof[0]['people']['first_name'].' '.$hof[0]['people']['last_name']);
         
         $this->set('gid', $_REQUEST['gid']);
 
